@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DoctorHub.Application\DoctorsHub.Application.csproj" />
     <ProjectReference Include="..\DoctorsHub.Domain\DoctorsHub.Domain.csproj" />
   </ItemGroup>
 

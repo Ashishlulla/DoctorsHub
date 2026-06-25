@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 //Adding Required Services
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddIdentityService();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 

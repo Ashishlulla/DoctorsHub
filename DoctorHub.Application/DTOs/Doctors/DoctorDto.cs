@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DoctorHub.Application.DTOs.Doctors
+{
+    public class DoctorDto
+    {
+        public int Id { get; set; }
+
+        public string FullName { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public string Qualification { get; set; } = string.Empty;
+
+        public int ExperienceYears { get; set; }
+
+        public decimal ConsultationFee { get; set; }
+
+        public string SpecializationName { get; set; } = string.Empty;
+
+        public double AverageRating { get; set; }
+    }
+}

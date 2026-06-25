@@ -2,7 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
   </Folder>
-  <Project Path="DoctorHub.Application/DoctorHub.Application.csproj" />
+  <Project Path="DoctorHub.Application/DoctorsHub.Application.csproj" />
   <Project Path="DoctorsHub.Domain/DoctorsHub.Domain.csproj" />
   <Project Path="DoctorsHub.Infrastructure/DoctorsHub.Infrastructure.csproj" />
   <Project Path="DoctorsHub/DoctorsHub.Web.csproj" />

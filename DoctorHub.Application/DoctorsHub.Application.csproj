@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Features\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DoctorsHub.Domain\DoctorsHub.Domain.csproj" />
   </ItemGroup>
 
 </Project>

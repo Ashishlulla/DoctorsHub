@@ -9,7 +9,7 @@ namespace DoctorsHub.Domain.Entities
     public class Doctor
     {
         public int Id { get; set; }
-        //public int userId { get; set; } yet to Add
+        public string UserId { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string Qualification { get; set; } = string.Empty;
         public string About { get; set; } = string.Empty;
