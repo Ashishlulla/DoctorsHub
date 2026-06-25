@@ -1,9 +1,8 @@
-﻿using DoctorsHub.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoctorsHub.Domain
+namespace DoctorsHub.Domain.Entities
 {
     public class Specialization
     {

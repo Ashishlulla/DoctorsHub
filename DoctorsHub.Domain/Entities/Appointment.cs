@@ -14,6 +14,5 @@ namespace DoctorsHub.Domain.Entities
 
         //Navigation Property
         public Doctor Doctor { get; set; } = null!;
-
     }
 }
