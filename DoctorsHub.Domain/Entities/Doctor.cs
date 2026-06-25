@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
@@ -8,13 +9,14 @@ namespace DoctorsHub.Domain.Entities
     public class Doctor
     {
         public int Id { get; set; }
+        //public int userId { get; set; } yet to Add
         public string FullName { get; set; } = string.Empty;
         public string Qualification { get; set; } = string.Empty;
         public string About { get; set; } = string.Empty;
         public int ExperienceYears { get; set; }
         public decimal ConsultationFee { get; set; }
         public string VisitDays { get; set; } = string.Empty;
-        public double AverageRating { get; set; }
+        public double AverageRating { get; private set; }
         public int SpecializationId { get; set; }
         
         //Navigation Properties
