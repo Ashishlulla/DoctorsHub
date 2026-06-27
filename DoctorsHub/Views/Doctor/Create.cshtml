@@ -1,113 +1,116 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Doctor</title>
+﻿
 
-    <!-- Your CSS file -->
-    <link rel="stylesheet" href="styles.css">
-</head>
 
-<body>
 
-    <div class="page-container">
+@model CreateDoctorDto
 
-        <!-- ===== HEADER ===== -->
-        <div class="header">
-            <h2>Create Doctor</h2>
+<div class="page-container">
 
-            <div class="actions">
-                <button type="submit" form="doctorForm" class="btn-save">Save</button>
-                <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
-            </div>
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Create Doctor</h2>
+
+        <div class="actions">
+            <button type="submit" form="doctorForm" class="btn-save">Save</button>
+            <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
         </div>
-
-        <!-- ===== FORM CARD ===== -->
-        <form id="doctorForm" method="post">
-
-            <div class="form-card">
-
-                <!-- ================= Professional Information ================= -->
-                <section class="form-section">
-                    <h3>Professional Information</h3>
-                    <hr />
-
-                    <div class="form-group">
-
-                        <div>
-                            <label>Full Name</label>
-                            <input type="text" name="FullName" placeholder="Enter full name" required />
-                        </div>
-
-                        <div>
-                            <label>Qualification</label>
-                            <input type="text" name="Qualification" placeholder="MBBS, MD..." />
-                        </div>
-
-                        <div>
-                            <label>Experience (Years)</label>
-                            <input type="number" name="Experience" placeholder="e.g. 5" />
-                        </div>
-
-                        <div>
-                            <label>Specialization</label>
-                            <input type="text" name="Specialization" placeholder="Cardiologist, Dermatologist..." />
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ================= Medical Information ================= -->
-                <section class="form-section">
-                    <h3>Medical Information</h3>
-                    <hr />
-
-                    <div class="form-group">
-
-                        <div>
-                            <label>Email</label>
-                            <input type="email" name="Email" placeholder="doctor@email.com" required />
-                        </div>
-
-                        <div>
-                            <label>Phone Number</label>
-                            <input type="text" name="Phone" placeholder="+91 XXXXX XXXXX" />
-                        </div>
-
-                        <div>
-                            <label>License Number</label>
-                            <input type="text" name="LicenseNumber" placeholder="Medical license ID" />
-                        </div>
-
-                        <div>
-                            <label>Hospital / Clinic</label>
-                            <input type="text" name="Hospital" placeholder="Hospital name" />
-                        </div>
-
-                    </div>
-                </section>
-
-                <!-- ================= About Doctor ================= -->
-                <section class="form-section">
-                    <h3>About Doctor</h3>
-                    <hr />
-
-                    <div class="form-group">
-
-                        <div>
-                            <label>Biography</label>
-                            <textarea name="About" placeholder="Write about doctor..."></textarea>
-                        </div>
-
-                    </div>
-                </section>
-
-            </div>
-
-        </form>
-
     </div>
 
-</body>
-</html>
+    <!-- ===== FORM CARD ===== -->
+    <form id="doctorForm" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-card">
+
+            <!-- ================= Professional Information ================= -->
+            <section class="form-section">
+                <h3>Professional Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label>Full Name</label>
+                        <input type="text"
+                                name="FullName"
+                                placeholder="Enter full name"
+                                required />
+                            
+                            
+                    </div>
+
+                    <div>
+                        <label>Qualification</label>
+                        <input type="text" name="Qualification" placeholder="MBBS, MD..." />
+                    </div>
+
+                    <div>
+                        <label>Experience (Years)</label>
+                        <input type="number" name="Experience" placeholder="e.g. 5" />
+                    </div>
+
+                    <div>
+                        <label>Specialization</label>
+
+                        <select asp-for="SpecializationId" asp-items="ViewBag.Specializations">
+                            <option value="">-- Select Specialization --</option>
+                        </select>
+
+                        <span asp-validation-for="SpecializationId"
+                                class="text-danger"></span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= Medical Information ================= -->
+            <section class="form-section">
+                <h3>Medical Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label>Email</label>
+                        <input type="email" name="Email" placeholder="doctor@email.com" required />
+                    </div>
+
+                    <div>
+                        <label>Phone Number</label>
+                        <input type="text" name="Phone" placeholder="+91 XXXXX XXXXX" />
+                    </div>
+
+                    <div>
+                        <label>Password</label>
+                        <input type="password" name="Password" placeholder="create password xxxx" />
+                    </div>
+
+                    <div>
+                        <label>Hospital / Clinic</label>
+                        <input type="text" name="Hospital" placeholder="Hospital name" />
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= About Doctor ================= -->
+            <section class="form-section">
+                <h3>About Doctor</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label>Biography</label>
+                        <textarea name="About" placeholder="Write about doctor..."></textarea>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </form>
+
+</div>
+

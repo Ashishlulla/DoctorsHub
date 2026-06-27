@@ -2,7 +2,10 @@
 using DoctorHub.Application.Interfaces;
 using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces;
+using DoctorsHub.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Numerics;
 
 namespace DoctorsHub.Web.Controllers
 {
@@ -22,32 +25,54 @@ namespace DoctorsHub.Web.Controllers
 
 
         [HttpGet]
+        [Route("[action]")]
         [Route("/")]
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(
+            string? searchBy =nameof(Doctor.FullName),
+            string? searchString = "",
+            string? sortBy = nameof(Doctor.FullName),
+            string? sortOrder= "asc",
+            int pageSize = 5,
+            int pageNumber = 1)
         {
-            var doctors = await _doctorService.GetAllDoctorsAsync();
-
-            var pagedData = doctors
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+            var (data, totalCount) = await _doctorService.GetAllDoctorsAsync(
+                searchBy,
+                searchString,
+                sortBy,
+                sortOrder,
+                pageSize,
+                pageNumber
+            );
 
             var result = new PagedResult<DoctorDto>
             {
-                Items = pagedData,
-                PageNumber = page,
+                Items = data,
+                TotalRecords = totalCount,
                 PageSize = pageSize,
-                TotalRecords = doctors.Count
+                PageNumber = pageNumber
             };
+
+            ViewBag.SearchBy = searchBy;
+            ViewBag.SearchString = searchString;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortOrder = sortOrder;
 
             return View(result);
         }
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create() 
         {
-            ViewBag.Specializations = await _specializationService.GetAllSpecialization();
-            return View();
+            
+            var specializations = await _specializationService.GetAllSpecialization();
+
+            ViewBag.Specializations = new SelectList(
+                specializations,
+                "Id",
+                "Name"
+                );
+
+            return View(new CreateDoctorDto());
         }
 
         [HttpPost]
@@ -61,6 +86,7 @@ namespace DoctorsHub.Web.Controllers
 
             await _doctorService.CreateDoctorAsync(createDoctorDto);
 
+            TempData["Success"] = "Doctor created successfully.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -80,14 +106,46 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]/{id}")]
-        public async Task<IActionResult> Edit(int id) 
+       
+        public async Task<IActionResult> Edit(int id)
         {
             var doctor = await _doctorService.GetDoctorForUpdateById(id);
 
-            ViewBag.Specializations = await _specializationService.GetAllSpecialization();
+            if (doctor == null)
+                return NotFound();
 
-            
+            ViewBag.Specializations = new SelectList(
+                await _specializationService.GetAllSpecialization(),
+                "Id",
+                "Name",
+                doctor.SpecializationId
+            );
+
             return View(doctor);
+        }
+
+        [HttpPost]
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> Edit(int id, UpdateDoctorDto updateDoctorDto) 
+        {
+            if (!ModelState.IsValid)
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Specializations = new SelectList(
+                        await _specializationService.GetAllSpecialization(),
+                        "Id",
+                        "Name",
+                        updateDoctorDto.SpecializationId
+                    );
+
+                    return View(updateDoctorDto);
+                }
+            }
+            await _doctorService.UpdateDoctorAsync(id, updateDoctorDto);
+
+            TempData["Success"] = "Doctor updated successfully.";
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]

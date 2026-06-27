@@ -11,6 +11,14 @@ namespace DoctorHub.Application.Interfaces
         Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto? createDoctorDto);
         
         Task<List<DoctorDto>> GetAllDoctorsAsync();
+        Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(
+    string? searchBy,
+    string? searchString,
+    string? sortBy,
+    string? sortOrder,
+    int pageSize,
+    int pageNumber
+);
         Task<DoctorDto?> GetByIdAsync(int id);
         Task<UpdateDoctorDto?> GetDoctorForUpdateById(int id);
         Task UpdateDoctorAsync(int id, UpdateDoctorDto updateDoctorDto);

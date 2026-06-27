@@ -21,6 +21,8 @@ namespace DoctorHub.Application.DTOs.Doctors
 
         public string SpecializationName { get; set; } = string.Empty;
 
+        public int SpecializationId { get; set; }
+
         public double AverageRating { get; set; }
     }
 }

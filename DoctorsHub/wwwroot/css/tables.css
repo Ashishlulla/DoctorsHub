@@ -1,6 +1,6 @@
 ﻿/*==================================================
     PAGE HEADER
-==================================================*/
+==================================================
 
 .page-header {
     display: flex;
@@ -22,16 +22,16 @@
         color: var(--text-light);
     }
 
-/*==================================================
+==================================================
     ADD BUTTON
-==================================================*/
+==================================================
 
 .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: .6rem;
     padding: .85rem 1.5rem;
-    background: var(--primary);
+    background: var(--primary);  teal 
     color: #fff;
     text-decoration: none;
     border-radius: 12px;
@@ -46,9 +46,9 @@
         box-shadow: var(--shadow);
     }
 
-/*==================================================
+==================================================
     SEARCH SECTION
-==================================================*/
+==================================================
 
 .search-section {
     margin-bottom: 2rem;
@@ -68,12 +68,12 @@
         .search-section input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(15,118,110,.10);
+            box-shadow: 0 0 0 4px rgba(20, 184, 166, .15);  FIXED teal consistency 
         }
 
-/*==================================================
+==================================================
     TABLE
-==================================================*/
+==================================================
 
 table {
     width: 100%;
@@ -82,8 +82,8 @@ table {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-}
-
+}*/
+/*
 thead {
     background: var(--primary-light);
 }
@@ -97,8 +97,8 @@ thead {
         border-bottom: 1px solid var(--border);
         white-space: nowrap;
     }
-
-tbody td {
+*/
+/*tbody td {
     padding: 18px;
     border-bottom: 1px solid #F3F4F6;
     color: var(--text-light);
@@ -107,18 +107,17 @@ tbody td {
 }
 
 tbody tr {
-    transition: .25s;
+    transition: .2s;
 }
 
     tbody tr:hover {
-        background: #FAFBFC;
+        background: #F9FAFB;
     }
 
     tbody tr:last-child td {
         border-bottom: none;
     }
-
-/*==================================================
+==================================================
     DETAILS BUTTON
 ==================================================*/
 
@@ -143,7 +142,7 @@ tbody tr {
 
 /*==================================================
     ACTION BUTTONS
-==================================================*/
+==================================================
 
 .action-buttons {
     display: flex;
@@ -160,28 +159,27 @@ tbody tr {
 }
 
 .btn-edit {
-    background: #EEF7F6;
-    color: var(--primary);
+    background: #E6FFFA;
+    color: #0F766E;
 }
 
     .btn-edit:hover {
-        background: var(--primary);
+        background: #0F766E;
         color: #fff;
     }
 
 .btn-delete {
-    background: #FDECEC;
-    color: var(--danger);
+    background: #FEE2E2;
+    color: #DC2626;
 }
 
     .btn-delete:hover {
-        background: var(--danger);
+        background: #DC2626;
         color: #fff;
     }
-
-/*==================================================
+==================================================
     EMPTY STATE
-==================================================*/
+==================================================
 
 .empty-row {
     text-align: center;
@@ -189,11 +187,11 @@ tbody tr {
     color: var(--text-light);
 }
 
-/*==================================================
+==================================================
     RESPONSIVE
-==================================================*/
+==================================================
 
-@media(max-width:992px) {
+@media (max-width: 992px) {
 
     table {
         display: block;
@@ -209,4 +207,8 @@ tbody tr {
     .search-section input {
         width: 100%;
     }
-}
+
+    .action-buttons {
+        flex-wrap: wrap;
+    }
+}*/

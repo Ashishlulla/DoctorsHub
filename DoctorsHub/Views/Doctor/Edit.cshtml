@@ -15,14 +15,14 @@
                 Update
             </button>
 
-            <a asp-action="Index" class="btn-cancel">
+            <a asp-controller="Doctor" asp-action="Index" asp-controller="Doctor" class="btn-cancel">
                 Cancel
             </a>
         </div>
     </div>
 
     <!-- ===== FORM ===== -->
-    <form id="doctorEditForm" asp-action="Edit" method="post">
+    <form id="doctorEditForm" asp-action="Edit" asp-controller="Doctor" method="post">
 
         <div class="form-card">
 
@@ -78,9 +78,8 @@
                     <div>
                         <label asp-for="SpecializationId"></label>
 
-                        <select asp-for="SpecializationId"
-                                asp-items="@(new SelectList(ViewBag.Specializations, "Id", "Name"))">
-
+                        <<select asp-for="SpecializationId"
+                                 asp-items="ViewBag.Specializations">
                             <option value="">-- Select Specialization --</option>
                         </select>
 

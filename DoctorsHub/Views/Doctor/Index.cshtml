@@ -4,140 +4,162 @@
     ViewData["Title"] = "Doctors";
 }
 
-<div class="page-header">
+<div class="page-container">
 
-    <div>
+    <!-- Header -->
+    <div class="header">
         <h2>Doctors</h2>
-        <p>Manage all doctors in the system.</p>
+
+        <div class="actions">
+            <a asp-action="Create" class="btn-save" style="text-decoration:none">
+                + Add Doctor
+            </a>
+        </div>
     </div>
 
-    <div>
-        <a asp-action="Create" class="btn btn-primary">
-            + Add Doctor
+    <!-- Search & Filter -->
+    <form method="get" class="filter-bar">
+
+        <select name="searchBy" >
+            <option value="FullName" selected="@(Context.Request.Query["searchBy"] == "FullName")">Full Name</option>
+            <option value="Email" selected="@(Context.Request.Query["searchBy"] == "Email")">Email</option>
+            <option value="Qualification" selected="@(Context.Request.Query["searchBy"] == "Qualification")">Qualification</option>
+            <option value="Specialization" selected="@(Context.Request.Query["searchBy"] == "Specialization")">Specialization</option>
+        </select>
+
+        <input type="text"
+               name="searchString"
+               value="@Context.Request.Query["searchString"]"
+               placeholder="Search doctor..." />
+
+        <select name="sortBy">
+            <option value="FullName" selected="@(Context.Request.Query["sortBy"] == "FullName")">Name</option>
+            <option value="ExperienceYears" selected="@(Context.Request.Query["sortBy"] == "ExperienceYears")">Experience</option>
+            <option value="ConsultationFee" selected="@(Context.Request.Query["sortBy"] == "ConsultationFee")">Fee</option>
+        </select>
+
+        <select name="sortOrder">
+            <option value="asc" selected="@(Context.Request.Query["sortOrder"] == "asc")">Ascending</option>
+            <option value="desc" selected="@(Context.Request.Query["sortOrder"] == "desc")">Descending</option>
+        </select>
+
+        <button type="submit" class="btn-search">
+            Search
+        </button>
+
+        <a asp-action="Index" class="btn-cancel">
+            Reset
         </a>
-    </div>
 
-</div>
+    </form>
 
-<hr />
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+    <!-- Table -->
+    <div class="table-container">
 
-<div class="search-section">
-
-    <input type="text"
-           placeholder="Search doctor..." />
-
-</div>
-
-<br />
-
-<table>
-
-    <thead>
-
-        <tr>
-            <th>Id</th>
-            <th>Full Name</th>
-
-            <th>Email</th>
-
-            <th>Qualification</th>
-
-            <th>Specialization</th>
-
-            <th>Experience</th>
-            
-            <th>Average Rating</th>
-
-            <th>Fee</th>
-
-            <th>Info</th>
-
-            <th>Actions</th>
-
-        </tr>
-
-    </thead>
-
-    <tbody>
-        @if (Model == null)
-        {
-            <tr>
-                <td colspan="10" class="empty-row">
-                    No doctors found.
-                </td>
-            </tr>
-        }
-        else
-        {
-            foreach (var doctor in Model.Items)
-            {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@doctor.Id</td>
-                    <td>@doctor.FullName</td>
-                    <td>@doctor.Email</td>
-                    <td>@doctor.Qualification</td>
-                    <td>@doctor.SpecializationName</td>
-                    <td>@doctor.ExperienceYears Years</td>
-                    <td>@doctor.AverageRating/5</td>
-                    <td>@doctor.ConsultationFee</td>
-                    <td a>
-                        <a asp-action="Details" asp-controller="Doctor" asp-route-id="@doctor.Id" class="btn btn-info btn-sm">
-                            Details
-                        </a>
-                    </td>
-                    
-                    <td>
-                        <div class="action-buttons">
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Qualification</th>
+                    <th>Experience</th>
+                    <th>Fee</th>
+                    <th>Specialization</th>
+                    <th>Info</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                            <a asp-action="Edit"
-                               asp-route-id="@doctor.Id"
-                               class="btn-edit">
-                                Edit
-                            </a>
+            <tbody>
 
-                            <a asp-action="Delete"
-                               asp-route-id="@doctor.Id"
-                               class="btn-delete-link">
-                                Delete
-                            </a>
+                @if (Model.Items.Any())
+                {
+                    @foreach (var doctor in Model.Items)
+                    {
+                        <tr>
+                            <td>@doctor.FullName</td>
+                            <td>@doctor.Email</td>
+                            <td>@doctor.Qualification</td>
+                            <td>@doctor.ExperienceYears Years</td>
+                            <td>₹@doctor.ConsultationFee.ToString("N2")</td>
+                            <td>@doctor.SpecializationName</td>
 
-                        </div>
-                    </td>
-                    
-                </tr>   
-            }   
+                            <td>
+                                <a asp-action="Details"
+                                    asp-controller="Doctor"
+                                   asp-route-id="@doctor.Id">
+                                    Details
+                                </a>
+                            </td>
+
+                            <td>
+                                <div class="action-buttons">
+
+                                    <a 
+                                        asp-controller="Doctor" 
+                                        asp-action="Edit"
+                                       asp-route-id="@doctor.Id"
+                                       class="btn-edit">
+                                        Edit
+                                    </a>
+
+                                    <a asp-controller="Doctor"
+                                        asp-action="Delete"
+                                       asp-route-id="@doctor.Id"
+                                       class="btn-delete-link">
+                                        Delete
+                                    </a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            No doctors found.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+
+        @if (Model.PageNumber > 1)
+        {
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageNumber - 1)"
+               class="page-btn">
+                Prev
+            </a>
         }
 
-    </tbody>
+        <span class="page-info">
+            Page @Model.PageNumber of @Model.TotalPages
+        </span>
 
-</table>
-<div class="pagination">
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageNumber + 1)"
+               class="page-btn">
+                Next
+            </a>
+        }
 
-    @if (Model.PageNumber > 1)
-    {
-        <a asp-action="Index"
-           asp-route-page="@(Model.PageNumber - 1)"
-           class="page-btn">
-            Prev
-        </a>
-    }
-
-    @for (int i = 1; i <= Model.TotalPages; i++)
-    {
-        <a asp-action="Index"
-           asp-route-page="@i"
-           class="page-btn @(i == Model.PageNumber ? "active" : "")">
-            @i
-        </a>
-    }
-
-    @if (Model.PageNumber < Model.TotalPages)
-    {
-        <a asp-action="Index"
-           asp-route-page="@(Model.PageNumber + 1)"
-           class="page-btn">
-            Next
-        </a>
-    }
+    </div>
 
 </div>

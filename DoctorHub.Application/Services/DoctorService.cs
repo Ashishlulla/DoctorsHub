@@ -11,7 +11,7 @@ using System.Text;
 
 namespace DoctorHub.Application.Services
 {
-    public class DoctorService :IDoctorService
+    public class DoctorService : IDoctorService
     {
         //Private Feilds
         private readonly IDoctorRepository _doctorRepository;
@@ -88,6 +88,29 @@ namespace DoctorHub.Application.Services
 
             }).ToList();
         }
+
+        public async Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(string? searchBy, string? searchString, string? sortBy, string? sortOrder, int pageSize, int pageNumber)
+        {
+            var (doctors, TotalRecords) = await _doctorRepository.GetAllDoctorsAsync(searchBy, searchString, sortBy, sortOrder, pageSize, pageNumber);
+
+            var doctlist = doctors.Select(d => new DoctorDto
+            {
+                Id = d.Id,
+                FullName = d.FullName,
+                Email = d.User?.Email ?? "N/A",
+                Qualification = d.Qualification,
+                ExperienceYears = d.ExperienceYears,
+                ConsultationFee = d.ConsultationFee,
+                SpecializationId = d.SpecializationId,
+
+                SpecializationName = d.Specialization != null
+        ? d.Specialization.Name
+        : "N/A"
+            }).ToList();
+
+            return (doctlist, TotalRecords);
+        }
+
         public async Task<DoctorDto?> GetByIdAsync(int id)
         {
             var doctor = await  _doctorRepository.GetByIdAsync(id);
