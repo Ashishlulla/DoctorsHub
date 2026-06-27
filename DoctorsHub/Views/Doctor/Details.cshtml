@@ -1,0 +1,65 @@
+﻿@model DoctorDto
+
+@{
+    ViewBag.Title = "Doctor Details";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Doctor Details</h2>
+
+        <div class="actions">
+            <a asp-action="Index" class="btn-cancel">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== CARD ===== -->
+    <div class="form-card">
+
+        <!-- ===== GRID DETAILS ===== -->
+        <div class="details-grid">
+
+            <div class="detail-item">
+                <span class="label">Full Name</span>
+                <span class="value">@Model.FullName</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Email</span>
+                <span class="value">@Model.Email</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Qualification</span>
+                <span class="value">@Model.Qualification</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Experience</span>
+                <span class="value">@Model.ExperienceYears Years</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Consultation Fee</span>
+                <span class="value">₹@Model.ConsultationFee</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Specialization</span>
+                <span class="value">@Model.SpecializationName</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Rating</span>
+                <span class="value">@Model.AverageRating ⭐</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

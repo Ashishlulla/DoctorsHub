@@ -57,7 +57,72 @@ namespace DoctorHub.Application.Services
 
             doctor = await _doctorRepository.AddAsync(doctor);
 
-            return doctor.ToDoctorDto(user.Email);
+            return doctor.ToDoctorDto();
+        }
+
+        public async Task DeleteDoctorAsync(int id)
+        {
+            var doctor = await _doctorRepository.GetByIdAsync(id);
+            if (doctor == null)
+            {
+                throw new KeyNotFoundException($"No doctor exists with Id ={id}");
+            }
+
+            await _doctorRepository.DeleteDoctorByIdAsync(id);
+        }
+
+        public async Task<List<DoctorDto>> GetAllDoctorsAsync()
+        {
+            var doctors = await _doctorRepository.GetDoctorsAsync();
+
+            return doctors.Select(d => new DoctorDto
+            {
+                Id = d.Id,
+                FullName = d.FullName,
+                Qualification = d.Qualification,
+                ConsultationFee = d.ConsultationFee,
+                Email = d.User.Email?? string.Empty,
+                ExperienceYears = d.ExperienceYears,
+                SpecializationName  = d.Specialization.Name,
+                AverageRating = d.AverageRating,
+
+            }).ToList();
+        }
+        public async Task<DoctorDto?> GetByIdAsync(int id)
+        {
+            var doctor = await  _doctorRepository.GetByIdAsync(id);
+
+            if (doctor == null)
+            {
+                throw new KeyNotFoundException($"No doctor exists with Id ={id}");
+            }
+
+            return doctor.ToDoctorDto();
+        }
+
+        public async Task<UpdateDoctorDto?> GetDoctorForUpdateById(int id)
+        {
+            var doctor = await _doctorRepository.GetByIdAsync(id);
+
+            if (doctor == null)
+            {
+                throw new KeyNotFoundException($"No doctor exists with Id: {id}");
+            }
+
+            return doctor.ToUpdateDoctorDto();
+        }
+
+        public async Task UpdateDoctorAsync(int id, UpdateDoctorDto updateDoctorDto)
+        {
+            var doctor = await _doctorRepository.GetByIdAsync(id);
+
+            if (doctor == null)
+            {
+                throw new KeyNotFoundException($"No doctor exists with Id: {id}");
+            }
+            doctor.UpdateDoctor(updateDoctorDto);
+
+            await _doctorRepository.UpdateDoctorAsync(doctor);
         }
     }
 }

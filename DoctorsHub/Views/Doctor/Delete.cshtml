@@ -1,0 +1,84 @@
+﻿@model DoctorHub.Application.DTOs.Doctors.DoctorDto
+
+@{
+    ViewData["Title"] = "Delete Doctor";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Delete Doctor</h2>
+
+        <div class="actions">
+            <a asp-action="Index" class="btn-cancel">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== CARD ===== -->
+    <div class="form-card delete-card">
+
+        <!-- Warning Header -->
+        <div class="delete-header">
+            <span class="warning-icon">⚠</span>
+            <h3>Confirm Deletion</h3>
+        </div>
+
+        <!-- Warning Box -->
+        <div class="warning-box">
+            <p>
+                You are about to permanently delete this doctor.
+                This action <b>cannot be undone</b>.
+            </p>
+        </div>
+
+        <!-- Doctor Info -->
+        <div class="doctor-info">
+
+            <div class="info-row">
+                <span class="label">Full Name</span>
+                <span class="value">@Model.FullName</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Email</span>
+                <span class="value">@Model.Email</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Qualification</span>
+                <span class="value">@Model.Qualification</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Experience</span>
+                <span class="value">@Model.ExperienceYears Years</span>
+            </div>
+
+        </div>
+
+        <!-- Delete Form -->
+        <form asp-action="Delete" method="post">
+
+            <input type="hidden" asp-for="Id" />
+            @Html.AntiForgeryToken()
+
+            <div class="delete-actions">
+
+                <a asp-action="Index" class="btn-cancel">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn-delete">
+                    Delete Doctor
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

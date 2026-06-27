@@ -1,6 +1,16 @@
-﻿namespace DoctorsHub.Web.Configurations
+﻿using DoctorHub.Application.DTOs.Doctors;
+using FluentValidation;
+
+namespace DoctorsHub.Web.Configurations
 {
-    public class ValidatorsExtension
+    public static class ValidatorsExtension
     {
+        public static IServiceCollection AddValidatorsService(this IServiceCollection services) 
+        {
+           
+            services.AddValidatorsFromAssemblyContaining<CreateDoctorDto>();
+
+            return services;
+        }
     }
 }

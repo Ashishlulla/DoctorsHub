@@ -1,0 +1,212 @@
+﻿/*==================================================
+    PAGE HEADER
+==================================================*/
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+    .page-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: .4rem;
+    }
+
+    .page-header p {
+        font-size: .95rem;
+        color: var(--text-light);
+    }
+
+/*==================================================
+    ADD BUTTON
+==================================================*/
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .85rem 1.5rem;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: .25s;
+    box-shadow: var(--shadow-sm);
+}
+
+    .btn-primary:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+/*==================================================
+    SEARCH SECTION
+==================================================*/
+
+.search-section {
+    margin-bottom: 2rem;
+}
+
+    .search-section input {
+        width: 350px;
+        max-width: 100%;
+        padding: .9rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        font-size: .95rem;
+        transition: .25s;
+    }
+
+        .search-section input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(15,118,110,.10);
+        }
+
+/*==================================================
+    TABLE
+==================================================*/
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+thead {
+    background: var(--primary-light);
+}
+
+    thead th {
+        padding: 18px;
+        text-align: left;
+        font-size: .92rem;
+        font-weight: 600;
+        color: var(--text);
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+    }
+
+tbody td {
+    padding: 18px;
+    border-bottom: 1px solid #F3F4F6;
+    color: var(--text-light);
+    font-size: .93rem;
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: .25s;
+}
+
+    tbody tr:hover {
+        background: #FAFBFC;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+/*==================================================
+    DETAILS BUTTON
+==================================================*/
+
+.btn-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .55rem 1rem;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 600;
+    transition: .25s;
+}
+
+    .btn-info:hover {
+        background: var(--primary);
+        color: #fff;
+    }
+
+/*==================================================
+    ACTION BUTTONS
+==================================================*/
+
+.action-buttons {
+    display: flex;
+    gap: .6rem;
+}
+
+.btn-action {
+    padding: .55rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: .85rem;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.btn-edit {
+    background: #EEF7F6;
+    color: var(--primary);
+}
+
+    .btn-edit:hover {
+        background: var(--primary);
+        color: #fff;
+    }
+
+.btn-delete {
+    background: #FDECEC;
+    color: var(--danger);
+}
+
+    .btn-delete:hover {
+        background: var(--danger);
+        color: #fff;
+    }
+
+/*==================================================
+    EMPTY STATE
+==================================================*/
+
+.empty-row {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-light);
+}
+
+/*==================================================
+    RESPONSIVE
+==================================================*/
+
+@media(max-width:992px) {
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-section input {
+        width: 100%;
+    }
+}

@@ -1,0 +1,143 @@
+﻿@model PagedResult<DoctorDto>
+
+@{
+    ViewData["Title"] = "Doctors";
+}
+
+<div class="page-header">
+
+    <div>
+        <h2>Doctors</h2>
+        <p>Manage all doctors in the system.</p>
+    </div>
+
+    <div>
+        <a asp-action="Create" class="btn btn-primary">
+            + Add Doctor
+        </a>
+    </div>
+
+</div>
+
+<hr />
+
+<div class="search-section">
+
+    <input type="text"
+           placeholder="Search doctor..." />
+
+</div>
+
+<br />
+
+<table>
+
+    <thead>
+
+        <tr>
+            <th>Id</th>
+            <th>Full Name</th>
+
+            <th>Email</th>
+
+            <th>Qualification</th>
+
+            <th>Specialization</th>
+
+            <th>Experience</th>
+            
+            <th>Average Rating</th>
+
+            <th>Fee</th>
+
+            <th>Info</th>
+
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @if (Model == null)
+        {
+            <tr>
+                <td colspan="10" class="empty-row">
+                    No doctors found.
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var doctor in Model.Items)
+            {
+                <tr>
+                    <td>@doctor.Id</td>
+                    <td>@doctor.FullName</td>
+                    <td>@doctor.Email</td>
+                    <td>@doctor.Qualification</td>
+                    <td>@doctor.SpecializationName</td>
+                    <td>@doctor.ExperienceYears Years</td>
+                    <td>@doctor.AverageRating/5</td>
+                    <td>@doctor.ConsultationFee</td>
+                    <td a>
+                        <a asp-action="Details" asp-controller="Doctor" asp-route-id="@doctor.Id" class="btn btn-info btn-sm">
+                            Details
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <div class="action-buttons">
+
+                            <a asp-action="Edit"
+                               asp-route-id="@doctor.Id"
+                               class="btn-edit">
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@doctor.Id"
+                               class="btn-delete-link">
+                                Delete
+                            </a>
+
+                        </div>
+                    </td>
+                    
+                </tr>   
+            }   
+        }
+
+    </tbody>
+
+</table>
+<div class="pagination">
+
+    @if (Model.PageNumber > 1)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageNumber - 1)"
+           class="page-btn">
+            Prev
+        </a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a asp-action="Index"
+           asp-route-page="@i"
+           class="page-btn @(i == Model.PageNumber ? "active" : "")">
+            @i
+        </a>
+    }
+
+    @if (Model.PageNumber < Model.TotalPages)
+    {
+        <a asp-action="Index"
+           asp-route-page="@(Model.PageNumber + 1)"
+           class="page-btn">
+            Next
+        </a>
+    }
+
+</div>

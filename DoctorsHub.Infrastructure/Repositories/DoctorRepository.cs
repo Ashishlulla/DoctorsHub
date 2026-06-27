@@ -6,6 +6,7 @@ using System.Text;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using DoctorsHub.Application.DTOs.Doctors;
 
 namespace DoctorsHub.Infrastructure.Repositories
 {
@@ -25,14 +26,41 @@ namespace DoctorsHub.Infrastructure.Repositories
 
             return doctor;
         }
+
+        public async Task DeleteDoctorByIdAsync(int id)
+        {
+            var doctor = await _db.Doctors.FindAsync(id);
+        
+            _db.Doctors.Remove(doctor!);
+            await _db.SaveChangesAsync();
+
+        }
+
         public async Task<Doctor?> GetByIdAsync(int id)
         {
-            return await _db.Doctors.Include(d => d.Specialization).FirstOrDefaultAsync(d => d.Id == id);
+            return await _db.Doctors
+                .Include(d=>d.User)
+                .Include(d => d.Specialization)
+                .FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<Doctor?> GetByUserIdAsync(string userId)
         {
-            return await _db.Doctors.Include(d => d.Specialization).FirstOrDefaultAsync(d => d.UserId == userId);
+            return await _db.Doctors.
+                Include(d=>d.User).
+                Include(d => d.Specialization)
+                .FirstOrDefaultAsync(d => d.UserId == userId);
+        }
+
+        public async Task<List<Doctor>> GetDoctorsAsync()
+        {
+            return await _db.Doctors.Include(d=>d.User).Include(d=>d.Specialization).ToListAsync();
+        }
+
+        public async Task UpdateDoctorAsync(Doctor doctor)
+        {
+            _db.Doctors.Update(doctor);
+            await _db.SaveChangesAsync();
         }
     }
 }

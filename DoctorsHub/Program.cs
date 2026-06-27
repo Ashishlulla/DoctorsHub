@@ -12,6 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddIdentityService();
 builder.Services.AddApplicationServices();
+builder.Services.AddValidatorsService();
 
 var app = builder.Build();
 
@@ -51,7 +52,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-app.MapRazorPages()
-   .WithStaticAssets();
+//app.MapRazorPages()
+//   .WithStaticAssets();
 
 app.Run();

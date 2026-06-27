@@ -1,0 +1,117 @@
+﻿@model UpdateDoctorDto
+
+@{
+    ViewData["Title"] = "Edit Doctor";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Edit Doctor</h2>
+
+        <div class="actions">
+            <button type="submit" form="doctorEditForm" class="btn-save">
+                Update
+            </button>
+
+            <a asp-action="Index" class="btn-cancel">
+                Cancel
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== FORM ===== -->
+    <form id="doctorEditForm" asp-action="Edit" method="post">
+
+        <div class="form-card">
+
+           
+
+            <!-- ================= Professional Information ================= -->
+            <section class="form-section">
+                <h3>Professional Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label asp-for="FullName"></label>
+                        <input asp-for="FullName" />
+                        <span asp-validation-for="FullName"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Qualification"></label>
+                        <input asp-for="Qualification" />
+                        <span asp-validation-for="Qualification"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="ExperienceYears"></label>
+                        <input asp-for="ExperienceYears" type="number" />
+                        <span asp-validation-for="ExperienceYears"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="ConsultationFee"></label>
+                        <input asp-for="ConsultationFee" type="number" step="0.01" />
+                        <span asp-validation-for="ConsultationFee"></span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= Medical Information ================= -->
+            <section class="form-section">
+                <h3>Medical Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label asp-for="VisitDays"></label>
+                        <input asp-for="VisitDays" placeholder="Mon-Fri" />
+                        <span asp-validation-for="VisitDays"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="SpecializationId"></label>
+
+                        <select asp-for="SpecializationId"
+                                asp-items="@(new SelectList(ViewBag.Specializations, "Id", "Name"))">
+
+                            <option value="">-- Select Specialization --</option>
+                        </select>
+
+                        <span asp-validation-for="SpecializationId"></span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= About Doctor ================= -->
+            <section class="form-section">
+                <h3>About Doctor</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label asp-for="About"></label>
+                        <textarea asp-for="About" rows="5"></textarea>
+                        <span asp-validation-for="About"></span>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoctorsHub.Domain.Identity;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
