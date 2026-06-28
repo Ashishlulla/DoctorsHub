@@ -16,3 +16,6 @@ Thumbs.db
 
 # Test results
 TestResults/
+
+#Sql files
+.sql

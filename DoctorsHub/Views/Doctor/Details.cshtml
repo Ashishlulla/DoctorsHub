@@ -11,7 +11,14 @@
         <h2>Doctor Details</h2>
 
         <div class="actions">
-            <a asp-action="Index" class="btn-cancel">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn-save">
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn-cancel">
                 Back
             </a>
         </div>
@@ -19,6 +26,18 @@
 
     <!-- ===== CARD ===== -->
     <div class="form-card">
+        <div class="doctor-profile">
+
+            <div class="doctor-avatar">
+                @Model.FullName.Substring(0, 1)
+            </div>
+
+            <div>
+                <h3>@Model.FullName</h3>
+                <p>@Model.SpecializationName</p>
+            </div>
+
+        </div>
 
         <!-- ===== GRID DETAILS ===== -->
         <div class="details-grid">
@@ -30,7 +49,9 @@
 
             <div class="detail-item">
                 <span class="label">Email</span>
-                <span class="value">@Model.Email</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.Email) ? "N/A" : Model.Email)
+                </span>
             </div>
 
             <div class="detail-item">
@@ -45,7 +66,7 @@
 
             <div class="detail-item">
                 <span class="label">Consultation Fee</span>
-                <span class="value">₹@Model.ConsultationFee</span>
+                <span class="value">₹@Model.ConsultationFee.ToString("N2")</span>
             </div>
 
             <div class="detail-item">
@@ -55,8 +76,22 @@
 
             <div class="detail-item">
                 <span class="label">Rating</span>
-                <span class="value">@Model.AverageRating ⭐</span>
+                <span class="value">
+                    @(Model.AverageRating > 0
+                        ? $"{Model.AverageRating:F1} ⭐"
+                        : "No Ratings")
+                </span>
             </div>
+
+            @* <div class="detail-item">
+                <span class="label">Created</span>
+                <span class="value">@Model.CreatedAt.ToString("dd MMM yyyy")</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Last Updated</span>
+                <span class="value">@Model.UpdatedAt.ToString("dd MMM yyyy")</span>
+            </div> *@
 
         </div>
 

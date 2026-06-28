@@ -72,7 +72,7 @@
                     <th>Fee</th>
                     <th>Specialization</th>
                     <th>Info</th>
-                    <th>Actions</th>
+                    @* <th>Actions</th> *@
                 </tr>
             </thead>
 
@@ -93,12 +93,13 @@
                             <td>
                                 <a asp-action="Details"
                                     asp-controller="Doctor"
-                                   asp-route-id="@doctor.Id">
+                                   asp-route-id="@doctor.Id"
+                                class="btn-info">
                                     Details
                                 </a>
                             </td>
 
-                            <td>
+                            @* <td>
                                 <div class="action-buttons">
 
                                     <a 
@@ -117,7 +118,7 @@
                                     </a>
 
                                 </div>
-                            </td>
+                            </td> *@
                         </tr>
                     }
                 }

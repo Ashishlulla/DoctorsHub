@@ -144,6 +144,7 @@ namespace DoctorHub.Application.Services
                 throw new KeyNotFoundException($"No doctor exists with Id: {id}");
             }
             doctor.UpdateDoctor(updateDoctorDto);
+           
 
             await _doctorRepository.UpdateDoctorAsync(doctor);
         }

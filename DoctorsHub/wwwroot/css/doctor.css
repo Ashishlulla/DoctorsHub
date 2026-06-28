@@ -52,6 +52,7 @@
     padding: 9px 18px;
     border-radius: 8px;
     cursor: pointer;
+    text-decoration: none;
     font-weight: 500;
     transition: 0.2s;
 }
@@ -240,6 +241,7 @@
     cursor: pointer;
     font-weight: 600;
     transition: 0.2s;
+    text-decoration:none;
 }
 
     .btn-save:hover {
@@ -389,3 +391,30 @@ thead {
         border-bottom: 1px solid var(--border);
         white-space: nowrap;
     }
+
+
+
+
+/*DETAILS*/
+
+.doctor-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ececec;
+}
+
+.doctor-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #2f80ed;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 700;
+}

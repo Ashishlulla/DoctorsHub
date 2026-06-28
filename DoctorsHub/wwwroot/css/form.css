@@ -46,6 +46,7 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
+    text-decoration: none;
     transition: all 0.2s ease;
     box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
 }
