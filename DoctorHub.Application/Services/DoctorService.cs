@@ -89,9 +89,9 @@ namespace DoctorHub.Application.Services
             }).ToList();
         }
 
-        public async Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(string? searchBy, string? searchString, string? sortBy, string? sortOrder, int pageSize, int pageNumber)
+        public async Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(string? searchBy=nameof(Doctor.FullName), string? searchString ="a", string? sortBy=nameof(Doctor.FullName), string? sortOrder="asc", int pageSize=5, int pageNumber=1)
         {
-            var (doctors, TotalRecords) = await _doctorRepository.GetAllDoctorsAsync(searchBy, searchString, sortBy, sortOrder, pageSize, pageNumber);
+            var (doctors, TotalRecords) = await _doctorRepository.GetAllDoctorsAsync(searchBy!, searchString, sortBy!, sortOrder!, pageSize, pageNumber);
 
             var doctlist = doctors.Select(d => new DoctorDto
             {
@@ -123,17 +123,7 @@ namespace DoctorHub.Application.Services
             return doctor.ToDoctorDto();
         }
 
-        public async Task<UpdateDoctorDto?> GetDoctorForUpdateById(int id)
-        {
-            var doctor = await _doctorRepository.GetByIdAsync(id);
-
-            if (doctor == null)
-            {
-                throw new KeyNotFoundException($"No doctor exists with Id: {id}");
-            }
-
-            return doctor.ToUpdateDoctorDto();
-        }
+        
 
         public async Task UpdateDoctorAsync(int id, UpdateDoctorDto updateDoctorDto)
         {
@@ -143,6 +133,7 @@ namespace DoctorHub.Application.Services
             {
                 throw new KeyNotFoundException($"No doctor exists with Id: {id}");
             }
+
             doctor.UpdateDoctor(updateDoctorDto);
            
 

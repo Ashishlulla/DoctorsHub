@@ -22,6 +22,9 @@
                 Back
             </a>
         </div>
+
+        
+
     </div>
 
     <!-- ===== CARD ===== -->
@@ -32,9 +35,23 @@
                 @Model.FullName.Substring(0, 1)
             </div>
 
-            <div>
+            <div class="doctor-info">
                 <h3>@Model.FullName</h3>
-                <p>@Model.SpecializationName</p>
+
+                <p class="specialization">
+                    @Model.SpecializationName
+                </p>
+
+                <p class="rating">
+                    @if (Model.AverageRating > 0)
+                    {
+                        <span>⭐ @Model.AverageRating.ToString("F1")</span>
+                    }
+                    else
+                    {
+                        <span>No Ratings</span>
+                    }
+                </p>
             </div>
 
         </div>
@@ -53,10 +70,21 @@
                     @(string.IsNullOrWhiteSpace(Model.Email) ? "N/A" : Model.Email)
                 </span>
             </div>
+            <div class="detail-item">
+                <span class="label">Contact Number</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "N/A" : Model.PhoneNumber)
+                </span>
+            </div>
 
             <div class="detail-item">
                 <span class="label">Qualification</span>
                 <span class="value">@Model.Qualification</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Specialization</span>
+                <span class="value">@Model.SpecializationName</span>
             </div>
 
             <div class="detail-item">
@@ -70,18 +98,18 @@
             </div>
 
             <div class="detail-item">
-                <span class="label">Specialization</span>
-                <span class="value">@Model.SpecializationName</span>
+                <span class="label">Visit Days</span>
+                <span class="value">@Model.VisitDays</span>
             </div>
 
             <div class="detail-item">
-                <span class="label">Rating</span>
-                <span class="value">
-                    @(Model.AverageRating > 0
-                        ? $"{Model.AverageRating:F1} ⭐"
-                        : "No Ratings")
-                </span>
+                <span class="label">About</span>
+                <span class="value">@Model.About</span>
             </div>
+
+           
+
+           
 
             @* <div class="detail-item">
                 <span class="label">Created</span>

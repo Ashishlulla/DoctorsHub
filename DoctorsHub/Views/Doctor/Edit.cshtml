@@ -15,7 +15,7 @@
                 Update
             </button>
 
-            <a asp-controller="Doctor" asp-action="Index" asp-controller="Doctor" class="btn-cancel">
+            <a asp-controller="Doctor" asp-action="Index" class="btn-cancel">
                 Cancel
             </a>
         </div>
@@ -42,6 +42,12 @@
                     </div>
 
                     <div>
+                        <label asp-for="PhoneNumber"></label>
+                        <input asp-for="PhoneNumber" />
+                        <span asp-validation-for="PhoneNumber"></span>
+                    </div>
+
+                    <div>
                         <label asp-for="Qualification"></label>
                         <input asp-for="Qualification" />
                         <span asp-validation-for="Qualification"></span>
@@ -52,13 +58,6 @@
                         <input asp-for="ExperienceYears" type="number" />
                         <span asp-validation-for="ExperienceYears"></span>
                     </div>
-
-                    <div>
-                        <label asp-for="ConsultationFee"></label>
-                        <input asp-for="ConsultationFee" type="number" step="0.01" />
-                        <span asp-validation-for="ConsultationFee"></span>
-                    </div>
-
                 </div>
             </section>
 
@@ -68,24 +67,28 @@
                 <hr />
 
                 <div class="form-group">
+                    <div>
+                        <label asp-for="ConsultationFee"></label>
+                        <input asp-for="ConsultationFee" type="number" step="0.01" />
+                        <span asp-validation-for="ConsultationFee"></span>
+                    </div>
 
                     <div>
                         <label asp-for="VisitDays"></label>
-                        <input asp-for="VisitDays" placeholder="Mon-Fri" />
+                        <input asp-for="VisitDays" />
                         <span asp-validation-for="VisitDays"></span>
                     </div>
 
                     <div>
                         <label asp-for="SpecializationId"></label>
 
-                        <<select asp-for="SpecializationId"
-                                 asp-items="ViewBag.Specializations">
+                        <select asp-for="SpecializationId"
+                                asp-items="ViewBag.Specializations">
                             <option value="">-- Select Specialization --</option>
                         </select>
 
                         <span asp-validation-for="SpecializationId"></span>
                     </div>
-
                 </div>
             </section>
 
@@ -96,7 +99,7 @@
 
                 <div class="form-group">
 
-                    <div>
+                    <div class="full-width">
                         <label asp-for="About"></label>
                         <textarea asp-for="About" rows="5"></textarea>
                         <span asp-validation-for="About"></span>
@@ -104,18 +107,16 @@
 
                 </div>
             </section>
-            <div class="delete-action">
+            <div class="delete-actions">
                 <a asp-action="Delete"
+                    asp-asp-controller="Doctor"
                    asp-route-id="@Model.Id"
                    class="btn-delete">
                     Delete
                 </a>
             </div>
-
         </div>
-
     </form>
-
 </div>
 
 @section Scripts {

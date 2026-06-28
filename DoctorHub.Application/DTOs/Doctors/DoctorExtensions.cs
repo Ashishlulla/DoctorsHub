@@ -11,6 +11,7 @@ namespace DoctorsHub.Application.DTOs.Doctors
             {
                 UserId = userId,
                 FullName = dto.FullName,
+                PhoneNumber = dto.PhoneNumber,
                 Qualification = dto.Qualification,
                 About = dto.About,
                 ExperienceYears = dto.ExperienceYears,
@@ -27,10 +28,14 @@ namespace DoctorsHub.Application.DTOs.Doctors
                 Id = doctor.Id,
                 FullName = doctor.FullName,
                 Email = doctor.User?.Email ?? string.Empty,
+                PhoneNumber = doctor.PhoneNumber,
                 Qualification = doctor.Qualification,
                 ExperienceYears = doctor.ExperienceYears,
                 ConsultationFee = doctor.ConsultationFee,
                 AverageRating = doctor.AverageRating,
+                SpecializationId = doctor.SpecializationId,
+                VisitDays = doctor.VisitDays,
+                About =  doctor.About,
                 SpecializationName = doctor.Specialization?.Name ?? string.Empty
             };
         }
@@ -39,6 +44,7 @@ namespace DoctorsHub.Application.DTOs.Doctors
             return new UpdateDoctorDto
             {
                 FullName = doctor.FullName,
+                PhoneNumber = doctor.PhoneNumber,
                 Qualification = doctor.Qualification,
                 About = doctor.About,
                 ExperienceYears = doctor.ExperienceYears,
@@ -48,22 +54,11 @@ namespace DoctorsHub.Application.DTOs.Doctors
             };
         }
 
-        public static Doctor ToDoctor(this UpdateDoctorDto dto)
-        {
-            return new Doctor
-            {
-                FullName = dto.FullName,
-                Qualification = dto.Qualification,
-                About = dto.About,
-                ExperienceYears = dto.ExperienceYears,
-                ConsultationFee = dto.ConsultationFee,
-                VisitDays = dto.VisitDays,
-                SpecializationId = dto.SpecializationId
-            };
-        }
+
         public static void UpdateDoctor(this Doctor doctor, UpdateDoctorDto dto)
         {
             doctor.FullName = dto.FullName;
+            doctor.PhoneNumber = dto.PhoneNumber;
             doctor.Qualification = dto.Qualification;
             doctor.About = dto.About;
             doctor.ExperienceYears = dto.ExperienceYears;

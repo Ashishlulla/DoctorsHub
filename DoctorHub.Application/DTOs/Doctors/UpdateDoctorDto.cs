@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Web.Mvc;
 
 namespace DoctorHub.Application.DTOs.Doctors
 {
@@ -9,6 +8,8 @@ namespace DoctorHub.Application.DTOs.Doctors
     {
         public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
+
+        public string PhoneNumber { get; set; } = string.Empty;
 
         public string Qualification { get; set; } = string.Empty;
 
@@ -20,8 +21,6 @@ namespace DoctorHub.Application.DTOs.Doctors
 
         public string VisitDays { get; set; } = string.Empty;
 
-        public int SpecializationId { get; set; }
-
-        
+        public int SpecializationId { get; set; }   
     }
 }

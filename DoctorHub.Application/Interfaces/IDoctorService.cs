@@ -8,7 +8,7 @@ namespace DoctorHub.Application.Interfaces
 {
     public interface IDoctorService
     {
-        Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto? createDoctorDto);
+        Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto createDoctorDto);
         
         Task<List<DoctorDto>> GetAllDoctorsAsync();
         Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(
@@ -20,7 +20,7 @@ namespace DoctorHub.Application.Interfaces
     int pageNumber
 );
         Task<DoctorDto?> GetByIdAsync(int id);
-        Task<UpdateDoctorDto?> GetDoctorForUpdateById(int id);
+       
         Task UpdateDoctorAsync(int id, UpdateDoctorDto updateDoctorDto);
         Task DeleteDoctorAsync(int id);
 

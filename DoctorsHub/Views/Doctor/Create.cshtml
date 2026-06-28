@@ -22,9 +22,9 @@
 
         <div class="form-card">
 
-            <!-- ================= Professional Information ================= -->
+            <!-- ================= Account Information ================= -->
             <section class="form-section">
-                <h3>Professional Information</h3>
+                <h3>Account Information</h3>
                 <hr />
 
                 <div class="form-group">
@@ -32,22 +32,50 @@
                     <div>
                         <label>Full Name</label>
                         <input type="text"
-                                name="FullName"
-                                placeholder="Enter full name"
-                                required />
-                            
-                            
+                               name="FullName"
+                               placeholder="Enter full name"
+                               required />
                     </div>
 
                     <div>
-                        <label>Qualification</label>
-                        <input type="text" name="Qualification" placeholder="MBBS, MD..." />
+                        <label>Email</label>
+                        <input type="email"
+                               name="Email"
+                               placeholder="doctor@email.com"
+                               required />
                     </div>
 
                     <div>
-                        <label>Experience (Years)</label>
-                        <input type="number" name="Experience" placeholder="e.g. 5" />
+                        <label>Password</label>
+                        <input type="password"
+                               name="Password"
+                               placeholder="enter password"
+                               required />
                     </div>
+
+                    <div>
+                        <label>Consultation Fee (₹)</label>
+                        <input type="number"
+                               name="ConsultationFee"
+                               placeholder="e.g. 500" />
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= Professional Information ================= -->
+            <section class="form-section">
+                <h3>Professional Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                <div>
+                    <label>Qualification</label>
+                    <input type="text"
+                           name="Qualification"
+                           placeholder="MBBS, MD..." />
+                </div>
 
                     <div>
                         <label>Specialization</label>
@@ -57,52 +85,40 @@
                         </select>
 
                         <span asp-validation-for="SpecializationId"
-                                class="text-danger"></span>
+                              class="text-danger"></span>
+                    </div>
+
+                    <div>
+                        <label>Experience (Years)</label>
+                        <input type="number"
+                                name="ExperienceYears"
+                                placeholder="e.g. 5" />
+                    </div>
+
+                    <div>
+                        <label>Visit Days</label>
+                        <input type="text"
+                               name="VisitDays"
+                               placeholder="Mon - Fri" />
                     </div>
 
                 </div>
             </section>
 
-            <!-- ================= Medical Information ================= -->
+            <!-- ================= Practice Information ================= -->
             <section class="form-section">
-                <h3>Medical Information</h3>
+                <h3>Practice Information</h3>
                 <hr />
 
                 <div class="form-group">
 
-                    <div>
-                        <label>Email</label>
-                        <input type="email" name="Email" placeholder="doctor@email.com" required />
-                    </div>
+                    
 
-                    <div>
-                        <label>Phone Number</label>
-                        <input type="text" name="Phone" placeholder="+91 XXXXX XXXXX" />
-                    </div>
-
-                    <div>
-                        <label>Password</label>
-                        <input type="password" name="Password" placeholder="create password xxxx" />
-                    </div>
-
-                    <div>
-                        <label>Hospital / Clinic</label>
-                        <input type="text" name="Hospital" placeholder="Hospital name" />
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- ================= About Doctor ================= -->
-            <section class="form-section">
-                <h3>About Doctor</h3>
-                <hr />
-
-                <div class="form-group">
-
-                    <div>
-                        <label>Biography</label>
-                        <textarea name="About" placeholder="Write about doctor..."></textarea>
+                    <div class="full-width">
+                        <label>About</label>
+                        <textarea name="About"
+                                  rows="4"
+                                  placeholder="Write a short professional description..."></textarea>
                     </div>
 
                 </div>

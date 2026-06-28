@@ -109,7 +109,7 @@ namespace DoctorsHub.Web.Controllers
        
         public async Task<IActionResult> Edit(int id)
         {
-            var doctor = await _doctorService.GetDoctorForUpdateById(id);
+            var doctor = await _doctorService.GetByIdAsync(id);
 
             if (doctor == null)
                 return NotFound();
@@ -121,7 +121,20 @@ namespace DoctorsHub.Web.Controllers
                 doctor.SpecializationId
             );
 
-            return View(doctor);
+            var model = new UpdateDoctorDto 
+            {
+                Id = doctor.Id,
+                FullName = doctor.FullName,
+                VisitDays = doctor.VisitDays,
+                PhoneNumber = doctor.PhoneNumber,
+                Qualification = doctor.Qualification,
+                SpecializationId = doctor.SpecializationId,
+                ConsultationFee = doctor.ConsultationFee,
+                ExperienceYears = doctor.ExperienceYears,
+                About = doctor.About
+            };
+
+            return View(model);
         }
 
         [HttpPost]

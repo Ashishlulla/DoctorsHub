@@ -37,7 +37,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         }
 
-        public async Task<(List<Doctor>, int TotalCount)> GetAllDoctorsAsync(string searchBy, string searchString, string sortBy = "FullName", string sortOrder ="asc", int PageSize = 5, int PageNumber=1)
+        public async Task<(List<Doctor>, int TotalCount)> GetAllDoctorsAsync(string searchBy=nameof(Doctor.FullName), string? searchString="a", string sortBy =nameof(Doctor.FullName), string sortOrder ="asc", int PageSize = 5, int PageNumber=1)
         {
             IQueryable<Doctor> query = _db.Doctors.Include(d=>d.User).Include(d=>d.Specialization);
 
