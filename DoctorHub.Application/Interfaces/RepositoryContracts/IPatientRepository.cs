@@ -1,7 +1,7 @@
 ﻿using DoctorsHub.Domain.Entities;
 
 
-namespace DoctorsHub.Application.Interfaces
+namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 {
     public interface IPatientRepository
     {

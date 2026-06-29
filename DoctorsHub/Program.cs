@@ -13,6 +13,7 @@ builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddIdentityService();
 builder.Services.AddApplicationServices();
 builder.Services.AddValidatorsService();
+builder.Services.AddAutoMapperServices();
 
 var app = builder.Build();
 

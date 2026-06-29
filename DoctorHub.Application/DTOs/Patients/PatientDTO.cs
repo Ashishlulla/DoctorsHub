@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoctorsHub.Application.DTOs.Patients
 {
-    public class PatientDTO
+    public class PatientDto
     {
     }
 }

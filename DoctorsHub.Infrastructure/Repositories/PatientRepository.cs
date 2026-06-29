@@ -1,4 +1,4 @@
-﻿using DoctorsHub.Application.Interfaces;
+﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
