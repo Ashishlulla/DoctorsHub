@@ -1,0 +1,94 @@
+﻿@model PatientDto
+
+@{
+    ViewBag.Title = "Patient Details";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Patient Details</h2>
+
+        <div class="actions">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn-save">
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn-cancel">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== CARD ===== -->
+    <div class="form-card">
+
+        <div class="doctor-profile">
+
+            <div class="doctor-avatar">
+                @Model.FullName.Substring(0, 1)
+            </div>
+
+            <div class="doctor-info">
+                <h3>@Model.FullName</h3>
+
+                <p class="specialization">
+                    Patient
+                </p>
+            </div>
+
+        </div>
+
+        <!-- ===== GRID DETAILS ===== -->
+        <div class="details-grid">
+
+            <div class="detail-item">
+                <span class="label">Full Name</span>
+                <span class="value">@Model.FullName</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Email</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.Email) ? "N/A" : Model.Email)
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Phone Number</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "N/A" : Model.PhoneNumber)
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Gender</span>
+                <span class="value">@Model.Gender</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Date of Birth</span>
+                <span class="value">@Model.DateOfBirth.ToString("dd MMM yyyy")</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Blood Group</span>
+                <span class="value">@Model.BloodGroup</span>
+            </div>
+
+            <div class="detail-item full-width">
+                <span class="label">Address</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.Address) ? "N/A" : Model.Address)
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

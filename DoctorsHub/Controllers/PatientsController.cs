@@ -45,5 +45,14 @@ namespace DoctorsHub.Web.Controllers
             TempData["Success"] = "Patient created Successfully..";
             return RedirectToAction(nameof(PatientsController.Index));
         }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> Details(int id) 
+        {
+            var patient = await _patientService.GetPatientByIdAsync(id);
+
+            return View(patient);
+        }
     }
 }
