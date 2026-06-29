@@ -1,0 +1,31 @@
+﻿.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #111827;
+    background: white;
+}
+
+    .page-btn:hover {
+        background: #f3f4f6;
+    }
+
+    .page-btn.active {
+        background: #14b8a6;
+        color: white;
+        border-color: #14b8a6;
+    }
+
+.page-info {
+    font-size: 13px;
+    color: #6b7280;
+}

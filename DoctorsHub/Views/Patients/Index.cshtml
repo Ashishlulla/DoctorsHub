@@ -1,0 +1,73 @@
+﻿@model List<PatientDto>
+
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<div class="page-container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2>Patients</h2>
+
+        <div class="actions">
+            <a asp-controller="Patients" asp-action="Create" class="btn-save">
+                + Add Patient
+            </a>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Date Of Birth</th>
+                    <th>Blood Group</th>
+                    <th>info</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var patient in Model)
+                    {
+                        <tr>
+                            <td>@patient.FullName</td>
+                            <td>@patient.Email</td>
+                            <td>@patient.PhoneNumber</td>
+                            <td>@patient.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+                            <td>@patient.BloodGroup</td>
+                            
+                            <td>
+                                <a asp-controller="Patients"
+                                    asp-action="Details"
+                                    asp-route-id="@patient.Id"
+                                    class="btn-info">
+                                    Details
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            No patients found.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+</div>

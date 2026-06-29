@@ -1,0 +1,25 @@
+﻿.delete-card {
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.delete-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.warning-icon {
+    font-size: 22px;
+    color: #ef4444;
+}
+
+.warning-box {
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #991b1b;
+}

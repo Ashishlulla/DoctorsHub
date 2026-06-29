@@ -149,3 +149,33 @@ textarea {
         justify-content: flex-end;
     }
 }
+
+
+.filter-bar {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    background: #fff;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 16px;
+    align-items: center;
+}
+
+    .filter-bar input,
+    .filter-bar select {
+        width: 100%;
+        padding: 9px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 13px;
+        outline: none;
+        background: #fff;
+    }
+
+        .filter-bar input:focus,
+        .filter-bar select:focus {
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20,184,166,.15);
+        }

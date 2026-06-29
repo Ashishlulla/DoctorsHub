@@ -1,0 +1,89 @@
+﻿.btn-save {
+    background: #14b8a6;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+    .btn-save:hover {
+        background: #0d9488;
+    }
+
+.btn-search {
+    background: #14b8a6;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+    .btn-search:hover {
+        background: #0d9488;
+    }
+
+.btn-cancel {
+    background: #f3f4f6;
+    color: #111827;
+    padding: 9px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+    .btn-cancel:hover {
+        background: #e5e7eb;
+    }
+
+.btn-edit {
+    background: #E6FFFA;
+    color: #0F766E;
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+    .btn-edit:hover {
+        background: #0F766E;
+        color: white;
+    }
+
+.btn-delete {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    .btn-delete:hover {
+        background: #dc2626;
+    }
+
+.btn-delete-link {
+    background: #FEE2E2;
+    color: #DC2626;
+    padding: 6px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+    .btn-delete-link:hover {
+        background: #DC2626;
+        color: white;
+    }
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}

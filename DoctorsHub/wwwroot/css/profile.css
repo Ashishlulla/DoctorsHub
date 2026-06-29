@@ -1,0 +1,71 @@
+﻿.doctor-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ececec;
+}
+
+.doctor-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #2f80ed;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.doctor-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .doctor-info h3 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+.specialization {
+    margin: 0;
+    font-size: 18px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.rating {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f59e0b;
+}
+
+    .rating span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.label {
+    font-weight: 600;
+    color: #555;
+}
+
+.value {
+    color: #222;
+}

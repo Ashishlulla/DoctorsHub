@@ -1,4 +1,4 @@
-﻿.delete-card {
+﻿/*.delete-card {
     max-width: 650px;
     margin: 0 auto;
 }
@@ -72,10 +72,10 @@
 
 .value {
     color: #222;
-}
+}*/
 
 /* Delete button */
-.btn-delete {
+/*.btn-delete {
     background: #ef4444;
     color: #fff;
     border: none;
@@ -89,10 +89,10 @@
 
     .btn-delete:hover {
         background: #dc2626;
-    }
+    }*/
 
 /* Danger emphasis on cancel group */
-.delete-actions {
+/*.delete-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
@@ -104,13 +104,13 @@
     display: flex;
     gap: 10px;
     align-items: center;
-}
+}*/
 
 
 /* Edit Button */
-.btn-edit {
-    background: #14b8a6; /* teal */
-    color: #ffffff;
+/*.btn-edit {
+    background: #14b8a6;*/ /* teal */
+    /*color: #ffffff;
     padding: 7px 12px;
     border-radius: 8px;
     text-decoration: none;
@@ -121,15 +121,15 @@
 }
 
     .btn-edit:hover {
-        background: #0d9488; /* darker teal */
-        border-color: #0d9488;
-    }
+        background: #0d9488;*/ /* darker teal */
+        /*border-color: #0d9488;
+    }*/
 
    
 /* Delete Button */
-.btn-delete-link {
-    background: #ef4444; /* red */
-    color: #ffffff;
+/*.btn-delete-link {
+    background: #ef4444;*/ /* red */
+    /*color: #ffffff;
     padding: 7px 12px;
     border-radius: 8px;
     text-decoration: none;
@@ -140,14 +140,14 @@
 }
 
     .btn-delete-link:hover {
-        background: #dc2626; /* darker red */
-        border-color: #dc2626;
-    }
+        background: #dc2626;*/ /* darker red */
+        /*border-color: #dc2626;
+    }*/
 
 /*details*/
 
 
-.details-grid {
+/*.details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
@@ -171,18 +171,18 @@
         font-size: 14px;
         font-weight: 600;
         color: #111827;
-    }
+    }*/
 
 /* Responsive */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
     .details-grid {
         grid-template-columns: 1fr;
     }
-}
+}*/
 
 /*Pagination CSS*/
 
-.pagination {
+/*.pagination {
     display: flex;
     justify-content: center;
     gap: 8px;
@@ -205,8 +205,8 @@
     }
 
     .page-btn.active {
-        background: #14b8a6; /* teal (matches your edit button) */
-        color: white;
+        background: #14b8a6;*/ /* teal (matches your edit button) */
+        /*color: white;
         border-color: #14b8a6;
     }
 
@@ -321,12 +321,12 @@ table {
 }
 
 .table thead {
-    background: #4F46E5; /* Primary color */
-}
+    background: #4F46E5;*/ /* Primary color */
+/*}
 
     .table thead th {
-        background: #14b8a6; /* Teal Green */
-        color: #FFFFFF;
+        background: #14b8a6;*/ /* Teal Green */
+        /*color: #FFFFFF;
         padding: 16px 18px;
         font-weight: 600;
         text-align: left;
@@ -345,10 +345,10 @@ table {
 .action-buttons {
     display: flex;
     gap: 8px;
-}
+}*/
 
 /* EDIT - TEAL */
-.btn-edit {
+/*.btn-edit {
     background: #E6FFFA;
     color: #0F766E;
     padding: 6px 10px;
@@ -362,10 +362,10 @@ table {
     .btn-edit:hover {
         background: #0F766E;
         color: #fff;
-    }
+    }*/
 
 /* DELETE - RED */
-.btn-delete-link {
+/*.btn-delete-link {
     background: #FEE2E2;
     color: #DC2626;
     padding: 6px 10px;
@@ -421,14 +421,14 @@ thead {
         color: var(--text);
         border-bottom: 1px solid var(--border);
         white-space: nowrap;
-    }
+    }*/
 
 
 
 
 /*DETAILS*/
 
-.doctor-profile {
+/*.doctor-profile {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -448,4 +448,4 @@ thead {
     align-items: center;
     font-size: 28px;
     font-weight: 700;
-}
+}*/

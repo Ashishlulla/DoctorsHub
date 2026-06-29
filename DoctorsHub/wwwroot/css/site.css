@@ -15,8 +15,13 @@
 @import url("auth.css");
 @import url("utilities.css");
 @import url("responsive.css");
+@import url("buttons.css");
+@import url("details.css");
+@import url("delete.css");
+@import url("profile.css");
+@import url("pagination.css");
 
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -32,5 +37,27 @@ body {
     min-height: 100vh;
 }
 
+.page-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    background: #fff;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+    .header h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+    }
 
 
