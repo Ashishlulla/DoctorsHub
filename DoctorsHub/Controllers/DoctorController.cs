@@ -1,5 +1,6 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
 using DoctorHub.Application.Interfaces;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces;
 using DoctorsHub.Domain.Entities;

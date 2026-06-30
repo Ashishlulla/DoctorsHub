@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
@@ -39,10 +41,19 @@ namespace DoctorsHub.Application.Services
            await _patientRepository.DeleteAsync(id);
         }
 
-        public async Task<List<PatientDto>> GetAllPatientAsync()
+        public async Task<PagedResult<PatientDto>> GetAllPatientAsync(PatientQueryParameters patientQueryParameters)
         {
-            List<Patient> patients = await _patientRepository.GetAllPatientsAsync();
-            return _mapper.Map<List<PatientDto>>(patients);
+            var(patients, TotalRecords) = await _patientRepository.GetAllPatientsAsync(patientQueryParameters);
+            
+            
+            return new PagedResult<PatientDto>
+            {
+                Items = _mapper.Map<List<PatientDto>>(patients),
+                TotalRecords = TotalRecords,
+                PageNumber = patientQueryParameters.PageNumber,
+                PageSize = patientQueryParameters.PageSize
+            };
+               
         }
 
         public async Task<PatientDto> GetPatientByIdAsync(int id)

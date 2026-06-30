@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoctorsHub.Application.DTOs.Doctors
+namespace DoctorsHub.Application.DTOs.common
 {
     public class PagedResult<T>
     {

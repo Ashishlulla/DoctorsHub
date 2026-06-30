@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.DTOs.Patients;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.Patients;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,8 +10,7 @@ namespace DoctorsHub.Application.Interfaces
     {
         Task CreatePatientAsync(CreatePatientDto createPatientDto);
 
-        Task<List<PatientDto>> GetAllPatientAsync();
-
+        Task<PagedResult<PatientDto>> GetAllPatientAsync(PatientQueryParameters patientQueryParameters);
         Task<PatientDto> GetPatientByIdAsync(int id);
         Task<UpdatePatientDto> GetPatientForUpdateByIdAsync(int id);
 

@@ -1,4 +1,4 @@
-﻿@model List<PatientDto>
+﻿@model PagedResult<PatientDto>
 
 @{
     ViewData["Title"] = "Patients";
@@ -6,19 +6,68 @@
 
 <div class="page-container">
 
-    <!-- HEADER -->
+    <!-- Header -->
     <div class="header">
         <h2>Patients</h2>
 
         <div class="actions">
-            <a asp-controller="Patients" asp-action="Create" class="btn-save">
+            <a asp-action="Create" class="btn-save">
                 + Add Patient
             </a>
         </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- Search + Filter -->
+    <form method="get" class="filter-bar">
+
+        <!-- Search By -->
+        <select name="SearchBy">
+            <option value="FullName" selected="@(Context.Request.Query["SearchBy"] == "FullName")">Full Name</option>
+            <option value="Email" selected="@(Context.Request.Query["SearchBy"] == "Email")">Email</option>
+            <option value="PhoneNumber" selected="@(Context.Request.Query["SearchBy"] == "PhoneNumber")">Phone Number</option>
+            <option value="BloodGroup" selected="@(Context.Request.Query["SearchBy"] == "BloodGroup")">Blood Group</option>
+        </select>
+
+        <!-- Search Text -->
+        <input type="text"
+               name="SearchString"
+               value="@Context.Request.Query["SearchString"]"
+               placeholder="Search patient..." />
+
+   
+        <!-- Sort By -->
+        <select name="SortBy">
+            <option value="FullName" selected="@(Context.Request.Query["SortBy"] == "FullName")">Name</option>
+            <option value="DateOfBirth" selected="@(Context.Request.Query["SortBy"] == "DateOfBirth")">Date of Birth</option>
+            <option value="BloodGroup" selected="@(Context.Request.Query["SortBy"] == "BloodGroup")">Blood Group</option>
+        </select>
+
+        <!-- Sort Order -->
+        <select name="SortOrder">
+            <option value="asc" selected="@(Context.Request.Query["SortOrder"] == "asc")">Ascending</option>
+            <option value="desc" selected="@(Context.Request.Query["SortOrder"] == "desc")">Descending</option>
+        </select>
+
+        <button type="submit" class="btn-search">
+            Search
+        </button>
+
+        <a asp-action="Index" class="btn-cancel">
+            Reset
+        </a>
+
+    </form>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <!-- Table -->
     <div class="table-container">
+
         <table class="table">
 
             <thead>
@@ -26,30 +75,31 @@
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
-                    <th>Date Of Birth</th>
+                    <th>Date of Birth</th>
+                    <th>Gender</th>
                     <th>Blood Group</th>
-                    <th>info</th>
+                    <th>Info</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                @if (Model != null && Model.Any())
+                @if (Model.Items.Any())
                 {
-                    @foreach (var patient in Model)
+                    @foreach (var patient in Model.Items)
                     {
                         <tr>
                             <td>@patient.FullName</td>
                             <td>@patient.Email</td>
                             <td>@patient.PhoneNumber</td>
                             <td>@patient.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+                            <td>@patient.Gender</td>
                             <td>@patient.BloodGroup</td>
-                            
+
                             <td>
-                                <a asp-controller="Patients"
-                                    asp-action="Details"
-                                    asp-route-id="@patient.Id"
-                                    class="btn-info">
+                                <a asp-action="Details"
+                                   asp-route-id="@patient.Id"
+                                   class="btn-info">
                                     Details
                                 </a>
                             </td>
@@ -68,6 +118,46 @@
             </tbody>
 
         </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+
+        @if (Model.PageNumber > 1)
+        {
+            <a asp-action="Index"
+               asp-route-PageNumber="@(Model.PageNumber - 1)"
+               asp-route-SearchBy="@Context.Request.Query["SearchBy"]"
+               asp-route-SearchString="@Context.Request.Query["SearchString"]"
+               asp-route-Gender="@Context.Request.Query["Gender"]"
+               asp-route-BloodGroup="@Context.Request.Query["BloodGroup"]"
+               asp-route-SortBy="@Context.Request.Query["SortBy"]"
+               asp-route-SortOrder="@Context.Request.Query["SortOrder"]"
+               class="page-btn">
+                Prev
+            </a>
+        }
+
+        <span class="page-info">
+            Page @Model.PageNumber of @Model.TotalPages
+        </span>
+
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <a asp-action="Index"
+               asp-route-PageNumber="@(Model.PageNumber + 1)"
+               asp-route-SearchBy="@Context.Request.Query["SearchBy"]"
+               asp-route-SearchString="@Context.Request.Query["SearchString"]"
+               asp-route-Gender="@Context.Request.Query["Gender"]"
+               asp-route-BloodGroup="@Context.Request.Query["BloodGroup"]"
+               asp-route-SortBy="@Context.Request.Query["SortBy"]"
+               asp-route-SortOrder="@Context.Request.Query["SortOrder"]"
+               class="page-btn">
+                Next
+            </a>
+        }
+
     </div>
 
 </div>

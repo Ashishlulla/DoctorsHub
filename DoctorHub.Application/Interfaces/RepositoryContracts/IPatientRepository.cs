@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Domain.Entities;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Domain.Entities;
 
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
@@ -7,7 +8,7 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
     {
         Task AddAsync(Patient patient);
         
-        Task<List<Patient>> GetAllPatientsAsync();
+        Task<(List<Patient>, int TotalRecord)> GetAllPatientsAsync(PatientQueryParameters patientQueryParameters);
         
         Task<Patient?> GetPatientByIdAsync(int id);
 

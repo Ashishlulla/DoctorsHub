@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,9 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         //[Route("[action]")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PatientQueryParameters patientQueryParameters)
         {
-            var patients = await _patientService.GetAllPatientAsync();
+            var patients = await _patientService.GetAllPatientAsync(patientQueryParameters);
 
             return View(patients);
         }
