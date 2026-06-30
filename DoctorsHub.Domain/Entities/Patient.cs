@@ -16,5 +16,8 @@ namespace DoctorsHub.Domain.Entities
         public string Gender { get; set; } = string.Empty;
         public string BloodGroup { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
+
+        //Navigation Property
+        public List<Appointment> Appointments { get; set; } = new();
     }
 }
