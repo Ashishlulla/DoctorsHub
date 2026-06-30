@@ -1,0 +1,132 @@
+﻿@model UpdatePatientDto
+
+@{
+    ViewData["Title"] = "Edit Patient";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Edit Patient</h2>
+
+        <div class="actions">
+            <button type="submit" form="patientEditForm" class="btn-save">
+                Update
+            </button>
+
+            <a asp-action="Index" class="btn-cancel">
+                Cancel
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== FORM ===== -->
+    <form id="patientEditForm" asp-action="Edit" method="post">
+
+        <input asp-for="Id" type="hidden" />
+
+        <div class="form-card">
+
+            <!-- ================= Personal Information ================= -->
+            <section class="form-section">
+                <h3>Personal Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label asp-for="FullName"></label>
+                        <input asp-for="FullName" />
+                        <span asp-validation-for="FullName"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" />
+                        <span asp-validation-for="Email"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="DateOfBirth"></label>
+                        <input asp-for="DateOfBirth" type="date" />
+                        <span asp-validation-for="DateOfBirth"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Gender"></label>
+                        <select asp-for="Gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span asp-validation-for="Gender"></span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= Contact Information ================= -->
+            <section class="form-section">
+                <h3>Contact Information</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div>
+                        <label asp-for="PhoneNumber"></label>
+                        <input asp-for="PhoneNumber" />
+                        <span asp-validation-for="PhoneNumber"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="BloodGroup"></label>
+                        <select asp-for="BloodGroup">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <span asp-validation-for="BloodGroup"></span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ================= Address ================= -->
+            <section class="form-section">
+                <h3>Address</h3>
+                <hr />
+
+                <div class="form-group">
+
+                    <div class="full-width">
+                        <label asp-for="Address"></label>
+                        <textarea asp-for="Address" rows="5"></textarea>
+                        <span asp-validation-for="Address"></span>
+                    </div>
+
+                </div>
+            </section>
+
+            <div class="delete-actions">
+                <a asp-action="Delete"
+                   asp-route-id="@Model.Id"
+                   class="btn-delete">
+                    Delete
+                </a>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

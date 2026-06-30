@@ -11,7 +11,8 @@
         <h2>Patient Details</h2>
 
         <div class="actions">
-            <a asp-action="Edit"
+            <a asp-controller="Patients"
+                asp-action="Edit"
                asp-route-id="@Model.Id"
                class="btn-save">
                 Edit

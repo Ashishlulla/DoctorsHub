@@ -27,13 +27,7 @@
         background: #0d9488;
     }
 
-.btn-cancel {
-    background: #f3f4f6;
-    color: #111827;
-    padding: 9px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-}
+
 
     .btn-cancel:hover {
         background: #e5e7eb;
@@ -54,17 +48,43 @@
         color: white;
     }
 
+.btn-delete,
+.btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px; /* Same width */
+    height: 40px; /* Same height */
+
+    padding: 0 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Delete Button */
 .btn-delete {
     background: #ef4444;
-    color: white;
+    color: #fff;
     border: none;
-    padding: 9px 18px;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
     .btn-delete:hover {
         background: #dc2626;
+    }
+
+/* Cancel Button */
+.btn-cancel {
+    background: #f3f4f6;
+    color: #111827;
+    border: 1px solid #d1d5db;
+}
+
+    .btn-cancel:hover {
+        background: #e5e7eb;
     }
 
 .btn-delete-link {

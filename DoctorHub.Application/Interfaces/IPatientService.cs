@@ -12,8 +12,9 @@ namespace DoctorsHub.Application.Interfaces
         Task<List<PatientDto>> GetAllPatientAsync();
 
         Task<PatientDto> GetPatientByIdAsync(int id);
+        Task<UpdatePatientDto> GetPatientForUpdateByIdAsync(int id);
 
-        Task UpdatePatientAsync(int id, UpdatePatientDto dto);
+        Task UpdatePatientAsync( UpdatePatientDto dto);
 
         Task DeletePatientAsync(int id);
     }

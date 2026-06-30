@@ -1,23 +1,26 @@
-﻿using DoctorsHub.Application.DTOs.Patients;
+﻿using AutoMapper;
+using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
-    [Route("[controller]")]
+    //[Route("[controller]")]
     public class PatientsController : Controller
     {
         //private feilds
         private readonly IPatientService _patientService;
+        private readonly IMapper _mapper;
 
         //constructor
-        public PatientsController(IPatientService patientService) 
+        public PatientsController(IPatientService patientService, IMapper mapper) 
         {
             _patientService = patientService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        [Route("[action]")]
+        //[Route("[action]")]
         public async Task<IActionResult> Index()
         {
             var patients = await _patientService.GetAllPatientAsync();
@@ -25,14 +28,14 @@ namespace DoctorsHub.Web.Controllers
             return View(patients);
         }
         [HttpGet]
-        [Route("[action]")]
+        //[Route("[action]")]
         public IActionResult Create() 
         {
             return View();
         }
 
         [HttpPost]
-        [Route("[action]")]
+        //[Route("[action]")]
         public async Task<IActionResult> Create(CreatePatientDto createPatientDto) 
         {
             if (!ModelState.IsValid)
@@ -47,12 +50,58 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")]
+        
         public async Task<IActionResult> Details(int id) 
         {
             var patient = await _patientService.GetPatientByIdAsync(id);
 
             return View(patient);
+        }
+
+        [HttpGet]
+        
+        public async Task<IActionResult> Edit(int id)
+        {
+            var patient = await _patientService.GetPatientForUpdateByIdAsync(id);
+
+            //return View(_mapper.Map<UpdatePatientDto>(patient));
+            return View(patient);
+        }
+
+        [HttpPost]
+        
+        public async Task<IActionResult> Edit(UpdatePatientDto updatePatientDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updatePatientDto);
+            }
+
+            await _patientService.UpdatePatientAsync(updatePatientDto);
+
+            TempData["Success"] = "Patient created Successfully..";
+            return RedirectToAction(nameof(PatientsController.Index));
+        }
+
+        
+        public async Task<IActionResult> Delete(int id)
+        {
+            var doctor = await _patientService.GetPatientByIdAsync(id);
+
+
+            return View(doctor);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _patientService.DeletePatientAsync(id);
+
+            TempData["Success"] = "Patient Deleted Successfully.";
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

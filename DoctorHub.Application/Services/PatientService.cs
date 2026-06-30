@@ -55,18 +55,31 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<PatientDto>(patient);
         }
 
-        public async Task UpdatePatientAsync(int id, UpdatePatientDto dto)
+ 
+        public async Task UpdatePatientAsync(UpdatePatientDto dto)
+        {
+            Patient? patient = await _patientRepository.GetPatientByIdAsync(dto.Id);
+
+            if (patient == null)
+            {
+                throw new KeyNotFoundException($"No patient exist id = {dto.Id}");
+            }
+
+            Patient updatedPatient = _mapper.Map( dto, patient);
+
+            await _patientRepository.UpdateAsync(updatedPatient);
+        }
+
+        public async Task<UpdatePatientDto> GetPatientForUpdateByIdAsync(int id)
         {
             Patient? patient = await _patientRepository.GetPatientByIdAsync(id);
-
             if (patient == null)
             {
                 throw new KeyNotFoundException($"No patient exist id = {id}");
             }
-
-            Patient updatedPatient = _mapper.Map<Patient>(dto);
-
-            await _patientRepository.UpdateAsync(updatedPatient);
+            return _mapper.Map<UpdatePatientDto>(patient);
         }
+
+      
     }
 }
