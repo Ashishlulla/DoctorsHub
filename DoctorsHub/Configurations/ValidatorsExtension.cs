@@ -1,4 +1,5 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Patients;
 using FluentValidation;
 
@@ -16,6 +17,10 @@ namespace DoctorsHub.Web.Configurations
             //Patient DTOs Validators
             services.AddValidatorsFromAssemblyContaining<CreatePatientDto>();
             services.AddValidatorsFromAssemblyContaining<UpdatePatientDto>();
+
+            //Appointment DTOs Validators
+            services.AddValidatorsFromAssemblyContaining<CreateAppointmentDto>();
+            services.AddValidatorsFromAssemblyContaining<UpdateAppointmentDto>();
 
             return services;
         }
