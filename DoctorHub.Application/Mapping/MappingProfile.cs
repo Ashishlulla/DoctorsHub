@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Domain.Entities;
 using System;
@@ -22,6 +23,12 @@ namespace DoctorsHub.Application.Mapping
             CreateMap<UpdatePatientDto,Patient>();
             CreateMap<Patient, PatientDto>();
             CreateMap<Patient, UpdatePatientDto>();
+
+            //Appointment Mapping
+            CreateMap <CreateAppointmentDto, Appointment>();
+            CreateMap<UpdateAppointmentDto, Appointment>();
+            CreateMap<Appointment, AppointmentDto>();
+            CreateMap<Appointment, UpdateAppointmentDto>();
         }
     }
 }

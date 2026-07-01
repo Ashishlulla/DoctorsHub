@@ -36,7 +36,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<List<Appointment>> GetAppointmentsAsync()
         {
-            return await _db.Appointments.ToListAsync();
+            return await _db.Appointments.Include(p=>p.Patient).Include(d=>d.Doctor).ToListAsync();
         }
 
         public async Task<Appointment> GetByIdAsync(int id)

@@ -1,8 +1,7 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
-using DoctorHub.Application.Interfaces;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Doctors;
-using DoctorsHub.Application.Interfaces;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

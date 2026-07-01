@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoctorHub.Application.Interfaces
+namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
     public interface IDoctorService
     {

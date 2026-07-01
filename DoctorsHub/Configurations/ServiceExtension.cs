@@ -1,11 +1,10 @@
-﻿using DoctorHub.Application.Interfaces;
-using DoctorHub.Application.Services;
-using DoctorsHub.Application.Interfaces;
+﻿using DoctorHub.Application.Services;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Mapping;
 using DoctorsHub.Application.Services;
 using DoctorsHub.Infrastructure.Repositories;
 using AutoMapper;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
 
 namespace DoctorsHub.Web.Configurations
 {
@@ -23,7 +22,7 @@ namespace DoctorsHub.Web.Configurations
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<ISpecializationRepository, SpecializationRepository>();
             services.AddScoped<IPatientRepository, PatientRepository>();
-
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
             return services;
         }

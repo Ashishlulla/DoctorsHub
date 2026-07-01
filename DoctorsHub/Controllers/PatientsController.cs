@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Patients;
-using DoctorsHub.Application.Interfaces;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers

@@ -1,7 +1,7 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
-using DoctorHub.Application.Interfaces;
 using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity;

@@ -1,6 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Doctors;
-using DoctorsHub.Application.Interfaces;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using System;
 using System.Collections.Generic;
