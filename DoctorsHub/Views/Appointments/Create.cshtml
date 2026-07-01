@@ -62,7 +62,7 @@
                         <label asp-for="AppointmentDate"></label>
 
                         <input asp-for="AppointmentDate"
-                               type="date" />
+                               type="date" value="@DateTime.Today" />
 
                         <span asp-validation-for="AppointmentDate" class="text-danger"></span>
                     </div>

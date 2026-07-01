@@ -22,6 +22,45 @@ namespace DoctorsHub.Application.Services
 
         public async Task CreateAppointmentAsync(CreateAppointmentDto createAppointmentDto)
         {
+            //Past date validation
+            if (createAppointmentDto.AppointmentDate<DateTime.Today)
+                throw new ArgumentException("Appointment date cannot be in past");
+
+            //Validation: Doctor Exists
+            if (!await _appointmentRepository.DoctorExistsAsync(createAppointmentDto.DoctorId))
+                throw new ArgumentException("Doctor does not exists.");
+
+            //Validation:Patient Exists
+            if (!await _appointmentRepository.PatientExistsAsync(createAppointmentDto.PatientId))
+                throw new ArgumentException("Patient does not exists.");
+
+             bool doctorBusy = await _appointmentRepository.DoctorHasConflictingAppointmentAsync(createAppointmentDto.DoctorId, createAppointmentDto.AppointmentDate, createAppointmentDto.StartTime, createAppointmentDto.EndTime);
+            
+            //Validation: Doctor Availablity
+            if(doctorBusy)
+                throw new InvalidOperationException("Doctor already has an appointment during this time.");
+
+            bool patientBusy =  await _appointmentRepository.PatientHasConflictingAppointmentAsync(createAppointmentDto.PatientId,createAppointmentDto.AppointmentDate, createAppointmentDto.StartTime, createAppointmentDto.EndTime);
+
+            //Validation: Patient Availablity
+            if (patientBusy)
+            {
+                throw new InvalidOperationException("Patient already has an appointment during this time");
+            }
+            //Validation:Appointment time Availablity
+            if (createAppointmentDto.StartTime<TimeSpan.FromHours(9) || createAppointmentDto.EndTime> TimeSpan.FromHours(18))
+            {
+                throw new InvalidOperationException("Appointments are only allowed between 9:00AM to 6:00PM");
+            }
+
+            //Validation: correct time selection
+            if (createAppointmentDto.EndTime <= createAppointmentDto.StartTime) 
+            {
+                Console.WriteLine(createAppointmentDto);
+                throw new InvalidOperationException("Appoinment end time must be later than start time");
+            }
+        
+
             var appointment = _mapper.Map<Appointment>(createAppointmentDto);
 
             await _appointmentRepository.AddAsync(appointment);
@@ -85,6 +124,48 @@ namespace DoctorsHub.Application.Services
 
         public async Task UpdateAppointmentAsync(UpdateAppointmentDto updateAppointmentDto)
         {
+            if (updateAppointmentDto.AppointmentDate < DateTime.Today)
+                throw new ArgumentException("Appointment date cannot be in past");
+
+            if (!await _appointmentRepository.DoctorExistsAsync(updateAppointmentDto.DoctorId))
+            {
+                throw new ArgumentException("Doctor does not exists");
+            }
+
+            if (!await _appointmentRepository.PatientExistsAsync(updateAppointmentDto.PatientId))
+            {
+                throw new ArgumentException("Patient does not exists");
+            }
+
+            bool doctorBusy = await _appointmentRepository.DoctorHasConflictingAppointmentAsync(updateAppointmentDto.DoctorId,updateAppointmentDto.AppointmentDate, updateAppointmentDto.StartTime, updateAppointmentDto.EndTime, updateAppointmentDto.Id);
+
+            if (doctorBusy)
+            {
+                throw new InvalidOperationException("Doctor has an another appointment during this time.");
+            }
+
+            bool patientBusy = await _appointmentRepository.PatientHasConflictingAppointmentAsync(updateAppointmentDto.PatientId, updateAppointmentDto.AppointmentDate, updateAppointmentDto.StartTime, updateAppointmentDto.EndTime, updateAppointmentDto.Id);
+
+            if (patientBusy)
+            {
+                throw new InvalidOperationException("Patient has an another appointment during this time.");
+            }
+
+            if (updateAppointmentDto.AppointmentDate < DateTime.Today)
+            {
+                throw new ArgumentException("Appointment date cannot be in the past.");
+            }
+
+            if (updateAppointmentDto.StartTime<TimeSpan.FromHours(9) || updateAppointmentDto.EndTime>TimeSpan.FromHours(18))
+            {
+                throw new InvalidOperationException("Please select schedule slot 9:00 Am to 6:00 PM");     
+            }
+
+            if (updateAppointmentDto.EndTime <= updateAppointmentDto.StartTime)
+            {
+                throw new InvalidOperationException("Appointment end time later than start time.");
+            }
+
             var existingAppointment = await _appointmentRepository.GetByIdAsync(updateAppointmentDto.Id);
 
             if (existingAppointment == null)

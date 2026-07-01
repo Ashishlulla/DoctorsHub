@@ -4,6 +4,7 @@ using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace DoctorsHub.Infrastructure.Repositories
@@ -14,7 +15,7 @@ namespace DoctorsHub.Infrastructure.Repositories
         private readonly ApplicationDbContext _db;
 
         //constructor
-        public AppointmentRepository(ApplicationDbContext db) 
+        public AppointmentRepository(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -30,8 +31,25 @@ namespace DoctorsHub.Infrastructure.Repositories
         {
             var appointment = await _db.Appointments.FindAsync(id);
 
-             _db.Appointments.Remove(appointment!);
+            _db.Appointments.Remove(appointment!);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoctorExistsAsync(int doctorId)
+        {
+            return await _db.Doctors.AnyAsync(p => p.Id == doctorId);
+        }
+
+        public async Task<bool> DoctorHasConflictingAppointmentAsync(int doctorId, DateTime appointmentDate, TimeSpan startTime, TimeSpan endTime, int? appointmentId = null)
+        {
+            bool isConflicting = await _db.Appointments.AnyAsync(a =>
+            a.DoctorId == doctorId &&
+            a.AppointmentDate == appointmentDate &&
+            (!appointmentId.HasValue || a.Id != appointmentId) &&
+            a.StartTime < endTime &&
+            a.EndTime > startTime
+            );
+            return isConflicting;
         }
 
         public async Task<List<Appointment>> GetAppointmentsAsync()
@@ -44,6 +62,25 @@ namespace DoctorsHub.Infrastructure.Repositories
             Appointment? appointment = await _db.Appointments.Include(p => p.Patient).Include(d => d.Doctor).FirstOrDefaultAsync(a => a.Id == id);
             return appointment!;
 
+        }
+
+        public  async Task<bool> PatientExistsAsync(int patientId)
+        {
+            return await _db.Patients.AnyAsync(p=>p.Id ==patientId);
+
+        }
+
+        public async Task<bool> PatientHasConflictingAppointmentAsync(int patientId, DateTime appointmentDate, TimeSpan startTime, TimeSpan endTime, int? appointmentId = null)
+        {
+            bool isConflicting = await _db.Appointments.AnyAsync(a=>
+            a.PatientId == patientId && 
+            a.AppointmentDate == appointmentDate &&
+            (!appointmentId.HasValue || a.Id !=appointmentId)&&
+            a.StartTime < endTime &&
+            a.EndTime > startTime
+
+            );
+            return isConflicting;
         }
 
         public async Task UpdateAsync(Appointment appointment)

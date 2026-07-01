@@ -49,11 +49,23 @@ namespace DoctorsHub.Web.Controllers
                 ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
                 return View(createAppointmentDto);
             }
+            try
+            {
+                await _appointmentService.CreateAppointmentAsync(createAppointmentDto);
 
-            await _appointmentService.CreateAppointmentAsync(createAppointmentDto);
+                TempData["Success"] = "Appointment created successfully..";
+                return RedirectToAction(nameof(AppointmentsController.Index));
+            }
+            catch (Exception ex) 
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
 
-            TempData["Success"] = "Appointment created successfully..";
-            return RedirectToAction(nameof(AppointmentsController.Index));
+                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+                return View(createAppointmentDto);
+
+            }
+           
         }
 
         //GET: Edit Action Method
@@ -68,21 +80,31 @@ namespace DoctorsHub.Web.Controllers
         //POST: Edit Action Method
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(UpdateAppointmentDto updateAppointmentDto) 
+        public async Task<IActionResult> Edit(UpdateAppointmentDto updateAppointmentDto)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.Patients = await _patientService.GetAllPatientsAsync();
                 ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
 
-                return View(updateAppointmentDto);   
+                return View(updateAppointmentDto);
             }
+            try { 
+                await _appointmentService.UpdateAppointmentAsync(updateAppointmentDto);
 
-            await _appointmentService.UpdateAppointmentAsync(updateAppointmentDto);
+                TempData["Success"] = "Appointment updated successfully..";
 
-            TempData["Success"] = "Appointment updated successfully..";
+                return RedirectToAction(nameof(Index)); 
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
 
-            return RedirectToAction(nameof(Index));
+                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+                return View(updateAppointmentDto);
+
+            }
         }
         //GET: Details Action Method
         public async Task<IActionResult> Details(int id) 
