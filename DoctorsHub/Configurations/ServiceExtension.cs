@@ -15,7 +15,7 @@ namespace DoctorsHub.Web.Configurations
             //Injecting Bussiness Services to IOC Container
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IPatientService, PatientService>();
-
+            services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<ISpecializationService, SpecializationService>();
 
             //Injecting Repository Service to IOC container

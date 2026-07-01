@@ -59,6 +59,18 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<AppointmentDto>(appointment);
         }
 
+        public async Task<AppointmentDetailsDto> GetAppointmentForDetailsByIdAsync(int id)
+        {
+            var appointment = await _appointmentRepository.GetByIdAsync(id);
+
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException($"No appointment existt with id : {id}");
+            }
+
+            return _mapper.Map<AppointmentDetailsDto>(appointment);
+        }
+
         public async Task<UpdateAppointmentDto> GetAppointmentForUpdateByIdAsync(int id)
         {
             var appointment = await _appointmentRepository.GetByIdAsync(id);

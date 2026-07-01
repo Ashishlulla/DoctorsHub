@@ -29,6 +29,7 @@ namespace DoctorsHub.Application.Mapping
             CreateMap<UpdateAppointmentDto, Appointment>();
             CreateMap<Appointment, AppointmentDto>();
             CreateMap<Appointment, UpdateAppointmentDto>();
+            CreateMap<Appointment, Appointment>();
         }
     }
 }
