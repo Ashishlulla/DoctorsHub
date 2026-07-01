@@ -41,7 +41,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<Appointment> GetByIdAsync(int id)
         {
-            Appointment? appointment = await _db.Appointments!.FindAsync(id);
+            Appointment? appointment = await _db.Appointments.Include(p => p.Patient).Include(d => d.Doctor).FirstOrDefaultAsync(a => a.Id == id);
             return appointment!;
 
         }

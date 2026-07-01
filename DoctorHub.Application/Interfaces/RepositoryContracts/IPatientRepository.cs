@@ -8,6 +8,7 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
     {
         Task AddAsync(Patient patient);
         
+        Task<List<Patient>> GetPatientsAsync();
         Task<(List<Patient>, int TotalRecord)> GetAllPatientsAsync(PatientQueryParameters patientQueryParameters);
         
         Task<Patient?> GetPatientByIdAsync(int id);

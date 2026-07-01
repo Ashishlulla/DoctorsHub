@@ -1,0 +1,101 @@
+﻿@model AppointmentDto
+
+@{
+    ViewData["Title"] = "Delete Appointment";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Delete Appointment</h2>
+
+        <div class="actions">
+            <a asp-action="Index" class="btn-cancel">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== CARD ===== -->
+    <div class="form-card delete-card">
+
+        <!-- Warning Header -->
+        <div class="delete-header">
+            <span class="warning-icon">⚠</span>
+            <h3>Confirm Deletion</h3>
+        </div>
+
+        <!-- Warning Box -->
+        <div class="warning-box">
+            <p>
+                You are about to permanently delete this appointment.
+                This action <b>cannot be undone</b>.
+            </p>
+        </div>
+
+        <!-- Appointment Info -->
+        <div class="doctor-info">
+
+            <div class="info-row">
+                <span class="label">Patient</span>
+                <span class="value">@Model.Patient.FullName</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Doctor</span>
+                <span class="value">@Model.Doctor.FullName</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Appointment Date</span>
+                <span class="value">@Model.AppointmentDate.ToString("dd MMM yyyy")</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Time</span>
+                <span class="value">
+                    @Model.StartTime - @Model.EndTime
+                </span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Status</span>
+                <span class="value">@Model.Status</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Reason</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.Reason) ? "N/A" : Model.Reason)
+                </span>
+            </div>
+
+           
+
+        </div>
+
+        <!-- Delete Form -->
+        <form asp-action="Delete" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            @Html.AntiForgeryToken()
+
+            <div class="delete-actions">
+
+                <a asp-action="Index" class="btn-cancel">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn-delete">
+                    Delete Appointment
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

@@ -1,0 +1,105 @@
+﻿@model AppointmentDetailsDto
+
+@{
+    ViewBag.Title = "Appointment Details";
+}
+
+<div class="page-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h2>Appointment Details</h2>
+
+        <div class="actions">
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn-save">
+                Edit
+            </a>
+
+            <a asp-action="Index"
+               class="btn-cancel">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- ===== CARD ===== -->
+    <div class="form-card">
+
+        <div class="doctor-profile">
+
+            <div class="doctor-avatar">
+                @(Model.Patient.FullName.Substring(0, 1))
+            </div>
+
+            <div class="doctor-info">
+                <h3>@Model.Patient.FullName</h3>
+
+                <p class="specialization">
+                    Appointment
+                </p>
+            </div>
+
+        </div>
+
+        <!-- ===== GRID DETAILS ===== -->
+        <div class="details-grid">
+
+            <div class="detail-item">
+                <span class="label">Patient</span>
+                <span class="value">@Model.Patient.FullName</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Doctor</span>
+                <span class="value">@Model.Doctor.FullName</span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Appointment Date</span>
+                <span class="value">
+                    @Model.AppointmentDate.ToString("dd MMM yyyy")
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Start Time</span>
+                <span class="value">
+                    @Model.StartTime
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">End Time</span>
+                <span class="value">
+                    @Model.EndTime
+                </span>
+            </div>
+
+            <div class="detail-item">
+                <span class="label">Status</span>
+                <span class="value">
+                    @Model.Status
+                </span>
+            </div>
+
+            <div class="detail-item full-width">
+                <span class="label">Reason</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.Reason) ? "N/A" : Model.Reason)
+                </span>
+            </div>
+
+            <div class="detail-item full-width">
+                <span class="label">Notes</span>
+                <span class="value">
+                    @(string.IsNullOrWhiteSpace(Model.Notes) ? "N/A" : Model.Notes)
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

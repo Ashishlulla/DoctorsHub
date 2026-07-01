@@ -10,8 +10,12 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
     {
         Task CreatePatientAsync(CreatePatientDto createPatientDto);
 
+        Task<List<PatientDto>> GetAllPatientsAsync();
+
         Task<PagedResult<PatientDto>> GetAllPatientAsync(PatientQueryParameters patientQueryParameters);
+        
         Task<PatientDto> GetPatientByIdAsync(int id);
+        
         Task<UpdatePatientDto> GetPatientForUpdateByIdAsync(int id);
 
         Task UpdatePatientAsync( UpdatePatientDto dto);

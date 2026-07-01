@@ -1,0 +1,104 @@
+﻿@model List<AppointmentDto>
+
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="page-container">
+
+    <!-- Header -->
+    <div class="header">
+
+        <h2>Appointments</h2>
+
+        <div class="actions">
+            <a asp-action="Create" class="btn-save">
+                + Book Appointment
+            </a>
+        </div>
+
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <!-- Table -->
+    <div class="table-container">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Appointment Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Reason</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    @foreach (var appointment in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @appointment.AppointmentDate.ToString("dd-MMM-yyyy")
+                            </td>
+
+                            <td>
+                                @appointment.StartTime
+                            </td>
+
+                            <td>
+                                @appointment.EndTime
+                            </td>
+
+                            <td>
+                                @appointment.Patient.FullName
+                            </td>
+
+                            <td>
+                                @appointment.Doctor.FullName
+                            </td>
+
+                            <td>
+                                @appointment.Reason
+                            </td>
+
+                            <td>
+                                <a asp-action="Details"
+                                   asp-route-id="@appointment.Id"
+                                   class="btn-info">
+                                    Details
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            No appointments available.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

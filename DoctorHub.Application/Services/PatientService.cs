@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Http.Headers;
 
 namespace DoctorsHub.Application.Services
 {
@@ -91,6 +88,11 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<UpdatePatientDto>(patient);
         }
 
-      
+        public async Task<List<PatientDto>> GetAllPatientsAsync()
+        {
+            List<Patient> patients = await _patientRepository.GetPatientsAsync();
+
+            return _mapper.Map<List<PatientDto>>(patients);
+        }
     }
 }

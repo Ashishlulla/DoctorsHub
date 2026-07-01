@@ -103,5 +103,10 @@ namespace DoctorsHub.Infrastructure.Repositories
             return (data, TotalRecords);
                
         }
+
+        public async Task<List<Patient>> GetPatientsAsync()
+        {
+            return await _db.Patients.ToListAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,15 @@ namespace DoctorsHub.Web.Controllers
     {
         //private feilds
         private readonly IAppointmentService _appointmentService;
+        private readonly IPatientService _patientService;
+        private readonly IDoctorService _doctorService;
 
         //constructor
-        public AppointmentsController(IAppointmentService appointmentService) 
+        public AppointmentsController(IAppointmentService appointmentService, IPatientService patientService, IDoctorService doctorService)
         {
             _appointmentService = appointmentService;
+            _patientService = patientService;
+            _doctorService = doctorService;
         }
 
         //GET: Index Action Method
@@ -24,11 +29,13 @@ namespace DoctorsHub.Web.Controllers
         }
 
         //GET: Create Action Method
-        public IActionResult Create() 
+        public async Task<IActionResult> Create()
         {
-            CreateAppointmentDto model = new CreateAppointmentDto();
+            
+            ViewBag.Patients = await _patientService.GetAllPatientsAsync();
+            ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
 
-            return View(model);
+            return View(new CreateAppointmentDto());
         }
 
         //POST: Create Action Method
@@ -38,6 +45,8 @@ namespace DoctorsHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
                 return View(createAppointmentDto);
             }
 
@@ -50,7 +59,9 @@ namespace DoctorsHub.Web.Controllers
         //GET: Edit Action Method
         public async Task<IActionResult> Edit(int id) 
         {
-            var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+            var appointment = await _appointmentService.GetAppointmentForUpdateByIdAsync(id);
+            ViewBag.Patients = await _patientService.GetAllPatientsAsync();
+            ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
             return View(appointment);
         }
 
@@ -61,6 +72,9 @@ namespace DoctorsHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+
                 return View(updateAppointmentDto);   
             }
 
