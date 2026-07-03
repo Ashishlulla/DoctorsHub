@@ -1,5 +1,6 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
@@ -27,35 +28,23 @@ namespace DoctorsHub.Web.Controllers
         [HttpGet]
         [Route("[action]")]
         [Route("/")]
-        public async Task<IActionResult> Index(
-            string? searchBy =nameof(Doctor.FullName),
-            string? searchString = "",
-            string? sortBy = nameof(Doctor.FullName),
-            string? sortOrder= "asc",
-            int pageSize = 5,
-            int pageNumber = 1)
+        public async Task<IActionResult> Index(DoctorQueryParameters doctorQueryParameters)
         {
-            var (data, totalCount) = await _doctorService.GetAllDoctorsAsync(
-                searchBy,
-                searchString,
-                sortBy,
-                sortOrder,
-                pageSize,
-                pageNumber
-            );
+            var (data, totalCount) = await _doctorService.GetAllDoctorsAsync(doctorQueryParameters);
 
             var result = new PagedResult<DoctorDto>
             {
                 Items = data,
-                TotalRecords = totalCount,
-                PageSize = pageSize,
-                PageNumber = pageNumber
+                PageSize = doctorQueryParameters.PageSize,
+                PageNumber = doctorQueryParameters.PageNumber,
+                TotalCount = totalCount,
+                TotalPages = (int)Math.Ceiling((double)totalCount / doctorQueryParameters.PageSize)
             };
 
-            ViewBag.SearchBy = searchBy;
-            ViewBag.SearchString = searchString;
-            ViewBag.SortBy = sortBy;
-            ViewBag.SortOrder = sortOrder;
+            ViewBag.searchBy = doctorQueryParameters.searchBy;
+            ViewBag.searchString = doctorQueryParameters.searchString;
+            ViewBag.sortBy = doctorQueryParameters.sortBy;
+            ViewBag.sortOrder = doctorQueryParameters.sortOrder;
 
             return View(result);
         }

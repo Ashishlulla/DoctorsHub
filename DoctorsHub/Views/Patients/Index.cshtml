@@ -21,30 +21,30 @@
     <form method="get" class="filter-bar">
 
         <!-- Search By -->
-        <select name="SearchBy">
-            <option value="FullName" selected="@(Context.Request.Query["SearchBy"] == "FullName")">Full Name</option>
-            <option value="Email" selected="@(Context.Request.Query["SearchBy"] == "Email")">Email</option>
-            <option value="PhoneNumber" selected="@(Context.Request.Query["SearchBy"] == "PhoneNumber")">Phone Number</option>
-            <option value="BloodGroup" selected="@(Context.Request.Query["SearchBy"] == "BloodGroup")">Blood Group</option>
+        <select name="searchBy">
+            <option value="FullName" selected="@(Context.Request.Query["searchBy"] == "FullName")">Full Name</option>
+            <option value="Email" selected="@(Context.Request.Query["searchBy"] == "Email")">Email</option>
+            <option value="PhoneNumber" selected="@(Context.Request.Query["searchBy"] == "PhoneNumber")">Phone Number</option>
+            <option value="BloodGroup" selected="@(Context.Request.Query["searchBy"] == "BloodGroup")">Blood Group</option>
         </select>
 
         <!-- Search Text -->
         <input type="text"
-               name="SearchString"
-               value="@Context.Request.Query["SearchString"]"
+               name="searchString"
+               value="@Context.Request.Query["searchString"]"
                placeholder="Search patient..." />
 
         <!-- Sort By -->
-        <select name="SortBy">
-            <option value="FullName" selected="@(Context.Request.Query["SortBy"] == "FullName")">Name</option>
-            <option value="DateOfBirth" selected="@(Context.Request.Query["SortBy"] == "DateOfBirth")">Date of Birth</option>
-            <option value="BloodGroup" selected="@(Context.Request.Query["SortBy"] == "BloodGroup")">Blood Group</option>
+        <select name="sortBy">
+            <option value="FullName" selected="@(Context.Request.Query["sortBy"] == "FullName")">Name</option>
+            <option value="DateOfBirth" selected="@(Context.Request.Query["sortBy"] == "DateOfBirth")">Date of Birth</option>
+            <option value="BloodGroup" selected="@(Context.Request.Query["sortBy"] == "BloodGroup")">Blood Group</option>
         </select>
 
         <!-- Sort Order -->
-        <select name="SortOrder">
-            <option value="asc" selected="@(Context.Request.Query["SortOrder"] == "asc")">Ascending</option>
-            <option value="desc" selected="@(Context.Request.Query["SortOrder"] == "desc")">Descending</option>
+        <select name="sortOrder">
+            <option value="asc" selected="@(Context.Request.Query["sortOrder"] == "asc")">Ascending</option>
+            <option value="desc" selected="@(Context.Request.Query["sortOrder"] == "desc")">Descending</option>
         </select>
 
         <button type="submit" class="btn-search">
@@ -127,12 +127,12 @@
         {
             <a asp-action="Index"
                asp-route-PageNumber="@(Model.PageNumber - 1)"
-               asp-route-SearchBy="@Context.Request.Query["SearchBy"]"
-               asp-route-SearchString="@Context.Request.Query["SearchString"]"
+               asp-route-searchBy="@Context.Request.Query["searchBy"]"
+               asp-route-searchString="@Context.Request.Query["searchString"]"
                asp-route-Gender="@Context.Request.Query["Gender"]"
                asp-route-BloodGroup="@Context.Request.Query["BloodGroup"]"
-               asp-route-SortBy="@Context.Request.Query["SortBy"]"
-               asp-route-SortOrder="@Context.Request.Query["SortOrder"]"
+               asp-route-sortBy="@Context.Request.Query["sortBy"]"
+               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
                class="page-btn">
                 Prev
             </a>
@@ -146,12 +146,12 @@
         {
             <a asp-action="Index"
                asp-route-PageNumber="@(Model.PageNumber + 1)"
-               asp-route-SearchBy="@Context.Request.Query["SearchBy"]"
-               asp-route-SearchString="@Context.Request.Query["SearchString"]"
+               asp-route-searchBy="@Context.Request.Query["searchBy"]"
+               asp-route-searchString="@Context.Request.Query["searchString"]"
                asp-route-Gender="@Context.Request.Query["Gender"]"
                asp-route-BloodGroup="@Context.Request.Query["BloodGroup"]"
-               asp-route-SortBy="@Context.Request.Query["SortBy"]"
-               asp-route-SortOrder="@Context.Request.Query["SortOrder"]"
+               asp-route-sortBy="@Context.Request.Query["sortBy"]"
+               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
                class="page-btn">
                 Next
             </a>

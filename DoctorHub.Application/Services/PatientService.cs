@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
@@ -46,9 +47,10 @@ namespace DoctorsHub.Application.Services
             return new PagedResult<PatientDto>
             {
                 Items = _mapper.Map<List<PatientDto>>(patients),
-                TotalRecords = TotalRecords,
                 PageNumber = patientQueryParameters.PageNumber,
-                PageSize = patientQueryParameters.PageSize
+                PageSize = patientQueryParameters.PageSize,
+                TotalCount  = TotalRecords,
+                TotalPages = (int)Math.Ceiling((double)TotalRecords / patientQueryParameters.PageSize)
             };
                
         }

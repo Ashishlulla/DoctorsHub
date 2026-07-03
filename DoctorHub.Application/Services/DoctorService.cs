@@ -1,13 +1,13 @@
-﻿using DoctorHub.Application.DTOs.Doctors;
+﻿using AutoMapper;
+using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorHub.Application.Services
 {
@@ -16,12 +16,14 @@ namespace DoctorHub.Application.Services
         //Private Feilds
         private readonly IDoctorRepository _doctorRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
 
         //Constructor
-        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager) 
+        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager, IMapper mapper) 
         {
             _doctorRepository  = doctorRepository;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public async Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto createDoctorDto)
@@ -33,7 +35,7 @@ namespace DoctorHub.Application.Services
                 throw new InvalidOperationException($"Doctor with Email: {createDoctorDto.Email}  already Exists.");
             }
 
-            var user = new ApplicationUser 
+            var user = new ApplicationUser
             {
                 UserName = createDoctorDto.Email,
                 Email = createDoctorDto.Email,
@@ -42,23 +44,23 @@ namespace DoctorHub.Application.Services
 
             var result = await _userManager.CreateAsync(user, createDoctorDto.Password);
 
-            if (!result.Succeeded) 
+            if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException(errors);
             }
             var roleResult = await _userManager.AddToRoleAsync(user, "Doctor");
 
-            if (!roleResult.Succeeded) 
+            if (!roleResult.Succeeded)
             {
                 var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
             }
-            var doctor = createDoctorDto.ToDoctor(user.Id);
+            var doctor = _mapper.Map<Doctor>(createDoctorDto);
 
             doctor = await _doctorRepository.AddAsync(doctor);
 
-            return doctor.ToDoctorDto();
-        }
+            return _mapper.Map<DoctorDto>(doctor); 
+         }
 
         public async Task DeleteDoctorAsync(int id)
         {
@@ -75,38 +77,14 @@ namespace DoctorHub.Application.Services
         {
             var doctors = await _doctorRepository.GetDoctorsAsync();
 
-            return doctors.Select(d => new DoctorDto
-            {
-                Id = d.Id,
-                FullName = d.FullName,
-                Qualification = d.Qualification,
-                ConsultationFee = d.ConsultationFee,
-                Email = d.User.Email?? string.Empty,
-                ExperienceYears = d.ExperienceYears,
-                SpecializationName  = d.Specialization.Name,
-                AverageRating = d.AverageRating,
-
-            }).ToList();
+            return _mapper.Map<List<DoctorDto>>(doctors);
         }
 
-        public async Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(string? searchBy=nameof(Doctor.FullName), string? searchString ="a", string? sortBy=nameof(Doctor.FullName), string? sortOrder="asc", int pageSize=5, int pageNumber=1)
+        public async Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(DoctorQueryParameters doctorQueryParameters)
         {
-            var (doctors, TotalRecords) = await _doctorRepository.GetAllDoctorsAsync(searchBy!, searchString, sortBy!, sortOrder!, pageSize, pageNumber);
+            var (doctors, TotalRecords) = await _doctorRepository.GetAllDoctorsAsync(doctorQueryParameters);
 
-            var doctlist = doctors.Select(d => new DoctorDto
-            {
-                Id = d.Id,
-                FullName = d.FullName,
-                Email = d.User?.Email ?? "N/A",
-                Qualification = d.Qualification,
-                ExperienceYears = d.ExperienceYears,
-                ConsultationFee = d.ConsultationFee,
-                SpecializationId = d.SpecializationId,
-
-                SpecializationName = d.Specialization != null
-        ? d.Specialization.Name
-        : "N/A"
-            }).ToList();
+            var doctlist = _mapper.Map<List<DoctorDto>>(doctors);
 
             return (doctlist, TotalRecords);
         }
@@ -120,7 +98,7 @@ namespace DoctorHub.Application.Services
                 throw new KeyNotFoundException($"No doctor exists with Id ={id}");
             }
 
-            return doctor.ToDoctorDto();
+            return _mapper.Map<DoctorDto>(doctor);
         }
 
         
@@ -134,7 +112,7 @@ namespace DoctorHub.Application.Services
                 throw new KeyNotFoundException($"No doctor exists with Id: {id}");
             }
 
-            doctor.UpdateDoctor(updateDoctorDto);
+            
            
 
             await _doctorRepository.UpdateDoctorAsync(doctor);

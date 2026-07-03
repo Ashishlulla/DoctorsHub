@@ -1,7 +1,4 @@
 ﻿using DoctorsHub.Domain.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DoctorHub.Application.DTOs.Doctors
 {
@@ -11,7 +8,8 @@ namespace DoctorHub.Application.DTOs.Doctors
 
         public string FullName { get; set; } = string.Empty;
 
-        public string Email { get; set; } = string.Empty;
+        public required ApplicationUser User { get; set; }
+        
         public string PhoneNumber {  get; set; } = string.Empty;
 
         public string Qualification { get; set; } = string.Empty;

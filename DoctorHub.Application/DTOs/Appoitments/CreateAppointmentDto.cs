@@ -8,7 +8,7 @@ namespace DoctorsHub.Application.DTOs.Appoitments
     {
         public int DoctorId { get; set; }
         public int PatientId { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public DateOnly AppointmentDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public string Reason { get; set; } = string.Empty;

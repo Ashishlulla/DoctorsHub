@@ -1,26 +1,31 @@
-﻿using DoctorsHub.Domain.Entities;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Domain.Entities;
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 {
     public interface IAppointmentRepository 
     {
+        //Bussiness Logic Function
         Task AddAsync(Appointment appointment);
         Task<List<Appointment>> GetAppointmentsAsync();
+
+        Task<(List<Appointment> Appointments, int TotalRecords)> GetAllAppointmentsAsync(AppointmentQueryParameter appointmentQueryParameter);
         Task<Appointment> GetByIdAsync(int id);
         Task UpdateAsync(Appointment appointment);
         Task DeleteAsync(int id);
 
 
+        //Scheduling Bussiness Logic Functions
         Task<bool> DoctorHasConflictingAppointmentAsync(
             int doctorId,
-            DateTime appointmentDate,
+            DateOnly appointmentDate,
             TimeSpan startTime,
             TimeSpan endTime,
             int? appointmentId = null);
 
         Task<bool> PatientHasConflictingAppointmentAsync(
             int patientId,
-            DateTime appointmentDate,
+            DateOnly appointmentDate,
             TimeSpan startTime,
             TimeSpan endTime,
             int? appointmentId = null);
@@ -28,5 +33,7 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task<bool> DoctorExistsAsync(int doctorId);
 
         Task<bool> PatientExistsAsync(int patientId);
+
+
     }
 }

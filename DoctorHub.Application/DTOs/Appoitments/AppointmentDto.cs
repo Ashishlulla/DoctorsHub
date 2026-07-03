@@ -13,7 +13,7 @@ namespace DoctorsHub.Application.DTOs.Appoitments
         
         public string PatientName { get; set; } = string.Empty;
         
-        public DateTime AppointmentDate { get; set; }
+        public DateOnly AppointmentDate { get; set; }
         
         public TimeSpan StartTime { get; set; }
         

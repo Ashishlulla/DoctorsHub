@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
@@ -23,8 +26,10 @@ namespace DoctorsHub.Application.Services
         public async Task CreateAppointmentAsync(CreateAppointmentDto createAppointmentDto)
         {
             //Past date validation
-            if (createAppointmentDto.AppointmentDate<DateTime.Today)
-                throw new ArgumentException("Appointment date cannot be in past");
+            if (createAppointmentDto.AppointmentDate < DateOnly.FromDateTime(DateTime.Today))
+            {
+                throw new ArgumentException("Appointment date cannot be in the past.");
+            }
 
             //Validation: Doctor Exists
             if (!await _appointmentRepository.DoctorExistsAsync(createAppointmentDto.DoctorId))
@@ -77,13 +82,20 @@ namespace DoctorsHub.Application.Services
             await _appointmentRepository.DeleteAsync(id);
         }
 
-        public async Task<List<AppointmentDto>> GetAllAppointmentsAsync()
+        public async Task<List<AppointmentDto>> GetAppointmentsAsync()
         {
            //fetching Appointments data from database
             var appointments = await _appointmentRepository.GetAppointmentsAsync();
             
             //Mapping List<Appoinment> to List<AppointmentDto> using Automapper
             return  _mapper.Map<List<AppointmentDto>>(appointments);
+        }
+
+        public async Task<(List<AppointmentDto> Appointments, int TotalRecords)> GetAllAppointmentsAsync(AppointmentQueryParameter appointmentQueryParameter)
+        {
+            var (appointments, TotalRecords) = await _appointmentRepository.GetAllAppointmentsAsync(appointmentQueryParameter);
+
+            return (_mapper.Map<List<AppointmentDto>>(appointments!), TotalRecords);
         }
 
         public async Task<AppointmentDto> GetAppointmentByIdAsync(int id)
@@ -124,8 +136,10 @@ namespace DoctorsHub.Application.Services
 
         public async Task UpdateAppointmentAsync(UpdateAppointmentDto updateAppointmentDto)
         {
-            if (updateAppointmentDto.AppointmentDate < DateTime.Today)
-                throw new ArgumentException("Appointment date cannot be in past");
+            if (updateAppointmentDto.AppointmentDate < DateOnly.FromDateTime(DateTime.Today))
+            {
+                throw new ArgumentException("Appointment date cannot be in the past.");
+            }
 
             if (!await _appointmentRepository.DoctorExistsAsync(updateAppointmentDto.DoctorId))
             {
@@ -149,11 +163,6 @@ namespace DoctorsHub.Application.Services
             if (patientBusy)
             {
                 throw new InvalidOperationException("Patient has an another appointment during this time.");
-            }
-
-            if (updateAppointmentDto.AppointmentDate < DateTime.Today)
-            {
-                throw new ArgumentException("Appointment date cannot be in the past.");
             }
 
             if (updateAppointmentDto.StartTime<TimeSpan.FromHours(9) || updateAppointmentDto.EndTime>TimeSpan.FromHours(18))

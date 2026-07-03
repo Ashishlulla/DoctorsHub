@@ -1,5 +1,7 @@
-﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Domain.Entities;
+using DoctorsHub.Domain.Enums;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,7 +42,7 @@ namespace DoctorsHub.Infrastructure.Repositories
             return await _db.Doctors.AnyAsync(p => p.Id == doctorId);
         }
 
-        public async Task<bool> DoctorHasConflictingAppointmentAsync(int doctorId, DateTime appointmentDate, TimeSpan startTime, TimeSpan endTime, int? appointmentId = null)
+        public async Task<bool> DoctorHasConflictingAppointmentAsync(int doctorId, DateOnly appointmentDate, TimeSpan startTime, TimeSpan endTime, int? appointmentId = null)
         {
             bool isConflicting = await _db.Appointments.AnyAsync(a =>
             a.DoctorId == doctorId &&
@@ -70,7 +72,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         }
 
-        public async Task<bool> PatientHasConflictingAppointmentAsync(int patientId, DateTime appointmentDate, TimeSpan startTime, TimeSpan endTime, int? appointmentId = null)
+        public async Task<bool> PatientHasConflictingAppointmentAsync(int patientId, DateOnly appointmentDate, TimeSpan startTime, TimeSpan endTime, int? appointmentId = null)
         {
             bool isConflicting = await _db.Appointments.AnyAsync(a=>
             a.PatientId == patientId && 
@@ -87,6 +89,82 @@ namespace DoctorsHub.Infrastructure.Repositories
         {
             _db.Appointments.Update(appointment);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<(List<Appointment> Appointments, int TotalRecords)> GetAllAppointmentsAsync(
+     AppointmentQueryParameter appointmentQueryParameter)
+        {
+            IQueryable<Appointment> query = _db.Appointments
+                .AsNoTracking()
+                .Include(d => d.Doctor)
+                .Include(p => p.Patient);
+
+            // Searching
+            switch (appointmentQueryParameter.searchBy)
+            {
+                case "DoctorName":
+                    if (!string.IsNullOrWhiteSpace(appointmentQueryParameter.searchString))
+                    {
+                        query = query.Where(a =>
+                            EF.Functions.Like(a.Doctor.FullName, $"%{appointmentQueryParameter.searchString}%"));
+                    }
+                    break;
+
+                case "PatientName":
+                    if (!string.IsNullOrWhiteSpace(appointmentQueryParameter.searchString))
+                    {
+                        query = query.Where(a =>
+                            EF.Functions.Like(a.Patient.FullName, $"%{appointmentQueryParameter.searchString}%"));
+                    }
+                    break;
+
+                case "AppointmentDate":
+                    if (DateOnly.TryParse(appointmentQueryParameter.searchString, out DateOnly appointmentDate))
+                    {
+                        query = query.Where(a => a.AppointmentDate == appointmentDate);
+                    }
+                    break;
+
+                case "Status":
+                    if (Enum.TryParse<AppointmentStatus>(
+                        appointmentQueryParameter.searchString,
+                        true,
+                        out AppointmentStatus status))
+                    {
+                        query = query.Where(a => a.Status == status);
+                    }
+                    break;
+            }
+
+            // Sorting
+            query = (appointmentQueryParameter.sortBy, appointmentQueryParameter.sortOrder?.ToLower()) switch
+            {
+                ("DoctorName", "asc") => query.OrderBy(a => a.Doctor.FullName),
+                ("DoctorName", "desc") => query.OrderByDescending(a => a.Doctor.FullName),
+
+                ("PatientName", "asc") => query.OrderBy(a => a.Patient.FullName),
+                ("PatientName", "desc") => query.OrderByDescending(a => a.Patient.FullName),
+
+                ("AppointmentDate", "asc") => query.OrderBy(a => a.AppointmentDate),
+                ("AppointmentDate", "desc") => query.OrderByDescending(a => a.AppointmentDate),
+
+                ("Status", "asc") => query.OrderBy(a => a.Status),
+                ("Status", "desc") => query.OrderByDescending(a => a.Status),
+
+                _ => query.OrderBy(a => a.AppointmentDate)
+                          .ThenBy(a => a.StartTime)
+            };
+
+            // Total Records
+            int totalRecords = await query.CountAsync();
+
+            // Pagination
+            List<Appointment> appointments = await query
+                .Skip((appointmentQueryParameter.PageNumber - 1) * appointmentQueryParameter.PageSize)
+                .Take(appointmentQueryParameter.PageSize)
+                .ToListAsync();
+
+            return (appointments, totalRecords);
         }
     }
 }

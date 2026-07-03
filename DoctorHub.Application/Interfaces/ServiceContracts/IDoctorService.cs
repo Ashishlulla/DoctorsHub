@@ -1,8 +1,5 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
-using DoctorsHub.Application.DTOs.Doctors;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using DoctorsHub.Application.DTOs.common;
 
 namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
@@ -11,14 +8,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto createDoctorDto);
         
         Task<List<DoctorDto>> GetAllDoctorsAsync();
-        Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(
-    string? searchBy,
-    string? searchString,
-    string? sortBy,
-    string? sortOrder,
-    int pageSize,
-    int pageNumber
-);
+        Task<(List<DoctorDto> Data, int TotalCount)> GetAllDoctorsAsync(DoctorQueryParameters doctorQueryParameters);
         Task<DoctorDto?> GetByIdAsync(int id);
        
         Task UpdateDoctorAsync(int id, UpdateDoctorDto updateDoctorDto);

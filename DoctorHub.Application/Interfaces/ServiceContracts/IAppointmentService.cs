@@ -1,4 +1,7 @@
 ﻿using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +12,11 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
     {
         Task CreateAppointmentAsync(CreateAppointmentDto createAppointmentDto);
 
-        Task<List<AppointmentDto>> GetAllAppointmentsAsync();
-
+        Task<List<AppointmentDto>> GetAppointmentsAsync();
+        
         Task<AppointmentDto> GetAppointmentByIdAsync(int id);
+
+        Task<(List<AppointmentDto> Appointments, int TotalRecords)> GetAllAppointmentsAsync(AppointmentQueryParameter appointmentQueryParameter);
 
         Task<UpdateAppointmentDto> GetAppointmentForUpdateByIdAsync(int id);
 

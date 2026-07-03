@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DoctorsHub.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace DoctorsHub.Domain.Entities
 
         public int PatientId { get; set; }
 
-        public DateTime AppointmentDate { get; set; }
+        public DateOnly AppointmentDate { get; set; }
 
         public TimeSpan StartTime { get; set; }
 
@@ -20,9 +21,13 @@ namespace DoctorsHub.Domain.Entities
 
         public string Reason { get; set; } = string.Empty;
 
-        public string Status { get; set; } = "Scheduled";
+        public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
 
         public string? Notes { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedAt { get; set; }
 
         // Navigation Properties
         public Doctor Doctor { get; set; } = null!;

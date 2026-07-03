@@ -11,7 +11,7 @@ namespace DoctorsHub.Application.DTOs.Appoitments
 
         public int PatientId { get; set; }
 
-        public DateTime AppointmentDate { get; set; }
+        public DateOnly AppointmentDate { get; set; }
 
         public TimeSpan StartTime { get; set; }
 

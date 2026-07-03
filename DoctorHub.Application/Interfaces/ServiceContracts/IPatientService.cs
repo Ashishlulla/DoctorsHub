@@ -1,4 +1,5 @@
 ﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.DTOs.Patients;
 using System;
 using System.Collections.Generic;

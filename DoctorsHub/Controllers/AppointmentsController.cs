@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,12 +22,24 @@ namespace DoctorsHub.Web.Controllers
         }
 
         //GET: Index Action Method
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(AppointmentQueryParameter appointmentqueryParameters)
         {
-            List <AppointmentDto> appointments = await _appointmentService.GetAllAppointmentsAsync();
+            var (appointments, TotalRecords) = await _appointmentService.GetAllAppointmentsAsync(appointmentqueryParameters);
+            PagedResult<AppointmentDto> result = new PagedResult<AppointmentDto> 
+            {
+                Items = appointments,
+                PageSize = appointmentqueryParameters.PageSize,
+                PageNumber = appointmentqueryParameters.PageNumber,
+                TotalCount = TotalRecords,
+                TotalPages = (int)Math.Ceiling((double) TotalRecords/ appointmentqueryParameters.PageSize)
+            };
+            ViewBag.QuerParameters = appointmentqueryParameters;
 
-           return View(appointments);
+            ViewBag.Count = appointments.Count;
+            ViewBag.Total = TotalRecords;
+            return View(result);
         }
+        
 
         //GET: Create Action Method
         public async Task<IActionResult> Create()
