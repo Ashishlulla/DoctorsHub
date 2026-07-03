@@ -186,5 +186,29 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.UpdateAsync(updatedAppointment);
         }
+
+        public async Task ConfirmedAppointmentAsync(int appointmentId)
+        {
+            Appointment? appointment = await _appointmentRepository.GetByIdAsync(appointmentId);
+
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException($"No appointment exist with appointment id : {appointmentId}");
+            }
+
+            await _appointmentRepository.ConfirmedAppointmentAync(appointmentId);
+        }
+
+        public async Task RescheduleAppointmentAsync(RescheduleAppointmentDto rescheduleAppointmentDto)
+        {
+            Appointment appointment = await _appointmentRepository.GetByIdAsync(rescheduleAppointmentDto.Id);
+
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException($"No appointment found id: {rescheduleAppointmentDto.Id}");
+            }
+
+            await _appointmentRepository.RescheduleAppointmentAsync(rescheduleAppointmentDto);
+        }
     }
 }

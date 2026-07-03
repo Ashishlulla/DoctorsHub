@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.DTOs.common;
+﻿using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Domain.Entities;
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
@@ -34,6 +35,9 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 
         Task<bool> PatientExistsAsync(int patientId);
 
+        Task ConfirmedAppointmentAync(int appointmentId);
+
+        Task RescheduleAppointmentAsync(RescheduleAppointmentDto rescheduleAppointmentDto);
 
     }
 }

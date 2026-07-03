@@ -137,12 +137,56 @@ namespace DoctorsHub.Web.Controllers
         [HttpPost]
         [ActionName(nameof(AppointmentsController.Delete))]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id) 
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _appointmentService.DeleteAppointmentAsync(id);
 
             TempData["Success"] = "Appointment deleted successfully.";
             return RedirectToAction(nameof(Index));
+
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Confirm(int id) 
+        {
+            await _appointmentService.ConfirmedAppointmentAsync(id);
+
+            TempData["Success"] = "Appointment Confirmed Successfully.";
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        public async Task<IActionResult> Reschedule(int id) 
+        {
+            AppointmentDto appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+
+            RescheduleAppointmentDto rescheduleAppointmentDto = new RescheduleAppointmentDto
+            {
+                Id = appointment.Id,
+                AppointmentDate = appointment.AppointmentDate,
+                StartTime = appointment.StartTime,
+                EndTime = appointment.EndTime
+            };
+
+            return View(rescheduleAppointmentDto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(rescheduleAppointmentDto);
+            }
+
+            await _appointmentService.RescheduleAppointmentAsync(rescheduleAppointmentDto);
+
+            TempData["Success"] = "Appointment rescheduled successfully";
+
+            return RedirectToAction(nameof(Details), new { rescheduleAppointmentDto.Id});
         }
     }
 }

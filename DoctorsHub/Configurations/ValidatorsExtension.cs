@@ -21,6 +21,7 @@ namespace DoctorsHub.Web.Configurations
             //Appointment DTOs Validators
             services.AddValidatorsFromAssemblyContaining<CreateAppointmentDto>();
             services.AddValidatorsFromAssemblyContaining<UpdateAppointmentDto>();
+            services.AddValidatorsFromAssemblyContaining<RescheduleAppointmentDto>();
 
             return services;
         }

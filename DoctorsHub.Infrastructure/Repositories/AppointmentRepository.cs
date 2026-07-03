@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.DTOs.common;
+﻿using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
@@ -165,6 +166,29 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ToListAsync();
 
             return (appointments, totalRecords);
+        }
+
+        public async Task ConfirmedAppointmentAync(int appointmentId)
+        {
+            Appointment? appointment = await _db.Appointments.FindAsync(appointmentId);
+
+            appointment!.Status = AppointmentStatus.Confirmed;
+
+            await _db.SaveChangesAsync();
+
+        }
+
+        public async Task RescheduleAppointmentAsync(RescheduleAppointmentDto rescheduleAppointmentDto)
+        {
+            Appointment? appointment = await _db.Appointments.FindAsync(rescheduleAppointmentDto.Id);
+
+            appointment.AppointmentDate = rescheduleAppointmentDto.AppointmentDate;
+            appointment.StartTime = rescheduleAppointmentDto.StartTime;
+            appointment.EndTime = rescheduleAppointmentDto.EndTime;
+
+            appointment.Status = AppointmentStatus.Confirmed;
+
+            await _db.SaveChangesAsync();
         }
     }
 }

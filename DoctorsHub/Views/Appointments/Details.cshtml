@@ -1,4 +1,5 @@
 ﻿@model AppointmentDetailsDto
+@using DoctorsHub.Domain.Enums
 
 @{
     ViewBag.Title = "Appointment Details";
@@ -6,11 +7,42 @@
 
 <div class="page-container">
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
     <!-- ===== HEADER ===== -->
     <div class="header">
         <h2>Appointment Details</h2>
 
         <div class="actions">
+
+            @if (Model.Status == AppointmentStatus.Scheduled)
+            {
+                <form asp-action="Confirm"
+                      asp-route-id="@Model.Id"
+                      method="post"
+                      style="display:inline;">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn-save">
+                        Confirm Appointment
+                    </button>
+                </form>
+            }
+            @if (Model.Status == AppointmentStatus.Confirmed)
+            {
+                <a asp-action="Reschedule"
+                   asp-route-id="@Model.Id"
+                   class="btn-save">
+                    Reschedule
+                </a>
+            }
+
             <a asp-action="Edit"
                asp-route-id="@Model.Id"
                class="btn-save">

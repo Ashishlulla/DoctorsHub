@@ -1,4 +1,5 @@
 ﻿using DoctorsHub.Domain.Entities;
+using DoctorsHub.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace DoctorsHub.Application.DTOs.Appoitments
 
         public string Reason { get; set; } = string.Empty;
 
-        public string Status { get; set; } = string.Empty;
+        public AppointmentStatus Status { get; set; } =AppointmentStatus.Scheduled;
 
         public string? Notes { get; set; }
 

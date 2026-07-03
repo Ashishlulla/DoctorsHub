@@ -24,5 +24,9 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task UpdateAppointmentAsync(UpdateAppointmentDto updateAppointmentDto);
 
         Task DeleteAppointmentAsync(int id);
+
+        Task ConfirmedAppointmentAsync(int appointmentId);
+
+        Task RescheduleAppointmentAsync(RescheduleAppointmentDto rescheduleAppointmentDto);
     }
 }
