@@ -1,4 +1,6 @@
+using DoctorsHub.Application.Configuration;
 using DoctorsHub.Domain.Identity;
+using DoctorsHub.Infrastructure.Configurations;
 using DoctorsHub.Web.Configurations;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,13 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Adding Required Services
-builder.Services.AddApplicationDbContext(builder.Configuration);
-builder.Services.AddIdentityService();
-builder.Services.AddApplicationServices();
-builder.Services.AddValidatorsService();
-builder.Services.AddAutoMapperServices();
 
+
+//Adding Required Services
+builder.Services.AddApplication();
+builder.Services.AddIdentityService();
+builder.Services.AddInfrastructure(builder.Configuration);
+
+
+//Swagger Services
 var app = builder.Build();
 
 
@@ -29,18 +33,17 @@ using (var scope = app.Services.CreateScope())
     await IdentitySeeder.SeedRolesAndAdminAsync(roleManager, useManager);
 }
     // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseMigrationsEndPoint();
-    }
-    else
-    {
+    if (!app.Environment.IsDevelopment())
+    { 
         app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
     }
 
+   
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthentication();

@@ -1,0 +1,6 @@
+@DoctorsHub.API_HostAddress = http://localhost:5118
+
+GET {{DoctorsHub.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

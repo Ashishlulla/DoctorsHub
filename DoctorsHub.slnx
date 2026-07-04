@@ -3,6 +3,7 @@
     <File Path=".gitignore" />
   </Folder>
   <Project Path="DoctorHub.Application/DoctorsHub.Application.csproj" />
+  <Project Path="DoctorsHub.API/DoctorsHub.API.csproj" Id="878b87e1-5601-4402-af8a-e5d8999399df" />
   <Project Path="DoctorsHub.Domain/DoctorsHub.Domain.csproj" />
   <Project Path="DoctorsHub.Infrastructure/DoctorsHub.Infrastructure.csproj" />
   <Project Path="DoctorsHub/DoctorsHub.Web.csproj" />
