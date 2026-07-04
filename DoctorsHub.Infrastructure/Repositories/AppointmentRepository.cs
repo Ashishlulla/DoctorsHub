@@ -190,5 +190,21 @@ namespace DoctorsHub.Infrastructure.Repositories
 
             await _db.SaveChangesAsync();
         }
+
+        public async Task CancelAppointmentAsync(int appointmentId)
+        {
+            Appointment? appointment = await _db.Appointments.FindAsync(appointmentId);
+            appointment!.Status = AppointmentStatus.Cancelled;
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task CompletedAppointmentAsync(int appointmentId)
+        {
+            Appointment? appointment = await _db.Appointments.FindAsync(appointmentId);
+            appointment!.Status = AppointmentStatus.Completed;
+
+            await _db.SaveChangesAsync();
+        }
     }
 }

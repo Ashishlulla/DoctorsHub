@@ -188,5 +188,36 @@ namespace DoctorsHub.Web.Controllers
 
             return RedirectToAction(nameof(Details), new { rescheduleAppointmentDto.Id});
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancel(int id) 
+        {
+            try
+            {
+                await _appointmentService.CancelAppointmentAsync(id);
+            }
+            catch (Exception ex) 
+            {
+                TempData["Error"] = ex;
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Complete(int id) 
+        {
+            try
+            {
+                await _appointmentService.CompletedAppointmentAsync(id);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex;
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
     }
 }

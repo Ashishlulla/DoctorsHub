@@ -13,6 +13,12 @@
             @TempData["Success"]
         </div>
     }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert-danger">
+            @TempData["Error"]
+        </div>
+    }
 
     <!-- ===== HEADER ===== -->
     <div class="header">
@@ -20,6 +26,7 @@
 
         <div class="actions">
 
+            @* Confirm Appointment *@
             @if (Model.Status == AppointmentStatus.Scheduled)
             {
                 <form asp-action="Confirm"
@@ -34,6 +41,8 @@
                     </button>
                 </form>
             }
+
+            @* Reschedule Appointment *@
             @if (Model.Status == AppointmentStatus.Confirmed)
             {
                 <a asp-action="Reschedule"
@@ -43,16 +52,59 @@
                 </a>
             }
 
-            <a asp-action="Edit"
-               asp-route-id="@Model.Id"
-               class="btn-save">
-                Edit
-            </a>
+            @* Complete Appointment *@
+            @if (Model.Status == AppointmentStatus.Confirmed)
+            {
+                <form asp-action="Complete"
+                      asp-route-id="@Model.Id"
+                      method="post"
+                      style="display:inline;">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn-save"
+                            onclick="return confirm('Are you sure you want to complete this appointment?');">
+                        Complete Appointment
+                    </button>
+                </form>
+            }
+
+            @* Cancel Appointment *@
+            @if (Model.Status == AppointmentStatus.Scheduled ||
+                 Model.Status == AppointmentStatus.Confirmed)
+            {
+                <form asp-action="Cancel"
+                      asp-route-id="@Model.Id"
+                      method="post"
+                      style="display:inline;">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn-delete"
+                            onclick="return confirm('Are you sure you want to cancel this appointment?');">
+                        Cancel Appointment
+                    </button>
+                </form>
+            }
+
+            @* Edit only while appointment is active *@
+            @if (Model.Status != AppointmentStatus.Cancelled &&
+                 Model.Status != AppointmentStatus.Completed)
+            {
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="btn-save">
+                    Edit
+                </a>
+            }
 
             <a asp-action="Index"
                class="btn-cancel">
                 Back
             </a>
+
         </div>
     </div>
 

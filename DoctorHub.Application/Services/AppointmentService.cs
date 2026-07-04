@@ -6,6 +6,7 @@ using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
+using DoctorsHub.Domain.Enums;
 
 
 namespace DoctorsHub.Application.Services
@@ -209,6 +210,45 @@ namespace DoctorsHub.Application.Services
             }
 
             await _appointmentRepository.RescheduleAppointmentAsync(rescheduleAppointmentDto);
+        }
+
+        public async Task CancelAppointmentAsync(int appointmentId)
+        {
+            Appointment appointment = await _appointmentRepository.GetByIdAsync(appointmentId);
+
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException($"No appointment found  with appointment id: {appointmentId} .");
+            }
+
+            if (appointment.Status == AppointmentStatus.Completed)
+            {
+                throw new InvalidOperationException("Completed appointments cannot be cancelled.");
+            }
+            if (appointment.Status == AppointmentStatus.Cancelled)
+            {
+                throw new InvalidOperationException("Apointment is already cancelled");
+            }
+
+            await _appointmentRepository.CancelAppointmentAsync(appointmentId);
+        }
+
+        public async Task CompletedAppointmentAsync(int appoinmentId)
+        {
+            Appointment? appointment = await _appointmentRepository.GetByIdAsync(appoinmentId);
+
+            if (appointment == null)
+            {
+                throw new KeyNotFoundException($"No appointmen found wth id: {appoinmentId}");
+            }
+            if (appointment.Status == AppointmentStatus.Cancelled)
+            {
+                throw new InvalidOperationException("Cancelled Appointments cannot be marked as comleted");
+            }
+
+            appointment.Status = AppointmentStatus.Completed;
+
+            await _appointmentRepository.CompletedAppointmentAsync(appoinmentId);
         }
     }
 }
