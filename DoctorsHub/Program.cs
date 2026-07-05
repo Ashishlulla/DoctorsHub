@@ -16,6 +16,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddApplication();
 builder.Services.AddIdentityService();
 builder.Services.AddInfrastructure(builder.Configuration);
+//builder.Services.AddHttpClientServices();
 
 
 //Swagger Services
