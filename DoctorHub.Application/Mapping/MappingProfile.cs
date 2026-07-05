@@ -27,7 +27,13 @@ namespace DoctorsHub.Application.Mapping
             //Appointment Mapping
             CreateMap <CreateAppointmentDto, Appointment>();
             CreateMap<UpdateAppointmentDto, Appointment>();
-            CreateMap<Appointment, AppointmentDto>();
+            CreateMap<Appointment, AppointmentDto>()
+            .ForMember(dest => dest.DoctorName,
+                opt => opt.MapFrom(src => src.Doctor.FullName))
+            .ForMember(dest => dest.PatientName,
+                opt => opt.MapFrom(src => src.Patient.FullName))
+            .ForMember(dest => dest.Status,
+                opt => opt.MapFrom(src => src.Status.ToString()));
             CreateMap<Appointment, UpdateAppointmentDto>();
             CreateMap<Appointment, AppointmentDetailsDto>();
         }

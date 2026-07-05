@@ -22,8 +22,6 @@ namespace DoctorsHub.Application.DTOs.Appoitments
         public string Status { get; set; } = string.Empty;
         public string Reason { get; set; } = string.Empty;
 
-        public Doctor Doctor { get; set; } = null!;
-
-        public Patient Patient { get; set; } = null!;
+       
     }
 }

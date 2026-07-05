@@ -1,7 +1,4 @@
 ﻿using DoctorsHub.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DoctorsHub.Domain.Entities
 {
@@ -12,7 +9,6 @@ namespace DoctorsHub.Domain.Entities
         public int DoctorId { get; set; }
 
         public int PatientId { get; set; }
-
         public DateOnly AppointmentDate { get; set; }
 
         public TimeSpan StartTime { get; set; }
