@@ -56,6 +56,7 @@ namespace DoctorHub.Application.Services
                 var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
             }
             var doctor = _mapper.Map<Doctor>(createDoctorDto);
+            doctor.UserId= user.Id;
 
             doctor = await _doctorRepository.AddAsync(doctor);
 
@@ -112,8 +113,9 @@ namespace DoctorHub.Application.Services
                 throw new KeyNotFoundException($"No doctor exists with Id: {id}");
             }
 
-            
-           
+
+
+            _mapper.Map(updateDoctorDto, doctor);
 
             await _doctorRepository.UpdateDoctorAsync(doctor);
         }

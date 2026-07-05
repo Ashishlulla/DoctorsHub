@@ -18,7 +18,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet]
-        public async  Task<IActionResult> GetAllPatients() 
+        public async  Task<IActionResult> GetAllPatientsAsync() 
         {
             List<PatientDto> patients = await _patientService.GetAllPatientsAsync();
 
@@ -26,7 +26,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPatientById(int id)
+        public async Task<IActionResult> GetPatientByIdAsync(int id)
         {
             PatientDto patient = await _patientService.GetPatientByIdAsync(id);
 
@@ -35,7 +35,7 @@ namespace DoctorsHub.API.Controllers
 
         [HttpPost]
         
-        public async Task<IActionResult> CreatePatient([FromBody]CreatePatientDto createPatientDto)
+        public async Task<IActionResult> CreatePatientAsync([FromBody]CreatePatientDto createPatientDto)
         {
             await _patientService.CreatePatientAsync(createPatientDto);
 
@@ -57,7 +57,7 @@ namespace DoctorsHub.API.Controllers
             });
         }
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatient(int id) 
+        public async Task<IActionResult> DeletePatientAsync(int id) 
         {
             await _patientService.DeletePatientAsync(id);
 

@@ -26,6 +26,7 @@ namespace DoctorsHub.API.Middleware
                 {
                     StatusCode = context.Response.StatusCode,
                     Message= ex.Message,
+                    InnerException = ex.InnerException?.Message
                 });
             }
         }
