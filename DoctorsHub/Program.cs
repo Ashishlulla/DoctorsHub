@@ -13,7 +13,7 @@ builder.Services.AddControllersWithViews();
 
 
 //Adding Required Services
-builder.Services.AddApplication();
+//builder.Services.AddApplication();
 builder.Services.AddIdentityService();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpClientServices(builder.Configuration);

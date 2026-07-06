@@ -1,6 +1,7 @@
 ﻿using DoctorHub.Application.Services;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Application.Services;
+using DoctorsHub.Web.Services;
 
 namespace DoctorsHub.Web.Configurations
 {
@@ -23,6 +24,18 @@ namespace DoctorsHub.Web.Configurations
             {
                 client.BaseAddress = new Uri(configuration["MyAPI:BaseUrl"]!);
             });
+
+
+            services.AddHttpClient<DoctorApiService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["MyAPI:BaseUrl"]!);
+            });
+
+            services.AddHttpClient<SpecializationApiService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["MyAPI:BaseUrl"]!);
+            });
+
 
 
             return services;

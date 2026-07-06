@@ -18,10 +18,11 @@ namespace DoctorHub.Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
+
         //Constructor
-        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager, IMapper mapper) 
+        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
-            _doctorRepository  = doctorRepository;
+            _doctorRepository = doctorRepository;
             _userManager = userManager;
             _mapper = mapper;
         }

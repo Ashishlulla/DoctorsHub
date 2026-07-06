@@ -1,9 +1,8 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
-using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-using DoctorsHub.Domain.Entities;
+using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
@@ -14,14 +13,14 @@ namespace DoctorsHub.Web.Controllers
     public class DoctorController : Controller
     {
         //Private Feilds
-        private readonly IDoctorService _doctorService;
-        private readonly ISpecializationService _specializationService;
+        private readonly DoctorApiService _doctorApiService;
+        private readonly SpecializationApiService _specializationApiService;
 
         //Constructor
-        public DoctorController(IDoctorService doctorService, ISpecializationService specializationService) 
+        public DoctorController(DoctorApiService doctorApiService, SpecializationApiService specializationApiService) 
         {
-            _doctorService = doctorService;
-            _specializationService = specializationService;
+            _doctorApiService = doctorApiService;
+            _specializationApiService = specializationApiService;
         }
 
 
@@ -30,15 +29,15 @@ namespace DoctorsHub.Web.Controllers
         [Route("/")]
         public async Task<IActionResult> Index(DoctorQueryParameters doctorQueryParameters)
         {
-            var (data, totalCount) = await _doctorService.GetAllDoctorsAsync(doctorQueryParameters);
+            List<DoctorDto> doctors = await _doctorApiService.GetAllDoctorsAsync();
 
             var result = new PagedResult<DoctorDto>
             {
-                Items = data,
-                PageSize = doctorQueryParameters.PageSize,
+                Items = doctors,
+                PageSize = doctors.Count(),
                 PageNumber = doctorQueryParameters.PageNumber,
-                TotalCount = totalCount,
-                TotalPages = (int)Math.Ceiling((double)totalCount / doctorQueryParameters.PageSize)
+                TotalCount = doctors.Count,
+                TotalPages = (int)Math.Ceiling((double)doctors.Count() / doctorQueryParameters.PageSize)
             };
 
             ViewBag.searchBy = doctorQueryParameters.searchBy;
@@ -50,11 +49,10 @@ namespace DoctorsHub.Web.Controllers
         }
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Create() 
+        public async Task<IActionResult> Create()
         {
-            
-            var specializations = await _specializationService.GetAllSpecialization();
 
+            var specializations = await _specializationApiService.GetAllSpecializationsAsync();
             ViewBag.Specializations = new SelectList(
                 specializations,
                 "Id",
@@ -66,14 +64,20 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Create(CreateDoctorDto createDoctorDto) 
+        public async Task<IActionResult> Create(CreateDoctorDto createDoctorDto)
         {
             if (!ModelState.IsValid)
             {
+                var specializations = await _specializationApiService.GetAllSpecializationsAsync();
+                ViewBag.Specializations = new SelectList(
+                    specializations,
+                    "Id",
+                    "Name"
+                    );
                 return View(createDoctorDto);
             }
 
-            await _doctorService.CreateDoctorAsync(createDoctorDto);
+            await _doctorApiService.CreateDoctorAsync(createDoctorDto);
 
             TempData["Success"] = "Doctor created successfully.";
             return RedirectToAction(nameof(Index));
@@ -81,36 +85,31 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Details(int id) 
+        public async Task<IActionResult> Details(int id)
         {
-            var doctor = await _doctorService.GetByIdAsync(id);
-
-            if (doctor == null)
-            {
-                return NotFound();                
-            }
+            DoctorDto doctor = await _doctorApiService.GetDoctorByIdAsync(id);
 
             return View(doctor);
         }
 
         [HttpGet]
         [Route("[action]/{id}")]
-       
+
         public async Task<IActionResult> Edit(int id)
         {
-            var doctor = await _doctorService.GetByIdAsync(id);
+            var doctor = await _doctorApiService.GetDoctorByIdAsync(id);
 
             if (doctor == null)
                 return NotFound();
 
             ViewBag.Specializations = new SelectList(
-                await _specializationService.GetAllSpecialization(),
+                await _specializationApiService.GetAllSpecializationsAsync(),
                 "Id",
                 "Name",
                 doctor.SpecializationId
             );
 
-            var model = new UpdateDoctorDto 
+            var model = new UpdateDoctorDto
             {
                 Id = doctor.Id,
                 FullName = doctor.FullName,
@@ -128,23 +127,20 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]/{id}")]
-        public async Task<IActionResult> Edit(int id, UpdateDoctorDto updateDoctorDto) 
+        public async Task<IActionResult> Edit(int id, UpdateDoctorDto updateDoctorDto)
         {
             if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    ViewBag.Specializations = new SelectList(
-                        await _specializationService.GetAllSpecialization(),
-                        "Id",
-                        "Name",
-                        updateDoctorDto.SpecializationId
-                    );
+                ViewBag.Specializations = new SelectList(
+                    await _specializationApiService.GetAllSpecializationsAsync(),
+                    "Id",
+                    "Name",
+                    updateDoctorDto.SpecializationId
+                );
 
-                    return View(updateDoctorDto);
-                }
+                return View(updateDoctorDto);   
             }
-            await _doctorService.UpdateDoctorAsync(id, updateDoctorDto);
+            await _doctorApiService.UpdateDoctorAsync(updateDoctorDto);
 
             TempData["Success"] = "Doctor updated successfully.";
             return RedirectToAction(nameof(Index));
@@ -154,8 +150,8 @@ namespace DoctorsHub.Web.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            var doctor =  await _doctorService.GetByIdAsync(id);
-        
+            var doctor = await _doctorApiService.GetDoctorByIdAsync(id);
+
 
             return View(doctor);
         }
@@ -165,7 +161,7 @@ namespace DoctorsHub.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _doctorService.DeleteDoctorAsync(id);
+            await _doctorApiService.DeleteDoctorAsync(id);
 
             TempData["Success"] = "Doctor Deleted Successfully.";
 
