@@ -1,4 +1,6 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -20,12 +22,29 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDoctorsAsync()
+        public async Task<IActionResult> GetDoctorsAsync([FromQuery]DoctorQueryParameters doctorQueryParameters)
+        {
+             var (doctors, ToalRecords) = await _doctorService.GetAllDoctorsAsync(doctorQueryParameters);
+
+            return Ok(new PagedResult<DoctorDto>
+            {
+                Items = doctors,
+                PageNumber = doctorQueryParameters.PageNumber,
+                PageSize = doctorQueryParameters.PageSize,
+                TotalCount = ToalRecords,
+                TotalPages = (int)Math.Ceiling((double) ToalRecords/doctorQueryParameters.PageSize)
+            });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDoctors() 
         {
             List<DoctorDto> doctors = await _doctorService.GetAllDoctorsAsync();
 
             return Ok(doctors);
         }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDoctorByIdAsync(int id) 
         {

@@ -29,23 +29,16 @@ namespace DoctorsHub.Web.Controllers
         [Route("/")]
         public async Task<IActionResult> Index(DoctorQueryParameters doctorQueryParameters)
         {
-            List<DoctorDto> doctors = await _doctorApiService.GetAllDoctorsAsync();
+            PagedResult<DoctorDto> doctors = await _doctorApiService.GetAllDoctorsAsync(doctorQueryParameters);
 
-            var result = new PagedResult<DoctorDto>
-            {
-                Items = doctors,
-                PageSize = doctors.Count(),
-                PageNumber = doctorQueryParameters.PageNumber,
-                TotalCount = doctors.Count,
-                TotalPages = (int)Math.Ceiling((double)doctors.Count() / doctorQueryParameters.PageSize)
-            };
+            
 
             ViewBag.searchBy = doctorQueryParameters.searchBy;
             ViewBag.searchString = doctorQueryParameters.searchString;
             ViewBag.sortBy = doctorQueryParameters.sortBy;
             ViewBag.sortOrder = doctorQueryParameters.sortOrder;
 
-            return View(result);
+            return View(doctors);
         }
         [HttpGet]
         [Route("[action]")]
