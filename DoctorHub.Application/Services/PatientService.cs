@@ -39,7 +39,7 @@ namespace DoctorsHub.Application.Services
            await _patientRepository.DeleteAsync(id);
         }
 
-        public async Task<PagedResult<PatientDto>> GetAllPatientAsync(PatientQueryParameters patientQueryParameters)
+        public async Task<PagedResult<PatientDto>> GetAllPatientsAsync(PatientQueryParameters patientQueryParameters)
         {
             var(patients, TotalRecords) = await _patientRepository.GetAllPatientsAsync(patientQueryParameters);
             

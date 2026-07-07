@@ -1,4 +1,6 @@
-﻿using DoctorsHub.Application.DTOs.Patients;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Application.DTOs.Patients;
 
 
 namespace DoctorsHub.Web.Services
@@ -16,12 +18,23 @@ namespace DoctorsHub.Web.Services
 
         public async Task<List<PatientDto>> GetAllPatientsAsync() 
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("api/patients");
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/patients/all");
             response.EnsureSuccessStatusCode();
 
             List<PatientDto>?  patients= await response.Content.ReadFromJsonAsync<List<PatientDto>>();
 
             return patients ?? new List<PatientDto>();
+        }
+
+        public async Task<PagedResult<PatientDto>> GetAllPatientsAsync(PatientQueryParameters patientQueryParameters) 
+        {
+            string url = $"/api/patients?searchBy={patientQueryParameters.searchBy}&searchString={patientQueryParameters.searchString}&sortBy={patientQueryParameters.sortBy}&sortOrder={patientQueryParameters.sortOrder}&PageSize={patientQueryParameters.PageSize}&PageNumber={patientQueryParameters.PageNumber}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            PagedResult<PatientDto>? pagedResult = await response.Content.ReadFromJsonAsync<PagedResult<PatientDto>>();
+
+            return pagedResult ?? new PagedResult<PatientDto>();
         }
 
         public async Task<PatientDto> GetPatientByIdAsync(int id)

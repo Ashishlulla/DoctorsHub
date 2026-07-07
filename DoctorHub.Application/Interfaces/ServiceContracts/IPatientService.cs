@@ -13,7 +13,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
 
         Task<List<PatientDto>> GetAllPatientsAsync();
 
-        Task<PagedResult<PatientDto>> GetAllPatientAsync(PatientQueryParameters patientQueryParameters);
+        Task<PagedResult<PatientDto>> GetAllPatientsAsync(PatientQueryParameters patientQueryParameters);
         
         Task<PatientDto> GetPatientByIdAsync(int id);
         

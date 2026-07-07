@@ -36,7 +36,7 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetDoctors() 
         {
             List<DoctorDto> doctors = await _doctorService.GetAllDoctorsAsync();

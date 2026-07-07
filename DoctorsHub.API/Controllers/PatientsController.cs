@@ -1,4 +1,6 @@
-﻿using DoctorsHub.Application.DTOs.Patients;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +19,21 @@ namespace DoctorsHub.API.Controllers
             _patientService = patientService;
         }
 
-        [HttpGet]
-        public async  Task<IActionResult> GetAllPatientsAsync() 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllPatientsAsync() 
         {
             List<PatientDto> patients = await _patientService.GetAllPatientsAsync();
 
             return Ok(patients);
+        }
+
+        [HttpGet]
+        public async Task<PagedResult<PatientDto>> GetAllPatientsAsync([FromQuery] PatientQueryParameters 
+        patientQueryParameters) 
+        {
+            var data = await _patientService.GetAllPatientsAsync(patientQueryParameters);
+
+            return data;
         }
 
         [HttpGet("{id}")]
