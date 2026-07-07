@@ -3,12 +3,18 @@ using DoctorsHub.API.Middleware;
 using DoctorsHub.Application.Configuration;
 using DoctorsHub.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Diagnostics;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter());
+    });
 
 //Adding services
 builder.Services.AddApplication();

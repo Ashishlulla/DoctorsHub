@@ -90,7 +90,11 @@
             }
 
             @* Edit only while appointment is active *@
-            @if (Model.Status != AppointmentStatus.Cancelled &&
+            @if (Model == null)
+            {
+                <p>Model is null</p>
+            }
+            @if (Model!.Status != AppointmentStatus.Cancelled &&
                  Model.Status != AppointmentStatus.Completed)
             {
                 <a asp-action="Edit"
@@ -114,11 +118,11 @@
         <div class="doctor-profile">
 
             <div class="doctor-avatar">
-                @(Model.Patient.FullName.Substring(0, 1))
+                @(Model.DoctorName.Substring(0, 1))
             </div>
 
             <div class="doctor-info">
-                <h3>@Model.Patient.FullName</h3>
+                <h3>@Model.PatientName</h3>
 
                 <p class="specialization">
                     Appointment
@@ -132,12 +136,12 @@
 
             <div class="detail-item">
                 <span class="label">Patient</span>
-                <span class="value">@Model.Patient.FullName</span>
+                <span class="value">@Model.PatientName</span>
             </div>
 
             <div class="detail-item">
                 <span class="label">Doctor</span>
-                <span class="value">@Model.Doctor.FullName</span>
+                <span class="value">@Model.DoctorName</span>
             </div>
 
             <div class="detail-item">

@@ -2,6 +2,7 @@
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
@@ -9,34 +10,31 @@ namespace DoctorsHub.Web.Controllers
     public class AppointmentsController : Controller
     {
         //private feilds
-        private readonly IAppointmentService _appointmentService;
-        private readonly IPatientService _patientService;
-        private readonly IDoctorService _doctorService;
+        private readonly AppointmentApiService _appointmentApiService;
+        private readonly PatientApiService _patientApiService;
+        private readonly DoctorApiService _doctorApiService;
 
         //constructor
-        public AppointmentsController(IAppointmentService appointmentService, IPatientService patientService, IDoctorService doctorService)
+        public AppointmentsController(AppointmentApiService appointmentApiService, PatientApiService patientApiService, DoctorApiService doctorApiService)
         {
-            _appointmentService = appointmentService;
-            _patientService = patientService;
-            _doctorService = doctorService;
+            _appointmentApiService = appointmentApiService;
+            _patientApiService = patientApiService;
+            _doctorApiService = doctorApiService;
         }
 
         //GET: Index Action Method
-        public async Task<IActionResult> Index(AppointmentQueryParameter appointmentqueryParameters)
+        public async Task<IActionResult> Index()
         {
-            var (appointments, TotalRecords) = await _appointmentService.GetAllAppointmentsAsync(appointmentqueryParameters);
+             List<AppointmentDto> appointments = await _appointmentApiService.GetAllAppointmentsAsync();
             PagedResult<AppointmentDto> result = new PagedResult<AppointmentDto> 
             {
                 Items = appointments,
-                PageSize = appointmentqueryParameters.PageSize,
-                PageNumber = appointmentqueryParameters.PageNumber,
-                TotalCount = TotalRecords,
-                TotalPages = (int)Math.Ceiling((double) TotalRecords/ appointmentqueryParameters.PageSize)
+                PageSize = appointments.Count(),
+                PageNumber = 1,
+                TotalCount = appointments.Count(),
+                TotalPages = 1
             };
-            ViewBag.QuerParameters = appointmentqueryParameters;
 
-            ViewBag.Count = appointments.Count;
-            ViewBag.Total = TotalRecords;
             return View(result);
         }
         
@@ -45,8 +43,8 @@ namespace DoctorsHub.Web.Controllers
         public async Task<IActionResult> Create()
         {
             
-            ViewBag.Patients = await _patientService.GetAllPatientsAsync();
-            ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+            ViewBag.Patients = await _patientApiService.GetAllPatientsAsync();
+            ViewBag.Doctors = await _doctorApiService.GetAllDoctorsAsync();
 
             return View(new CreateAppointmentDto());
         }
@@ -58,13 +56,14 @@ namespace DoctorsHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
-                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+                ViewBag.Patients = await _patientApiService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorApiService.GetAllDoctorsAsync();
+
                 return View(createAppointmentDto);
             }
             try
             {
-                await _appointmentService.CreateAppointmentAsync(createAppointmentDto);
+                await _appointmentApiService.CreateAppointmentAsync(createAppointmentDto);
 
                 TempData["Success"] = "Appointment created successfully..";
                 return RedirectToAction(nameof(AppointmentsController.Index));
@@ -73,8 +72,9 @@ namespace DoctorsHub.Web.Controllers
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
 
-                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
-                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+                ViewBag.Patients = await _patientApiService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorApiService.GetAllDoctorsAsync();
+
                 return View(createAppointmentDto);
 
             }
@@ -84,9 +84,10 @@ namespace DoctorsHub.Web.Controllers
         //GET: Edit Action Method
         public async Task<IActionResult> Edit(int id) 
         {
-            var appointment = await _appointmentService.GetAppointmentForUpdateByIdAsync(id);
-            ViewBag.Patients = await _patientService.GetAllPatientsAsync();
-            ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+            var appointment = await _appointmentApiService.GetAppointmentForUpdateAsync(id);
+
+            ViewBag.Patients = await _patientApiService.GetAllPatientsAsync();
+            ViewBag.Doctors = await _doctorApiService.GetAllDoctorsAsync();
             return View(appointment);
         }
 
@@ -97,13 +98,13 @@ namespace DoctorsHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
-                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+                ViewBag.Patients = await _patientApiService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorApiService.GetAllDoctorsAsync();
 
                 return View(updateAppointmentDto);
             }
             try { 
-                await _appointmentService.UpdateAppointmentAsync(updateAppointmentDto);
+                await _appointmentApiService.UpdateAppointmentAsync(updateAppointmentDto);
 
                 TempData["Success"] = "Appointment updated successfully..";
 
@@ -113,8 +114,9 @@ namespace DoctorsHub.Web.Controllers
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
 
-                ViewBag.Patients = await _patientService.GetAllPatientsAsync();
-                ViewBag.Doctors = await _doctorService.GetAllDoctorsAsync();
+                ViewBag.Patients = await _patientApiService.GetAllPatientsAsync();
+                ViewBag.Doctors = await _doctorApiService.GetAllDoctorsAsync();
+
                 return View(updateAppointmentDto);
 
             }
@@ -122,14 +124,14 @@ namespace DoctorsHub.Web.Controllers
         //GET: Details Action Method
         public async Task<IActionResult> Details(int id) 
         {
-            AppointmentDetailsDto appointmentDetails = await _appointmentService.GetAppointmentForDetailsByIdAsync(id);
+            AppointmentDetailsDto appointmentDetails = await _appointmentApiService.GetAppointmentForDetailsAsync(id);
             return View(appointmentDetails);
         }
 
         //GET: Delete Action Method
         public async Task<IActionResult> Delete(int id) 
         {
-            AppointmentDto appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+            AppointmentDto appointment = await _appointmentApiService.GetAppointmentByIdAsync(id);
             return View(appointment);
         }
 
@@ -139,7 +141,7 @@ namespace DoctorsHub.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _appointmentService.DeleteAppointmentAsync(id);
+            await _appointmentApiService.DeleteAppointmentAsync(id);
 
             TempData["Success"] = "Appointment deleted successfully.";
             return RedirectToAction(nameof(Index));
@@ -151,7 +153,7 @@ namespace DoctorsHub.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Confirm(int id) 
         {
-            await _appointmentService.ConfirmedAppointmentAsync(id);
+            await _appointmentApiService.ConfirmAppointmentAsync(id);
 
             TempData["Success"] = "Appointment Confirmed Successfully.";
 
@@ -160,7 +162,7 @@ namespace DoctorsHub.Web.Controllers
 
         public async Task<IActionResult> Reschedule(int id) 
         {
-            AppointmentDto appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+            AppointmentDto appointment = await _appointmentApiService.GetAppointmentByIdAsync(id);
 
             RescheduleAppointmentDto rescheduleAppointmentDto = new RescheduleAppointmentDto
             {
@@ -175,14 +177,14 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto) 
+        public async Task<IActionResult> Reschedule([FromBody]RescheduleAppointmentDto rescheduleAppointmentDto) 
         {
             if (!ModelState.IsValid)
             {
                 return View(rescheduleAppointmentDto);
             }
 
-            await _appointmentService.RescheduleAppointmentAsync(rescheduleAppointmentDto);
+            await _appointmentApiService.RescheduleAppointmentAsync(rescheduleAppointmentDto);
 
             TempData["Success"] = "Appointment rescheduled successfully";
 
@@ -195,11 +197,13 @@ namespace DoctorsHub.Web.Controllers
         {
             try
             {
-                await _appointmentService.CancelAppointmentAsync(id);
+                await _appointmentApiService.CancelAppointmentAsync(id);
+                TempData["Success"] = "Appointment cancelled successfully";
+                return RedirectToAction(nameof(Details), new { id });
             }
             catch (Exception ex) 
             {
-                TempData["Error"] = ex;
+                TempData["Error"] = ex.Message;
             }
 
             return RedirectToAction(nameof(Details), new { id });
@@ -210,11 +214,11 @@ namespace DoctorsHub.Web.Controllers
         {
             try
             {
-                await _appointmentService.CompletedAppointmentAsync(id);
+                await _appointmentApiService.CompleteAppointmentAsync(id);
             }
             catch (Exception ex)
             {
-                TempData["Error"] = ex;
+                TempData["Error"] = ex.Message;
             }
 
             return RedirectToAction(nameof(Details), new { id });

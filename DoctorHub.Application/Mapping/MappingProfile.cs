@@ -31,11 +31,12 @@ namespace DoctorsHub.Application.Mapping
             .ForMember(dest => dest.DoctorName,
                 opt => opt.MapFrom(src => src.Doctor.FullName))
             .ForMember(dest => dest.PatientName,
-                opt => opt.MapFrom(src => src.Patient.FullName))
-            .ForMember(dest => dest.Status,
-                opt => opt.MapFrom(src => src.Status.ToString()));
+                opt => opt.MapFrom(src => src.Patient.FullName));
+            
             CreateMap<Appointment, UpdateAppointmentDto>();
             CreateMap<Appointment, AppointmentDetailsDto>();
+            CreateMap<AppointmentDto, AppointmentDetailsDto>();
+            CreateMap<AppointmentDto, UpdateAppointmentDto>();
         }
     }
 }

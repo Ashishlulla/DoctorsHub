@@ -1,7 +1,9 @@
 ﻿using DoctorsHub.Domain.Entities;
+using DoctorsHub.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DoctorsHub.Application.DTOs.Appoitments
 {
@@ -18,8 +20,9 @@ namespace DoctorsHub.Application.DTOs.Appoitments
         public TimeSpan StartTime { get; set; }
         
         public TimeSpan EndTime { get; set; }
-       
-        public string Status { get; set; } = string.Empty;
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
         public string Reason { get; set; } = string.Empty;
 
        

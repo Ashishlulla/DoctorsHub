@@ -12,6 +12,10 @@ namespace DoctorsHub.Application.DTOs.Appoitments
 
         public DateOnly AppointmentDate { get; set; }
 
+
+        public string DoctorName { get; set; } = string.Empty;
+        public string PatientName { get; set; } = string.Empty;
+
         public TimeSpan StartTime { get; set; }
 
         public TimeSpan EndTime { get; set; }
@@ -21,9 +25,5 @@ namespace DoctorsHub.Application.DTOs.Appoitments
         public AppointmentStatus Status { get; set; } =AppointmentStatus.Scheduled;
 
         public string? Notes { get; set; }
-
-        public Doctor Doctor { get; set; } = null!;
-
-        public Patient Patient { get; set; } = null!;
     }
 }

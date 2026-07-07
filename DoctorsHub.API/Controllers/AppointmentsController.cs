@@ -73,5 +73,53 @@ namespace DoctorsHub.API.Controllers
                 AppointmentId = id
             });
         }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Confirm(int id) 
+        {
+            await _appointmentService.ConfirmedAppointmentAsync(id);
+
+            return Ok(new
+            {
+                Message = "Congratulation your appointment got confirmed",
+                AppointmentId = id
+            });
+        }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Cancel(int id) 
+        {
+            await _appointmentService.CancelAppointmentAsync(id);
+
+            return Ok(new
+            {
+                Message = "Appointment cancelled successfully.",
+                AppointmentId = id
+            });
+        }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Complete(int id)
+        {
+            await _appointmentService.CompletedAppointmentAsync(id);
+
+            return Ok(new
+            {
+                Message = "Appointment completed successfully.",
+                AppointmentId = id
+            });
+        }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto)
+        {
+            await _appointmentService.RescheduleAppointmentAsync(rescheduleAppointmentDto); ;
+
+            return Ok(new
+            {
+                Message = "Appointment reschedule successfully.",
+                AppointmentId = rescheduleAppointmentDto.Id
+            });
+        }
     }
 }
