@@ -27,7 +27,7 @@ namespace DoctorsHub.Web.Services
 
         public async Task<List<DoctorDto>> GetAllDoctorsAsync() 
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/doctors");
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/doctors/all");
             response.EnsureSuccessStatusCode();
 
             List<DoctorDto>? doctors = await response.Content.ReadFromJsonAsync<List<DoctorDto>>();
