@@ -1,4 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +21,24 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAppointments()
+        public async Task<IActionResult> GetAppointmentsAsync([FromQuery]AppointmentQueryParameter appointmentQueryParameter) 
+        {
+           var(appointmens, TotalRecords) = await _appointmentService.GetAllAppointmentsAsync(appointmentQueryParameter);
+
+            return Ok(new PagedResult<AppointmentDto>
+            {
+                Items = appointmens,
+                PageSize = appointmentQueryParameter.PageSize,
+                PageNumber = appointmentQueryParameter.PageNumber,
+                TotalCount = TotalRecords,
+                TotalPages = (int)Math.Ceiling((double)TotalRecords / appointmentQueryParameter.PageSize)
+            });
+        }
+
+
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllAppointmentsAsync()
         {
             var appointments = await _appointmentService.GetAppointmentsAsync();
 
@@ -28,7 +47,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAppointments(int id)
+        public async Task<IActionResult> GetAppointmentById(int id)
         {
             var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
 

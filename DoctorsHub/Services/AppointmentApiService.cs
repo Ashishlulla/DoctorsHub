@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 
 namespace DoctorsHub.Web.Services
 {
@@ -21,9 +23,22 @@ namespace DoctorsHub.Web.Services
             HttpResponseMessage response = await _httpClient.GetAsync("/api/appointments");
             response.EnsureSuccessStatusCode();
 
-            List<AppointmentDto> appointments = await  response.Content.ReadFromJsonAsync<List<AppointmentDto>>();
+            List<AppointmentDto>? appointments = await  response.Content.ReadFromJsonAsync<List<AppointmentDto>>();
 
             return appointments ?? new List<AppointmentDto>();
+        }
+
+        public async Task<PagedResult<AppointmentDto>> GetAppointmentsAsync(AppointmentQueryParameter appointmentQueryParameter) 
+        {
+            string Url = $"/api/appointments?searchBy={appointmentQueryParameter.searchBy}&searchString={appointmentQueryParameter.searchString}&sortBy={appointmentQueryParameter.sortBy}&sortOrder={appointmentQueryParameter.sortOrder}&PageSize={appointmentQueryParameter.PageSize}&PageNumber={appointmentQueryParameter.PageNumber}";
+
+
+            HttpResponseMessage response = await _httpClient.GetAsync(Url);
+            response.EnsureSuccessStatusCode() ;
+
+            PagedResult<AppointmentDto>? appointments = await response.Content.ReadFromJsonAsync<PagedResult<AppointmentDto>>();
+
+            return appointments?? new PagedResult<AppointmentDto>();
         }
 
         public async Task<AppointmentDto> GetAppointmentByIdAsync(int id) 

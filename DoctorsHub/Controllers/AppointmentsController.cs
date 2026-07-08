@@ -23,19 +23,11 @@ namespace DoctorsHub.Web.Controllers
         }
 
         //GET: Index Action Method
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] AppointmentQueryParameter appointmentQueryParameter)
         {
-             List<AppointmentDto> appointments = await _appointmentApiService.GetAllAppointmentsAsync();
-            PagedResult<AppointmentDto> result = new PagedResult<AppointmentDto> 
-            {
-                Items = appointments,
-                PageSize = appointments.Count(),
-                PageNumber = 1,
-                TotalCount = appointments.Count(),
-                TotalPages = 1
-            };
-
-            return View(result);
+             PagedResult<AppointmentDto> appointments = await _appointmentApiService.GetAppointmentsAsync(appointmentQueryParameter);
+       
+             return View(appointments);
         }
         
 

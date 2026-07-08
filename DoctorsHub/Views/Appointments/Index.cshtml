@@ -22,7 +22,8 @@
 
         <!-- Search By -->
         <select name="searchBy">
-            <option value="FullName" selected="@(Context.Request.Query["searchBy"] == "FullName")">Full Name</option>
+            <option value="PatientName" selected="@(Context.Request.Query["searchBy"] == "PatientName")">Patient Name</option>
+            <option value="DoctorName" selected="@(Context.Request.Query["searchBy"] == "DoctorName")">Doctor Name</option>
             <option value="Email" selected="@(Context.Request.Query["searchBy"] == "Email")">Email</option>
             <option value="PhoneNumber" selected="@(Context.Request.Query["searchBy"] == "PhoneNumber")">Phone Number</option>
             <option value="BloodGroup" selected="@(Context.Request.Query["searchBy"] == "BloodGroup")">Blood Group</option>
@@ -36,7 +37,8 @@
 
         <!-- Sort By -->
         <select name="sortBy">
-            <option value="FullName" selected="@(Context.Request.Query["sortBy"] == "FullName")">Name</option>
+            <option value="PaientName" selected="@(Context.Request.Query["sortBy"] == "PatientName")">Patient Name</option>
+            <option value="DoctorName" selected="@(Context.Request.Query["sortBy"] == "DoctorName")">Doctor Name</option>
             <option value="DateOfBirth" selected="@(Context.Request.Query["sortBy"] == "DateOfBirth")">Date of Birth</option>
             <option value="BloodGroup" selected="@(Context.Request.Query["sortBy"] == "BloodGroup")">Blood Group</option>
         </select>
