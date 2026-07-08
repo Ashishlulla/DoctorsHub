@@ -21,6 +21,7 @@ namespace DoctorsHub.Application.Configuration
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<ISpecializationService, SpecializationService>();
+            services.AddScoped<ICRMService, CRMService>();
 
 
             //Adding Validators services
