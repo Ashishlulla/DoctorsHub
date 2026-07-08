@@ -21,8 +21,15 @@ namespace DoctorsHub.Web.Services
             DashBoardDto? dashBoardData = await response.Content.ReadFromJsonAsync<DashBoardDto>();
 
             return dashBoardData ?? new DashBoardDto();
-
         }
+        public async Task<List<RecentAppointmentsDto>> GetRecentAppointmentsAsync() 
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/recent");
+            response.EnsureSuccessStatusCode();
 
+            List<RecentAppointmentsDto>? recentAppointments = await response.Content.ReadFromJsonAsync<List<RecentAppointmentsDto>>();
+
+            return recentAppointments ?? new List<RecentAppointmentsDto>();
+        }
     }
 }

@@ -71,4 +71,65 @@
 
     </div>
 
+    <!-- Recent Appointments -->
+    <div class="table-container" style="margin-top:30px;">
+
+        <div class="header" style="margin-bottom:20px;">
+            <h2>Recent Appointments</h2>
+        </div>
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.RecentAppointments.Any())
+                {
+                    @foreach (var appointment in Model.RecentAppointments)
+                    {
+                        <tr>
+                            <td>@appointment.PatientName</td>
+
+                            <td>@appointment.DoctorName</td>
+
+                            <td>@appointment.AppointmentDate.ToString("dd MMM yyyy")</td>
+
+                            <td>
+                                @appointment.startTime.ToString(@"hh\:mm")
+                                -
+                                @appointment.EndTime.ToString(@"hh\:mm")
+                            </td>
+
+                            <td>@appointment.Status</td>
+
+                            <td>@appointment.reason</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            No recent appointments found.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
 </div>

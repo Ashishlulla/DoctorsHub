@@ -10,20 +10,28 @@ namespace DoctorsHub.API.Controllers
     public class DashBoardController : ControllerBase
     {
         //Private Feilds 
-        private readonly ICRMService _cRMService;
+        private readonly ICRMService _crmService;
 
         //Constructor
-        public DashBoardController(ICRMService cRMService) 
+        public DashBoardController(ICRMService crmService) 
         {
-            _cRMService = cRMService;
+            _crmService = crmService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetDashBoardAsync() 
         {
-            DashBoardDto dashBoardData = await _cRMService.GetDashBoardAsync();
+            DashBoardDto dashBoardData = await _crmService.GetDashBoardAsync();
 
             return Ok(dashBoardData);
+        }
+
+        [HttpGet("recent")]
+        public async Task<IActionResult> GetRecentAppoitment() 
+        {
+            List<RecentAppointmentsDto> recentAppointments = await _crmService.GetRecentAppointmentsAsync();
+
+            return Ok(recentAppointments);
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using DoctorsHub.Application.DTOs.CRM;
+﻿using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.CRM;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
+using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,7 @@ namespace DoctorsHub.Infrastructure.Repositories
     {
         //PrivateFeild
         private readonly ApplicationDbContext _db;
+         
 
         //Constructor
         public CRMRepository(ApplicationDbContext db) 
@@ -33,6 +36,13 @@ namespace DoctorsHub.Infrastructure.Repositories
                 AverageDoctorRating = await _db.Doctors.AverageAsync(d=>d.AverageRating),
                 ScheduleAppointments = await _db.Appointments.CountAsync(s=>s.Status ==AppointmentStatus.Scheduled)
             };
+        }
+
+        public async Task<List<Appointment>> RecentAppointmentsAsync()
+        {
+            List<Appointment> recentAppointments = await _db.Appointments.Include(p=>p.Patient).Include(d=>d.Doctor).Where(a => a.Status == AppointmentStatus.Completed).Take(5).ToListAsync();
+
+            return recentAppointments;
         }
     }
 }

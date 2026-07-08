@@ -14,5 +14,6 @@ namespace DoctorsHub.Application.DTOs.CRM
         public int CancelledAppointments { get; set; }
         public decimal TotalRevenue { get; set; }
         public double AverageDoctorRating { get; set; }
+        public List<RecentAppointmentsDto> RecentAppointments { get; set; } = new List<RecentAppointmentsDto>();
     }
 }
