@@ -49,5 +49,13 @@ namespace DoctorsHub.API.Controllers
 
             return Ok(todayAppointments);
         }
+
+        [HttpGet("schedule")]
+        public async Task<IActionResult> GetScheduledAppointmentsAsync()
+        {
+            List<ScheduledAppointmentsDto> scheduledAppointments = await _crmService.GetScheduledAppointmentsAsync();
+
+            return Ok(scheduledAppointments);
+        }
     }
 }

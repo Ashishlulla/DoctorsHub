@@ -8,9 +8,17 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 {
     public interface ICRMRepository
     {
+        
         Task<DashBoardDto> GetDashBoardAsync();
+        
         Task<List<Appointment>> GetRecentAppointmentsAsync();
+        
         Task<List<Appointment>> GetUpcomingAppointmentsAsync();
+        
         Task<List<Appointment>> GetTodaysAppointmentsAsync();
+
+        Task<List<Appointment>> GetScheduledApointmentsAsync();
+
+
     }
 }

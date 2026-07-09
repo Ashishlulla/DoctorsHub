@@ -71,7 +71,7 @@
 
     </div>
 
-    <!-- Upcoming Appointments -->
+    <!-- Todays Appointments -->
     <div class="table-container" style="margin-top:30px;">
 
         <div class="header" style="margin-bottom:20px;">
@@ -130,6 +130,75 @@
                     <tr>
                         <td colspan="6" class="text-center">
                             No appointments today.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Scheduled Appointments -->
+    <div class="table-container" style="margin-top:30px;">
+
+        <div class="header" style="margin-bottom:20px;">
+            <h2>Scheduled Appointments</h2>
+        </div>
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.ScheduledAppointmentsList.Any())
+                {
+                    @foreach (var appointment in Model.ScheduledAppointmentsList)
+                    {
+                        <tr>
+
+                            <td>@appointment.PatientName</td>
+
+                            <td>@appointment.DoctorName</td>
+
+                            <td>@appointment.AppointmentDate.ToString("dd MMM yyyy")</td>
+
+                            <td>
+                                @appointment.startTime.ToString(@"hh\:mm")
+                                -
+                                @appointment.EndTime.ToString(@"hh\:mm")
+                            </td>
+
+                            <td>@appointment.Status</td>
+
+                            <td>
+                                <a asp-controller="Appointments"
+                                   asp-action="Details"
+                                   asp-route-id="@appointment.id"
+                                   class="btn-edit">
+                                    Details
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            No Scheduled found.
                         </td>
                     </tr>
                 }

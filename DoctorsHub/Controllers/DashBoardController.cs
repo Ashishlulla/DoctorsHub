@@ -20,13 +20,15 @@ namespace DoctorsHub.Web.Controllers
             var recentAppointments = _crmApiService.GetRecentAppointmentsAsync();
             var upcomingAppointments = _crmApiService.GetUpcomingAppointmentsAsync();
             var todaysAppointments = _crmApiService.GetTodaysAppointmentsAsync();
+            var scheduledAppointments = _crmApiService.GetScheduledAppointmentsAsync();
 
-            await Task.WhenAll(dashBoardData, recentAppointments, upcomingAppointments, todaysAppointments);
+            await Task.WhenAll(dashBoardData, recentAppointments, upcomingAppointments, todaysAppointments, scheduledAppointments);
 
             DashBoardDto data = await dashBoardData;
             data.RecentAppointments = await recentAppointments;
             data.UpcomingAppointments= await upcomingAppointments;
             data.TodayAppointments = await todaysAppointments;
+            data.ScheduledAppointmentsList = await scheduledAppointments;
 
             return View(data);
 
