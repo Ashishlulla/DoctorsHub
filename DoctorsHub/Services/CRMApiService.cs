@@ -42,5 +42,16 @@ namespace DoctorsHub.Web.Services
 
             return  upcomingAppointments?? new List<UpcomingAppointmentsDto>();
         }
+
+        public async Task<List<TodayAppointmentsDto>> GetTodaysAppointmentsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/today");
+            response.EnsureSuccessStatusCode();
+
+            List<TodayAppointmentsDto>? todaysAppointments = await response.Content.ReadFromJsonAsync<List<TodayAppointmentsDto>>();
+
+
+            return todaysAppointments ?? new List<TodayAppointmentsDto>();
+        }
     }
 }

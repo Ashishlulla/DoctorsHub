@@ -45,6 +45,11 @@ namespace DoctorsHub.Infrastructure.Repositories
             return recentAppointments;
         }
 
+        public async Task<List<Appointment>> GetTodaysAppointmentsAsync()
+        {
+            return await _db.Appointments.Include(p => p.Patient).Include(d => d.Doctor).Where(a => a.AppointmentDate == DateOnly.FromDateTime(DateTime.Today)).ToListAsync();
+        }
+
         public async Task<List<Appointment>> GetUpcomingAppointmentsAsync()
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Today)

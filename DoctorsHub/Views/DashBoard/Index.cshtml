@@ -75,6 +75,75 @@
     <div class="table-container" style="margin-top:30px;">
 
         <div class="header" style="margin-bottom:20px;">
+            <h2>Todays Appointments</h2>
+        </div>
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.TodayAppointments.Any())
+                {
+                    @foreach (var appointment in Model.TodayAppointments)
+                    {
+                        <tr>
+
+                            <td>@appointment.PatientName</td>
+
+                            <td>@appointment.DoctorName</td>
+
+                            <td>@appointment.AppointmentDate.ToString("dd MMM yyyy")</td>
+
+                            <td>
+                                @appointment.startTime.ToString(@"hh\:mm")
+                                -
+                                @appointment.EndTime.ToString(@"hh\:mm")
+                            </td>
+
+                            <td>@appointment.Status</td>
+
+                            <td>
+                                <a asp-controller="Appointments"
+                                   asp-action="Details"
+                                   asp-route-id="@appointment.id"
+                                   class="btn-edit">
+                                    Details
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            No appointments today.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Upcoming Appointments -->
+    <div class="table-container" style="margin-top:30px;">
+
+        <div class="header" style="margin-bottom:20px;">
             <h2>Upcoming Appointments</h2>
         </div>
 
@@ -209,159 +278,3 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @model DashBoardDto
-
-@{
-    ViewData["Title"] = "Dashboard";
-}
-
-<div class="page-container">
-
-    <!-- Header -->
-    <div class="header">
-        <h2>CRM Dashboard</h2>
-
-        <div class="actions">
-            <a asp-controller="Appointments"
-               asp-action="Create"
-               class="btn-save"
-               style="text-decoration:none">
-                + New Appointment
-            </a>
-        </div>
-    </div>
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert-success">
-            @TempData["Success"]
-        </div>
-    }
-
-    <div class="dashboard-grid">
-
-        <div class="dashboard-card">
-            <h4>Total Doctors</h4>
-            <h2>@Model.TotalDoctors</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Total Patients</h4>
-            <h2>@Model.TotalPatients</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Total Appointments</h4>
-            <h2>@Model.TotalAppointments</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Completed</h4>
-            <h2>@Model.CompletedAppointments</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Schedule Appointments</h4>
-            <h2>@Model.ScheduleAppointments</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Cancelled</h4>
-            <h2>@Model.CancelledAppointments</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Total Revenue</h4>
-            <h2>₹@Model.TotalRevenue.ToString("N2")</h2>
-        </div>
-
-        <div class="dashboard-card">
-            <h4>Average Rating</h4>
-            <h2>@Model.AverageDoctorRating.ToString("0.0") ⭐</h2>
-        </div>
-
-    </div>
-
-    <!-- Recent Appointments -->
-    <div class="table-container" style="margin-top:30px;">
-
-        <div class="header" style="margin-bottom:20px;">
-            <h2>Recent Appointments</h2>
-        </div>
-
-        <table class="table">
-
-            <thead>
-                <tr>
-                    <th>Patient</th>
-                    <th>Doctor</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Reason</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                @if (Model.RecentAppointments.Any())
-                {
-                    @foreach (var appointment in Model.RecentAppointments)
-                    {
-                        <tr>
-                            <td>@appointment.PatientName</td>
-
-                            <td>@appointment.DoctorName</td>
-
-                            <td>@appointment.AppointmentDate.ToString("dd MMM yyyy")</td>
-
-                            <td>
-                                @appointment.startTime.ToString(@"hh\:mm")
-                                -
-                                @appointment.EndTime.ToString(@"hh\:mm")
-                            </td>
-
-                            <td>@appointment.Status</td>
-
-                            <td>@appointment.reason</td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            No recent appointments found.
-                        </td>
-                    </tr>
-                }
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-
-</div> *@

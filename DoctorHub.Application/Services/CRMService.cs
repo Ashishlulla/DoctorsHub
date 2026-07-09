@@ -38,6 +38,13 @@ namespace DoctorsHub.Application.Services
             return recentAppointments;
         }
 
+        public async Task<List<TodayAppointmentsDto>> GetTodaysAppointmentAsync()
+        {
+            var appointments = await _crmRepository.GetTodaysAppointmentsAsync();
+
+            return _mapper.Map<List<TodayAppointmentsDto>>(appointments);
+        }
+
         public async Task<List<UpcomingAppointmentsDto>> GetUpcomingAppointmentsAsync()
         {
             List<Appointment> appointments = await _crmRepository.GetUpcomingAppointmentsAsync();

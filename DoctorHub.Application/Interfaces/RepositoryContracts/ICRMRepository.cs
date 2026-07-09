@@ -11,5 +11,6 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task<DashBoardDto> GetDashBoardAsync();
         Task<List<Appointment>> GetRecentAppointmentsAsync();
         Task<List<Appointment>> GetUpcomingAppointmentsAsync();
+        Task<List<Appointment>> GetTodaysAppointmentsAsync();
     }
 }

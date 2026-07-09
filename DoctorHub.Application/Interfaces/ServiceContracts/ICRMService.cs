@@ -12,6 +12,8 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<List<RecentAppointmentsDto>> GetRecentAppointmentsAsync();
 
         Task<List<UpcomingAppointmentsDto>> GetUpcomingAppointmentsAsync();
+
+        Task<List<TodayAppointmentsDto>> GetTodaysAppointmentAsync();
     }
 
 }

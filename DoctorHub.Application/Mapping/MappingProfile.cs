@@ -49,6 +49,11 @@ namespace DoctorsHub.Application.Mapping
                 .ForMember(dest => dest.DoctorName,
                 opt => opt.MapFrom(src => src.Doctor.FullName))
                 .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FullName));
+            
+            CreateMap<Appointment, TodayAppointmentsDto>()
+                .ForMember(dest => dest.DoctorName,
+                opt => opt.MapFrom(src => src.Doctor.FullName))
+                .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FullName));
 
         }
     }
