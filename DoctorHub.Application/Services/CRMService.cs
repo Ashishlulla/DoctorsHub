@@ -8,6 +8,7 @@ using System.Text;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using System.Diagnostics;
 using AutoMapper;
+using DoctorsHub.Domain.Entities;
 
 namespace DoctorsHub.Application.Services
 {
@@ -30,11 +31,18 @@ namespace DoctorsHub.Application.Services
 
         public async Task<List<RecentAppointmentsDto>> GetRecentAppointmentsAsync()
         {
-            var data = await _crmRepository.RecentAppointmentsAsync();
+            var data = await _crmRepository.GetRecentAppointmentsAsync();
 
             List<RecentAppointmentsDto> recentAppointments = _mapper.Map<List<RecentAppointmentsDto>>(data);
 
             return recentAppointments;
+        }
+
+        public async Task<List<UpcomingAppointmentsDto>> GetUpcomingAppointmentsAsync()
+        {
+            List<Appointment> appointments = await _crmRepository.GetUpcomingAppointmentsAsync();
+
+            return _mapper.Map<List<UpcomingAppointmentsDto>>(appointments);
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace DoctorsHub.Infrastructure.Repositories
 {
-    public class CRMRepository :ICRMRepository
+    public class CRMRepository : ICRMRepository
     {
         //PrivateFeild
         private readonly ApplicationDbContext _db;
@@ -38,11 +38,26 @@ namespace DoctorsHub.Infrastructure.Repositories
             };
         }
 
-        public async Task<List<Appointment>> RecentAppointmentsAsync()
+        public async Task<List<Appointment>> GetRecentAppointmentsAsync()
         {
             List<Appointment> recentAppointments = await _db.Appointments.Include(p=>p.Patient).Include(d=>d.Doctor).Where(a => a.Status == AppointmentStatus.Completed).Take(5).ToListAsync();
 
             return recentAppointments;
+        }
+
+        public async Task<List<Appointment>> GetUpcomingAppointmentsAsync()
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Today)
+                ;
+            return await _db.Appointments
+                .Include(d => d.Doctor)
+                .Include(p => p.Patient)
+                .Where(a => a.AppointmentDate >= today 
+                && a.Status !=AppointmentStatus.Completed 
+                && a.Status !=AppointmentStatus.Cancelled)
+                .OrderBy(a=>a.AppointmentDate)
+                .ThenBy(a=>a.StartTime)
+                .ToListAsync();
         }
     }
 }
