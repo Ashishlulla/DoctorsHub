@@ -32,5 +32,7 @@ namespace DoctorsHub.Application.DTOs.CRM
         public List<ScheduledAppointmentsDto> ScheduledAppointmentsList { get; set; } = new List<ScheduledAppointmentsDto>();
 
         public List<AppointmentStatusChartDto> appointmentStatusChart { get; set; } = new List<AppointmentStatusChartDto>();
+
+        public List<MonthlyAppointmentChartDto> monthlyAppointmentChart { get; set; } = new List<MonthlyAppointmentChartDto>();
     }
 }

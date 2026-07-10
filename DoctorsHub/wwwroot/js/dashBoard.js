@@ -1,4 +1,6 @@
-﻿const chartData = window.appointmentStatusData;
+﻿
+
+const chartData = window.appointmentStatusData;
 
 console.log(chartData);
 
@@ -15,6 +17,35 @@ new Chart(ctx, {
     data: {
         labels: labels,
         datasets: [{ data: values }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+
+//Line Chart
+const lineChartData = window.monthlyappointments;
+
+const monthNames = [
+    "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+const lineLabels = lineChartData.map(x => monthNames[parseInt(x.Month)]);
+const lineValues = lineChartData.map(x => x.Count);
+
+const lineChart = document.getElementById("monthlyAppointmentsChart");
+
+new Chart(lineChart, {
+    type: "line",
+    data: {
+        labels: lineLabels,
+        datasets: [{
+            label: "Appointments",
+            data: lineValues
+        }]
     },
     options: {
         responsive: true,

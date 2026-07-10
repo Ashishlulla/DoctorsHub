@@ -348,21 +348,38 @@
 
 </div>
 
-      @* Charts *@
-<div class="card shadow-sm chart-card">
-    <div class="card-header">
-        <h5>Appointment Status</h5>
-    </div>
+<div class="charts">
 
-    <div class="card-body">
-        <div class="chart-container">
-            <canvas id="appointmentStatusChart"></canvas>
+    @* Pie Chart *@
+    <div class="card shadow-sm chart-card">
+        <div class="card-header">
+            <h5>Appointment Status</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="chart-container">
+                <canvas id="appointmentStatusChart"></canvas>
+            </div>
         </div>
     </div>
+
+    @* Line Chart *@
+    <div class="card shadow-sm chart-card">
+        <div class="card-header">
+            <h5>Monthly Appointments</h5>
+        </div>
+
+        <div class="card-body">
+            <canvas id="monthlyAppointmentsChart"></canvas>
+        </div>
+    </div>
+
 </div>
 
 <script>
     window.appointmentStatusData = @Html.Raw(JsonSerializer.Serialize(Model.appointmentStatusChart));
+    window.monthlyappointments = @Html.Raw(JsonSerializer.Serialize(Model.monthlyAppointmentChart));
+
 </script>
 
 @section Scripts{

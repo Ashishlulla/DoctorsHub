@@ -7,6 +7,7 @@ using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace DoctorsHub.Infrastructure.Repositories
@@ -49,6 +50,20 @@ namespace DoctorsHub.Infrastructure.Repositories
                 AverageDoctorRating = await _db.Doctors.AverageAsync(d=>d.AverageRating),
                 ScheduleAppointments = await _db.Appointments.CountAsync(s=>s.Status ==AppointmentStatus.Scheduled)
             };
+        }
+
+        public async Task<List<MonthlyAppointmentChartDto>> GetMonthlyAppointmentChartAsync()
+        {
+            return await _db.Appointments.
+                Where(a => a.AppointmentDate.Year == DateOnly.FromDateTime(DateTime.Today).Year)
+                .GroupBy(a => a.AppointmentDate.Month)
+                .Select(g => new MonthlyAppointmentChartDto
+                {
+                    Month = g.Key.ToString(),
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Month)
+                .ToListAsync();
         }
 
         public async Task<List<Appointment>> GetRecentAppointmentsAsync()

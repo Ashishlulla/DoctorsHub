@@ -35,6 +35,11 @@ namespace DoctorsHub.Application.Services
             return await _crmRepository.GetDashBoardAsync();
         }
 
+        public async Task<List<MonthlyAppointmentChartDto>> GetMonthlyAppointmentChartAsync()
+        {
+            return await _crmRepository.GetMonthlyAppointmentChartAsync();
+        }
+
         public async Task<List<RecentAppointmentsDto>> GetRecentAppointmentsAsync()
         {
             var data = await _crmRepository.GetRecentAppointmentsAsync();
