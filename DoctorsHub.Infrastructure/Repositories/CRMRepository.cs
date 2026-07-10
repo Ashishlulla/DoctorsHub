@@ -23,6 +23,19 @@ namespace DoctorsHub.Infrastructure.Repositories
             _db = db;
         }
 
+        public async Task<List<AppointmentStatusChartDto>> GetAppointmentsStatusChartAsync()
+        {
+            var data = await _db.Appointments
+                .GroupBy(a => a.Status)
+                .Select(g => new AppointmentStatusChartDto
+                {
+                    Status = g.Key,
+                    Count = g.Count()
+                }).ToListAsync();
+
+            return data;
+        }
+
         public async Task<DashBoardDto> GetDashBoardAsync()
         {
             return new DashBoardDto 

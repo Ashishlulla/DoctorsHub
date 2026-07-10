@@ -1,7 +1,5 @@
 ﻿using DoctorsHub.Application.DTOs.CRM;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
@@ -16,6 +14,8 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<List<TodayAppointmentsDto>> GetTodaysAppointmentAsync();
 
         Task<List<ScheduledAppointmentsDto>> GetScheduledAppointmentsAsync();
+
+        Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync();
     }
 
 }

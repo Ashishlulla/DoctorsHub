@@ -64,5 +64,15 @@ namespace DoctorsHub.Web.Services
 
             return scheduledAppointments ?? new List<ScheduledAppointmentsDto>();
         }
+
+        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync() 
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/appointmentstatuschart");
+            response.EnsureSuccessStatusCode();
+
+            List<AppointmentStatusChartDto>? appointmentStatusCharts = await response.Content.ReadFromJsonAsync<List<AppointmentStatusChartDto>>();
+
+            return appointmentStatusCharts ?? new List<AppointmentStatusChartDto>();
+        }
     }
 }

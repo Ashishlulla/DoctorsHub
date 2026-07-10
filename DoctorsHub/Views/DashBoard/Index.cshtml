@@ -347,3 +347,24 @@
     </div>
 
 </div>
+
+      @* Charts *@
+<div class="card shadow-sm chart-card">
+    <div class="card-header">
+        <h5>Appointment Status</h5>
+    </div>
+
+    <div class="card-body">
+        <div class="chart-container">
+            <canvas id="appointmentStatusChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.appointmentStatusData = @Html.Raw(JsonSerializer.Serialize(Model.appointmentStatusChart));
+</script>
+
+@section Scripts{
+    <script src="~/js/dashBoard.js"></script>
+}

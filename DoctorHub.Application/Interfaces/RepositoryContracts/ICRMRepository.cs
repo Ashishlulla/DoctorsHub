@@ -1,8 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.CRM;
 using DoctorsHub.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 {
@@ -18,6 +16,8 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task<List<Appointment>> GetTodaysAppointmentsAsync();
 
         Task<List<Appointment>> GetScheduledApointmentsAsync();
+
+        Task<List<AppointmentStatusChartDto>> GetAppointmentsStatusChartAsync();
 
 
     }

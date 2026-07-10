@@ -1,0 +1,29 @@
+﻿/* Chart Card */
+.chart-card {
+    margin-top: 20px;
+}
+
+/* Chart Container */
+.chart-container {
+    width: 350px;
+    height: 350px;
+    margin: 0 auto;
+    position: relative;
+}
+
+
+.chart-container {
+    width: 280px;
+    height: 280px;
+}
+
+.chart-card {
+    width: 420px;
+}
+
+.chart-container {
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    position: relative;
+}

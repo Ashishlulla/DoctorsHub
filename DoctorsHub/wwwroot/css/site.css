@@ -20,6 +20,7 @@
 @import url("delete.css");
 @import url("profile.css");
 @import url("pagination.css");
+@import url("charts.css");
 
 *{
     margin: 0;
