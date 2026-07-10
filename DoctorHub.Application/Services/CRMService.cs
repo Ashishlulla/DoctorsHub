@@ -25,6 +25,11 @@ namespace DoctorsHub.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<List<AppointmentsByDoctorDto>> GetappointmentsByDoctorsAsync()
+        {
+            return await _crmRepository.GetappointmentsByDoctorsAsync();
+        }
+
         public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync()
         {
             return await _crmRepository.GetAppointmentsStatusChartAsync();

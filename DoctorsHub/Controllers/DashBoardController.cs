@@ -23,8 +23,9 @@ namespace DoctorsHub.Web.Controllers
             var scheduledAppointments = _crmApiService.GetScheduledAppointmentsAsync();
             var appointmentStatusPieChart = _crmApiService.GetAppointmentStatusChartAsync();
             var monthlyAppointments = _crmApiService.GetMonthlyAppointmentAsync();
+            var appointmentsByDoctor = _crmApiService.GetAppointmentByDoctorAsync();
 
-            await Task.WhenAll(dashBoardData, recentAppointments, upcomingAppointments, todaysAppointments, scheduledAppointments, appointmentStatusPieChart, monthlyAppointments);
+            await Task.WhenAll(dashBoardData, recentAppointments, upcomingAppointments, todaysAppointments, scheduledAppointments, appointmentStatusPieChart, monthlyAppointments, appointmentsByDoctor);
 
             DashBoardDto data = await dashBoardData;
             data.RecentAppointments = await recentAppointments;
@@ -33,6 +34,7 @@ namespace DoctorsHub.Web.Controllers
             data.ScheduledAppointmentsList = await scheduledAppointments;
             data.appointmentStatusChart = await appointmentStatusPieChart;
             data.monthlyAppointmentChart = await monthlyAppointments;
+            data.appointmentsByDoctors = await appointmentsByDoctor;
 
             return View(data);
 

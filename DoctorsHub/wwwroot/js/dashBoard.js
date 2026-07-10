@@ -52,3 +52,27 @@ new Chart(lineChart, {
         maintainAspectRatio: false
     }
 });
+
+//Bar Chart
+const barChartData = window.appointmentsByDoctor;
+
+
+const barLabels = barChartData.map(x => x.DoctorName);
+const barValues = barChartData.map(x => x.Count);
+
+const barChart = document.getElementById("appointmentsByDoctorChart");
+
+new Chart(barChart, {
+    type: "bar",
+    data: {
+        labels: barLabels,
+        datasets: [{
+            label: "Appointments By Doctors",
+            data: barValues
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});

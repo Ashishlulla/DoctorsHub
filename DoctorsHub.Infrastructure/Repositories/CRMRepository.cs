@@ -24,6 +24,21 @@ namespace DoctorsHub.Infrastructure.Repositories
             _db = db;
         }
 
+        public async Task<List<AppointmentsByDoctorDto>> GetappointmentsByDoctorsAsync()
+        {
+            
+            return await _db.Appointments
+                .Include(d => d.Doctor)
+                .GroupBy(d => d.Doctor.FullName)
+                .Select(g => new AppointmentsByDoctorDto
+                {
+                    DoctorName = g.Key,
+                    Count = g.Count(),
+                })
+                .OrderBy(d => d.DoctorName)
+                .ToListAsync();
+        }
+
         public async Task<List<AppointmentStatusChartDto>> GetAppointmentsStatusChartAsync()
         {
             var data = await _db.Appointments

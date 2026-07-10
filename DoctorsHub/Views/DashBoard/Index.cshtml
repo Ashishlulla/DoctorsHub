@@ -348,6 +348,9 @@
 
 </div>
 
+<div class="header">
+    <h2>DashBoard Analytic Charts</h2>
+</div>
 <div class="charts">
 
     @* Pie Chart *@
@@ -374,11 +377,23 @@
         </div>
     </div>
 
+    @* Bar Chart *@
+    <div class="card shadow-sm chart-card">
+        <div class="card-header">
+            <h5>Appointments By Doctor</h5>
+        </div>
+
+        <div class="card-body">
+            <canvas id="appointmentsByDoctorChart"></canvas>
+        </div>
+    </div>
+
 </div>
 
 <script>
     window.appointmentStatusData = @Html.Raw(JsonSerializer.Serialize(Model.appointmentStatusChart));
     window.monthlyappointments = @Html.Raw(JsonSerializer.Serialize(Model.monthlyAppointmentChart));
+    window.appointmentsByDoctor = @Html.Raw(JsonSerializer.Serialize(Model.appointmentsByDoctors));
 
 </script>
 

@@ -84,5 +84,15 @@ namespace DoctorsHub.Web.Services
 
             return monthlyAppointments ?? new List<MonthlyAppointmentChartDto>();
         }
+
+        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentByDoctorAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/DashBoard/appointmentsbydoctor");
+            response.EnsureSuccessStatusCode();
+
+            List<AppointmentsByDoctorDto>? appointmentsByDoctors = await response.Content.ReadFromJsonAsync<List<AppointmentsByDoctorDto>>();
+
+            return  appointmentsByDoctors ?? new List<AppointmentsByDoctorDto>();
+        }
     }
 }
