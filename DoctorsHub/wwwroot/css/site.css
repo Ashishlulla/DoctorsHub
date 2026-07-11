@@ -20,7 +20,8 @@
 @import url("profile.css");
 @import url("pagination.css");
 @import url("charts.css");
-@import url("dashboard.css")
+@import url("dashboard.css");
+@import url("bi.css");
 
 *{
     margin: 0;

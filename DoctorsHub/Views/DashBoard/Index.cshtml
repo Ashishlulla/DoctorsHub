@@ -8,16 +8,7 @@
 
     <!-- Header -->
     <div class="header">
-        <h2>CRM Dashboard</h2>
-
-        <div class="actions">
-            <a asp-controller="Appointments"
-               asp-action="Create"
-               class="btn-save"
-               style="text-decoration:none">
-                + New Appointment
-            </a>
-        </div>
+        <h2>DoctorsHub Dashboard</h2>
     </div>
 
     @if (TempData["Success"] != null)
@@ -81,7 +72,7 @@
             <div class="quick-actions-grid">
 
                 <!-- Add Doctor -->
-                <a asp-controller="Doctors"
+                <a asp-controller="Doctor"
                    asp-action="Create"
                    class="quick-action-card">
 
@@ -408,55 +399,3 @@
     </div>
 
 </div>
-
-@* @* <div class="header">
-    <h2>DashBoard Analytic Charts</h2>
-</div>
-<div class="charts">
-
-    @* Pie Chart
-@*     <div class="card shadow-sm chart-card">
-        <div class="card-header">
-            <h5>Appointment Status</h5>
-        </div>
-
-        <div class="card-body">
-            <div class="chart-container">
-                <canvas id="appointmentStatusChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    @* Line Chart *@
-    @*  <div class="card shadow-sm chart-card">
-        <div class="card-header">
-            <h5>Monthly Appointments</h5>
-        </div>
-
-        <div class="card-body">
-            <canvas id="monthlyAppointmentsChart"></canvas>
-        </div>
-    </div>  *@
-
-    @* Bar Chart *@
-    @* <div class="card shadow-sm chart-card">
-        <div class="card-header">
-            <h5>Appointments By Doctor</h5>
-        </div>
-
-        <div class="card-body">
-            <canvas id="appointmentsByDoctorChart"></canvas>
-        </div>
-    </div> *@
-
-@* </div> *@
-@* <script>
-    window.appointmentStatusData = @Html.Raw(JsonSerializer.Serialize(Model.appointmentStatusChart));
-    window.monthlyappointments = @Html.Raw(JsonSerializer.Serialize(Model.monthlyAppointmentChart));
-    window.appointmentsByDoctor = @Html.Raw(JsonSerializer.Serialize(Model.appointmentsByDoctors));
-
-</script>  *@
-
-@* @section Scripts{
-    <script src="~/js/dashBoard.js"></script>
-}  *@

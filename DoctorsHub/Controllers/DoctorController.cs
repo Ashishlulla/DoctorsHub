@@ -26,7 +26,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [Route("/")]
+        
         public async Task<IActionResult> Index(DoctorQueryParameters doctorQueryParameters)
         {
             PagedResult<DoctorDto> doctors = await _doctorApiService.GetAllDoctorsAsync(doctorQueryParameters);
