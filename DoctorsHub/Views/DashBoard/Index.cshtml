@@ -71,6 +71,67 @@
 
     </div>
 
+    <!-- Quick Actions -->
+        <div class="quick-actions-section">
+
+            <div class="header">
+                <h2>Quick Actions</h2>
+            </div>
+
+            <div class="quick-actions-grid">
+
+                <!-- Add Doctor -->
+                <a asp-controller="Doctors"
+                   asp-action="Create"
+                   class="quick-action-card">
+
+                    <div class="quick-action-icon">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+
+                    <div class="quick-action-content">
+                        <h4>Add Doctor</h4>
+                        <p>Register a new doctor</p>
+                    </div>
+
+                </a>
+
+                <!-- Add Patient -->
+                <a asp-controller="Patients"
+                   asp-action="Create"
+                   class="quick-action-card">
+
+                    <div class="quick-action-icon">
+                        <i class="bi bi-person-fill-add"></i>
+                    </div>
+
+                    <div class="quick-action-content">
+                        <h4>Add Patient</h4>
+                        <p>Register a new patient</p>
+                    </div>
+
+                </a>
+
+                <!-- Book Appointment -->
+                <a asp-controller="Appointments"
+                   asp-action="Create"
+                   class="quick-action-card">
+
+                    <div class="quick-action-icon">
+                        <i class="bi bi-calendar-plus-fill"></i>
+                    </div>
+
+                    <div class="quick-action-content">
+                        <h4>Book Appointment</h4>
+                        <p>Schedule a new appointment</p>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
     <!-- Todays Appointments -->
     <div class="table-container" style="margin-top:30px;">
 
@@ -348,13 +409,13 @@
 
 </div>
 
-<div class="header">
+@* @* <div class="header">
     <h2>DashBoard Analytic Charts</h2>
 </div>
 <div class="charts">
 
-    @* Pie Chart *@
-    <div class="card shadow-sm chart-card">
+    @* Pie Chart
+@*     <div class="card shadow-sm chart-card">
         <div class="card-header">
             <h5>Appointment Status</h5>
         </div>
@@ -367,7 +428,7 @@
     </div>
 
     @* Line Chart *@
-    <div class="card shadow-sm chart-card">
+    @*  <div class="card shadow-sm chart-card">
         <div class="card-header">
             <h5>Monthly Appointments</h5>
         </div>
@@ -375,10 +436,10 @@
         <div class="card-body">
             <canvas id="monthlyAppointmentsChart"></canvas>
         </div>
-    </div>
+    </div>  *@
 
     @* Bar Chart *@
-    <div class="card shadow-sm chart-card">
+    @* <div class="card shadow-sm chart-card">
         <div class="card-header">
             <h5>Appointments By Doctor</h5>
         </div>
@@ -386,17 +447,16 @@
         <div class="card-body">
             <canvas id="appointmentsByDoctorChart"></canvas>
         </div>
-    </div>
+    </div> *@
 
-</div>
-
-<script>
+@* </div> *@
+@* <script>
     window.appointmentStatusData = @Html.Raw(JsonSerializer.Serialize(Model.appointmentStatusChart));
     window.monthlyappointments = @Html.Raw(JsonSerializer.Serialize(Model.monthlyAppointmentChart));
     window.appointmentsByDoctor = @Html.Raw(JsonSerializer.Serialize(Model.appointmentsByDoctors));
 
-</script>
+</script>  *@
 
-@section Scripts{
+@* @section Scripts{
     <script src="~/js/dashBoard.js"></script>
-}
+}  *@

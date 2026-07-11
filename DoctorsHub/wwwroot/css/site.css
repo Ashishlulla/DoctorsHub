@@ -8,7 +8,6 @@
 @import url("components.css");
 @import url("form.css");
 @import url("tables.css");
-@import url("dashboard.css");
 @import url("doctor.css");
 @import url("patient.css");
 @import url("appointment.css");
@@ -21,6 +20,7 @@
 @import url("profile.css");
 @import url("pagination.css");
 @import url("charts.css");
+@import url("dashboard.css")
 
 *{
     margin: 0;
@@ -76,6 +76,7 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
     border-left: 5px solid #0F766E;
     transition: transform .2s ease, box-shadow .2s ease;
+    margin-bottom:15px;
 }
 
     .dashboard-card:hover {
@@ -96,3 +97,114 @@ body {
         font-size: 34px;
         font-weight: 700;
     }
+
+
+/ /* ===========================
+   Quick Actions
+=========================== */
+.quick-actions-section {
+    margin-top: 30px;
+}
+
+.section-header {
+    margin-bottom: 20px;
+}
+
+    .section-header h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #134E4A;
+    }
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.quick-action-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    background: #FFFFFF;
+    border: 1px solid #CCFBF1;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+    .quick-action-card:hover {
+        transform: translateY(-5px);
+        border-color: #14B8A6;
+        box-shadow: 0 10px 25px rgba(20, 184, 166, 0.18);
+    }
+
+.quick-action-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 12px;
+    background: #CCFBF1;
+    color: #0F766E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.quick-action-card:hover .quick-action-icon {
+    background: #14B8A6;
+    color: #FFFFFF;
+}
+
+.quick-action-content {
+    display: flex;
+    flex-direction: column;
+}
+
+    .quick-action-content h4 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #134E4A;
+    }
+
+    .quick-action-content p {
+        margin-top: 5px;
+        font-size: 0.9rem;
+        color: #6B7280;
+    }
+
+.quick-action-card:hover h4 {
+    color: #0F766E;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width: 992px) {
+    .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-action-card {
+        padding: 16px;
+    }
+
+    .quick-action-icon {
+        width: 50px;
+        height: 50px;
+        min-width: 50px;
+        font-size: 22px;
+    }
+}
