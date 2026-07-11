@@ -57,29 +57,6 @@ namespace DoctorsHub.API.Controllers
 
             return Ok(scheduledAppointments);
         }
-
-        [HttpGet("appointmentstatuschart")]
-        public async Task<IActionResult> GetAppointmentStatusChartDetails() 
-        {
-            List<AppointmentStatusChartDto> appointmentStatusCharts = await _crmService.GetAppointmentStatusChartAsync();
-
-            return Ok(appointmentStatusCharts);
-        }
-
-        [HttpGet("monthlyappointment")]
-        public async Task<IActionResult> GetMonthlyAppointmentsChartDetails()
-        {
-            List<MonthlyAppointmentChartDto> monthlyAppointments = await _crmService.GetMonthlyAppointmentChartAsync();
-
-            return Ok(monthlyAppointments);
-        }
-
-        [HttpGet("appointmentsbydoctor")]
-        public async Task<IActionResult> GetAppointmentsByDoctorchartDetails()
-        {
-            List<AppointmentsByDoctorDto> monthlyAppointments = await _crmService.GetappointmentsByDoctorsAsync();
-
-            return Ok(monthlyAppointments);
-        }
+        
     }
 }

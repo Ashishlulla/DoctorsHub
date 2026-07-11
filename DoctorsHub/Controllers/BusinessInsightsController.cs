@@ -1,13 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
+using DoctorsHub.Web.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
     public class BusinessInsightsController : Controller
     {
-       
-        public IActionResult Index()
+        //Private Feilds
+        private readonly BusinessInsightsApiService _businessInsightsApiService;
+
+        //Constructor
+        public BusinessInsightsController(BusinessInsightsApiService businessInsightsApiService) 
         {
-            return View();
+            _businessInsightsApiService = businessInsightsApiService;
+        }
+       
+        public async Task<IActionResult> Index()
+        {
+            List<AppointmentStatusChartDto> appointmentStatuses = await _businessInsightsApiService.GetAppointmentStatusesAsync();
+
+            BusinessInsightsDto businessInsights = new BusinessInsightsDto();
+
+
+            businessInsights.GetAppointmentStatuses = appointmentStatuses;
+
+            return View(businessInsights);
         }
     }
 }

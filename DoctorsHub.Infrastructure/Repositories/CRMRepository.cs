@@ -24,33 +24,7 @@ namespace DoctorsHub.Infrastructure.Repositories
             _db = db;
         }
 
-        public async Task<List<AppointmentsByDoctorDto>> GetappointmentsByDoctorsAsync()
-        {
-            
-            return await _db.Appointments
-                .Include(d => d.Doctor)
-                .GroupBy(d => d.Doctor.FullName)
-                .Select(g => new AppointmentsByDoctorDto
-                {
-                    DoctorName = g.Key,
-                    Count = g.Count(),
-                })
-                .OrderBy(d => d.DoctorName)
-                .ToListAsync();
-        }
-
-        public async Task<List<AppointmentStatusChartDto>> GetAppointmentsStatusChartAsync()
-        {
-            var data = await _db.Appointments
-                .GroupBy(a => a.Status)
-                .Select(g => new AppointmentStatusChartDto
-                {
-                    Status = g.Key,
-                    Count = g.Count()
-                }).ToListAsync();
-
-            return data;
-        }
+        
 
         public async Task<DashBoardDto> GetDashBoardAsync()
         {
@@ -67,19 +41,7 @@ namespace DoctorsHub.Infrastructure.Repositories
             };
         }
 
-        public async Task<List<MonthlyAppointmentChartDto>> GetMonthlyAppointmentChartAsync()
-        {
-            return await _db.Appointments.
-                Where(a => a.AppointmentDate.Year == DateOnly.FromDateTime(DateTime.Today).Year)
-                .GroupBy(a => a.AppointmentDate.Month)
-                .Select(g => new MonthlyAppointmentChartDto
-                {
-                    Month = g.Key.ToString(),
-                    Count = g.Count()
-                })
-                .OrderBy(x => x.Month)
-                .ToListAsync();
-        }
+        
 
         public async Task<List<Appointment>> GetRecentAppointmentsAsync()
         {

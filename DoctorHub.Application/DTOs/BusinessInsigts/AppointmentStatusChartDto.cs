@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace DoctorsHub.Application.DTOs.CRM
+namespace DoctorsHub.Application.DTOs.BusinessInsigts
 {
     public class AppointmentStatusChartDto
     {

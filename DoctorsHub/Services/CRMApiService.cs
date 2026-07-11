@@ -65,34 +65,6 @@ namespace DoctorsHub.Web.Services
             return scheduledAppointments ?? new List<ScheduledAppointmentsDto>();
         }
 
-        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync() 
-        {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/appointmentstatuschart");
-            response.EnsureSuccessStatusCode();
-
-            List<AppointmentStatusChartDto>? appointmentStatusCharts = await response.Content.ReadFromJsonAsync<List<AppointmentStatusChartDto>>();
-
-            return appointmentStatusCharts ?? new List<AppointmentStatusChartDto>();
-        }
-
-        public async Task<List<MonthlyAppointmentChartDto>> GetMonthlyAppointmentAsync()
-        {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/DashBoard/monthlyappointment");
-            response.EnsureSuccessStatusCode();
-
-            List<MonthlyAppointmentChartDto>? monthlyAppointments = await response.Content.ReadFromJsonAsync<List<MonthlyAppointmentChartDto>>();
-
-            return monthlyAppointments ?? new List<MonthlyAppointmentChartDto>();
-        }
-
-        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentByDoctorAsync()
-        {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/DashBoard/appointmentsbydoctor");
-            response.EnsureSuccessStatusCode();
-
-            List<AppointmentsByDoctorDto>? appointmentsByDoctors = await response.Content.ReadFromJsonAsync<List<AppointmentsByDoctorDto>>();
-
-            return  appointmentsByDoctors ?? new List<AppointmentsByDoctorDto>();
-        }
+        
     }
 }

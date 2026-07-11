@@ -1,4 +1,7 @@
-﻿<div class="business-header">
+﻿@using System.Text.Json
+@model BusinessInsightsDto
+
+<div class="business-header">
 
     <div class="header-content">
 
@@ -33,3 +36,75 @@
     </div>
 
 </div>
+
+<section class="analytics-section">
+
+    <div class="analytics-header">
+
+        <h2>Appointment Analytics</h2>
+
+        <p>
+            Monitor appointment trends, doctor workload and scheduling performance.
+        </p>
+
+    </div>
+
+    <div class="appointment-analytics-grid">
+
+        <div class="analytics-card">
+
+            <div class="card-header">
+                <h4>Appointment Status</h4>
+            </div>
+
+            <canvas id="appointmentStatusChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <div class="card-header">
+                <h4>Appointment Trend</h4>
+            </div>
+
+            <canvas id="appointmentTrendChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card full-width">
+
+            <div class="card-header">
+                <h4>Appointments by Doctor</h4>
+            </div>
+
+            <canvas id="appointmentsByDoctorChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card full-width">
+
+            <div class="card-header">
+                <h4>Peak Appointment Hours</h4>
+            </div>
+
+            <canvas id="peakHoursChart"></canvas>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+
+<script>
+    window.appointmentStatus = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentStatuses));
+</script>
+
+@section Scripts{
+    <script src="~/js/BusinessInsights.js" asp-append-version="true"></script>
+}
