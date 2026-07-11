@@ -102,7 +102,10 @@
 
 
 <script>
-    window.appointmentStatus = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentStatuses));
+    window.appointmentStatus = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentStatuses))
+    window.appointmentTrend = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentsTrend))
+    window.appointmentByDoctors = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentsByDoctors))
+    window.peakAppointmentHours = @Html.Raw(JsonSerializer.Serialize(Model.GetPeakAppointmentsHours))
 </script>
 
 @section Scripts{

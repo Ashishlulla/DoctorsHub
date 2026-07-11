@@ -23,5 +23,35 @@ namespace DoctorsHub.Web.Services
 
             return appointmentStatuses?? new List<AppointmentStatusChartDto>();
         }
+
+        public async Task<List<AppointmentTrendDto>> GetAppointmentTrendsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/businessinsights/appointment-trend");
+            response.EnsureSuccessStatusCode();
+
+            List<AppointmentTrendDto>? appointmentTrend = await response.Content.ReadFromJsonAsync<List<AppointmentTrendDto>>();
+
+            return appointmentTrend ?? new List<AppointmentTrendDto>();
+        }
+
+        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentByDoctorsAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/BusinessInsights/appointment-by-doctors");
+            response.EnsureSuccessStatusCode();
+
+            List<AppointmentsByDoctorDto>? appointmentsByDoctors = await response.Content.ReadFromJsonAsync<List<AppointmentsByDoctorDto>>();
+
+            return appointmentsByDoctors ?? new List<AppointmentsByDoctorDto>();
+        }
+
+        public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/BusinessInsights/appointment-peakhours");
+            response.EnsureSuccessStatusCode();
+
+            List<PeakAppointmentHoursDto>? peakAppointmentHours = await response.Content.ReadFromJsonAsync<List<PeakAppointmentHoursDto>>();
+
+            return peakAppointmentHours ?? new List<PeakAppointmentHoursDto>();
+        }
     }
 }

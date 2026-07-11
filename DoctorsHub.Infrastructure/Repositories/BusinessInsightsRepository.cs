@@ -19,6 +19,18 @@ namespace DoctorsHub.Infrastructure.Repositories
             _db = db;
         }
 
+        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync()
+        {
+            return await _db.Appointments
+                .Include(d => d.Doctor)
+                .GroupBy(d => d.Doctor.FullName)
+                .Select(g => new AppointmentsByDoctorDto 
+                {
+                    DoctorName = g.Key,
+                    Count = g.Count()
+                }).ToListAsync();
+        }
+
         public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync()
         {
             return await _db.Appointments
@@ -31,6 +43,32 @@ namespace DoctorsHub.Infrastructure.Repositories
                 )
                 .ToListAsync();
 
+        }
+
+        public async Task<List<AppointmentTrendDto>> GetAppointmentTrendAsync()
+        {
+            var appointments = await _db.Appointments.Select(a => a.AppointmentDate).ToListAsync();
+
+            return  appointments.
+                GroupBy(d => d.DayOfWeek).
+                Select(g => new AppointmentTrendDto
+                {
+                    label = g.Key.ToString(),
+                    Count = g.Count()
+                }).ToList();
+        }
+
+        public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
+        {
+            return await _db.Appointments
+                .GroupBy(a => a.StartTime.Hours)
+                .Select(g => new PeakAppointmentHoursDto
+                {
+                    Hour = g.Key,
+                    Count = g.Count()
+
+                })
+                .ToListAsync();
         }
     }
 }

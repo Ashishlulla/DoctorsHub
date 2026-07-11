@@ -9,5 +9,11 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
     {
         //Appointment Analytics Methods
         Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync();
+
+        Task<List<AppointmentTrendDto>> GetAppointmentTrendAsync();
+
+        Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync();
+
+        Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync();
     }
 }

@@ -1,13 +1,11 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorsHub.Application.Services
 {
-    public class BusinessInsigthsService :IBusinessInsightsService
+    public class BusinessInsigthsService : IBusinessInsightsService
     {
         //Private Feilds 
         private readonly IBusinessInsightsRepository _businessInsightsRepository;
@@ -18,9 +16,24 @@ namespace DoctorsHub.Application.Services
             _businessInsightsRepository = businessInsightsRepository;
         }
 
-        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChart()
+        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync()
+        {
+            return await _businessInsightsRepository.GetAppointmentsByDoctorsAsync();
+        }
+
+        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync()
         {
             return await _businessInsightsRepository.GetAppointmentStatusChartAsync();
+        }
+
+        public async Task<List<AppointmentTrendDto>> GetAppointmentTrendsAsync()
+        {
+            return await _businessInsightsRepository.GetAppointmentTrendAsync();
+        }
+
+        public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
+        {
+            return await _businessInsightsRepository.GetPeakAppointmentHoursAsync();
         }
     }
 }

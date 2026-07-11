@@ -7,6 +7,12 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
     public interface IBusinessInsightsService
     {
-        Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChart();
+        Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync();
+
+        Task<List<AppointmentTrendDto>> GetAppointmentTrendsAsync();
+
+        Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync();
+
+        Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync();
     }
 }

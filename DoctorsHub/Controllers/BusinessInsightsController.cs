@@ -17,12 +17,21 @@ namespace DoctorsHub.Web.Controllers
        
         public async Task<IActionResult> Index()
         {
-            List<AppointmentStatusChartDto> appointmentStatuses = await _businessInsightsApiService.GetAppointmentStatusesAsync();
+
+            var appointmentStatusTask = _businessInsightsApiService.GetAppointmentStatusesAsync();
+            var appointmentTrendTask = _businessInsightsApiService.GetAppointmentTrendsAsync();
+            var appointmentsByDoctorsTask = _businessInsightsApiService.GetAppointmentByDoctorsAsync();
+            var peakAppointmentHoursTask = _businessInsightsApiService.GetPeakAppointmentHoursAsync();
 
             BusinessInsightsDto businessInsights = new BusinessInsightsDto();
 
+            await Task.WhenAll(appointmentStatusTask, appointmentTrendTask,appointmentsByDoctorsTask, peakAppointmentHoursTask);
+          
 
-            businessInsights.GetAppointmentStatuses = appointmentStatuses;
+            businessInsights.GetAppointmentStatuses = await appointmentStatusTask;
+            businessInsights.GetAppointmentsTrend = await appointmentTrendTask;
+            businessInsights.GetAppointmentsByDoctors = await appointmentsByDoctorsTask;
+            businessInsights.GetPeakAppointmentsHours = await peakAppointmentHoursTask;
 
             return View(businessInsights);
         }
