@@ -1,7 +1,14 @@
 ﻿//Appointment Status Chart
 
 
-
+const theme = {
+    primary: "#0F766E",
+    secondary: "#14B8A6",
+    light: "#5EEAD4",
+    pale: "#CCFBF1",
+    dark: "#115E59",
+    grid: "#D1FAE5"
+};
 
 
 const appointmentStatusData = window.appointmentStatus;
@@ -17,8 +24,17 @@ new Chart(ctx,
         data: {
             labels: statusLabels,
             datasets: [{
-                labels: "Appointments",
-                data: statusValues
+                label: "Appointments",
+                data: statusValues,
+                backgroundColor: [
+                    theme.primary,
+                    theme.secondary,
+                    theme.light,
+                    "#99F6E4",
+                    "#2DD4BF"
+                ],
+                borderWidth: 2,
+                borderColor: "#fff"
             }]
         },
         options: {
@@ -51,13 +67,29 @@ new Chart(trendChart, {
     data: {
         labels: trendsLabels,
         datasets: [{
-            label: "Appointments Trend",
-            data: trendValues
+            label: "Appointment Trend",
+            data: trendValues,
+            borderColor: theme.primary,
+            backgroundColor: "rgba(20,184,166,0.20)",
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: theme.primary,
+            pointRadius: 4
         }]
     },
     options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                grid: { color: theme.grid },
+                ticks: { color: theme.dark }
+            },
+            y: {
+                grid: { color: theme.grid },
+                ticks: { color: theme.dark }
+            }
+        }
     }
 });
 
@@ -84,8 +116,12 @@ new Chart(doctorChart, {
     data: {
         labels: doctorsLabels,
         datasets: [{
-            label: "Appointments Trend",
-            data: doctorsValues
+            label: "Appointments",
+            data: doctorsValues,
+            backgroundColor: theme.secondary,
+            borderColor: theme.primary,
+            borderWidth: 1,
+            borderRadius: 8
         }]
     },
     options: {
@@ -95,7 +131,7 @@ new Chart(doctorChart, {
 });
 
 
-//Peak Apointment Houe Chart (column chart)
+//Peak Apointment Hour Chart (column chart)
 
 const peakHourData = window.peakAppointmentHours;
 
@@ -122,14 +158,28 @@ new Chart(peakHourChart, {
         labels: peakLabels,
         datasets: [{
             label: "Peak Appointment Hours",
-            data: peakValues
+            data: peakValues,
+            backgroundColor: theme.secondary,
+            borderColor: theme.primary,
+            borderWidth: 1,
+            borderRadius: 8
         }]
     },
 
     options: {
         indexAxis: "y",
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                grid: { color: theme.grid },
+                ticks: { color: theme.dark }
+            },
+            y: {
+                grid: { display: false },
+                ticks: { color: theme.dark }
+            }
+        }
     }
 });
 
@@ -156,11 +206,129 @@ new Chart(revenueTrendChart, {
     data: {
         labels: revenueLabels,
         datasets: [{
-            labels: "Revenue trends",
-            data: revenueValue
+            label: "Revenue",
+            data: revenueValue,
+            borderColor: theme.primary,
+            backgroundColor: "rgba(20,184,166,0.20)",
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: theme.primary
         }]
     },
     options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+
+//Revenue By Doctors (Vertical bar chart)
+
+const revenueByDoctorData = window.revenueByDoctor;
+
+console.log(revenueByDoctorData);
+
+const revenueByLabels = revenueByDoctorData.map(l => l.DoctorName);
+
+const revenueByValues = revenueByDoctorData.map(v => v.Revenue);
+
+console.log("Revenue By Doctor Label", revenueByLabels);
+console.log("Revenue By Doctor values", revenueByValues);
+
+const revenueByDoctorChart = document.getElementById("revenueByDoctorChart");
+
+new Chart(revenueByDoctorChart, {
+    type: "bar",
+
+    data: {
+        labels: revenueByLabels,
+        datasets: [{
+            label: "Revenue By Doctors",
+            data: revenueByValues,
+            backgroundColor: theme.secondary,
+            borderColor: theme.primary,
+            borderWidth: 1,
+            borderRadius: 8
+        }]
+    },
+
+    options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+//Average Revenue By Doctor (Vertical Bar Chart)
+
+const averageRevenueByDoctorData = window.averageRevenueByDoctor;
+
+console.log(averageRevenueByDoctorData);
+
+const averageRevenueByLabels = averageRevenueByDoctorData.map(l => l.DoctorName);
+
+const averageRevenueByValues = averageRevenueByDoctorData.map(v => v.AverageRevenue);
+
+console.log("Revenue By Doctor Label", averageRevenueByLabels);
+console.log("Revenue By Doctor values", averageRevenueByValues);
+
+const averageRevenueByDoctorChart = document.getElementById("averageRevenueChart");
+
+new Chart(averageRevenueByDoctorChart, {
+    type: "bar",
+
+    data: {
+        labels: averageRevenueByLabels,
+        datasets: [{
+            label: "Average Revenue",
+            data: averageRevenueByValues,
+            backgroundColor: theme.secondary,
+            borderColor: theme.primary,
+            borderWidth: 1,
+            borderRadius: 8
+        }]
+    },
+
+    options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+// Top Revenue Generating Doctors
+
+const topRevenueByDoctorData = window.topRevenueGeneratedByDoctor;
+
+console.log(topRevenueByDoctorData);
+
+const topRevenueByLabels = topRevenueByDoctorData.map(l => l.DoctorName);
+
+const topRevenueByValues = topRevenueByDoctorData.map(v => v.RevenueGenerated);
+
+console.log("Revenue By Doctor Label", topRevenueByLabels);
+console.log("Revenue By Doctor values", topRevenueByValues);
+
+const toRevenueByDoctorChart = document.getElementById("topRevenueDoctorsChart");
+
+new Chart(toRevenueByDoctorChart, {
+    type: "bar",
+
+    data: {
+        labels: topRevenueByLabels,
+        datasets: [{
+            label: "Top Revenue Generating Doctors",
+            data: topRevenueByValues,
+            backgroundColor: theme.primary,
+            borderColor: theme.dark,
+            borderWidth: 1,
+            borderRadius: 8
+        }]
+    },
+
+    options: {
+        
         responsive: true,
         maintainAspectRatio: false
     }

@@ -28,7 +28,9 @@ namespace DoctorsHub.Infrastructure.Repositories
                 {
                     DoctorName = g.Key,
                     Count = g.Count()
-                }).ToListAsync();
+                })
+                .OrderBy(o=>o.Count)
+                .ToListAsync();
         }
 
         public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync()
@@ -41,6 +43,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                         Count = g.Count()
                     }
                 )
+                .OrderBy(o=>o.Count)
                 .ToListAsync();
 
         }
@@ -49,13 +52,29 @@ namespace DoctorsHub.Infrastructure.Repositories
         {
             var appointments = await _db.Appointments.Select(a => a.AppointmentDate).ToListAsync();
 
-            return  appointments.
+            return   appointments.
                 GroupBy(d => d.DayOfWeek).
                 Select(g => new AppointmentTrendDto
                 {
                     label = g.Key.ToString(),
                     Count = g.Count()
-                }).ToList();
+                })
+                .OrderBy(o=>o.Count)
+                .ToList();
+        }
+
+        public async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctors()
+        {
+            return await _db.Appointments
+               .Where(a => a.Status == AppointmentStatus.Completed)
+               .GroupBy(d => d.Doctor.FullName)
+               .Select(g => new AverageRevenueGeneratedByDoctorDto
+               {
+                   DoctorName = g.Key,
+                    AverageRevenue = g.Average(a => a.Doctor.ConsultationFee)
+               })
+               .OrderBy(o=>o.AverageRevenue)
+               .ToListAsync();
         }
 
         public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
@@ -68,6 +87,20 @@ namespace DoctorsHub.Infrastructure.Repositories
                     Count = g.Count()
 
                 })
+                .ToListAsync();
+        }
+
+        public async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync()
+        {
+            return await _db.Appointments
+                .Where(a=>a.Status == AppointmentStatus.Completed)
+                .GroupBy(d => d.Doctor.FullName)
+                .Select(g => new RevenueByDoctorDto
+                {
+                    DoctorName = g.Key,
+                    Revenue = g.Sum(a => a.Doctor.ConsultationFee)
+                })
+                .OrderBy(o=>o.Revenue)
                 .ToListAsync();
         }
 
@@ -85,6 +118,23 @@ namespace DoctorsHub.Infrastructure.Repositories
                     MonthYear = $"{months[g.Key.Month-1]} {g.Key.Year}",
                     Revenue = g.Sum(a=>a.Doctor.ConsultationFee)
                 })
+                .OrderBy(o=>o.Revenue)
+                .ToListAsync();
+        }
+
+        public async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingDoctors()
+        {
+            return await _db.Appointments
+                .Where(a => a.Status == AppointmentStatus.Completed)
+                .GroupBy(d => d.Doctor.FullName)
+                .Select(g => new TopRevenueGeneratingDoctorDto
+                {
+                    DoctorName = g.Key,
+                    RevenueGenerated = g.Sum(a => a.Doctor.ConsultationFee)
+                })
+                .OrderByDescending(o=>o.RevenueGenerated)
+                .Take(5)
+                .OrderBy(o=>o.RevenueGenerated)
                 .ToListAsync();
         }
     }

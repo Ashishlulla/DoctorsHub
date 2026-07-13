@@ -23,10 +23,15 @@ namespace DoctorsHub.Web.Controllers
             var appointmentsByDoctorsTask = _businessInsightsApiService.GetAppointmentByDoctorsAsync();
             var peakAppointmentHoursTask = _businessInsightsApiService.GetPeakAppointmentHoursAsync();
             var revenueTrendTask = _businessInsightsApiService.GetRevenueTrendAsync();
+            var revenueByDoctorTask = _businessInsightsApiService.GetRevenueByDoctorsAsync();
+            var TopRevenueGeneratingDoctorTask = _businessInsightsApiService.GetTopRevenueGeneratingsAsync();
+            var AverageRevenuGeneratedByDoctorTask = _businessInsightsApiService.GetAverageRevenueGeneratedByDoctorsAsync();
+
+
 
             BusinessInsightsDto businessInsights = new BusinessInsightsDto();
 
-            await Task.WhenAll(appointmentStatusTask, appointmentTrendTask,appointmentsByDoctorsTask, peakAppointmentHoursTask, revenueTrendTask);
+            await Task.WhenAll(appointmentStatusTask, appointmentTrendTask,appointmentsByDoctorsTask, peakAppointmentHoursTask, revenueTrendTask, revenueByDoctorTask, TopRevenueGeneratingDoctorTask, AverageRevenuGeneratedByDoctorTask);
           
 
             businessInsights.GetAppointmentStatuses = await appointmentStatusTask;
@@ -34,6 +39,9 @@ namespace DoctorsHub.Web.Controllers
             businessInsights.GetAppointmentsByDoctors = await appointmentsByDoctorsTask;
             businessInsights.GetPeakAppointmentsHours = await peakAppointmentHoursTask;
             businessInsights.GetRevenueTrends = await revenueTrendTask;
+            businessInsights.GetRevenueByDoctors = await revenueByDoctorTask;
+            businessInsights.GetTopRevenueGeneratingDoctors = await TopRevenueGeneratingDoctorTask;
+            businessInsights.GetAverageRevenueGeneratedByDoctors = await AverageRevenuGeneratedByDoctorTask;
 
             return View(businessInsights);
         }

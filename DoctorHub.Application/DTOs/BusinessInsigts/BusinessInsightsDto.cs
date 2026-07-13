@@ -20,5 +20,11 @@ namespace DoctorsHub.Application.DTOs.BusinessInsigts
         //------------------------------------------------------------------------------------------------------------------
 
         public List<RevenueTrendDto> GetRevenueTrends { get; set; } = new List<RevenueTrendDto>();
+        
+        public List<RevenueByDoctorDto> GetRevenueByDoctors { get; set; } = new List<RevenueByDoctorDto>();
+
+        public List<TopRevenueGeneratingDoctorDto> GetTopRevenueGeneratingDoctors { get; set; } = new List<TopRevenueGeneratingDoctorDto>();
+
+        public List<AverageRevenueGeneratedByDoctorDto> GetAverageRevenueGeneratedByDoctors { get; set; } = new List<AverageRevenueGeneratedByDoctorDto>();
     }
 }

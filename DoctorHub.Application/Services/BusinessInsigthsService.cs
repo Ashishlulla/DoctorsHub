@@ -32,14 +32,29 @@ namespace DoctorsHub.Application.Services
             return await _businessInsightsRepository.GetAppointmentTrendAsync();
         }
 
+        public async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctorsAsync()
+        {
+            return await _businessInsightsRepository.GetAverageRevenueGeneratedByDoctors();
+        }
+
         public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
         {
             return await _businessInsightsRepository.GetPeakAppointmentHoursAsync();
         }
 
+        public async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync()
+        {
+            return await _businessInsightsRepository.GetRevenueByDoctorsAsync();
+        }
+
         public async Task<List<RevenueTrendDto>> GetRevenueTrendsAsync()
         {
             return await _businessInsightsRepository.GetRevenueTrendAsync();
+        }
+
+        public async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingDoctorsAsync()
+        {
+            return await _businessInsightsRepository.GetTopRevenueGeneratingDoctors();
         }
     }
 }

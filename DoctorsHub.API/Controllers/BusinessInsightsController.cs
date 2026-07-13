@@ -1,7 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
 using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
@@ -64,21 +63,29 @@ namespace DoctorsHub.API.Controllers
             return Ok(revenueTrends);
         }
 
-        //[HttpGet("revenue-by-doctors")]
-        //public async Task<IActionResult> GetRevenueByDoctorsAsync()
-        //{
-        //    List<AppointmentsByDoctorDto> appointmentsByDoctors = await _businessInsightsService.GetAppointmentsByDoctorsAsync();
+        [HttpGet("revenue-by-doctors")]
+        public async Task<IActionResult> GetRevenueByDoctorsAsync()
+        {
+            List<RevenueByDoctorDto> appointmentsByDoctors = await _businessInsightsService.GetRevenueByDoctorsAsync();
 
-        //    return Ok(appointmentsByDoctors);
-        //}
+            return Ok(appointmentsByDoctors);
+        }
 
-        //[HttpGet("appointment-peakhours")]
-        //public async Task<IActionResult> GetPeakAppointmentHoursAsync()
-        //{
-        //    List<PeakAppointmentHoursDto> peakAppointmentHours = await _businessInsightsService.GetPeakAppointmentHoursAsync();
+        [HttpGet("top-revenue-generating-doctors")]
+        public async Task<IActionResult> GetTTopRevenueGeneratingDoctorsAsync() 
+        {
+            List<TopRevenueGeneratingDoctorDto> topRevenueGeneratingDoctors = await _businessInsightsService.GetTopRevenueGeneratingDoctorsAsync();
 
-        //    return Ok(peakAppointmentHours);
-        //}
+            return Ok(topRevenueGeneratingDoctors);
+        }
+
+        [HttpGet("average-revenue-by-doctors")]
+        public async Task<IActionResult> GetAverageRevenueByDoctors() 
+        {
+            List<AverageRevenueGeneratedByDoctorDto> averageRevenueGeneratedByDoctors = await _businessInsightsService.GetAverageRevenueGeneratedByDoctorsAsync();
+
+            return Ok(averageRevenueGeneratedByDoctors);
+        }
         #endregion
     }
 }

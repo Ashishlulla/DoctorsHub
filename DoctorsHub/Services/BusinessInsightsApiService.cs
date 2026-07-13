@@ -64,5 +64,35 @@ namespace DoctorsHub.Web.Services
 
             return revenueTrends ?? new List<RevenueTrendDto>();
         }
+
+        public async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync() 
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/BusinessInsights/revenue-by-doctors");
+            response.EnsureSuccessStatusCode();
+
+            List<RevenueByDoctorDto>? revenueByDoctor = await response.Content.ReadFromJsonAsync<List<RevenueByDoctorDto>>();
+
+            return revenueByDoctor ?? new List<RevenueByDoctorDto>();
+        }
+
+        public async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingsAsync() 
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/BusinessInsights/top-revenue-generating-doctors");
+            response.EnsureSuccessStatusCode();
+
+            List<TopRevenueGeneratingDoctorDto>? topRevenueGeneratingDoctor = await response.Content.ReadFromJsonAsync<List<TopRevenueGeneratingDoctorDto>>();
+
+            return topRevenueGeneratingDoctor ?? new List<TopRevenueGeneratingDoctorDto>();
+        }
+
+        public async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctorsAsync() 
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/BusinessInsights/average-revenue-by-doctors");
+            response.EnsureSuccessStatusCode();
+
+            List<AverageRevenueGeneratedByDoctorDto>? averageRevenueGeneratedByDoctors = await response.Content.ReadFromJsonAsync<List<AverageRevenueGeneratedByDoctorDto>>();
+
+            return averageRevenueGeneratedByDoctors ?? new List<AverageRevenueGeneratedByDoctorDto>();
+        }
     }
 }

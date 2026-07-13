@@ -167,6 +167,10 @@
 
     //Revenue Analytics
     window.revenueTrend = @Html.Raw(JsonSerializer.Serialize(Model.GetRevenueTrends))
+    window.revenueByDoctor = @Html.Raw(JsonSerializer.Serialize(Model.GetRevenueByDoctors))
+    window.topRevenueGeneratedByDoctor = @Html.Raw(JsonSerializer.Serialize(Model.GetTopRevenueGeneratingDoctors))
+    window.averageRevenueByDoctor = @Html.Raw(JsonSerializer.Serialize(Model.GetAverageRevenueGeneratedByDoctors))
+    
 </script>
 
 @section Scripts{
