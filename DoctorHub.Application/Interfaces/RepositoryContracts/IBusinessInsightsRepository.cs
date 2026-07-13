@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
+﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
+using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,8 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync();
 
         Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync();
+
+        //Appointment Analytics Methods
+        Task<List<RevenueTrendDto>> GetRevenueTrendAsync();
     }
 }

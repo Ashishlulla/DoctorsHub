@@ -2,6 +2,8 @@
 
 
 
+
+
 const appointmentStatusData = window.appointmentStatus;
 
 const statusLabels = appointmentStatusData.map(x => x.Status);
@@ -126,6 +128,39 @@ new Chart(peakHourChart, {
 
     options: {
         indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+
+//Revenue Charts
+
+//Revenue Trend Chart ( Line Chart)
+const revenueTrendData = window.revenueTrend;
+console.log("Rwevenue Trend", revenueTrendData)
+
+const revenueLabels = revenueTrendData.map(l => l.MonthYear);
+const revenueValue = revenueTrendData.map(v => v.Revenue)
+
+console.log("Labels", revenueLabels);
+console.log("Values", revenueValue)
+
+
+const revenueTrendChart = document.getElementById("revenueTrendChart");
+
+new Chart(revenueTrendChart, {
+    type: "line",
+
+    labels: revenueLabels,
+    data: {
+        labels: revenueLabels,
+        datasets: [{
+            labels: "Revenue trends",
+            data: revenueValue
+        }]
+    },
+    options: {
         responsive: true,
         maintainAspectRatio: false
     }

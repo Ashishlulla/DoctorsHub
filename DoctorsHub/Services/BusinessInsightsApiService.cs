@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
+﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
+using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using System.ComponentModel;
 
 namespace DoctorsHub.Web.Services
@@ -52,6 +53,16 @@ namespace DoctorsHub.Web.Services
             List<PeakAppointmentHoursDto>? peakAppointmentHours = await response.Content.ReadFromJsonAsync<List<PeakAppointmentHoursDto>>();
 
             return peakAppointmentHours ?? new List<PeakAppointmentHoursDto>();
+        }
+
+        public async Task<List<RevenueTrendDto>> GetRevenueTrendAsync() 
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/BusinessInsights/revenue-trend");
+            response.EnsureSuccessStatusCode();
+
+            List<RevenueTrendDto>? revenueTrends = await response.Content.ReadFromJsonAsync<List<RevenueTrendDto>>();
+
+            return revenueTrends ?? new List<RevenueTrendDto>();
         }
     }
 }

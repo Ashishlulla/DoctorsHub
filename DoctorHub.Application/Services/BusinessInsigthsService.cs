@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
+﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
+using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 
@@ -34,6 +35,11 @@ namespace DoctorsHub.Application.Services
         public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
         {
             return await _businessInsightsRepository.GetPeakAppointmentHoursAsync();
+        }
+
+        public async Task<List<RevenueTrendDto>> GetRevenueTrendsAsync()
+        {
+            return await _businessInsightsRepository.GetRevenueTrendAsync();
         }
     }
 }

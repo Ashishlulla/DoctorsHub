@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoctorsHub.Application.DTOs.BusinessInsigts
+namespace DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto
 {
     public  class AppointmentsByDoctorDto
     {

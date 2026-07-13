@@ -39,6 +39,7 @@
 
 <section class="analytics-section">
 
+    @* Appoinentment Analytics charts  *@
     <div class="analytics-header">
 
         <h2>Appointment Analytics</h2>
@@ -93,6 +94,60 @@
 
     </div>
 
+    <div class="analytics-header">
+
+        <h2>Revenue Analytics</h2>
+
+        <p>
+            Monitor revenue trends, doctor earnings and financial performance.
+        </p>
+
+    </div>
+
+    <div class="appointment-analytics-grid">
+
+        <div class="analytics-card">
+
+            <div class="card-header">
+                <h4>Revenue Trend</h4>
+            </div>
+
+            <canvas id="revenueTrendChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <div class="card-header">
+                <h4>Revenue by Doctor</h4>
+            </div>
+
+            <canvas id="revenueByDoctorChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <div class="card-header">
+                <h4>Top Revenue Generating Doctors</h4>
+            </div>
+
+            <canvas id="topRevenueDoctorsChart"></canvas>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <div class="card-header">
+                <h4>Average Revenue per Appointment</h4>
+            </div>
+
+            <canvas id="averageRevenueChart"></canvas>
+
+        </div>
+
+    </div>
+
 </section>
 
 
@@ -104,10 +159,14 @@
 
 
 <script>
+    // appointment Analytics
     window.appointmentStatus = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentStatuses))
     window.appointmentTrend = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentsTrend))
     window.appointmentByDoctors = @Html.Raw(JsonSerializer.Serialize(Model.GetAppointmentsByDoctors))
     window.peakAppointmentHours = @Html.Raw(JsonSerializer.Serialize(Model.GetPeakAppointmentsHours))
+
+    //Revenue Analytics
+    window.revenueTrend = @Html.Raw(JsonSerializer.Serialize(Model.GetRevenueTrends))
 </script>
 
 @section Scripts{

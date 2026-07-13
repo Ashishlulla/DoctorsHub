@@ -1,4 +1,7 @@
 ﻿
+using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
+using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
+
 namespace DoctorsHub.Application.DTOs.BusinessInsigts
 {
     public class BusinessInsightsDto
@@ -11,5 +14,11 @@ namespace DoctorsHub.Application.DTOs.BusinessInsigts
         public List<AppointmentTrendDto> GetAppointmentsTrend { get; set; } = new List<AppointmentTrendDto>();
         public List<AppointmentsByDoctorDto> GetAppointmentsByDoctors { get; set; } = new List<AppointmentsByDoctorDto>();
         public List<PeakAppointmentHoursDto> GetPeakAppointmentsHours { get; set; } = new List<PeakAppointmentHoursDto>();
+
+        //------------------------------------------------------------------------------------------------------------------
+        //                                      Revenue Analytics DTOs
+        //------------------------------------------------------------------------------------------------------------------
+
+        public List<RevenueTrendDto> GetRevenueTrends { get; set; } = new List<RevenueTrendDto>();
     }
 }

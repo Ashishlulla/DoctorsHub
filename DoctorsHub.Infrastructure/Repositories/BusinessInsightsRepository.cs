@@ -1,10 +1,10 @@
-﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
+﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
+using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
+using DoctorsHub.Domain.Enums;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorsHub.Infrastructure.Repositories
 {
@@ -67,6 +67,23 @@ namespace DoctorsHub.Infrastructure.Repositories
                     Hour = g.Key,
                     Count = g.Count()
 
+                })
+                .ToListAsync();
+        }
+
+        public Task<List<RevenueTrendDto>> GetRevenueTrendAsync()
+        {
+            string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            return _db.Appointments.Where(a => a.Status == AppointmentStatus.Completed)
+                .GroupBy(a=> new
+                {
+                    a.AppointmentDate.Year,a.AppointmentDate.Month
+                })
+                .Select(g=> new RevenueTrendDto 
+                {
+                    MonthYear = $"{months[g.Key.Month-1]} {g.Key.Year}",
+                    Revenue = g.Sum(a=>a.Doctor.ConsultationFee)
                 })
                 .ToListAsync();
         }
