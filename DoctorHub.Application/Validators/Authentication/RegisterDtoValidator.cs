@@ -21,14 +21,18 @@ namespace DoctorsHub.Application.Validators.Authentication
                 .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(r => r.Password)
-                .NotEmpty().WithMessage("password cannot be empty")
-                .MinimumLength(8);
+                .NotEmpty()
+                .WithMessage("Password cannot be empty.")
+                .MinimumLength(8)
+                .WithMessage("Password must be at least 8 characters long.")
+                .Matches(@"[a-z]")
+                .WithMessage("Password must contain at least one lowercase letter.")
+                .Matches(@"\d")
+                .WithMessage("Password must contain at least one digit.");
 
             RuleFor(r => r.ConfirmPassword)
-                .NotEmpty().WithMessage("Confirm password cannot be empty")
-                .Equal(r => r.Password).WithMessage("Confirm password should match with password");
-
-
+                .NotEmpty().WithMessage("Confirm Password cannot be empty")
+                .Equal(r => r.Password).WithMessage("Confirm Password should match with Password");
 
         }
     }
