@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoctorsHub.Application.Validators
+namespace DoctorsHub.Application.Validators.Patient
 {
     public class UpdatePatientValidator :AbstractValidator<UpdatePatientDto>
     {

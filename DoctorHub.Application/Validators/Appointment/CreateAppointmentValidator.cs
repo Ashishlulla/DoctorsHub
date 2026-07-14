@@ -2,7 +2,7 @@
 using FluentValidation;
 
 
-namespace DoctorsHub.Application.Validators
+namespace DoctorsHub.Application.Validators.Appointment
 {
      public class CreateAppointmentValidator : AbstractValidator<CreateAppointmentDto>
     {

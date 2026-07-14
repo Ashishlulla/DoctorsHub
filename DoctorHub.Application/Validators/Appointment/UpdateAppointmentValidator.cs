@@ -1,7 +1,7 @@
 ﻿using DoctorsHub.Application.DTOs.Appoitments;
 using FluentValidation;
 
-namespace DoctorsHub.Application.Validators
+namespace DoctorsHub.Application.Validators.Appointment
 {
     public class UpdateAppointmentValidator :AbstractValidator<UpdateAppointmentDto>
     {
