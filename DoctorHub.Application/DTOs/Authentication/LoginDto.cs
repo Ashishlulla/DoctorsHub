@@ -4,7 +4,9 @@ using System.Text;
 
 namespace DoctorsHub.Application.DTOs.Authentication
 {
-    internal class LoginDto
+    public class LoginDto
     {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

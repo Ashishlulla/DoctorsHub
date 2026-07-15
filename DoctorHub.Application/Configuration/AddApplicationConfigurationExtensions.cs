@@ -1,6 +1,7 @@
 ﻿using DoctorHub.Application.DTOs.Doctors;
 using DoctorHub.Application.Services;
 using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.Authentication;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Application.Mapping;
@@ -39,6 +40,10 @@ namespace DoctorsHub.Application.Configuration
             services.AddValidatorsFromAssemblyContaining<CreateAppointmentDto>();
             services.AddValidatorsFromAssemblyContaining<UpdateAppointmentDto>();
             services.AddValidatorsFromAssemblyContaining<RescheduleAppointmentDto>();
+
+            //Authentication Validator
+            services.AddValidatorsFromAssemblyContaining<RegisterDto>();
+            services.AddValidatorsFromAssemblyContaining<LoginDto>();
 
 
             //Adding Automapper services
