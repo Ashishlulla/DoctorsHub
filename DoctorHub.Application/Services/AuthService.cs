@@ -45,14 +45,25 @@ namespace DoctorsHub.Application.Services
             }
         }
 
-        public Task LoginAsync(LoginDto loginDto)
+        public async Task LoginAsync(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+            {
+                throw new Exception("Invalid Email or Password.");
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Invalid Email or Password.");
+            }
+            await _signInManager.SignInAsync(user, isPersistent: false);
         }
 
-        public Task LogoutAsync()
+        public async Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
         }
     }
 }
