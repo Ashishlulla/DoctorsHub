@@ -11,7 +11,6 @@
 @import url("doctor.css");
 @import url("patient.css");
 @import url("appointment.css");
-@import url("auth.css");
 @import url("utilities.css");
 @import url("responsive.css");
 @import url("buttons.css");
@@ -22,6 +21,7 @@
 @import url("charts.css");
 @import url("dashboard.css");
 @import url("bi.css");
+@import url("auth.css");
 
 *{
     margin: 0;

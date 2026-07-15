@@ -1,0 +1,243 @@
+﻿@model RegisterDto
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Create Account";
+}
+
+<link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="auth-page">
+
+    <div class="auth-container">
+
+        <!-- ===========================
+             Left Branding Section
+        ============================ -->
+
+        <div class="brand-section">
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+
+                <div class="brand-text">
+
+                    <h1>DoctorsHub</h1>
+
+                    <p>MultiSpeciality Hospital Management System</p>
+
+                </div>
+
+            </div>
+
+            <ul class="feature-list">
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Manage Doctors & Specializations
+                </li>
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Appointment Scheduling
+                </li>
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Patient Management
+                </li>
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    CRM Dashboard
+                </li>
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Business Insights & Analytics
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- ===========================
+             Register Form
+        ============================ -->
+
+        <div class="form-section">
+
+            <div class="form-wrapper">
+
+                <h2>Create Account</h2>
+
+                <p class="form-subtitle">
+                    Create your DoctorsHub account to get started.
+                </p>
+
+                <form asp-action="Register" method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="text-danger mb-3"></div>
+
+                         @* Name  *@
+                    <div class="name-grid">
+
+                        <div class="form-group">
+
+                            <label asp-for="FirstName" class="form-label"></label>
+
+                            <input asp-for="FirstName"
+                                   class="form-control"
+                                   placeholder="First Name" />
+
+                            <span asp-validation-for="FirstName"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label asp-for="LastName" class="form-label"></label>
+
+                            <input asp-for="LastName"
+                                   class="form-control"
+                                   placeholder="Last Name" />
+
+                            <span asp-validation-for="LastName"
+                                  class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label asp-for="Email" class="form-label"></label>
+
+                        <input asp-for="Email"
+                               class="form-control"
+                               placeholder="Enter your email" />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <label asp-for="Password" class="form-label"></label>
+
+                        <div class="password-wrapper">
+
+                            <input asp-for="Password"
+                                   type="password"
+                                   id="password"
+                                   class="form-control"
+                                   placeholder="Enter password" />
+
+                            
+
+                        </div>
+
+                        <span asp-validation-for="Password"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- Confirm Password -->
+
+                    <div class="form-group">
+
+                        <label asp-for="ConfirmPassword"
+                               class="form-label"></label>
+
+                        <div class="password-wrapper">
+
+                            <input asp-for="ConfirmPassword"
+                                   type="password"
+                                   id="confirmPassword"
+                                   class="form-control"
+                                   placeholder="Confirm password" />
+
+                            
+
+                        </div>
+
+                        <span asp-validation-for="ConfirmPassword"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn-auth">
+
+                        Create Account
+
+                    </button>
+
+                </form>
+
+                <div class="auth-footer">
+
+                    Already have an account?
+
+                    <a asp-action="Login">
+                        Sign In
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function togglePassword(id, element) {
+
+            const input = document.getElementById(id);
+
+            const icon = element.querySelector("i");
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                icon.classList.remove("bi-eye");
+
+                icon.classList.add("bi-eye-slash");
+
+            }
+            else {
+
+                input.type = "password";
+
+                icon.classList.remove("bi-eye-slash");
+
+                icon.classList.add("bi-eye");
+
+            }
+
+        }
+
+    </script>
+
+}

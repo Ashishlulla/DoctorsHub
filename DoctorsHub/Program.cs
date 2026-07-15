@@ -1,5 +1,7 @@
 using DoctorsHub.Application.Configuration;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Application.Mapping;
+using DoctorsHub.Application.Services;
 using DoctorsHub.Domain.Identity;
 using DoctorsHub.Infrastructure.Configurations;
 using DoctorsHub.Web.Configurations;
@@ -20,6 +22,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpClientServices(builder.Configuration);
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 //Swagger Services
 var app = builder.Build();
