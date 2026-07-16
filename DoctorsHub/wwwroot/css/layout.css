@@ -1,13 +1,4 @@
-﻿/* ==========================================
-   DoctorHub Enterprise Layout
-========================================== */
-
-
-
-/*==================================================
-  DoctorHub Enterprise UI
-  Layout.css (Part 1)
-====================================================*/
+﻿
 
 /*==================================================
   VARIABLES
@@ -103,56 +94,7 @@ body {
     z-index: 1000;
 }
 
-/*==================================================
-  BRAND
-====================================================*/
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 28px 24px;
-    border-bottom: 1px solid var(--border);
-}
-
-/* Logo */
-
-.brand-logo {
-    width: 56px;
-    height: 56px;
-    border-radius: 18px;
-    background: linear-gradient( 135deg, var(--primary), var(--primary-hover) );
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 26px;
-    box-shadow: var(--shadow);
-    flex-shrink: 0;
-}
-
-    .brand-logo i {
-        font-size: 28px;
-    }
-
-.brand-text {
-    display: flex;
-    flex-direction: column;
-}
-
-    .brand-text h2 {
-        font-size: 1.35rem;
-        font-weight: 700;
-        color: var(--text);
-        letter-spacing: .2px;
-    }
-
-    .brand-text span {
-        font-size: .82rem;
-        color: var(--text-light);
-        font-weight: 500;
-        margin-top: 2px;
-    }
 
 /*==================================================
   NAVIGATION
@@ -179,7 +121,7 @@ body {
         padding: 14px 18px;
         border-radius: 14px;
         text-decoration: none;
-        color: var(--text-light);
+        color: var(--text);
         font-size: 15px;
         font-weight: 500;
         transition: var(--transition);
@@ -195,7 +137,7 @@ body {
 
         .sidebar-nav a:hover {
             background: var(--primary-light);
-            color: var(--primary);
+            color: var(--text);
             transform: translateX(4px);
         }
 
@@ -203,7 +145,7 @@ body {
 
         .sidebar-nav a.active {
             background: var(--primary-light);
-            color: var(--primary);
+            color: var(--text);
             font-weight: 600;
         }
 
@@ -235,7 +177,7 @@ body {
         gap: 16px;
         padding: 14px 18px;
         text-decoration: none;
-        color: var(--text-light);
+        color: var(--text);
         border-radius: 14px;
         font-size: 15px;
         font-weight: 500;
@@ -1049,3 +991,57 @@ body.dark-mode {
         font-weight: 700;
         color: #111827;
     }
+
+
+/*=========================================
+  BRAND
+=========================================*/
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.sidebar-brand-logo {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(15, 118, 110, 0.25);
+}
+
+    .sidebar-brand-logo i {
+        font-size: 30px;
+        color: #ffffff;
+        line-height: 1;
+        display: block;
+    }
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+    .sidebar-brand-text h2 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1.2;
+    }
+
+    .sidebar-brand-text span {
+        margin-top: 4px;
+        font-size: 0.85rem;
+        color: var(--text-light);
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+

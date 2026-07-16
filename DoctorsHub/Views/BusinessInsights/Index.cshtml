@@ -1,4 +1,8 @@
-﻿@using System.Text.Json
+﻿@{
+    var currentFilter = Context.Request.Query["filter"].ToString().ToLower();
+}
+
+@using System.Text.Json
 @model BusinessInsightsDto
 
 <div class="business-header">
@@ -16,22 +20,47 @@
 
     <div class="date-filter">
 
-        <button class="filter-btn active">Today</button>
+        <a asp-action="Index"
+           asp-route-filter="today"
+           class="filter-btn @(currentFilter == "today" || string.IsNullOrEmpty(currentFilter) ? "active" : "")">
+            Today
+        </a>
 
-        <button class="filter-btn">Week</button>
+        <a asp-action="Index"
+           asp-route-filter="week"
+           class="filter-btn @(currentFilter == "week" ? "active" : "")">
+            Week
+        </a>
 
-        <button class="filter-btn">Month</button>
+        <a asp-action="Index"
+           asp-route-filter="month"
+           class="filter-btn @(currentFilter == "month" ? "active" : "")">
+            Month
+        </a>
 
-        <button class="filter-btn">Quarter</button>
+        <a asp-action="Index"
+           asp-route-filter="quarter"
+           class="filter-btn @(currentFilter == "quarter" ? "active" : "")">
+            Quarter
+        </a>
 
-        <button class="filter-btn">6 Months</button>
+        <a asp-action="Index"
+           asp-route-filter="sixmonths"
+           class="filter-btn @(currentFilter == "sixmonths" ? "active" : "")">
+            6 Months
+        </a>
 
-        <button class="filter-btn">1 Year</button>
+        <a asp-action="Index"
+           asp-route-filter="year"
+           class="filter-btn @(currentFilter == "year" ? "active" : "")">
+            1 Year
+        </a>
 
-        <button class="filter-btn">
+        <a asp-action="CustomDateFilter"
+           class="filter-btn @(Context.Request.Path.Value!.Contains("CustomDateFilter") ? "active" : "")">
             <i class="bi bi-calendar3"></i>
             Custom
-        </button>
+        </a>
 
     </div>
 

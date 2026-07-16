@@ -28,30 +28,44 @@
 .date-filter {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
+    margin-bottom: 1.5rem;
 }
 
 .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 10px 18px;
-    border: none;
-    background: #F0FDFA;
-    color: #0F766E;
+    border: 1px solid #0f766e;
     border-radius: 8px;
+    background-color: #ffffff;
+    color: #0f766e;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
     cursor: pointer;
-    font-weight: 500;
-    transition: .3s;
 }
 
     .filter-btn:hover {
-        background: #14B8A6;
-        color: white;
+        background-color: #0f766e;
+        color: #ffffff;
+        border-color: #0f766e;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2);
     }
 
     .filter-btn.active {
-        background: #0F766E;
-        color: white;
+        background-color: #0f766e;
+        color: #ffffff;
+        border-color: #0f766e;
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
     }
 
+    .filter-btn i {
+        font-size: 1rem;
+    }
 
 
 /*Analytic Section*/

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -34,22 +38,15 @@
 
             <!-- Brand -->
 
-            <div class="brand">
-
-                <div class="brand-logo">
-
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-logo">
                     <i class="bi bi-heart-pulse-fill"></i>
-
                 </div>
 
-                <div class="brand-text">
-
+                <div class="sidebar-brand-text">
                     <h2>DoctorHub</h2>
-
                     <span>Enterprise Healthcare</span>
-
                 </div>
-
             </div>
 
             <!-- Navigation -->
@@ -62,7 +59,7 @@
 
                         <a asp-controller="DashBoard"
                            asp-action="Index"
-                           class="active">
+                           class="@(currentController == "DashBoard" ? "active" : "")">
 
                             <i class="bi bi-grid"></i>
 
@@ -75,7 +72,7 @@
                     <li>
 
                         <a asp-controller="Doctor"
-                           asp-action="Index">
+                           class="@(currentController == "Doctor" ? "active" : "")">
 
                             <i class="bi bi-person-badge"></i>
 
@@ -88,7 +85,8 @@
                     <li>
 
                         <a asp-controller="Patients"
-                        asp-action="Index">
+                        asp-action="Index"
+                           class="@(currentController == "Patients" ? "active" : "")">
 
                             <i class="bi bi-people"></i>
 
@@ -101,7 +99,8 @@
                     <li>
 
                         <a asp-controller="Appointments" 
-                        asp-action="Index">
+                        asp-action="Index"
+                           class="@(currentController == "Appointments" ? "active" : "")">
 
                             <i class="bi bi-calendar-check"></i>
 
@@ -114,7 +113,8 @@
                     <li>
 
                         <a asp-controller="BusinessInsights"
-                           asp-action="Index">
+                           asp-action="Index"
+                           class="@(currentController == "BusinessInsights" ? "active" : "")">
 
                             <i class="bi bi-graph-up-arrow"></i>
 
@@ -126,7 +126,8 @@
 
                     <li>
 
-                        <a href="#">
+                        <a href="#"
+                           class="@(currentController == "Departments" ? "active" : "")">
 
                             <i class="bi bi-building"></i>
 
