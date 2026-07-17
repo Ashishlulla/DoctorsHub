@@ -85,16 +85,66 @@ body {
     left: 0;
     bottom: 0;
     width: 280px;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
+    background: #FFFFFF;
+    border-right: 1px solid #E5E7EB;
     display: flex;
     flex-direction: column;
-    transition: var(--transition);
-    box-shadow: var(--shadow-sm);
+    transition: all .35s ease;
+    box-shadow: 0 8px 30px rgba(15,23,42,.08);
+    overflow: hidden;
     z-index: 1000;
 }
 
+/*==================================================
+  BRAND
+====================================================*/
 
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.sidebar-brand-logo {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 16px;
+    background: linear-gradient(135deg,#0F766E,#14B8A6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(15,118,110,.25);
+}
+
+    .sidebar-brand-logo i {
+        font-size: 28px;
+        color: #fff;
+    }
+
+.sidebar-brand-text {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+    .sidebar-brand-text h2 {
+        margin: 0;
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: #0F172A;
+        line-height: 1.2;
+    }
+
+    .sidebar-brand-text span {
+        margin-top: 4px;
+        font-size: .82rem;
+        color: #64748B;
+        font-weight: 500;
+    }
 
 /*==================================================
   NAVIGATION
@@ -102,11 +152,14 @@ body {
 
 .sidebar-nav {
     flex: 1;
-    padding: 24px 14px;
+    padding: 22px 14px;
+    overflow-y: auto;
 }
 
     .sidebar-nav ul {
         list-style: none;
+        margin: 0;
+        padding: 0;
     }
 
     .sidebar-nav li {
@@ -114,79 +167,62 @@ body {
     }
 
     .sidebar-nav a {
-        position: relative;
         display: flex;
         align-items: center;
         gap: 16px;
         padding: 14px 18px;
         border-radius: 14px;
         text-decoration: none;
-        color: var(--text);
-        font-size: 15px;
-        font-weight: 500;
-        transition: var(--transition);
+        color: #475569;
+        font-weight: 600;
+        transition: .25s ease;
     }
 
         .sidebar-nav a i {
             font-size: 20px;
-            width: 24px;
+            min-width: 24px;
             text-align: center;
         }
 
-        /* Hover */
-
         .sidebar-nav a:hover {
-            background: var(--primary-light);
-            color: var(--text);
-            transform: translateX(4px);
+            background: #ECFDF5;
+            color: #0F766E;
         }
-
-        /* Active */
 
         .sidebar-nav a.active {
-            background: var(--primary-light);
-            color: var(--text);
-            font-weight: 600;
+            background: linear-gradient(135deg,#0F766E,#14B8A6);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(15,118,110,.22);
         }
 
-            /* Active Left Bar */
-
-            .sidebar-nav a.active::before {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: 10px;
-                width: 4px;
-                height: 28px;
-                border-radius: 20px;
-                background: var(--primary);
+            .sidebar-nav a.active i {
+                color: #fff;
             }
 
 /*==================================================
-  SIDEBAR FOOTER
+  FOOTER
 ====================================================*/
 
 .sidebar-footer {
-    padding: 18px 14px;
-    border-top: 1px solid var(--border);
+    padding: 18px;
+    border-top: 1px solid #F1F5F9;
 }
 
     .sidebar-footer a {
         display: flex;
         align-items: center;
         gap: 16px;
-        padding: 14px 18px;
         text-decoration: none;
-        color: var(--text);
+        color: #475569;
+        padding: 14px 18px;
         border-radius: 14px;
-        font-size: 15px;
-        font-weight: 500;
-        transition: var(--transition);
+        font-weight: 600;
+        transition: .25s ease;
     }
 
         .sidebar-footer a:hover {
-            background: var(--primary-light);
-            color: var(--primary);
+            background: #ECFDF5;
+            color: #0F766E;
         }
 
 /*==================================================
@@ -197,13 +233,22 @@ body {
     width: 90px;
 }
 
-    .sidebar.collapsed .brand {
-        justify-content: center;
+.sidebar {
+    overflow: hidden;
+}
+    .sidebar.collapsed + .main-content {
+        margin-left: 90px;
     }
 
-    .sidebar.collapsed .brand-text {
-        display: none;
+    .sidebar.collapsed .sidebar-brand {
+        justify-content: center;
+        padding: 24px 0;
     }
+
+    .sidebar.collapsed .sidebar-brand-text {
+        display:none !important;
+    }
+
 
     .sidebar.collapsed .sidebar-nav a {
         justify-content: center;
@@ -214,12 +259,9 @@ body {
             display: none;
         }
 
-        .sidebar.collapsed .sidebar-nav a.active::before {
-            display: none;
-        }
-
     .sidebar.collapsed .sidebar-footer a {
         justify-content: center;
+        padding: 14px;
     }
 
     .sidebar.collapsed .sidebar-footer span {
@@ -230,18 +272,20 @@ body {
   SCROLLBAR
 ====================================================*/
 
-.sidebar::-webkit-scrollbar {
+.sidebar-nav::-webkit-scrollbar {
     width: 6px;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-    background: #d7dddd;
-    border-radius: 20px;
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 10px;
 }
 
-    .sidebar::-webkit-scrollbar-thumb:hover {
-        background: #bcc5c5;
+    .sidebar-nav::-webkit-scrollbar-thumb:hover {
+        background: #94A3B8;
     }
+ 
+
 
 
 /*==================================================
@@ -599,10 +643,6 @@ body {
 
 
 
-/*==================================================
-  DoctorHub Enterprise UI
-  Layout.css (Part 3)
-====================================================*/
 
 /*==================================================
   ANIMATIONS
@@ -993,55 +1033,5 @@ body.dark-mode {
     }
 
 
-/*=========================================
-  BRAND
-=========================================*/
 
-.sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 24px;
-    border-bottom: 1px solid var(--border);
-}
-
-.sidebar-brand-logo {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 10px 25px rgba(15, 118, 110, 0.25);
-}
-
-    .sidebar-brand-logo i {
-        font-size: 30px;
-        color: #ffffff;
-        line-height: 1;
-        display: block;
-    }
-
-.sidebar-brand-text {
-    display: flex;
-    flex-direction: column;
-}
-
-    .sidebar-brand-text h2 {
-        margin: 0;
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--text);
-        line-height: 1.2;
-    }
-
-    .sidebar-brand-text span {
-        margin-top: 4px;
-        font-size: 0.85rem;
-        color: var(--text-light);
-        font-weight: 500;
-        letter-spacing: 0.3px;
-    }
 

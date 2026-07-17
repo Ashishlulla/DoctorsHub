@@ -1,6 +1,8 @@
-﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
+﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
+using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
 using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
+using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +21,27 @@ namespace DoctorsHub.Infrastructure.Repositories
             _db = db;
         }
 
-        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync()
+        private IQueryable<Appointment> GetFilteredAppointments(AnalyticsTimeFilter timeFilter)
         {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+
+            return timeFilter switch
+            {
+                AnalyticsTimeFilter.Today => _db.Appointments.Where(a => a.AppointmentDate == today),
+                AnalyticsTimeFilter.Week => _db.Appointments.Where(a => a.AppointmentDate >= today.AddDays(-7)),
+                AnalyticsTimeFilter.Month => _db.Appointments.Where(a => a.AppointmentDate == today.AddMonths(-1)),
+                AnalyticsTimeFilter.Quarter => _db.Appointments.Where(a => a.AppointmentDate == today.AddMonths(-3)),
+                AnalyticsTimeFilter.SixMonths => _db.Appointments.Where(a => a.AppointmentDate == today.AddMonths(-6)),
+
+                AnalyticsTimeFilter.Year => _db.Appointments.Where(a => a.AppointmentDate == today.AddYears(-1)),
+
+                _ => _db.Appointments
+            };
+        }
+
+        public async Task<List<AppointmentsByDoctorDto>> GetAppointmentsByDoctorsAsync(IQueryable<Appointment> appointments)
+        {
+            
             return await _db.Appointments
                 .Include(d => d.Doctor)
                 .GroupBy(d => d.Doctor.FullName)
@@ -33,9 +54,11 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync()
+        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync(IQueryable<Appointment> appointments)
         {
-            return await _db.Appointments
+
+            
+            return  appointments
                 .GroupBy(a => a.Status)
                 .Select(g => new AppointmentStatusChartDto
                     {
@@ -44,11 +67,11 @@ namespace DoctorsHub.Infrastructure.Repositories
                     }
                 )
                 .OrderBy(o=>o.Count)
-                .ToListAsync();
+                .ToList();
 
         }
 
-        public async Task<List<AppointmentTrendDto>> GetAppointmentTrendAsync()
+        public async Task<List<AppointmentTrendDto>> GetAppointmentTrendAsync(IQueryable<Appointment> appointments)
         {
             var appointments = await _db.Appointments.Select(a => a.AppointmentDate).ToListAsync();
 
@@ -63,7 +86,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ToList();
         }
 
-        public async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctors()
+        public async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctors(IQueryable<Appointment> appointments)
         {
             return await _db.Appointments
                .Where(a => a.Status == AppointmentStatus.Completed)
@@ -77,7 +100,9 @@ namespace DoctorsHub.Infrastructure.Repositories
                .ToListAsync();
         }
 
-        public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync()
+        
+
+        public async Task<List<PeakAppointmentHoursDto>> GetPeakAppointmentHoursAsync(IQueryable<Appointment> appointments)
         {
             return await _db.Appointments
                 .GroupBy(a => a.StartTime.Hours)
@@ -90,7 +115,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync()
+        public async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync(IQueryable<Appointment> appointments)
         {
             return await _db.Appointments
                 .Where(a=>a.Status == AppointmentStatus.Completed)
@@ -104,7 +129,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public Task<List<RevenueTrendDto>> GetRevenueTrendAsync()
+        public Task<List<RevenueTrendDto>> GetRevenueTrendAsync(IQueryable<Appointment> appointments)
         {
             string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             
@@ -122,7 +147,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingDoctors()
+        public async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingDoctors(IQueryable<Appointment> appointments)
         {
             return await _db.Appointments
                 .Where(a => a.Status == AppointmentStatus.Completed)
@@ -137,5 +162,46 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .OrderBy(o=>o.RevenueGenerated)
                 .ToListAsync();
         }
+
+        
+
+        public async Task<BusinessInsightsDto> GetbusinessInsightsAsync(AnalyticsTimeFilter timeFilter)
+        {
+            IQueryable<Appointment> appointments = GetFilteredAppointments(timeFilter);
+
+            // Appointment Analytics methods call
+
+            var appointmentStatusTask = GetAppointmentStatusChartAsync(appointments);
+            var appointmentsTrendTask = GetAppointmentTrendAsync(appointments);
+            var appointmentByDoctorTask = GetAppointmentsByDoctorsAsync(appointments);
+            var appointmentPeakHoursTask = GetPeakAppointmentHoursAsync(appointments);
+
+            //Revenue Analytics Methods calls
+
+            IQueryable<Appointment> completedAppointments = appointments.Where(a=>a.Status == AppointmentStatus.Completed);
+
+            var revenueTrendTask = GetRevenueTrendAsync(completedAppointments);
+            var revenueByDoctorTask = GetRevenueByDoctorsAsync(completedAppointments);
+            var topRevenueByDoctorsTask = GetTopRevenueGeneratingDoctors(completedAppointments);
+            var avergeRevenueByDoctorTask = GetAverageRevenueGeneratedByDoctors(completedAppointments);
+
+            await Task.WhenAll(appointmentStatusTask, appointmentsTrendTask, appointmentByDoctorTask, appointmentPeakHoursTask, revenueTrendTask, revenueByDoctorTask, topRevenueByDoctorsTask, avergeRevenueByDoctorTask);
+
+            //Appoitments Analytics Methods
+            var appointmentStatus = await appointmentStatusTask;
+            var appointmentsTrend = await appointmentsTrendTask;
+            var appointmentByDoctor = await appointmentByDoctorTask;
+            var appointmentPeakHour = await appointtask
+
+
+
+            //return new BusinessInsightsDto
+            //{
+            //    GetAppointmentStatuses = 
+            //};
+
+
+        }
     }
 }
+

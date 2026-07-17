@@ -2,6 +2,7 @@
 using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using DoctorsHub.Domain.Enums;
 
 
 namespace DoctorsHub.Application.Services
@@ -22,9 +23,9 @@ namespace DoctorsHub.Application.Services
             return await _businessInsightsRepository.GetAppointmentsByDoctorsAsync();
         }
 
-        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync()
+        public async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync(AnalyticsTimeFilter timeFilter)
         {
-            return await _businessInsightsRepository.GetAppointmentStatusChartAsync();
+            return await _businessInsightsRepository.GetAppointmentStatusChartAsync(timeFilter);
         }
 
         public async Task<List<AppointmentTrendDto>> GetAppointmentTrendsAsync()

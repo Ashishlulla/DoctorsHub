@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
 using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
+using DoctorsHub.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
     {
         //Appointment Analytics Sevice Contracts
         #region Appointment Analytics Service Contracts
-        Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync();
+        Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync(AnalyticsTimeFilter timeFilter);
 
         Task<List<AppointmentTrendDto>> GetAppointmentTrendsAsync();
 

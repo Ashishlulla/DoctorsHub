@@ -1,6 +1,7 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts.AppointmentAnalyticsDto;
 using DoctorsHub.Application.DTOs.BusinessInsigts.RevenueAnalyticsDto;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using DoctorsHub.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
@@ -20,9 +21,10 @@ namespace DoctorsHub.API.Controllers
 
         #region Appointment Analytics Action Methods
         [HttpGet("appointment-status")]
-        public async Task<IActionResult> GetAppointmentStatusAsync() 
+        public async Task<IActionResult> GetAppointmentStatusAsync(AnalyticsTimeFilter timeFilter = AnalyticsTimeFilter.Month) 
         {
-            List<AppointmentStatusChartDto> appointmentStatuses = await _businessInsightsService.GetAppointmentStatusChartAsync();
+
+            List<AppointmentStatusChartDto> appointmentStatuses = await _businessInsightsService.GetAppointmentStatusChartAsync(timeFilter);
 
             return Ok(appointmentStatuses);
         }
