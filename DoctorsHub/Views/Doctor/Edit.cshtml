@@ -4,121 +4,374 @@
     ViewData["Title"] = "Edit Doctor";
 }
 
-<div class="page-container">
+<link rel="stylesheet" href="~/css/createPage.css" asp-append-version="true" />
+
+
+<div class="create-page">
+
 
     <!-- ===== HEADER ===== -->
-    <div class="header">
-        <h2>Edit Doctor</h2>
 
-        <div class="actions">
-            <button type="submit" form="doctorEditForm" class="btn-save">
+    <div class="create-header">
+
+        <h2>
+            Edit Doctor
+        </h2>
+
+
+        <div class="create-actions">
+
+
+            <button type="submit"
+                    form="doctorEditForm"
+                    class="create-btn-save">
+
                 Update
+
             </button>
 
-            <a asp-controller="Doctor" asp-action="Index" class="btn-cancel">
+
+
+            <a asp-controller="Doctor"
+               asp-action="Index"
+               class="create-btn-cancel">
+
                 Cancel
+
             </a>
+
+
         </div>
+
+
     </div>
 
+
+
+
+
     <!-- ===== FORM ===== -->
-    <form id="doctorEditForm" asp-action="Edit" asp-controller="Doctor" method="post">
 
-        <div class="form-card">
 
-           
+    <form id="doctorEditForm"
+          asp-action="Edit"
+          asp-controller="Doctor"
+          method="post">
+
+
+        <div class="create-card">
+
+
+
+
 
             <!-- ================= Professional Information ================= -->
-            <section class="form-section">
-                <h3>Professional Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Professional Information
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label asp-for="FullName"></label>
-                        <input asp-for="FullName" />
-                        <span asp-validation-for="FullName"></span>
+
+                        <label asp-for="FullName"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="FullName"
+                               class="create-input" />
+
+
+                        <span asp-validation-for="FullName"
+                              class="text-danger">
+                        </span>
+
                     </div>
 
-                    <div>
-                        <label asp-for="PhoneNumber"></label>
-                        <input asp-for="PhoneNumber" />
-                        <span asp-validation-for="PhoneNumber"></span>
-                    </div>
+
+
+
 
                     <div>
-                        <label asp-for="Qualification"></label>
-                        <input asp-for="Qualification" />
-                        <span asp-validation-for="Qualification"></span>
+
+                        <label asp-for="PhoneNumber"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="PhoneNumber"
+                               class="create-input" />
+
+
+                        <span asp-validation-for="PhoneNumber"
+                              class="text-danger">
+                        </span>
+
                     </div>
 
+
+
+
+
                     <div>
-                        <label asp-for="ExperienceYears"></label>
-                        <input asp-for="ExperienceYears" type="number" />
-                        <span asp-validation-for="ExperienceYears"></span>
+
+                        <label asp-for="Qualification"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="Qualification"
+                               class="create-input" />
+
+
+                        <span asp-validation-for="Qualification"
+                              class="text-danger">
+                        </span>
+
                     </div>
+
+
+
+
+
+                    <div>
+
+                        <label asp-for="ExperienceYears"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="ExperienceYears"
+                               type="number"
+                               class="create-input" />
+
+
+                        <span asp-validation-for="ExperienceYears"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+
                 </div>
+
+
             </section>
+
+
+
+
+
+
+
+
 
             <!-- ================= Medical Information ================= -->
-            <section class="form-section">
-                <h3>Medical Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Medical Information
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
-                    <div>
-                        <label asp-for="ConsultationFee"></label>
-                        <input asp-for="ConsultationFee" type="number" step="0.01" />
-                        <span asp-validation-for="ConsultationFee"></span>
-                    </div>
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label asp-for="VisitDays"></label>
-                        <input asp-for="VisitDays" />
-                        <span asp-validation-for="VisitDays"></span>
+
+                        <label asp-for="ConsultationFee"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="ConsultationFee"
+                               type="number"
+                               step="0.01"
+                               class="create-input" />
+
+
+                        <span asp-validation-for="ConsultationFee"
+                              class="text-danger">
+                        </span>
+
                     </div>
 
+
+
+
+
                     <div>
-                        <label asp-for="SpecializationId"></label>
+
+                        <label asp-for="VisitDays"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="VisitDays"
+                               class="create-input" />
+
+
+                        <span asp-validation-for="VisitDays"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+
+
+
+                    <div>
+
+                        <label asp-for="SpecializationId"
+                               class="create-label">
+                        </label>
+
 
                         <select asp-for="SpecializationId"
-                                asp-items="ViewBag.Specializations">
-                            <option value="">-- Select Specialization --</option>
+                                asp-items="ViewBag.Specializations"
+                                class="create-input">
+
+
+                            <option value="">
+                                -- Select Specialization --
+                            </option>
+
+
                         </select>
 
-                        <span asp-validation-for="SpecializationId"></span>
+
+
+                        <span asp-validation-for="SpecializationId"
+                              class="text-danger">
+                        </span>
+
                     </div>
+
+
+
                 </div>
+
+
             </section>
+
+
+
+
+
+
+
+
 
             <!-- ================= About Doctor ================= -->
-            <section class="form-section">
-                <h3>About Doctor</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    About Doctor
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div class="full-width">
-                        <label asp-for="About"></label>
-                        <textarea asp-for="About" rows="5"></textarea>
-                        <span asp-validation-for="About"></span>
+
+
+                        <label asp-for="About"
+                               class="create-label">
+                        </label>
+
+
+
+                        <textarea asp-for="About"
+                                  class="create-textarea"
+                                  rows="5">
+                        </textarea>
+
+
+
+                        <span asp-validation-for="About"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
+
                 </div>
+
+
             </section>
+
+
+
+
+
+
+            <!-- Delete -->
+
             <div class="delete-actions">
+
+
                 <a asp-action="Delete"
-                    asp-asp-controller="Doctor"
+                   asp-controller="Doctor"
                    asp-route-id="@Model.Id"
                    class="btn-delete">
+
                     Delete
+
                 </a>
+
+
             </div>
+
+
+
+
         </div>
+
+
     </form>
+
+
+
 </div>
 
+
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }

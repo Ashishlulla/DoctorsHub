@@ -1,5 +1,5 @@
 ﻿.btn-save {
-    background: #14b8a6;
+    background: linear-gradient(135deg,#0F766E,#14B8A6);
     color: white;
     border: none;
     padding: 9px 14px;
@@ -14,7 +14,7 @@
     }
 
 .btn-search {
-    background: #14b8a6;
+    background: linear-gradient(135deg,#0F766E,#14B8A6);
     color: white;
     border: none;
     padding: 9px 14px;
@@ -34,7 +34,7 @@
     }
 
 .btn-edit {
-    background: #E6FFFA;
+    background: linear-gradient(135deg,#0F766E,#14B8A6);
     color: #0F766E;
     padding: 6px 10px;
     border-radius: 8px;
@@ -70,6 +70,7 @@
     background: #ef4444;
     color: #fff;
     border: none;
+    font-weight:600;
    
 }
 

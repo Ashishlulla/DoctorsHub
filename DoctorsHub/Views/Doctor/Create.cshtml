@@ -1,128 +1,369 @@
 ﻿@model CreateDoctorDto
+@{
+    ViewData["Title"] = "Create Doctor";
+}
 
-<div class="page-container">
+<link rel="stylesheet" href="~/css/createPage.css" asp-append-version="true" />
+
+
+<div class="create-page">
+
 
     <!-- ===== HEADER ===== -->
-    <div class="header">
-        <h2>Create Doctor</h2>
 
-        <div class="actions">
-            <button type="submit" form="doctorForm" class="btn-save">Save</button>
-            <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
+    <div class="create-header">
+
+        <h2>
+            Create Doctor
+        </h2>
+
+
+        <div class="create-actions">
+
+
+            <button type="submit"
+                    form="doctorForm"
+                    class="create-btn-save">
+
+                Save
+
+            </button>
+
+
+
+            <button type="button"
+                    class="create-btn-cancel"
+                    onclick="window.history.back()">
+
+                Cancel
+
+            </button>
+
+
         </div>
+
+
     </div>
 
-    <!-- ===== FORM CARD ===== -->
-    <form id="doctorForm" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-card">
+
+
+
+    <!-- ===== FORM CARD ===== -->
+
+
+    <form id="doctorForm" method="post">
+
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger">
+        </div>
+
+
+
+        <div class="create-card">
+
+
+
+
 
             <!-- ================= Account Information ================= -->
-            <section class="form-section">
-                <h3>Account Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Account Information
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label>Full Name</label>
+
+                        <label class="create-label">
+                            Full Name
+                        </label>
+
+
                         <input type="text"
                                name="FullName"
+                               class="create-input"
                                placeholder="Enter full name"
                                required />
+
+
                     </div>
 
+
+
+
                     <div>
-                        <label>Email</label>
+
+                        <label class="create-label">
+                            Email
+                        </label>
+
+
                         <input type="email"
                                name="Email"
+                               class="create-input"
                                placeholder="doctor@email.com"
                                required />
+
+
                     </div>
 
+
+
+
                     <div>
-                        <label>Password</label>
+
+                        <label class="create-label">
+                            Password
+                        </label>
+
+
                         <input type="password"
                                name="Password"
-                               placeholder="enter password"
+                               class="create-input"
+                               placeholder="Enter password"
                                required />
+
+
                     </div>
 
+
+
+
                     <div>
-                        <label>Consultation Fee (₹)</label>
+
+                        <label class="create-label">
+                            Consultation Fee (₹)
+                        </label>
+
+
                         <input type="number"
                                name="ConsultationFee"
+                               class="create-input"
                                placeholder="e.g. 500" />
+
+
                     </div>
 
+
+
                 </div>
+
+
             </section>
+
+
+
+
+
+
+
+
 
             <!-- ================= Professional Information ================= -->
-            <section class="form-section">
-                <h3>Professional Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Professional Information
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label>Qualification</label>
+
+                        <label class="create-label">
+                            Qualification
+                        </label>
+
+
                         <input type="text"
                                name="Qualification"
+                               class="create-input"
                                placeholder="MBBS, MD..." />
+
+
                     </div>
 
-                    <div>
-                        <label>Specialization</label>
 
-                        <select asp-for="SpecializationId" asp-items="ViewBag.Specializations">
-                            <option value="">-- Select Specialization --</option>
+
+
+
+
+                    <div>
+
+
+                        <label class="create-label">
+                            Specialization
+                        </label>
+
+
+
+                        <select asp-for="SpecializationId"
+                                asp-items="ViewBag.Specializations"
+                                class="create-input">
+
+
+                            <option value="">
+                                -- Select Specialization --
+                            </option>
+
+
                         </select>
 
+
+
                         <span asp-validation-for="SpecializationId"
-                              class="text-danger"></span>
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
+
+
+
+
                     <div>
-                        <label>Experience (Years)</label>
+
+
+                        <label class="create-label">
+                            Experience (Years)
+                        </label>
+
+
+
                         <input type="number"
                                name="ExperienceYears"
+                               class="create-input"
                                placeholder="e.g. 5" />
+
+
                     </div>
+
+
+
+
+
 
                     <div>
-                        <label>Visit Days</label>
+
+
+                        <label class="create-label">
+                            Visit Days
+                        </label>
+
+
+
                         <input type="text"
                                name="VisitDays"
+                               class="create-input"
                                placeholder="Mon - Fri" />
+
+
                     </div>
 
+
+
                 </div>
+
+
             </section>
+
+
+
+
+
+
+
+
 
             <!-- ================= Practice Information ================= -->
-            <section class="form-section">
-                <h3>Practice Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Practice Information
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
 
-                    
+
+                <div class="create-form-group">
+
+
 
                     <div class="full-width">
-                        <label>About</label>
+
+
+                        <label class="create-label">
+                            About
+                        </label>
+
+
+
                         <textarea name="About"
+                                  class="create-textarea"
                                   rows="4"
-                                  placeholder="Write a short professional description..."></textarea>
+                                  placeholder="Write a short professional description...">
+                        </textarea>
+
+
+
                     </div>
 
+
+
                 </div>
+
+
             </section>
 
+
+
+
+
         </div>
+
 
     </form>
 
+
+
 </div>
 
+
+
+@section Scripts
+{
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

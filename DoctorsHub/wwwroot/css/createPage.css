@@ -1,0 +1,152 @@
+﻿:root {
+    --create-primary: #0F766E;
+    --create-primary-hover: #115E59;
+    --create-bg: #F8FAFC;
+    --create-card: #FFFFFF;
+    --create-border: #E5E7EB;
+    --create-text: #1F2937;
+}
+
+
+.create-page {
+    padding: 20px;
+    width: 100%;
+}
+
+
+.create-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 18px 24px;
+    border-radius: 14px;
+    border: 1px solid var(--create-border);
+    margin-bottom: 25px;
+}
+
+
+    .create-header h2 {
+        margin: 0;
+        color: var(--create-text);
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+
+.create-actions {
+    display: flex;
+    gap: 12px;
+}
+
+
+.create-btn-save,
+.create-btn-cancel {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+
+.create-btn-save {
+    background: var(--create-primary);
+    color: white;
+}
+
+
+    .create-btn-save:hover {
+        background: var(--create-primary-hover);
+    }
+
+
+.create-btn-cancel {
+    background: #F3F4F6;
+    color: #374151;
+    text-decoration:none;
+}
+
+
+.create-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid var(--create-border);
+}
+
+
+.create-section {
+    margin-bottom: 35px;
+}
+
+
+    .create-section h3 {
+        color: var(--create-primary);
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+
+.create-form-group {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 22px;
+}
+
+
+    .create-form-group div {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+.create-label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+}
+
+
+.create-input,
+.create-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--create-border);
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+
+    .create-input:focus,
+    .create-textarea:focus {
+        border-color: var(--create-primary);
+        box-shadow: 0 0 0 3px rgba(15,118,110,.12);
+    }
+
+
+.create-textarea {
+    resize: none;
+}
+
+
+.full-width {
+    grid-column: 1/-1;
+}
+
+
+
+@media(max-width:768px) {
+
+    .create-form-group {
+        grid-template-columns: 1fr;
+    }
+
+
+    .create-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+}

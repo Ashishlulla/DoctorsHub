@@ -1,6 +1,4 @@
-﻿
-
-:root {
+﻿:root {
     --primary: #0F766E;
     --primary-dark: #134E4A;
     --primary-light: #14B8A6;
@@ -13,11 +11,13 @@
     --shadow: 0 10px 35px rgba(0,0,0,.08);
 }
 
+
 body {
     margin: 0;
     background: var(--background);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
 }
+
 
 /* ==========================
    Page Layout
@@ -31,6 +31,7 @@ body {
     padding: 40px;
 }
 
+
 .auth-container {
     width: 100%;
     max-width: 1180px;
@@ -42,11 +43,14 @@ body {
     box-shadow: var(--shadow);
 }
 
+
+
 /* ==========================
    Branding Section
 ========================== */
 
-.brand-section {
+
+.auth-brand-section {
     background: linear-gradient(135deg,#134E4A,#0F766E);
     color: white;
     padding: 60px;
@@ -55,14 +59,16 @@ body {
     justify-content: center;
 }
 
-.brand {
+
+.auth-brand {
     display: flex;
     align-items: center;
     gap: 22px;
     margin-bottom: 45px;
 }
 
-.brand-logo {
+
+.auth-brand-logo {
     width: 76px;
     height: 76px;
     border-radius: 18px;
@@ -73,12 +79,14 @@ body {
     flex-shrink: 0;
 }
 
-    .brand-logo i {
+
+    .auth-brand-logo i {
         font-size: 2rem;
         color: white;
     }
 
-.brand-text h1 {
+
+.auth-brand-text h1 {
     margin: 0;
     color: white;
     font-size: 2.8rem;
@@ -86,24 +94,29 @@ body {
     line-height: 1.1;
 }
 
-.brand-text p {
+
+.auth-brand-text p {
     margin: 8px 0 0;
     color: rgba(255,255,255,.88);
     font-size: 1.05rem;
     line-height: 1.6;
 }
 
+
+
 /* ==========================
    Feature List
 ========================== */
 
-.feature-list {
+
+.auth-feature-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-    .feature-list li {
+
+    .auth-feature-list li {
         display: flex;
         align-items: center;
         gap: 16px;
@@ -112,54 +125,67 @@ body {
         font-weight: 500;
     }
 
-    .feature-list i {
+
+    .auth-feature-list i {
         color: #99F6E4;
         font-size: 1.15rem;
     }
+
+
 
 /* ==========================
    Form Section
 ========================== */
 
-.form-section {
+
+.auth-form-section {
     background: white;
     padding: 55px;
     display: flex;
     align-items: center;
 }
 
-.form-wrapper {
+
+.auth-form-wrapper {
     width: 100%;
     max-width: 430px;
     margin: auto;
 }
 
-.form-wrapper h2 {
-    color: var(--primary-dark);
-    font-weight: 700;
-    margin-bottom: 8px;
-}
 
-.form-subtitle {
+    .auth-form-wrapper h2 {
+        color: var(--primary-dark);
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+
+.auth-form-subtitle {
     color: var(--muted);
     margin-bottom: 35px;
 }
+
+
+
 
 /* ==========================
    Form Controls
 ========================== */
 
-.form-group {
+
+.auth-form-group {
     margin-bottom: 22px;
 }
 
-.form-label {
+
+.auth-form-label {
     color: var(--primary-dark);
     font-weight: 600;
     margin-bottom: 8px;
 }
 
-.form-control {
+
+.auth-form-control {
     width: 100%;
     height: 54px;
     border: 1px solid #E5E7EB;
@@ -167,49 +193,42 @@ body {
     background: #F9FAFB;
     padding: 0 18px;
     transition: .25s;
-    box-shadow: none;
     font-size: .96rem;
-    margin-top:10px;
+    margin-top: 10px;
 }
 
-.form-control:hover {
-    background: #fff;
-    border-color: #14B8A6;
-}
 
-.form-control:focus {
-    background: #fff;
-    border-color: #0F766E;
-    box-shadow: 0 0 0 3px rgba(15,118,110,.12);
-}
+    .auth-form-control:hover {
+        background: #fff;
+        border-color: #14B8A6;
+    }
 
-.form-control:focus {
-    border-color: var(--primary-light);
-    box-shadow: 0 0 0 .18rem rgba(20,184,166,.15) !important;
-}
+
+    .auth-form-control:focus {
+        background: #fff;
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 .18rem rgba(20,184,166,.15) !important;
+    }
+
+
 
 /* ==========================
-   Password Toggle
+   Password Wrapper
 ========================== */
 
-.password-wrapper {
+
+.auth-password-wrapper {
     position: relative;
 }
 
-.password-toggle {
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: var(--muted);
-}
+
 
 /* ==========================
    Button
 ========================== */
 
-.btn-auth {
+
+.auth-btn {
     width: 100%;
     height: 56px;
     border: none;
@@ -221,22 +240,23 @@ body {
     transition: .25s;
 }
 
-    .btn-auth:hover {
-        background: #14B8A6;
+
+    .auth-btn:hover {
+        background: var(--primary-light);
         transform: translateY(-1px);
     }
 
-.btn-auth:hover {
-    background: var(--primary-light);
-}
 
-.btn-auth:disabled {
-    opacity: .75;
-}
+    .auth-btn:disabled {
+        opacity: .75;
+    }
+
+
 
 /* ==========================
    Validation
 ========================== */
+
 
 .validation-summary-errors,
 .text-danger {
@@ -244,9 +264,12 @@ body {
     font-size: .9rem;
 }
 
+
+
 /* ==========================
-   Footer Link
+   Footer
 ========================== */
+
 
 .auth-footer {
     margin-top: 30px;
@@ -254,19 +277,17 @@ body {
     color: var(--muted);
 }
 
-.auth-footer a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 600;
-}
 
-.auth-footer a:hover {
-    color: var(--primary-light);
-}
+    .auth-footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+    }
 
-/* ==========================
-   Responsive
-========================== */
+
+        .auth-footer a:hover {
+            color: var(--primary-light);
+        }
 
 
 
@@ -274,54 +295,68 @@ body {
    Name Grid
 ========================== */
 
-.name-grid {
+
+.auth-name-grid {
     display: grid;
     grid-template-columns: repeat(2,1fr);
     gap: 18px;
     margin-bottom: 22px;
 }
 
-    .name-grid .form-group {
+
+    .auth-name-grid .auth-form-group {
         margin-bottom: 0;
     }
+
+
 
 /* ==========================
    Responsive
 ========================== */
+
+
 @media(max-width:992px) {
+
 
     .auth-container {
         grid-template-columns: 1fr;
     }
 
-    .brand-section,
-    .form-section {
+
+    .auth-brand-section,
+    .auth-form-section {
         padding: 45px;
     }
 
-    .brand {
+
+    .auth-brand {
         margin-bottom: 35px;
     }
 }
 
+
+
 @media(max-width:768px) {
 
-    .name-grid {
+
+    .auth-name-grid {
         grid-template-columns: 1fr;
     }
 
-    .brand {
+
+    .auth-brand {
         flex-direction: column;
         align-items: flex-start;
         gap: 18px;
     }
 
-    .brand-text h1 {
+
+    .auth-brand-text h1 {
         font-size: 2.2rem;
     }
 
-    .brand-text p {
+
+    .auth-brand-text p {
         font-size: .95rem;
     }
-}
 }

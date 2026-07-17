@@ -25,6 +25,7 @@ namespace DoctorsHub.Application.Mapping
             CreateMap<UpdatePatientDto,Patient>();
             CreateMap<Patient, PatientDto>();
             CreateMap<Patient, UpdatePatientDto>();
+            CreateMap<PatientDto, UpdatePatientDto>();
 
             //Appointment Mapping
             CreateMap <CreateAppointmentDto, Appointment>();

@@ -9,9 +9,8 @@ body {
 /* ===== Container ===== */
 .page-container {
     width: 100%;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
+    max-width: 100%;
+    padding: 10px;
 }
 
 /* ===== Header ===== */

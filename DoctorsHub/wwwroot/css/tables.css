@@ -10,8 +10,8 @@
     border-collapse: collapse;
 }
 
-    .table  thead tr th {
-        background: #14b8a6;
+    .table thead tr th {
+        background: linear-gradient(135deg,#0F766E,#14B8A6);
     }
 
         .table thead th {

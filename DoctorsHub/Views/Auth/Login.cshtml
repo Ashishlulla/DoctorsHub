@@ -6,153 +6,245 @@
 }
 
 <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+
 <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 
 <div class="auth-page">
 
     <div class="auth-container">
 
+
         <!-- ===========================
              Left Branding Section
         ============================ -->
 
-        <div class="brand-section">
 
-            <div class="brand">
+        <div class="auth-brand-section">
 
-                <div class="brand-logo">
+
+            <div class="auth-brand">
+
+
+                <div class="auth-brand-logo">
+
                     <i class="bi bi-heart-pulse-fill"></i>
+
                 </div>
 
-                <div class="brand-text">
-                    <h1>DoctorsHub</h1>
-                    <p>multiSpeciality Hospital Management System</p>
+
+
+                <div class="auth-brand-text">
+
+                    <h1>
+                        DoctorsHub
+                    </h1>
+
+                    <p>
+                        MultiSpeciality Hospital Management System
+                    </p>
+
                 </div>
+
 
             </div>
 
-            <ul class="feature-list">
+
+
+
+
+            <ul class="auth-feature-list">
+
 
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Doctor & Patient Management
                 </li>
 
+
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Appointment Scheduling
                 </li>
+
 
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Easy Appointment Booking
                 </li>
 
+
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Business Analytics
                 </li>
+
 
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Trusted Microsoft Identity Security
                 </li>
 
+
             </ul>
 
+
         </div>
+
+
+
+
 
         <!-- ===========================
              Login Form
         ============================ -->
 
-        <div class="form-section">
 
-            <div class="form-wrapper">
+        <div class="auth-form-section">
 
-                <h2>Welcome Back</h2>
 
-                <p class="form-subtitle">
+            <div class="auth-form-wrapper">
+
+
+                <h2>
+                    Welcome Back
+                </h2>
+
+
+                <p class="auth-form-subtitle">
                     Sign in to continue to DoctorsHub.
                 </p>
 
+
+
+
                 <form asp-action="Login" method="post">
 
+
                     <div asp-validation-summary="ModelOnly"
-                         class="text-danger mb-3"></div>
+                         class="text-danger mb-3">
+                    </div>
+
+
+
+
 
                     <!-- Email -->
 
-                    <div class="form-group">
 
-                        <label asp-for="Email" class="form-label"></label>
-                        <br />
+                    <div class="auth-form-group">
+
+
+                        <label asp-for="Email"
+                               class="auth-form-label">
+                        </label>
+
 
                         <input asp-for="Email"
-                               class="form-control"
+                               class="auth-form-control"
                                placeholder="Enter your email" />
 
+
                         <span asp-validation-for="Email"
-                              class="text-danger"></span>
+                              class="text-danger">
+                        </span>
+
 
                     </div>
 
+
+
+
+
+
                     <!-- Password -->
 
-                    <div class="form-group">
+
+                    <div class="auth-form-group">
+
 
                         <label asp-for="Password"
-                               class="form-label"></label>
+                               class="auth-form-label">
+                        </label>
 
-                        <div class="password-wrapper">
-                            <br />
+
+
+                        <div class="auth-password-wrapper">
+
 
                             <input asp-for="Password"
                                    id="password"
                                    type="password"
-                                   class="form-control"
+                                   class="auth-form-control"
                                    placeholder="Enter your password" />
 
-                            
 
                         </div>
 
+
+
                         <span asp-validation-for="Password"
-                              class="text-danger"></span>
+                              class="text-danger">
+                        </span>
+
 
                     </div>
 
+
+
+
+
+
+
                     <button type="submit"
-                            class="btn-auth">
+                            class="auth-btn">
+
 
                         Sign In
 
+
                     </button>
+
+
+
 
                 </form>
 
+
+
+
+
                 <div class="auth-footer">
 
+
                     Don't have an account?
+
 
                     <a asp-action="Register">
                         Create Account
                     </a>
 
+
                 </div>
+
+
 
             </div>
 
+
         </div>
 
+
+
     </div>
+
 
 </div>
 
 @section Scripts
 {
+
     <partial name="_ValidationScriptsPartial" />
 
-   
 }

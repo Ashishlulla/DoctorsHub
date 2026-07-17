@@ -1,79 +1,249 @@
 ﻿@model CreatePatientDto
 
-<div class="page-container">
+@{
+    ViewData["Title"] = "Create Patient";
+}
+
+<link rel="stylesheet" href="~/css/createPage.css" asp-append-version="true" />
+
+<div class="create-page">
+
 
     <!-- ===== HEADER ===== -->
-    <div class="header">
+
+    <div class="create-header">
+
         <h2>Create Patient</h2>
 
-        <div class="actions">
-            <button type="submit" form="patientForm" class="btn-save">Save</button>
-            <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
+
+        <div class="create-actions">
+
+            <button type="submit"
+                    form="patientForm"
+                    class="create-btn-save">
+                Save
+            </button>
+
+
+            <button type="button"
+                    class="create-btn-cancel"
+                    onclick="window.history.back()">
+                Cancel
+            </button>
+
         </div>
+
     </div>
 
-    <!-- ===== FORM CARD ===== -->
-    <form id="patientForm" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-card">
+
+    <!-- ===== FORM CARD ===== -->
+
+
+    <form id="patientForm" method="post">
+
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger">
+        </div>
+
+
+
+        <div class="create-card">
+
+
 
             <!-- ================= Personal Information ================= -->
-            <section class="form-section">
-                <h3>Personal Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Personal Information
+                </h3>
+
                 <hr />
 
-                <div class="form-group">
+
+                <div class="create-form-group">
+
 
                     <div>
-                        <label asp-for="FullName"></label>
-                        <input asp-for="FullName" placeholder="Enter full name" />
-                        <span asp-validation-for="FullName" class="text-danger"></span>
+
+                        <label asp-for="FullName"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="FullName"
+                               class="create-input"
+                               placeholder="Enter full name" />
+
+
+                        <span asp-validation-for="FullName"
+                              class="text-danger">
+                        </span>
+
                     </div>
 
-                    <div>
-                        <label asp-for="Email"></label>
-                        <input asp-for="Email" type="email" placeholder="patient@email.com" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
+
+
 
                     <div>
-                        <label asp-for="DateOfBirth"></label>
-                        <input asp-for="DateOfBirth" type="date" />
-                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+                        <label asp-for="Email"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="Email"
+                               class="create-input"
+                               type="email"
+                               placeholder="patient@email.com" />
+
+
+                        <span asp-validation-for="Email"
+                              class="text-danger">
+                        </span>
+
                     </div>
 
+
+
+
                     <div>
-                        <label asp-for="Gender"></label>
-                        <select asp-for="Gender">
-                            <option value="">-- Select Gender --</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
+
+                        <label asp-for="DateOfBirth"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="DateOfBirth"
+                               class="create-input"
+                               type="date" />
+
+
+                        <span asp-validation-for="DateOfBirth"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+
+
+
+                    <div>
+
+                        <label asp-for="Gender"
+                               class="create-label">
+                        </label>
+
+
+                        <select asp-for="Gender"
+                                class="create-input">
+
+
+                            <option value="">
+                                -- Select Gender --
+                            </option>
+
+                            <option>
+                                Male
+                            </option>
+
+                            <option>
+                                Female
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+
                         </select>
-                        <span asp-validation-for="Gender" class="text-danger"></span>
+
+
+
+                        <span asp-validation-for="Gender"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
+
 
                 </div>
+
+
             </section>
 
+
+
+
+
+
             <!-- ================= Contact Information ================= -->
-            <section class="form-section">
-                <h3>Contact Information</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Contact Information
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label asp-for="PhoneNumber"></label>
-                        <input asp-for="PhoneNumber" placeholder="Enter phone number" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+
+                        <label asp-for="PhoneNumber"
+                               class="create-label">
+                        </label>
+
+
+                        <input asp-for="PhoneNumber"
+                               class="create-input"
+                               placeholder="Enter phone number" />
+
+
+
+                        <span asp-validation-for="PhoneNumber"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
+
+
+
                     <div>
-                        <label asp-for="BloodGroup"></label>
-                        <select asp-for="BloodGroup">
-                            <option value="">-- Select Blood Group --</option>
+
+
+                        <label asp-for="BloodGroup"
+                               class="create-label">
+                        </label>
+
+
+                        <select asp-for="BloodGroup"
+                                class="create-input">
+
+
+                            <option value="">
+                                -- Select Blood Group --
+                            </option>
+
                             <option>A+</option>
                             <option>A-</option>
                             <option>B+</option>
@@ -82,38 +252,88 @@
                             <option>AB-</option>
                             <option>O+</option>
                             <option>O-</option>
+
+
                         </select>
-                        <span asp-validation-for="BloodGroup" class="text-danger"></span>
+
+
+
+                        <span asp-validation-for="BloodGroup"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
+
                 </div>
+
+
             </section>
 
+
+
+
+
+
             <!-- ================= Address ================= -->
-            <section class="form-section">
-                <h3>Address</h3>
+
+
+            <section class="create-section">
+
+
+                <h3>
+                    Address
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
 
                     <div class="full-width">
-                        <label asp-for="Address"></label>
-                        <textarea asp-for="Address"
-                                  rows="4"
-                                  placeholder="Enter complete address"></textarea>
 
-                        <span asp-validation-for="Address" class="text-danger"></span>
+
+                        <label asp-for="Address"
+                               class="create-label">
+                        </label>
+
+
+
+                        <textarea asp-for="Address"
+                                  class="create-textarea"
+                                  rows="4"
+                                  placeholder="Enter complete address">
+                        </textarea>
+
+
+
+                        <span asp-validation-for="Address"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
                 </div>
+
+
             </section>
 
         </div>
-
+   
     </form>
+
 
 </div>
 
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
 }

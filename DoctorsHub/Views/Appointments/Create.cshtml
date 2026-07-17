@@ -1,157 +1,401 @@
 ﻿@model CreateAppointmentDto
 
+
 @using Microsoft.AspNetCore.Mvc.Rendering
 
-<div class="page-container">
+@{
+    ViewData["Title"] = "Create Appointment";
+}
+
+<link rel="stylesheet" href="~/css/createPage.css" asp-append-version="true" />
+
+
+<div class="create-page">
+
 
     <!-- ===== HEADER ===== -->
-    <div class="header">
-        <h2>Book Appointment</h2>
 
-        <div class="actions">
-            <button type="submit" form="appointmentForm" class="btn-save">
+    <div class="create-header">
+
+
+        <h2>
+            Book Appointment
+        </h2>
+
+
+
+        <div class="create-actions">
+
+
+            <button type="submit"
+                    form="appointmentForm"
+                    class="create-btn-save">
+
                 Save
+
             </button>
+
+
 
             <button type="button"
-                    class="btn-cancel"
+                    class="create-btn-cancel"
                     onclick="window.history.back()">
+
                 Cancel
+
             </button>
+
+
         </div>
+
+
     </div>
 
+
+
+
+
     <!-- ===== FORM ===== -->
+
+
     <form id="appointmentForm" method="post">
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-card">
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger">
+        </div>
+
+
+
+        <div class="create-card">
+
+
+
+
 
             <!-- ================= Appointment Details ================= -->
-            <section class="form-section">
 
-                <h3>Appointment Details</h3>
+
+            <section class="create-section">
+
+
+                <h3>
+                    Appointment Details
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label asp-for="PatientId"></label>
+
+
+                        <label asp-for="PatientId"
+                               class="create-label">
+                        </label>
+
+
 
                         <select asp-for="PatientId"
+                                class="create-input"
                                 asp-items="@(new SelectList(ViewBag.Patients, "Id", "FullName"))">
-                            <option value="">-- Select Patient --</option>
+
+
+                            <option value="">
+                                -- Select Patient --
+                            </option>
+
+
                         </select>
 
-                        <span asp-validation-for="PatientId" class="text-danger"></span>
+
+
+                        <span asp-validation-for="PatientId"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
+
+
+
+
                     <div>
-                        <label asp-for="DoctorId"></label>
+
+
+                        <label asp-for="DoctorId"
+                               class="create-label">
+                        </label>
+
+
 
                         <select asp-for="DoctorId"
+                                class="create-input"
                                 asp-items="@(new SelectList(ViewBag.Doctors, "Id", "FullName"))">
-                            <option value="">-- Select Doctor --</option>
+
+
+                            <option value="">
+                                -- Select Doctor --
+                            </option>
+
+
                         </select>
 
-                        <span asp-validation-for="DoctorId" class="text-danger"></span>
+
+
+                        <span asp-validation-for="DoctorId"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
 
+
+
+
+
+
                     <div>
-                        <label asp-for="AppointmentDate"></label>
+
+
+                        <label asp-for="AppointmentDate"
+                               class="create-label">
+                        </label>
+
+
 
                         <input asp-for="AppointmentDate"
-                               type="date" value="@DateTime.Today" />
+                               class="create-input"
+                               type="date"
+                               value="@DateTime.Today" />
 
-                        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+
+
+                        <span asp-validation-for="AppointmentDate"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
+
+
 
                 </div>
 
+
             </section>
+
+
+
+
+
+
 
             <!-- ================= Appointment Timing ================= -->
-            <section class="form-section">
 
-                <h3>Schedule Appointment Time</h3>
+
+            <section class="create-section">
+
+
+                <h3>
+                    Schedule Appointment Time
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
+
 
                     <div>
-                        <label asp-for="StartTime"></label>
+
+
+                        <label asp-for="StartTime"
+                               class="create-label">
+                        </label>
+
+
 
                         <input asp-for="StartTime"
+                               class="create-input"
                                type="time" />
 
-                        <span asp-validation-for="StartTime" class="text-danger"></span>
+
+
+                        <span asp-validation-for="StartTime"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
+
+
+
+
 
                     <div>
-                        <label asp-for="EndTime"></label>
+
+
+                        <label asp-for="EndTime"
+                               class="create-label">
+                        </label>
+
+
 
                         <input asp-for="EndTime"
+                               class="create-input"
                                type="time" />
 
-                        <span asp-validation-for="EndTime" class="text-danger"></span>
+
+
+                        <span asp-validation-for="EndTime"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
+
+
 
                 </div>
 
+
             </section>
+
+
+
+
+
+
 
             <!-- ================= Reason ================= -->
-            <section class="form-section">
 
-                <h3>Reason for Visit</h3>
+
+            <section class="create-section">
+
+
+                <h3>
+                    Reason for Visit
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
 
                     <div class="full-width">
-                        <label asp-for="Reason"></label>
+
+
+                        <label asp-for="Reason"
+                               class="create-label">
+                        </label>
+
+
 
                         <textarea asp-for="Reason"
+                                  class="create-textarea"
                                   rows="3"
-                                  placeholder="Enter appointment reason"></textarea>
+                                  placeholder="Enter appointment reason">
+                        </textarea>
 
-                        <span asp-validation-for="Reason" class="text-danger"></span>
+
+
+                        <span asp-validation-for="Reason"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
+
 
                 </div>
 
+
             </section>
+
+
+
+
+
+
 
             <!-- ================= Notes ================= -->
-            <section class="form-section">
 
-                <h3>Additional Notes</h3>
+
+            <section class="create-section">
+
+
+                <h3>
+                    Additional Notes
+                </h3>
+
+
                 <hr />
 
-                <div class="form-group">
+
+
+                <div class="create-form-group">
+
 
                     <div class="full-width">
-                        <label asp-for="Notes"></label>
+
+
+                        <label asp-for="Notes"
+                               class="create-label">
+                        </label>
+
+
 
                         <textarea asp-for="Notes"
+                                  class="create-textarea"
                                   rows="4"
-                                  placeholder="Additional notes (optional)"></textarea>
+                                  placeholder="Additional notes (optional)">
+                        </textarea>
 
-                        <span asp-validation-for="Notes" class="text-danger"></span>
+
+
+                        <span asp-validation-for="Notes"
+                              class="text-danger">
+                        </span>
+
+
                     </div>
+
 
                 </div>
 
+
             </section>
 
+
+
         </div>
+
 
     </form>
 
+
+
 </div>
+
+
 
 @section Scripts
 {
+
     <partial name="_ValidationScriptsPartial" />
+
 }
