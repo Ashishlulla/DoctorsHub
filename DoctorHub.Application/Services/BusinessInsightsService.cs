@@ -17,9 +17,9 @@ namespace DoctorsHub.Application.Services
             _businessInsightsRepository = businessInsightsRepository;
         }
 
-        public  Task<BusinessInsightsDto> GetBusinessInsightsAsync(AnalyticsTimeFilter timeFilter)
+        public  async Task<BusinessInsightsDto> GetBusinessInsightsAsync(AnalyticsTimeFilter timeFilter)
         {
-            return  _businessInsightsRepository.GetBusinessInsightsAsync(timeFilter);
+            return await _businessInsightsRepository.GetBusinessInsightsAsync(timeFilter);
         }
     }
 }

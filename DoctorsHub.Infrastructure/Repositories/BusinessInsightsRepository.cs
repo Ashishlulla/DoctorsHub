@@ -28,33 +28,33 @@ namespace DoctorsHub.Infrastructure.Repositories
 
             // Appointment Analytics methods call
 
-            var appointmentStatusTask = GetAppointmentStatusChartAsync(appointments);
-            var appointmentsTrendTask = GetAppointmentTrendAsync(appointments);
-            var appointmentByDoctorTask = GetAppointmentsByDoctorsAsync(appointments);
-            var appointmentPeakHoursTask = GetPeakAppointmentHoursAsync(appointments);
+            var appointmentStatusTask = await GetAppointmentStatusChartAsync(appointments);
+            var appointmentsTrendTask = await GetAppointmentTrendAsync(appointments);
+            var appointmentByDoctorTask = await GetAppointmentsByDoctorsAsync(appointments);
+            var appointmentPeakHoursTask = await GetPeakAppointmentHoursAsync(appointments);
 
             //Revenue Analytics Methods calls
 
             IQueryable<Appointment> completedAppointments = appointments.Where(a => a.Status == AppointmentStatus.Completed);
 
-            var revenueTrendTask = GetRevenueTrendAsync(completedAppointments);
-            var revenueByDoctorTask = GetRevenueByDoctorsAsync(completedAppointments);
-            var topRevenueByDoctorsTask = GetTopRevenueGeneratingDoctors(completedAppointments);
-            var avergeRevenueByDoctorTask = GetAverageRevenueGeneratedByDoctors(completedAppointments);
+            var revenueTrendTask = await GetRevenueTrendAsync(completedAppointments);
+            var revenueByDoctorTask = await GetRevenueByDoctorsAsync(completedAppointments);
+            var topRevenueByDoctorsTask =  await  GetTopRevenueGeneratingDoctors(completedAppointments);
+            var avergeRevenueByDoctorTask =  await  GetAverageRevenueGeneratedByDoctors(completedAppointments);
 
-            await Task.WhenAll(appointmentStatusTask, appointmentsTrendTask, appointmentByDoctorTask, appointmentPeakHoursTask, revenueTrendTask, revenueByDoctorTask, topRevenueByDoctorsTask, avergeRevenueByDoctorTask);
+            //await Task.WhenAll(appointmentStatusTask, appointmentsTrendTask, appointmentByDoctorTask, appointmentPeakHoursTask, revenueTrendTask, revenueByDoctorTask, topRevenueByDoctorsTask, avergeRevenueByDoctorTask);
 
             //Appoitments Analytics Methods
-            var appointmentStatus = await appointmentStatusTask;
-            var appointmentsTrend = await appointmentsTrendTask;
-            var appointmentByDoctor = await appointmentByDoctorTask;
-            var appointmentPeakHour = await appointmentPeakHoursTask;
+            var appointmentStatus =  appointmentStatusTask;
+            var appointmentsTrend =  appointmentsTrendTask;
+            var appointmentByDoctor =  appointmentByDoctorTask;
+            var appointmentPeakHour =  appointmentPeakHoursTask;
 
             //Revenue Analytics Methods 
-            var revenueTrend = await revenueTrendTask;
-            var revenueByDoctor = await revenueByDoctorTask;
-            var topRevenueByDoctor = await topRevenueByDoctorsTask;
-            var averageRevenueByDoctors = await avergeRevenueByDoctorTask;
+            var revenueTrend =  revenueTrendTask;
+            var revenueByDoctor =  revenueByDoctorTask;
+            var topRevenueByDoctor =  topRevenueByDoctorsTask;
+            var averageRevenueByDoctor = avergeRevenueByDoctorTask;
 
             return new BusinessInsightsDto
             {
@@ -68,7 +68,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 GetRevenueTrends = revenueTrend,
                 GetRevenueByDoctors = revenueByDoctor,
                 GetTopRevenueGeneratingDoctors = topRevenueByDoctor,
-                GetAverageRevenueGeneratedByDoctors = averageRevenueByDoctors
+                GetAverageRevenueGeneratedByDoctors = averageRevenueByDoctor,
             };
         }
 
