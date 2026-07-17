@@ -107,9 +107,7 @@ namespace DoctorsHub.Infrastructure.Repositories
         }
 
         private async Task<List<AppointmentStatusChartDto>> GetAppointmentStatusChartAsync(IQueryable<Appointment> appointments)
-        {
-
-            
+        { 
             return  await appointments
                 .GroupBy(a => a.Status)
                 .Select(g => new AppointmentStatusChartDto
@@ -120,7 +118,6 @@ namespace DoctorsHub.Infrastructure.Repositories
                 )
                 .OrderBy(o=>o.Count)
                 .ToListAsync();
-
         }
 
         private async Task<List<AppointmentTrendDto>> GetAppointmentTrendAsync(IQueryable<Appointment> appointments)
@@ -128,13 +125,13 @@ namespace DoctorsHub.Infrastructure.Repositories
             var appointmentDates = await appointments.Select(a => a.AppointmentDate).ToListAsync();
 
             return  appointmentDates.
-                GroupBy(d => d.DayOfWeek).
-                Select(g => new AppointmentTrendDto
+                GroupBy(d => d.DayOfWeek)
+                .OrderBy(g => g.Key)
+                .Select(g => new AppointmentTrendDto
                 {
                     label = g.Key.ToString(),
                     Count = g.Count()
                 })
-                .OrderBy(o=>o.Count)
                 .ToList();
         }
 
@@ -190,12 +187,13 @@ namespace DoctorsHub.Infrastructure.Repositories
                 {
                     a.AppointmentDate.Year,a.AppointmentDate.Month
                 })
+                .OrderBy(g=>g.Key.Month)
                 .Select(g=> new RevenueTrendDto 
                 {
                     MonthYear = $"{months[g.Key.Month-1]} {g.Key.Year}",
                     Revenue = g.Sum(a=>a.Doctor.ConsultationFee)
                 })
-                .OrderBy(o=>o.Revenue)
+                
                 .ToListAsync();
         }
 

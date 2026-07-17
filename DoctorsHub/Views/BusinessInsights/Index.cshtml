@@ -2,7 +2,7 @@
     var currentFilter = Context.Request.Query["filter"].ToString().ToLower();
 }
 
-@using System.Text.Json
+
 @model BusinessInsightsDto
 
 <div class="business-header">
@@ -10,6 +10,7 @@
     <div class="header-content">
 
         <h2>Business Insights</h2>
+        <h5>@ViewBag.Filter</h5>
 
         <p>
             Monitor clinic performance, revenue, appointments,
