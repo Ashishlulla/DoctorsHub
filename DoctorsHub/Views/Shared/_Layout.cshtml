@@ -230,26 +230,53 @@
 
                     <!-- User -->
 
-                    <div class="user-profile">
+                    <div class="user-profile-dropdown">
 
-                        <div class="avatar">
+                        <button type="button" class="user-profile" id="userProfileBtn">
 
-                            A
+                            <div class="avatar">
+                                A
+                            </div>
 
-                        </div>
+                            <div class="user-info">
+                                <strong>@User.Identity?.Name</strong>
+                                @* <small>System Admin</small> *@
+                            </div>
 
-                        <div class="user-info">
+                            <i class="bi bi-chevron-up"></i>
 
-                            <strong>Administrator</strong>
+                        </button>
 
-                            <small>System Admin</small>
+                        <div class="user-dropdown-menu" id="userDropdownMenu">
+
+                            <a href="#">
+                                <i class="bi bi-person"></i>
+                                Profile
+                            </a>
+
+                            <a href="#">
+                                <i class="bi bi-gear"></i>
+                                Settings
+                            </a>
+
+                            <hr />
+
+                            <form asp-controller="Auth"
+                                  asp-action="Logout"
+                                  method="post">
+
+                                <button type="submit">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Logout
+                                </button>
+
+                            </form>
 
                         </div>
 
                     </div>
 
-                </div>
-
+               
             </header>
 
             <!-- ================= Page Content ================= -->
@@ -268,28 +295,29 @@
 
     <script>
 
-        const sidebar = document.getElementById("sidebar");
-        const btn = document.getElementById("sidebarToggle");
+        // const sidebar = document.getElementById("sidebar");
+        // const btn = document.getElementById("sidebarToggle");
 
-        btn.addEventListener("click", () => {
+        // btn.addEventListener("click", () => {
 
-        sidebar.classList.toggle("collapsed");
+        // sidebar.classList.toggle("collapsed");
 
-        localStorage.setItem(
-        "sidebar",
-        sidebar.classList.contains("collapsed")
-        );
+        // localStorage.setItem(
+        // "sidebar",
+        // sidebar.classList.contains("collapsed")
+        // );
 
-        });
+        // });
 
-        if(localStorage.getItem("sidebar") === "true"){
+        // if(localStorage.getItem("sidebar") === "true"){
 
-        sidebar.classList.add("collapsed");
+        // sidebar.classList.add("collapsed");
 
-        }
+        // }
 
     </script>
 
+    <script src="/js/layout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)

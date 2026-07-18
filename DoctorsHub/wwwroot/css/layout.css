@@ -1035,3 +1035,41 @@ body.dark-mode {
 
 
 
+.logout-btn {
+    border: none;
+    background: transparent;
+    color: #dc3545;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+    .logout-btn:hover {
+        color: #a71d2a;
+    }
+
+.navbar-user {
+    position: relative;
+}
+
+.user-profile-dropdown {
+    position: relative;
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    display: none;
+    min-width: 180px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    z-index: 1000;
+}
+
+    .user-dropdown-menu.show {
+        display: block;
+    }

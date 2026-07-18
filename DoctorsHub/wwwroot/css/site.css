@@ -22,6 +22,7 @@
 @import url("dashboard.css");
 @import url("bi.css");
 @import url("auth.css");
+@import url("layout.css")
 
 *{
     margin: 0;
@@ -209,3 +210,113 @@ body {
         font-size: 22px;
     }
 }
+
+.navbar-user {
+    position: relative;
+}
+
+.user-profile-dropdown {
+    position: relative;
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    display: none;
+    min-width: 180px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    z-index: 1000;
+}
+
+    .user-dropdown-menu.show {
+        display: block;
+    }
+
+.user-dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: all .2s ease;
+}
+
+    .user-dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+.user-profile-dropdown {
+    position: relative;
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 220px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+}
+
+    .user-dropdown-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .user-dropdown-menu a,
+    .user-dropdown-menu button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+        border: none;
+        background: transparent;
+        color: #374151;
+        text-decoration: none;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+        .user-dropdown-menu a:hover,
+        .user-dropdown-menu button:hover {
+            background: #f3f4f6;
+            color: #0f766e;
+        }
+
+    .user-dropdown-menu i {
+        width: 18px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .user-dropdown-menu hr {
+        margin: 6px 0;
+        border: none;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .user-dropdown-menu form {
+        margin: 0;
+    }
+
+    .user-dropdown-menu button {
+        font-family: inherit;
+    }
+
+        .user-dropdown-menu button:hover {
+            color: #dc2626;
+        }

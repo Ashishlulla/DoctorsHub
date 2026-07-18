@@ -24,6 +24,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> Register(RegisterDto registerDto) 
         {
             if (!ModelState.IsValid)
@@ -49,6 +50,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         public async Task<IActionResult> Login(LoginDto loginDto) 
         {
             if (!ModelState.IsValid)
@@ -67,11 +69,13 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
+
         public async Task<IActionResult> Logout() 
         {
             await _authService.LogoutAsync();
 
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction("Login", "Auth");
         }
     }
 }
