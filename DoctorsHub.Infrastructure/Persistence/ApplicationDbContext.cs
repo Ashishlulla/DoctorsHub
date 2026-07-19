@@ -2,9 +2,7 @@
 using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorsHub.Infrastructure.Persistence
 {
@@ -18,8 +16,9 @@ namespace DoctorsHub.Infrastructure.Persistence
         public DbSet<Patient> Patients => Set<Patient>();
         public DbSet<Specialization> Specializations => Set<Specialization>();
         public DbSet<Appointment> Appointments => Set<Appointment>();
-        public DbSet<Review> Reviews => Set<Review>();
+        
         public DbSet<ScheduleSlot> ScheduleSlots => Set<ScheduleSlot>();
+        public DbSet<Bill> Bills => Set<Bill>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

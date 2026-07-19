@@ -25,7 +25,7 @@ namespace DoctorsHub.Domain.Entities
         public  ApplicationUser User { get; set; }
         public Specialization Specialization { get; set; } = null!;
         public List<Appointment> Appointments { get; set; } = new();
-        public List<Review> Reviews { get; set; } = new();
+        
         public List<ScheduleSlot> ScheduleSlots { get; set; } = new();
 
     }

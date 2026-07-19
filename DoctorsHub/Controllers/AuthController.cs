@@ -1,10 +1,12 @@
 ﻿using DoctorsHub.Application.DTOs.Authentication;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
     [Route("[controller]")]
+    [AllowAnonymous]
     public class AuthController : Controller
     {
         //Private Feilds

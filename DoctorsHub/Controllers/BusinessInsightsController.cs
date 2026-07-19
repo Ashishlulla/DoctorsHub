@@ -1,10 +1,12 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
 using DoctorsHub.Domain.Enums;
 using DoctorsHub.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
+    
     public class BusinessInsightsController : Controller
     {
         //Private Feilds

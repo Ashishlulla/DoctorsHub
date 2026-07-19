@@ -19,6 +19,8 @@ namespace DoctorsHub.Domain.Entities
 
         public AppointmentStatus Status { get; set; } = AppointmentStatus.Scheduled;
 
+        public Bill? Bill { get; set; }
+
         public string? Notes { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
