@@ -1,9 +1,6 @@
 ﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
-using DoctorsHub.Domain.Identity;
-using DoctorsHub.Infrastructure.Migrations;
 using DoctorsHub.Infrastructure.Persistence;
 using DoctorsHub.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +25,7 @@ namespace DoctorsHub.Infrastructure.Configurations
             services.AddScoped<ISpecializationRepository, SpecializationRepository>();
             services.AddScoped<ICRMRepository, CRMRepository>();
             services.AddScoped<IBusinessInsightsRepository, BusinessInsightsRepository>();
+            services.AddScoped<IBillingRepository, BillingRepository>();
 
 
             return services;

@@ -104,7 +104,7 @@ namespace DoctorsHub.Infrastructure.Migrations
                     b.HasIndex("AppointmentId")
                         .IsUnique();
 
-                    b.ToTable("Bill");
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("DoctorsHub.Domain.Entities.Doctor", b =>

@@ -1,15 +1,15 @@
 ﻿using DoctorsHub.Domain.Enums;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-
-namespace DoctorsHub.Domain.Entities
+namespace DoctorsHub.Application.DTOs.Billing
 {
-    public class Bill
+    public class BillDto
     {
         public int Id { get; set; }
 
         public int AppointmentId { get; set; }
-
-        public Appointment Appointment { get; set; }
 
         public decimal ConsultationFee { get; set; }
 
@@ -21,6 +21,7 @@ namespace DoctorsHub.Domain.Entities
 
         public DateTime BillDate { get; set; }
 
-        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
+        public PaymentStatus PaymentStatus { get; set; }
+
     }
 }

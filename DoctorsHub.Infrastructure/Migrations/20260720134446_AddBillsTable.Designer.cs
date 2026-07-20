@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoctorsHub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260719151838_AddBillingModule")]
-    partial class AddBillingModule
+    [Migration("20260720134446_AddBillsTable")]
+    partial class AddBillsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,7 +107,7 @@ namespace DoctorsHub.Infrastructure.Migrations
                     b.HasIndex("AppointmentId")
                         .IsUnique();
 
-                    b.ToTable("Bill");
+                    b.ToTable("Bills");
                 });
 
             modelBuilder.Entity("DoctorsHub.Domain.Entities.Doctor", b =>
