@@ -9,6 +9,9 @@ namespace DoctorsHub.Application.DTOs.Billing
     {
         public int Id { get; set; }
 
+        public string DoctorName { get; set; } = string.Empty;
+        public string PatientName { get; set; } = string.Empty;
+
         public int AppointmentId { get; set; }
 
         public decimal ConsultationFee { get; set; }

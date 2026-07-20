@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.CRM;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Domain.Entities;
@@ -60,6 +61,22 @@ namespace DoctorsHub.Application.Mapping
                 .ForMember(dest => dest.DoctorName,
                 opt => opt.MapFrom(src => src.Doctor.FullName))
                 .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.FullName));
+
+            //Billing DTOs Mapping
+            CreateMap<Bill, BillDto>()
+                .ForMember(dest=>dest.PaymentStatus,
+                opt=>opt.MapFrom(src=>src.PaymentStatus.ToString()))
+                .ForMember(dest=>dest.DoctorName, 
+                opt=>opt.MapFrom(src=>src.Appointment.Doctor.FullName))
+                .ForMember(dest => dest.PatientName,
+                opt => opt.MapFrom(src => src.Appointment.Patient.FullName)); //converts Bill to billdto
+            
+
+            CreateMap<CreateBillDto, Bill>(); //converts CreateBilldto to bill
+
+            CreateMap<UpdateBillDto, Bill>(); //converts UpdateBilldto to bill
+            CreateMap<Bill, UpdateBillDto>(); //converts Bill to updatebilldto
+
         }
     }
 }
