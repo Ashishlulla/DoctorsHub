@@ -31,17 +31,17 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<IEnumerable<Bill>> GetAllBillsAsync()
         {
-            return await _db.Bills.Include(b=>b.Appointment).ToListAsync();
+            return await _db.Bills.Include(b => b.Appointment).ThenInclude(d => d.Doctor).Include(a => a.Appointment).ThenInclude(p => p.Patient).ToListAsync();
         }
 
         public async Task<Bill?> GetBillByAppointmentIdAsync(int appointmentId)
         {
-            return await _db.Bills.Include(b=>b.Appointment).FirstOrDefaultAsync(b=>b.AppointmentId == appointmentId);
+            return await _db.Bills.Include(b=>b.Appointment).ThenInclude(d=>d.Doctor).Include(a=>a.Appointment).ThenInclude(p=>p.Patient).FirstOrDefaultAsync(b=>b.AppointmentId == appointmentId);
         }
 
         public async Task<Bill?> GetBillByIdAsync(int id)
         {
-            Bill? billToFind = await _db.Bills.Include(a=>a.Appointment).FirstOrDefaultAsync(b=>b.Id == id);
+            Bill? billToFind = await _db.Bills.Include(b => b.Appointment).ThenInclude(d => d.Doctor).Include(a => a.Appointment).ThenInclude(p => p.Patient).FirstOrDefaultAsync(b=>b.Id == id);
 
             return billToFind;
         }

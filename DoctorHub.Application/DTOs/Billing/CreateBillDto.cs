@@ -5,8 +5,6 @@ namespace DoctorsHub.Application.DTOs.Billing
     {
         public int AppointmentId { get; set; }
 
-        public decimal ConsultationFee { get; set; }
-
         public decimal AdditionalCharges { get; set; }
 
         public decimal Discount { get; set; }

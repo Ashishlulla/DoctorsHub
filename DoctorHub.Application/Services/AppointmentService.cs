@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.Appoitments;
+using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
@@ -15,12 +15,14 @@ namespace DoctorsHub.Application.Services
     {
         //private feilds
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IBillingService _billingService;
         private readonly IMapper _mapper;
 
         //constructor
-        public AppointmentService(IAppointmentRepository appointmentRepository, IMapper mapper) 
+        public AppointmentService(IAppointmentRepository appointmentRepository, IBillingService billingService, IMapper mapper) 
         {
             _appointmentRepository = appointmentRepository;
+            _billingService = billingService;
             _mapper = mapper;
         }
 
@@ -249,6 +251,13 @@ namespace DoctorsHub.Application.Services
             appointment.Status = AppointmentStatus.Completed;
 
             await _appointmentRepository.CompletedAppointmentAsync(appoinmentId);
+
+            await _billingService.CreateBillAsync(new CreateBillDto 
+            {
+                AppointmentId  = appoinmentId,
+                AdditionalCharges = 0,
+                Discount = 0,
+            });
         }
     }
 }

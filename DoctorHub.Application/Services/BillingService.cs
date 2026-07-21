@@ -44,7 +44,7 @@ namespace DoctorsHub.Application.Services
 
             bill.ConsultationFee = appointment.Doctor.ConsultationFee;
 
-            bill.TotalAmount = bill.ConsultationFee + bill.AdditionalCharges - bill.Discount;
+            bill.TotalAmount = bill.ConsultationFee + createBillDto.AdditionalCharges - createBillDto.Discount;
             bill.BillDate = DateTime.Now;
             bill.PaymentStatus = Domain.Enums.PaymentStatus.Pending;
 
