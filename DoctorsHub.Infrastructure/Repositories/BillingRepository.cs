@@ -18,7 +18,7 @@ namespace DoctorsHub.Infrastructure.Repositories
         }
 
         public async Task AddBillAsync(Bill bill)
-        {
+        { 
             await _db.Bills.AddAsync(bill);
             await _db.SaveChangesAsync();
         }
