@@ -67,7 +67,20 @@ namespace DoctorsHub.Application.Services
         {
             IEnumerable<Bill> bills = await _billingRepository.GetAllBillsAsync();
 
-            return _mapper.Map<List<BillDto>>(bills);
+            return  bills.Select(b=> new BillDto 
+            {
+                AdditionalCharges = b.AdditionalCharges,
+                ConsultationFee = b.ConsultationFee,
+                Discount = b.Discount,
+                DoctorName = b.Appointment.Doctor.FullName,
+                PatientName= b.Appointment.Patient.FullName,
+                TotalAmount = b.TotalAmount,
+                PaymentStatus = b.PaymentStatus,
+                BillDate = b.BillDate,
+                Id = b.Id,
+                AppointmentId = b.AppointmentId,
+
+            });
         }
 
         public async Task<BillDto?> GetBillByAppointmentIdAsync(int appointmentId)
@@ -106,6 +119,7 @@ namespace DoctorsHub.Application.Services
 
 
              _mapper.Map(updateBillDto, bill);
+            bill.ConsultationFee = bill.Appointment.Doctor.ConsultationFee;
             bill.TotalAmount = bill.ConsultationFee + bill.AdditionalCharges - bill.Discount; 
             await _billingRepository.UpdateBillAsync(bill);
         }

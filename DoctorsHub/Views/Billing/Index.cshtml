@@ -1,0 +1,113 @@
+﻿@model IEnumerable<BillDto>
+
+@{
+    ViewData["Title"] = "Billing";
+}
+
+<div class="page-container">
+
+    <!-- Header -->
+    <div class="header">
+        <h2>Billing</h2>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <!-- Table -->
+    <div class="table-container">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Bill ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Consultation Fee</th>
+                    <th>Additional Charges</th>
+                    <th>Discount</th>
+                    <th>Total Amount</th>
+                    <th>Payment Status</th>
+                    <th>Bill Date</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.Any())
+                {
+                    @foreach (var bill in Model)
+                    {
+                        <tr>
+
+                            <td>@bill.Id</td>
+
+                            <td>@bill.PatientName</td>
+
+                            <td>@bill.DoctorName</td>
+
+                            <td>
+                                ₹@bill.ConsultationFee.ToString("N2")
+                            </td>
+
+                            <td>
+                                ₹@bill.AdditionalCharges.ToString("N2")
+                            </td>
+
+                            <td>
+                                ₹@bill.Discount.ToString("N2")
+                            </td>
+
+                            <td>
+                                <strong>₹@bill.TotalAmount.ToString("N2")</strong>
+                            </td>
+
+                            <td>
+                                @bill.PaymentStatus
+                            </td>
+
+                            <td>
+                                @bill.BillDate.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>
+
+                                <a asp-action="Details"
+                                   asp-route-id="@bill.Id"
+                                   class="btn-info">
+                                    Details
+                                </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@bill.Id"
+                                   class="btn-edit">
+                                    Edit
+                                </a>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="text-center">
+                            No bills found.
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

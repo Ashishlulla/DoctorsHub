@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DoctorsHub.Application.DTOs.Billing
 {
@@ -24,6 +25,7 @@ namespace DoctorsHub.Application.DTOs.Billing
 
         public DateTime BillDate { get; set; }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public PaymentStatus PaymentStatus { get; set; }
 
     }

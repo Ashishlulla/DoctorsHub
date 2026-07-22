@@ -76,6 +76,7 @@ namespace DoctorsHub.Application.Mapping
 
             CreateMap<UpdateBillDto, Bill>(); //converts UpdateBilldto to bill
             CreateMap<Bill, UpdateBillDto>(); //converts Bill to updatebilldto
+            CreateMap<BillDto, UpdateBillDto>();
 
         }
     }

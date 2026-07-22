@@ -59,7 +59,7 @@ namespace DoctorsHub.API.Controllers
         {
             await _billingService.UpdateBillAsync(id, updateBillDto);
 
-            return Ok($"Successfully update bill with bill id = {id}");
+            return Ok(updateBillDto);
         }
 
         [HttpDelete("{id:int}")]

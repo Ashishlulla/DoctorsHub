@@ -1,0 +1,113 @@
+﻿@model UpdateBillDto
+@{
+    ViewData["Title"] = "Edit Bill";
+}
+
+<link rel="stylesheet" href="~/css/createPage.css" asp-append-version="true" />
+
+<div class="create-page">
+
+    <!-- Header -->
+    <div class="create-header">
+
+        <h2>Edit Bill</h2>
+
+        <div class="create-actions">
+
+            <button type="submit"
+                    form="billEditForm"
+                    class="create-btn-save">
+                Update
+            </button>
+
+            <a asp-action="Index"
+               asp-controller="Billing"
+               class="create-btn-cancel">
+                Cancel
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Form -->
+    <form id="billEditForm"
+          asp-action="Edit"
+          asp-route-id="@ViewBag.BillId"
+          method="post">
+
+        <div class="create-card">
+
+            <section class="create-section">
+
+                <h3>Billing Information</h3>
+
+                <hr />
+
+                <div class="create-form-group">
+
+                    <div>
+
+                        <label asp-for="AdditionalCharges"
+                               class="create-label">
+                        </label>
+
+                        <input asp-for="AdditionalCharges"
+                               type="number"
+                               step="0.01"
+                               class="create-input" />
+
+                        <span asp-validation-for="AdditionalCharges"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <label asp-for="Discount"
+                               class="create-label">
+                        </label>
+
+                        <input asp-for="Discount"
+                               type="number"
+                               step="0.01"
+                               class="create-input" />
+
+                        <span asp-validation-for="Discount"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <label asp-for="PaymentStatus"
+                               class="create-label">
+                        </label>
+
+                        <select asp-for="PaymentStatus"
+                                asp-items="Html.GetEnumSelectList<DoctorsHub.Domain.Enums.PaymentStatus>()"
+                                class="create-input">
+                        </select>
+
+                        <span asp-validation-for="PaymentStatus"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </form>
+
+</div>
+
+@* @section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+} *@

@@ -2,12 +2,11 @@
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Web.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
-    [Authorize(Roles ="Admin, Doctor")]
+    
     public class AppointmentsController : Controller
     {
         //private feilds

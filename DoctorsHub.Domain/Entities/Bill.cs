@@ -1,4 +1,5 @@
 ﻿using DoctorsHub.Domain.Enums;
+using System.Text.Json.Serialization;
 
 
 namespace DoctorsHub.Domain.Entities
@@ -21,6 +22,7 @@ namespace DoctorsHub.Domain.Entities
 
         public DateTime BillDate { get; set; }
 
+        
         public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
     }
 }
