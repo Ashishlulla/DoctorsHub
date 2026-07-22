@@ -1,0 +1,147 @@
+﻿
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f9;
+    color: #222;
+    padding: 40px;
+}
+
+.bill-container {
+    max-width: 850px;
+    margin: auto;
+    background: #fff;
+    border: 2px solid #222;
+    border-radius: 8px;
+    padding: 35px;
+}
+
+
+
+.bill-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .bill-header h1 {
+        font-size: 34px;
+        color: #1f2937;
+        margin-bottom: 8px;
+    }
+
+    .bill-header p {
+        color: #666;
+        font-size: 16px;
+    }
+
+
+
+.divider {
+    border: none;
+    border-top: 2px solid #ddd;
+    margin: 25px 0;
+}
+
+
+.bill-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+    .bill-info td {
+        padding: 10px 0;
+        font-size: 15px;
+    }
+
+    .bill-info strong {
+        color: #333;
+    }
+
+
+
+.bill-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    .bill-table th {
+        background: #222;
+        color: white;
+        padding: 12px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    .bill-table td {
+        padding: 12px;
+        border: 1px solid #ccc;
+    }
+
+        .bill-table td:last-child,
+        .bill-table th:last-child {
+            text-align: right;
+        }
+
+
+.total-row td {
+    font-size: 18px;
+    font-weight: bold;
+    background: #f8fafc;
+}
+
+
+
+.payment-status {
+    margin-top: 25px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+
+.bill-footer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.stamp-image {
+    width: 120px;
+    height: auto;
+    background:tr
+}
+
+.stamp-text {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+    width: 120px;
+}
+
+
+
+@media print {
+
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .bill-container {
+        border: none;
+        box-shadow: none;
+        max-width: 100%;
+        padding: 20px;
+    }
+}

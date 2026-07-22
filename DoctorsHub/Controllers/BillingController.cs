@@ -70,5 +70,12 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Print(int id) 
+        {
+            BillDto bill = await _billingApiService.GetBillByIdAsync(id);
+            return View(bill);
+        }
+
     }
 }

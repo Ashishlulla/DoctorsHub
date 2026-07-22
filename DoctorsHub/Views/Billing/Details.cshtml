@@ -32,110 +32,119 @@
 
     <!-- ===== BILL ===== -->
 
-    <div class="form-card">
+    <div>
+        <div class="form-card">
 
-        <div style="text-align:center; margin-bottom:30px;">
+            <div style="text-align:center; margin-bottom:30px;">
 
-            <h2 style="margin-bottom:5px;">
-                DoctorsHub
-            </h2>
+                <h2 style="margin-bottom:5px;">
+                    DoctorsHub
+                </h2>
 
-            <h4 style="color:#666;">
-                Patient Bill
-            </h4>
+                <h4 style="color:#666;">
+                    Patient Bill
+                </h4>
 
-        </div>
-
-        <hr />
-
-        <div class="details-grid">
-
-            <div class="detail-item">
-                <span class="label">Bill ID</span>
-                <span class="value">#@Model.Id</span>
             </div>
 
-            <div class="detail-item">
-                <span class="label">Appointment ID</span>
-                <span class="value">@Model.AppointmentId</span>
+            <hr />
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+                    <span class="label">Bill ID</span>
+                    <span class="value">#@Model.Id</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Appointment ID</span>
+                    <span class="value">@Model.AppointmentId</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Bill Date</span>
+                    <span class="value">@Model.BillDate.ToString("dd MMM yyyy")</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Payment Status</span>
+                    <span class="value">@Model.PaymentStatus</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Patient Name</span>
+                    <span class="value">@Model.PatientName</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="label">Doctor Name</span>
+                    <span class="value">@Model.DoctorName</span>
+                </div>
+
             </div>
 
-            <div class="detail-item">
-                <span class="label">Bill Date</span>
-                <span class="value">@Model.BillDate.ToString("dd MMM yyyy")</span>
-            </div>
+            <hr />
 
-            <div class="detail-item">
-                <span class="label">Payment Status</span>
-                <span class="value">@Model.PaymentStatus</span>
-            </div>
+            <table class="table">
 
-            <div class="detail-item">
-                <span class="label">Patient Name</span>
-                <span class="value">@Model.PatientName</span>
-            </div>
+                <thead>
 
-            <div class="detail-item">
-                <span class="label">Doctor Name</span>
-                <span class="value">@Model.DoctorName</span>
-            </div>
+                    <tr>
+                        <th>Description</th>
+                        <th style="text-align:right;">Amount</th>
+                    </tr>
 
-        </div>
+                </thead>
 
-        <hr />
+                <tbody>
 
-        <table class="table">
+                    <tr>
+                        <td>Consultation Fee</td>
+                        <td style="text-align:right;">
+                            ₹@Model.ConsultationFee.ToString("N2")
+                        </td>
+                    </tr>
 
-            <thead>
+                    <tr>
+                        <td>Additional Charges</td>
+                        <td style="text-align:right;">
+                            ₹@Model.AdditionalCharges.ToString("N2")
+                        </td>
+                    </tr>
 
-                <tr>
-                    <th>Description</th>
-                    <th style="text-align:right;">Amount</th>
-                </tr>
+                    <tr>
+                        <td>Discount</td>
+                        <td style="text-align:right;">
+                            ₹@Model.Discount.ToString("N2")
+                        </td>
+                    </tr>
 
-            </thead>
+                </tbody>
 
-            <tbody>
+                <tfoot>
 
-                <tr>
-                    <td>Consultation Fee</td>
-                    <td style="text-align:right;">
-                        ₹@Model.ConsultationFee.ToString("N2")
-                    </td>
-                </tr>
+                    <tr>
 
-                <tr>
-                    <td>Additional Charges</td>
-                    <td style="text-align:right;">
-                        ₹@Model.AdditionalCharges.ToString("N2")
-                    </td>
-                </tr>
+                        <th>Total Amount</th>
 
-                <tr>
-                    <td>Discount</td>
-                    <td style="text-align:right;">
-                        ₹@Model.Discount.ToString("N2")
-                    </td>
-                </tr>
+                        <th style="text-align:right;">
+                            ₹@Model.TotalAmount.ToString("N2")
+                        </th>
 
-            </tbody>
+                    </tr>
 
-            <tfoot>
+                </tfoot>
 
-                <tr>
+            </table>
 
-                    <th>Total Amount</th>
-
-                    <th style="text-align:right;">
-                        ₹@Model.TotalAmount.ToString("N2")
-                    </th>
-
-                </tr>
-
-            </tfoot>
-
-        </table>
+            <a asp-action="Print"
+               asp-route-id="@Model.Id"
+               class="btn-save">
+                Print Bill
+            </a>
 
     </div>
+
+    
 
 </div>

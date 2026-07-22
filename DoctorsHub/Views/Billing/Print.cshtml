@@ -1,0 +1,155 @@
+﻿@model BillDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <title>Print Bill</title>
+
+    <link rel="stylesheet"
+          href="~/css/printBill.css"
+          asp-append-version="true" />
+
+</head>
+
+<body>
+    <div class="bill-container">
+
+        <div class="bill-header">
+
+            <h1>DoctorsHub</h1>
+
+            <p>Patient Bill</p>
+
+        </div>
+
+        <hr class="divider" />
+        <table class="bill-info">
+
+            <tr>
+
+                <td><strong>Bill ID</strong></td>
+                <td>#@Model.Id</td>
+
+                <td><strong>Bill Date</strong></td>
+                <td>@Model.BillDate.ToString("dd MMM yyyy")</td>
+
+            </tr>
+
+            <tr>
+
+                <td><strong>Appointment ID</strong></td>
+                <td>@Model.AppointmentId</td>
+
+                <td><strong>Payment Status</strong></td>
+                <td>@Model.PaymentStatus</td>
+
+            </tr>
+
+            <tr>
+
+                <td><strong>Patient Name</strong></td>
+                <td>@Model.PatientName</td>
+
+                <td><strong>Doctor Name</strong></td>
+                <td>@Model.DoctorName</td>
+
+            </tr>
+
+        </table>
+
+        <hr class="divider" />
+
+        <table class="bill-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Description</th>
+
+                    <th>Amount</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>Consultation Fee</td>
+
+                    <td>₹@Model.ConsultationFee.ToString("N2")</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Additional Charges</td>
+
+                    <td>₹@Model.AdditionalCharges.ToString("N2")</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Discount</td>
+
+                    <td>- ₹@Model.Discount.ToString("N2")</td>
+
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+
+                <tr class="total-row">
+
+                    <td>Total Amount</td>
+
+                    <td>₹@Model.TotalAmount.ToString("N2")</td>
+
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+        <hr class="divider" />
+
+        <div class="bill-footer">
+
+            <div class="stamp-box">
+                <img src="~/images/stamp.png" class="stamp-image" />
+
+               <br />
+                <p class="stamp-text">
+                    Authorized Hospital Stamp
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+   
+
+    <script>
+            window.onload = function () {
+                window.print();
+            };
+    </script>
+
+</body>
+
+</html>

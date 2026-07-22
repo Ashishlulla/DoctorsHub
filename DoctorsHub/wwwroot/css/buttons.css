@@ -109,3 +109,9 @@
     gap: 8px;
     align-items: center;
 }
+
+.print-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
