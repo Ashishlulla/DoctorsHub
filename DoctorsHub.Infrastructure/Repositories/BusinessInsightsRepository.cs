@@ -14,6 +14,7 @@ namespace DoctorsHub.Infrastructure.Repositories
     {
         //Private Feilds 
         private readonly ApplicationDbContext _db;
+        private List<AverageRevenueGeneratedByDoctorDto> avergeRevenueByDoctorTask;
 
         //Constructor
         public BusinessInsightsRepository(ApplicationDbContext db) 
@@ -34,15 +35,19 @@ namespace DoctorsHub.Infrastructure.Repositories
             var appointmentPeakHoursTask = await GetPeakAppointmentHoursAsync(appointments);
 
             //Revenue Analytics Methods calls
+            
 
-            IQueryable<Appointment> completedAppointments = appointments.Where(a => a.Status == AppointmentStatus.Completed);
+            IQueryable<Bill> paidBills = _db.Bills.Where(b => b.PaymentStatus == PaymentStatus.Paid);
 
-            var revenueTrendTask = await GetRevenueTrendAsync(completedAppointments);
-            var revenueByDoctorTask = await GetRevenueByDoctorsAsync(completedAppointments);
-            var topRevenueByDoctorsTask =  await  GetTopRevenueGeneratingDoctors(completedAppointments);
-            var avergeRevenueByDoctorTask =  await  GetAverageRevenueGeneratedByDoctors(completedAppointments);
+            var revenueTrendTask = await GetRevenueTrendAsync(paidBills);
 
-            //await Task.WhenAll(appointmentStatusTask, appointmentsTrendTask, appointmentByDoctorTask, appointmentPeakHoursTask, revenueTrendTask, revenueByDoctorTask, topRevenueByDoctorsTask, avergeRevenueByDoctorTask);
+            var revenueByDoctorTask = await GetRevenueByDoctorsAsync(paidBills);
+
+            var topRevenueByDoctorsTask = await GetTopRevenueGeneratingDoctors(paidBills);
+
+            var avergeRevenueByDoctorTask = await GetAverageRevenueGeneratedByDoctors(paidBills);
+
+
 
             //Appoitments Analytics Methods
             var appointmentStatus =  appointmentStatusTask;
@@ -102,7 +107,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                     DoctorName = g.Key,
                     Count = g.Count()
                 })
-                .OrderBy(o=>o.Count)
+                .OrderByDescending(o=>o.Count)
                 .ToListAsync();
         }
 
@@ -116,7 +121,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                         Count = g.Count()
                     }
                 )
-                .OrderBy(o=>o.Count)
+                .OrderByDescending(o=>o.Count)
                 .ToListAsync();
         }
 
@@ -132,20 +137,21 @@ namespace DoctorsHub.Infrastructure.Repositories
                     label = g.Key.ToString(),
                     Count = g.Count()
                 })
+                .OrderByDescending(o=>o.Count)
                 .ToList();
         }
 
-        private async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctors(IQueryable<Appointment> appointments)
+        private async Task<List<AverageRevenueGeneratedByDoctorDto>> GetAverageRevenueGeneratedByDoctors(IQueryable<Bill> bills)
         {
-            return await appointments
-               .Where(a => a.Status == AppointmentStatus.Completed)
-               .GroupBy(d => d.Doctor.FullName)
+            return await bills
+               
+               .GroupBy(b => b.Appointment.Doctor.FullName)
                .Select(g => new AverageRevenueGeneratedByDoctorDto
                {
                    DoctorName = g.Key,
-                    AverageRevenue = g.Average(a => a.Doctor.ConsultationFee)
+                    AverageRevenue = g.Average(b=>b.TotalAmount)
                })
-               .OrderBy(o=>o.AverageRevenue)
+               .OrderByDescending(o=>o.AverageRevenue)
                .ToListAsync();
         }
 
@@ -161,58 +167,58 @@ namespace DoctorsHub.Infrastructure.Repositories
                     Count = g.Count()
 
                 })
+                .OrderByDescending(o=>o.Count)
                 .ToListAsync();
         }
 
-        private async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync(IQueryable<Appointment> appointments)
+        private async Task<List<RevenueByDoctorDto>> GetRevenueByDoctorsAsync(IQueryable<Bill> bills)
         {
-            return await appointments
-                .Where(a=>a.Status == AppointmentStatus.Completed)
-                .GroupBy(d => d.Doctor.FullName)
+            return await bills
+                .Where(b=>b.PaymentStatus == PaymentStatus.Paid)
+                .GroupBy(d => d.Appointment.Doctor.FullName)
                 .Select(g => new RevenueByDoctorDto
                 {
                     DoctorName = g.Key,
-                    Revenue = g.Sum(a => a.Doctor.ConsultationFee)
+                    Revenue = g.Sum(b=>b.TotalAmount)
                 })
-                .OrderBy(o=>o.Revenue)
+                .OrderByDescending(o=>o.Revenue)
                 .ToListAsync();
         }
 
-        private Task<List<RevenueTrendDto>> GetRevenueTrendAsync(IQueryable<Appointment> appointments)
+        private Task<List<RevenueTrendDto>> GetRevenueTrendAsync(IQueryable<Bill> bills)
         {
             string[] months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             
-            return appointments
-                .GroupBy(a=> new
+            return bills
+                .Where(b=>b.PaymentStatus == PaymentStatus.Paid)
+                .GroupBy(b=> new
                 {
-                    a.AppointmentDate.Year,a.AppointmentDate.Month
+                    b.BillDate.Year,b.BillDate.Month
                 })
-                .OrderBy(g=>g.Key.Month)
+                .OrderBy(g=>g.Key.Year)
+                .ThenBy(g=>g.Key.Month)
                 .Select(g=> new RevenueTrendDto 
                 {
                     MonthYear = $"{months[g.Key.Month-1]} {g.Key.Year}",
-                    Revenue = g.Sum(a=>a.Doctor.ConsultationFee)
+                    Revenue = g.Sum(b => b.TotalAmount)
                 })
                 
                 .ToListAsync();
         }
 
-        private async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingDoctors(IQueryable<Appointment> appointments)
+        private async Task<List<TopRevenueGeneratingDoctorDto>> GetTopRevenueGeneratingDoctors(IQueryable<Bill> bills)
         {
-            return await appointments
-                .GroupBy(d => d.Doctor.FullName)
+            return await bills
+                .GroupBy(d => d.Appointment.Doctor.FullName)
                 .Select(g => new TopRevenueGeneratingDoctorDto
                 {
                     DoctorName = g.Key,
-                    RevenueGenerated = g.Sum(a => a.Doctor.ConsultationFee)
+                    RevenueGenerated = g.Sum(b=>b.TotalAmount)
                 })
                 .OrderByDescending(o=>o.RevenueGenerated)
                 .Take(5)
-                .OrderBy(o=>o.RevenueGenerated)
                 .ToListAsync();
         }
-      
-        
     }
 }
 
