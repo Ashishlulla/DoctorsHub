@@ -88,10 +88,7 @@ namespace DoctorsHub.Application.Services
             });
         }
 
-        public Task<(PagedResult<IEnumerable<BillDto>> Bills, int totalBills)> GetAllBillsAsync(BillingQueryParameter billingQueryParameter)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task<BillDto?> GetBillByAppointmentIdAsync(int appointmentId)
         {
@@ -117,6 +114,21 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<BillDto>(bill);
         }
 
+        public async Task<PagedResult<BillDto>> GetBillsAsync(BillingQueryParameter billingQueryParameter)
+        {
+            var (bills, totalBills) = await _billingRepository.GetBillsAsync(billingQueryParameter);
+
+            PagedResult<BillDto> pagedResult = new PagedResult<BillDto>()
+            {
+                Items = _mapper.Map<List<BillDto>>(bills),
+                PageSize = billingQueryParameter.PageSize,
+                PageNumber = billingQueryParameter.PageNumber,
+                TotalCount = totalBills,
+            };
+
+            return pagedResult;
+        }
+
         public async Task UpdateBillAsync(int id, UpdateBillDto updateBillDto)
         {
 
@@ -134,9 +146,6 @@ namespace DoctorsHub.Application.Services
             await _billingRepository.UpdateBillAsync(bill);
         }
 
-        async Task<(PagedResult<List<BillDto>> Bills, int totalBills)> IBillingService.GetBillsAsync(BillingQueryParameter billingQueryParameter)
-        {
-            var (bill, totalBills) =  await _billingRepository.
-        }
+        
     }
 }

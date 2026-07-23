@@ -31,7 +31,7 @@ namespace DoctorsHub.API.Controllers
                 PageSize = appointmentQueryParameter.PageSize,
                 PageNumber = appointmentQueryParameter.PageNumber,
                 TotalCount = TotalRecords,
-                TotalPages = (int)Math.Ceiling((double)TotalRecords / appointmentQueryParameter.PageSize)
+                
             });
         }
 

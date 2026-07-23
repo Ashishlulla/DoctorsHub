@@ -19,6 +19,6 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         
         Task<BillDto?> GetBillByAppointmentIdAsync(int appointmentId);
 
-        Task<(PagedResult<List<BillDto>> Bills, int totalBills)> GetBillsAsync(BillingQueryParameter billingQueryParameter);
+        Task<PagedResult<BillDto>> GetBillsAsync(BillingQueryParameter billingQueryParameter);
     }
 }

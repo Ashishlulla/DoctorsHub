@@ -2,8 +2,6 @@
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
@@ -32,7 +30,7 @@ namespace DoctorsHub.API.Controllers
                 PageNumber = doctorQueryParameters.PageNumber,
                 PageSize = doctorQueryParameters.PageSize,
                 TotalCount = ToalRecords,
-                TotalPages = (int)Math.Ceiling((double) ToalRecords/doctorQueryParameters.PageSize)
+                
             });
         }
 

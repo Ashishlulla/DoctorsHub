@@ -1,4 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Billing;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +23,9 @@ namespace DoctorsHub.API.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAllBillsAsync() 
+        public async Task<IActionResult> GetAllBillsAsync([FromQuery]BillingQueryParameter billingQueryParameter) 
         {
-            IEnumerable<BillDto> bills = await _billingService.GetAllBillsAsync();
+            PagedResult<BillDto> bills = await _billingService.GetBillsAsync(billingQueryParameter);
 
             return Ok(bills);
         }

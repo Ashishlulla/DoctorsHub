@@ -50,7 +50,7 @@ namespace DoctorsHub.Application.Services
                 PageNumber = patientQueryParameters.PageNumber,
                 PageSize = patientQueryParameters.PageSize,
                 TotalCount  = TotalRecords,
-                TotalPages = (int)Math.Ceiling((double)TotalRecords / patientQueryParameters.PageSize)
+               
             };
                
         }
