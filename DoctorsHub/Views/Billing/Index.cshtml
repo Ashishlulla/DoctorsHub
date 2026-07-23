@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BillDto>
+﻿@model PagedResult<BillDto>
 
 @{
     ViewData["Title"] = "Billing";
@@ -10,6 +10,84 @@
     <div class="header">
         <h2>Billing</h2>
     </div>
+
+    <!-- Search & Filter -->
+    <form method="get" class="filter-bar">
+
+        <select name="searchBy">
+
+            <option value="BillId" selected="@(Context.Request.Query["searchBy"] == "BillId")">
+                Bill ID
+            </option>
+
+            <option value="PatientName" selected="@(Context.Request.Query["searchBy"] == "PatientName")">
+                Patient Name
+            </option>
+
+            <option value="DoctorName" selected="@(Context.Request.Query["searchBy"] == "DoctorName")">
+                Doctor Name
+            </option>
+
+            <option value="BillDate" selected="@(Context.Request.Query["searchBy"] == "BillDate")">
+                Bill Date
+            </option>
+
+            <option value="AppointmentDate" selected="@(Context.Request.Query["searchBy"] == "AppointmentDate")">
+                Appointment Date
+            </option>
+
+        </select>
+
+        <input type="text"
+               name="searchString"
+               value="@Context.Request.Query["searchString"]"
+               placeholder="Search bills..." />
+
+        <select name="sortBy">
+
+            <option value="PatientName" selected="@(Context.Request.Query["sortBy"] == "PatientName")">
+                Patient Name
+            </option>
+
+            <option value="DoctorName" selected="@(Context.Request.Query["sortBy"] == "DoctorName")">
+                Doctor Name
+            </option>
+
+            <option value="BillDate" selected="@(Context.Request.Query["sortBy"] == "BillDate")">
+                Bill Date
+            </option>
+
+            <option value="AppointmentDate" selected="@(Context.Request.Query["sortBy"] == "AppointmentDate")">
+                Appointment Date
+            </option>
+
+            <option value="TotalAmount" selected="@(Context.Request.Query["sortBy"] == "TotalAmount")">
+                Total Amount
+            </option>
+
+        </select>
+
+        <select name="sortOrder">
+
+            <option value="asc" selected="@(Context.Request.Query["sortOrder"] == "asc")">
+                Ascending
+            </option>
+
+            <option value="desc" selected="@(Context.Request.Query["sortOrder"] == "desc")">
+                Descending
+            </option>
+
+        </select>
+
+        <button type="submit" class="btn-search">
+            Search
+        </button>
+
+        <a asp-action="Index" class="btn-cancel">
+            Reset
+        </a>
+
+    </form>
 
     @if (TempData["Success"] != null)
     {
@@ -40,9 +118,9 @@
 
             <tbody>
 
-                @if (Model.Any())
+                @if (Model.Items.Any())
                 {
-                    @foreach (var bill in Model)
+                    @foreach (var bill in Model.Items)
                     {
                         <tr>
 
@@ -107,6 +185,43 @@
             </tbody>
 
         </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+
+        @if (Model.PageNumber > 1)
+        {
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageNumber - 1)"
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-searchBy="@Context.Request.Query["searchBy"]"
+               asp-route-searchString="@Context.Request.Query["searchString"]"
+               asp-route-sortBy="@Context.Request.Query["sortBy"]"
+               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
+               class="page-btn">
+                Prev
+            </a>
+        }
+
+        <span class="page-info">
+            Page @Model.PageNumber of @Model.TotalPages
+        </span>
+
+        @if (Model.PageNumber < Model.TotalPages)
+        {
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageNumber + 1)"
+               asp-route-pageSize="@Model.PageSize"
+               asp-route-searchBy="@Context.Request.Query["searchBy"]"
+               asp-route-searchString="@Context.Request.Query["searchString"]"
+               asp-route-sortBy="@Context.Request.Query["sortBy"]"
+               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
+               class="page-btn">
+                Next
+            </a>
+        }
 
     </div>
 

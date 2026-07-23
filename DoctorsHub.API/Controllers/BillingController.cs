@@ -21,11 +21,20 @@ namespace DoctorsHub.API.Controllers
             _billingService = billingService;
         }
 
-        [HttpGet]
+        [HttpGet("filtered")]
 
-        public async Task<IActionResult> GetAllBillsAsync([FromQuery]BillingQueryParameter billingQueryParameter) 
+        public async Task<IActionResult> GetFilteredBillsAsync([FromQuery]BillingQueryParameter billingQueryParameter) 
         {
             PagedResult<BillDto> bills = await _billingService.GetBillsAsync(billingQueryParameter);
+
+            return Ok(bills);
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> GetAllBillsAsync()
+        {
+            IEnumerable<BillDto> bills = await _billingService.GetAllBillsAsync();
 
             return Ok(bills);
         }

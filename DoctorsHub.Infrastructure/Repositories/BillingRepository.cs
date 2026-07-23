@@ -70,41 +70,44 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .ThenInclude(p => p.Patient);
 
             //Searching
-            if (!string.IsNullOrWhiteSpace(billingQueryParameter.searchString))
+            
+            switch (billingQueryParameter.searchBy)
             {
-                switch (billingQueryParameter.searchBy)
-                {
-                    case "PatientName":
-                        query = query.Where(p => EF.Functions.Like(p.Appointment.Patient.FullName, $"%{billingQueryParameter.searchString}%"));
-                        break;
+                case "PatientName":
+                    query = query.Where(p => EF.Functions.Like(p.Appointment.Patient.FullName, $"%{billingQueryParameter.searchString}%"));
+                    break;
 
-                    case "DoctorName":
-                        query = query.Where(d => EF.Functions.Like(d.Appointment.Doctor.FullName, $"%{billingQueryParameter.searchString}%"));
-                        break;
+                case "DoctorName":
+                    query = query.Where(d => EF.Functions.Like(d.Appointment.Doctor.FullName, $"%{billingQueryParameter.searchString}%"));
+                    break;
 
-                    case "BillDate":
-                        if (DateTime.TryParse(billingQueryParameter.searchString, out DateTime billDate)) 
-                        {
-                            query = query.Where(b => b.BillDate.Date == billDate.Date);
-                        }
-                        break;
-
-
-                    case "AppointmentDate":
-                        if (DateOnly.TryParse(billingQueryParameter.searchString,out DateOnly appointmentDate))
-                        {
-                            query = query.Where(b=>b.Appointment.AppointmentDate == appointmentDate);
-                        }
-                        break;
-
-                    case "BillId":
-                        if (int.TryParse(billingQueryParameter.searchString, out int billId))
-                        {
-                            query = query.Where(b=>b.Id == billId);
-                        }
-                        break;
+                case "BillDate":
+                    if (DateTime.TryParse(billingQueryParameter.searchString, out DateTime billDate)) 
+                    {
+                        query = query.Where(b => b.BillDate.Date == billDate.Date);
                     }
+                    break;
+
+
+                case "AppointmentDate":
+                    if (DateOnly.TryParse(billingQueryParameter.searchString,out DateOnly appointmentDate))
+                    {
+                        query = query.Where(b=>b.Appointment.AppointmentDate == appointmentDate);
+                    }
+                    break;
+
+                case "BillId":
+                    if (int.TryParse(billingQueryParameter.searchString, out int billId))
+                    {
+                        query = query.Where(b=>b.Id == billId);
+                    }
+                    break;
+
+                default:
+                    query = query;
+                    break;
                 }
+                
 
 
             //Sorting

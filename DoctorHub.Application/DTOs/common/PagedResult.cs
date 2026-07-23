@@ -19,7 +19,7 @@ namespace DoctorsHub.Application.DTOs.common
 
             public int TotalCount { get; set; }
 
-            public int TotalPage => (int)Math.Ceiling((double)TotalCount / PageSize);
+            public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using DoctorsHub.Application.DTOs.Billing;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -20,9 +22,9 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery]BillingQueryParameter billingQueryParameter)
         {
-            IEnumerable<BillDto> bills = await  _billingApiService.GetBillsAsync();
+            PagedResult<BillDto> bills = await  _billingApiService.GetFilteredBillAsync(billingQueryParameter);
             
             return View(bills);
         }
