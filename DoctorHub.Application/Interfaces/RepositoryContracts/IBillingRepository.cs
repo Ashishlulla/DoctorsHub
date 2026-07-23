@@ -1,4 +1,6 @@
-﻿using DoctorsHub.Domain.Entities;
+﻿using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Domain.Entities;
 
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
@@ -17,5 +19,7 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task UpdateBillAsync(Bill bill);
 
         Task DeleteBillAsync(Bill bill);
+
+        Task<(List<Bill> Bills, int totalBills)> GetBillsAsync(BillingQueryParameter billingQueryParameter);
     }
 }

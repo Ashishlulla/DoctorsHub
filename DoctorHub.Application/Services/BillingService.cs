@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using DoctorsHub.Application.DTOs.Billing;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
@@ -43,6 +45,9 @@ namespace DoctorsHub.Application.Services
             Bill bill = _mapper.Map<Bill>(createBillDto);
 
             bill.ConsultationFee = appointment.Doctor.ConsultationFee;
+            Console.WriteLine("Doctor Name : ", appointment.Doctor.FullName);
+            Console.WriteLine("Doctor fee : ", appointment.Doctor.ConsultationFee);
+
 
             bill.TotalAmount = bill.ConsultationFee + createBillDto.AdditionalCharges - createBillDto.Discount;
             bill.BillDate = DateTime.Now;
@@ -81,6 +86,11 @@ namespace DoctorsHub.Application.Services
                 AppointmentId = b.AppointmentId,
 
             });
+        }
+
+        public Task<(PagedResult<IEnumerable<BillDto>> Bills, int totalBills)> GetAllBillsAsync(BillingQueryParameter billingQueryParameter)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<BillDto?> GetBillByAppointmentIdAsync(int appointmentId)
@@ -122,6 +132,11 @@ namespace DoctorsHub.Application.Services
             bill.ConsultationFee = bill.Appointment.Doctor.ConsultationFee;
             bill.TotalAmount = bill.ConsultationFee + bill.AdditionalCharges - bill.Discount; 
             await _billingRepository.UpdateBillAsync(bill);
+        }
+
+        async Task<(PagedResult<List<BillDto>> Bills, int totalBills)> IBillingService.GetBillsAsync(BillingQueryParameter billingQueryParameter)
+        {
+            var (bill, totalBills) =  await _billingRepository.
         }
     }
 }

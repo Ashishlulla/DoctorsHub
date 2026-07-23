@@ -255,8 +255,10 @@ namespace DoctorsHub.Application.Services
             await _billingService.CreateBillAsync(new CreateBillDto 
             {
                 AppointmentId  = appoinmentId,
+                ConsultationFee = appointment.Doctor.ConsultationFee,
                 AdditionalCharges = 0,
                 Discount = 0,
+                
             });
         }
     }

@@ -1,4 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Billing;
+using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 
 
 namespace DoctorsHub.Application.Interfaces.ServiceContracts
@@ -16,5 +18,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<BillDto?> GetBillByIdAsync(int id);
         
         Task<BillDto?> GetBillByAppointmentIdAsync(int appointmentId);
+
+        Task<(PagedResult<List<BillDto>> Bills, int totalBills)> GetBillsAsync(BillingQueryParameter billingQueryParameter);
     }
 }

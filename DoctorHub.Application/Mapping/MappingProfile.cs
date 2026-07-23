@@ -72,7 +72,8 @@ namespace DoctorsHub.Application.Mapping
                 opt => opt.MapFrom(src => src.Appointment.Patient.FullName)); //converts Bill to billdto
             
 
-            CreateMap<CreateBillDto, Bill>(); //converts CreateBilldto to bill
+            CreateMap<CreateBillDto, Bill>()
+                .ForMember(dest=>dest.ConsultationFee, opt=>opt.MapFrom(src=>src.ConsultationFee)); //converts CreateBilldto to bill
 
             CreateMap<UpdateBillDto, Bill>(); //converts UpdateBilldto to bill
             CreateMap<Bill, UpdateBillDto>(); //converts Bill to updatebilldto
