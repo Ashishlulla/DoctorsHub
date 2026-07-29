@@ -1,6 +1,4 @@
-﻿using DoctorsHub.Domain.Identity;
-
-namespace DoctorHub.Application.DTOs.Doctors
+﻿namespace DoctorHub.Application.DTOs.Doctors
 {
     public class DoctorDto
     {
@@ -8,9 +6,9 @@ namespace DoctorHub.Application.DTOs.Doctors
 
         public string FullName { get; set; } = string.Empty;
 
-        public required ApplicationUser User { get; set; }
-        
-        public string PhoneNumber {  get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+
+        public string PhoneNumber { get; set; } = string.Empty;
 
         public string Qualification { get; set; } = string.Empty;
 
@@ -22,14 +20,10 @@ namespace DoctorHub.Application.DTOs.Doctors
 
         public int SpecializationId { get; set; }
 
-        public double AverageRating { get; set; }
+        
 
         public string VisitDays { get; set; } = string.Empty;
 
         public string About { get; set; } = string.Empty;
-
-        //public DateTime CreatedAt { get; set; }
-
-        //public DateTime UpdatedAt { get; set; }
     }
 }

@@ -42,16 +42,7 @@
                     @Model.SpecializationName
                 </p>
 
-                <p class="rating">
-                    @if (Model.AverageRating > 0)
-                    {
-                        <span>⭐ @Model.AverageRating.ToString("F1")</span>
-                    }
-                    else
-                    {
-                        <span>No Ratings</span>
-                    }
-                </p>
+               
             </div>
 
         </div>
@@ -67,7 +58,7 @@
             <div class="detail-item">
                 <span class="label">Email</span>
                 <span class="value">
-                    @(string.IsNullOrWhiteSpace(Model.User.Email) ? "N/A" : Model.User.Email)
+                    @(string.IsNullOrWhiteSpace(Model.Email) ? "N/A" : Model.Email)
                 </span>
             </div>
             <div class="detail-item">

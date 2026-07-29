@@ -19,7 +19,7 @@ namespace DoctorsHub.Application.Mapping
             //Doctor Mapping
             CreateMap<CreateDoctorDto, Doctor>();
             CreateMap<UpdateDoctorDto, Doctor>();
-            CreateMap<Doctor, DoctorDto>();
+            CreateMap<Doctor, DoctorDto>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
 
             //Patient Mapping
             CreateMap<CreatePatientDto, Patient>();

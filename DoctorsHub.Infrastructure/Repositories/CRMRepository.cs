@@ -31,7 +31,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 TotalRevenue = await _db.Bills.Where(b => b.PaymentStatus == PaymentStatus.Paid).SumAsync(b => b.TotalAmount),
                 CancelledAppointments = await _db.Appointments.CountAsync(c => c.Status == AppointmentStatus.Cancelled),
                 CompletedAppointments = await _db.Appointments.CountAsync(c => c.Status == AppointmentStatus.Completed),
-                AverageDoctorRating = await _db.Doctors.AverageAsync(d => d.AverageRating),
+                
                 ScheduleAppointments = await _db.Appointments.CountAsync(s => s.Status == AppointmentStatus.Scheduled)
             };
         }

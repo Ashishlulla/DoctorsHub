@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
-using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
@@ -26,52 +25,114 @@ namespace DoctorHub.Application.Services
             _userManager = userManager;
             _mapper = mapper;
         }
-
         public async Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto createDoctorDto)
         {
-            var existingEmail = await _userManager.FindByEmailAsync(createDoctorDto.Email);
+            // Generate base name
+            var baseName = createDoctorDto.FullName
+                .Replace(" ", "")
+                .ToLower();
 
-            if (existingEmail != null)
+
+            // Generate unique email using name + birth date
+            var emailBase =
+                $"{baseName}{createDoctorDto.BirthDate.Day:D2}{createDoctorDto.BirthDate.Month:D2}";
+
+            var email = $"{emailBase}@doctorhub.com";
+
+            int counter = 1;
+
+            while (await _userManager.FindByEmailAsync(email) != null)
             {
-                throw new InvalidOperationException($"Doctor with Email: {createDoctorDto.Email}  already Exists.");
+                email = $"{emailBase}{counter}@doctorhub.com";
+                counter++;
             }
 
+
+            // Generate temporary password
+            var password = $"{baseName}@123";
+
+
+            // Create Identity User
             var user = new ApplicationUser
             {
-                UserName = createDoctorDto.Email,
-                Email = createDoctorDto.Email,
-                EmailConfirmed = true,
+                UserName = email,
+                Email = email,
+                EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(user, createDoctorDto.Password);
+
+            var result = await _userManager.CreateAsync(user, password);
+
 
             if (!result.Succeeded)
             {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                var errors = string.Join(", ",
+                    result.Errors.Select(e => e.Description));
+
                 throw new InvalidOperationException(errors);
             }
+
+
+            // Assign Doctor Role
             var roleResult = await _userManager.AddToRoleAsync(user, "Doctor");
+
 
             if (!roleResult.Succeeded)
             {
-                var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                var errors = string.Join(", ",
+                    roleResult.Errors.Select(e => e.Description));
+
+                await _userManager.DeleteAsync(user);
+
+                throw new InvalidOperationException(errors);
             }
+
+
+            // Create Doctor Profile
             var doctor = _mapper.Map<Doctor>(createDoctorDto);
-            doctor.UserId= user.Id;
+
+            doctor.FullName = $"Dr. {createDoctorDto.FullName}";
+            doctor.UserId = user.Id;
+
 
             doctor = await _doctorRepository.AddAsync(doctor);
 
-            return _mapper.Map<DoctorDto>(doctor); 
-         }
+
+            return _mapper.Map<DoctorDto>(doctor);
+        }
 
         public async Task DeleteDoctorAsync(int id)
         {
             var doctor = await _doctorRepository.GetByIdAsync(id);
+
             if (doctor == null)
             {
-                throw new KeyNotFoundException($"No doctor exists with Id ={id}");
+                throw new KeyNotFoundException(
+                    $"No doctor exists with Id = {id}");
             }
 
+
+            // Delete Identity User
+            if (!string.IsNullOrEmpty(doctor.UserId))
+            {
+                var user = await _userManager.FindByIdAsync(doctor.UserId);
+
+                if (user != null)
+                {
+                    var result = await _userManager.DeleteAsync(user);
+
+                    if (!result.Succeeded)
+                    {
+                        var errors = string.Join(", ",
+                            result.Errors.Select(e => e.Description));
+
+                        throw new InvalidOperationException(errors);
+                    }
+                }
+            }
+
+
+            // Delete Doctor Profile
             await _doctorRepository.DeleteDoctorByIdAsync(id);
         }
 

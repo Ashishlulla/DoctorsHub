@@ -96,11 +96,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 				(nameof(Doctor.ConsultationFee), "desc") =>
 					query.OrderByDescending(d => d.ConsultationFee),
 
-				(nameof(Doctor.AverageRating), "asc") =>
-					query.OrderBy(d => d.AverageRating),
-
-				(nameof(Doctor.AverageRating), "desc") =>
-					query.OrderByDescending(d => d.AverageRating),
+				
 
 				_ => query.OrderBy(d => d.FullName)
 			};
