@@ -20,7 +20,7 @@ namespace DoctorsHub.Application.Validators.Patient
 
             RuleFor(x => x.DateOfBirth)
                 .NotEmpty().WithMessage("Date of Birth is required.")
-                .LessThan(DateTime.Today)
+                .LessThan(DateOnly.FromDateTime(DateTime.Today))
                 .WithMessage("Date of Birth must be in the past.");
 
             RuleFor(x => x.Gender)
