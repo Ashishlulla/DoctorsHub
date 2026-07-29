@@ -26,7 +26,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [Route("/")]
+        //[Route("/")]
         
         public async Task<IActionResult> Index(DoctorQueryParameters doctorQueryParameters)
         {

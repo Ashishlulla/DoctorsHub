@@ -34,8 +34,8 @@
     }
 
 .btn-edit {
-    background: linear-gradient(135deg,#0F766E,#14B8A6);
-    color: #0F766E;
+    background: #0F766E;
+    color: #fff;
     padding: 6px 10px;
     border-radius: 8px;
     text-decoration: none;

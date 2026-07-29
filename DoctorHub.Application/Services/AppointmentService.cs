@@ -2,7 +2,6 @@
 using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
-using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
@@ -29,10 +28,10 @@ namespace DoctorsHub.Application.Services
         public async Task CreateAppointmentAsync(CreateAppointmentDto createAppointmentDto)
         {
             //Past date validation
-            if (createAppointmentDto.AppointmentDate < DateOnly.FromDateTime(DateTime.Today))
-            {
-                throw new ArgumentException("Appointment date cannot be in the past.");
-            }
+            //if (createAppointmentDto.AppointmentDate < DateOnly.FromDateTime(DateTime.Today))
+            //{
+            //    throw new ArgumentException("Appointment date cannot be in the past.");
+            //}
 
             //Validation: Doctor Exists
             if (!await _appointmentRepository.DoctorExistsAsync(createAppointmentDto.DoctorId))
