@@ -1,4 +1,5 @@
-﻿using DoctorHub.Application.DTOs.Doctors;
+﻿using Microsoft.AspNetCore.Authorization;
+using DoctorHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
@@ -6,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
+    [Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class DoctorsController : ControllerBase
     {
         //Private feilds
-        private readonly IDoctorService _doctorService;
+        private readonly IDoctorService _doctorService; 
 
         //Constructor
         public DoctorsController(IDoctorService doctorService)

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DoctorsHub.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Doctor")]
     [Route("[controller]")]
     public class DoctorController : Controller
     {

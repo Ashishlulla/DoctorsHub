@@ -10,11 +10,13 @@ namespace DoctorsHub.Application.Services
         //Private Feilds
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) 
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
         public async Task RegisterAsync(RegisterDto registerDto)
@@ -45,7 +47,7 @@ namespace DoctorsHub.Application.Services
             }
         }
 
-        public async Task LoginAsync(LoginDto loginDto)
+        public async Task<LoginResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
@@ -58,7 +60,17 @@ namespace DoctorsHub.Application.Services
             {
                 throw new Exception("Invalid Email or Password.");
             }
-            await _signInManager.SignInAsync(user, isPersistent: false);
+            
+            var token = await _tokenService.CreateTokenAsync(user);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return new LoginResponseDto
+            {
+                Token = token,
+                Email = user.Email!,
+                Roles = roles.ToList()
+            };
         }
 
         public async Task LogoutAsync()

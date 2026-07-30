@@ -3,11 +3,14 @@ using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 
 namespace DoctorsHub.Web.Controllers
 {
+    [Authorize(Roles ="Admin, Receptionist, Doctor")]
+    [Route("[controller]")]
     public class BillingController : Controller
     {
         //Private Fields

@@ -1,12 +1,15 @@
 ﻿using DoctorsHub.Domain.Identity;
 using DoctorsHub.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DoctorsHub.API.Configurations
 {
     public static class AddIdentityExtension
     {
-        public static IServiceCollection AddIdentityService(this IServiceCollection services) 
+        public static IServiceCollection AddIdentityService(this IServiceCollection services, IConfiguration configuration) 
         {
             //Add Identity
             services.AddIdentity<ApplicationUser, IdentityRole>(options => 
@@ -21,6 +24,32 @@ namespace DoctorsHub.API.Configurations
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+
+            //Add Jwt Token Authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+                };
+            });
+
+
 
             return services;
         }

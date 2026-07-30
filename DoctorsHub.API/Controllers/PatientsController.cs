@@ -2,10 +2,12 @@
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
+    [Authorize(Roles ="Admin, Receptionist, Doctor")]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientsController : ControllerBase

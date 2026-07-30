@@ -1,10 +1,12 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
+    [Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class BusinessInsightsController : ControllerBase

@@ -1,10 +1,12 @@
 ﻿using DoctorsHub.Application.DTOs.CRM;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
+    [Authorize(Roles ="Admin, Receptionist, Doctor")]
     [Route("api/[controller]")]
     [ApiController]
     public class DashBoardController : ControllerBase

@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
-    
+    [Authorize(Roles = "Admin, Doctor")]
+    [Route("[controller]")]
     public class BusinessInsightsController : Controller
     {
         //Private Feilds
