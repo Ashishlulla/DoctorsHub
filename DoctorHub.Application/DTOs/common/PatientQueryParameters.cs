@@ -18,7 +18,7 @@ namespace DoctorsHub.Application.DTOs.common
         public string? sortOrder { get; set; } = "asc";
 
         //Pagination
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 10;
         public int PageNumber { get; set; } = 1;
     }
 }

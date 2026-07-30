@@ -193,7 +193,7 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .Where(b=>b.PaymentStatus == PaymentStatus.Paid)
                 .GroupBy(b=> new
                 {
-                    b.BillDate.Year,b.BillDate.Month
+                    b.Appointment.AppointmentDate.Year,b.Appointment.AppointmentDate.Month
                 })
                 .OrderBy(g=>g.Key.Year)
                 .ThenBy(g=>g.Key.Month)

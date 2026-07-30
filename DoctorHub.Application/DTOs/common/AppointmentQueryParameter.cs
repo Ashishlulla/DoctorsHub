@@ -11,7 +11,7 @@
         public string sortOrder { get; set; } = "asc";
 
         //Pagination Properties
-        public int PageSize { get; set; } = 500;
+        public int PageSize { get; set; } = 10;
         public int PageNumber { get; set; } = 1;
     }
 }
