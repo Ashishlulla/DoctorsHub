@@ -6,24 +6,49 @@ namespace DoctorsHub.Web.Services
     {
         //Private Feilds
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         //Constructor
-        public CRMApiService(HttpClient httpClient) 
+        public CRMApiService(
+           HttpClient httpClient,
+           IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
+        }
+        private void AddToken()
+        {
+            var token = _httpContextAccessor
+                .HttpContext?
+                .Request
+                .Cookies["JWT"];
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Bearer",
+                        token);
+            }
         }
 
-        public async Task<DashBoardDto> GetDashBoardDataAsync()        
+        public async Task<DashBoardDto> GetDashBoardDataAsync()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard");
+            AddToken();
+
+            HttpResponseMessage response = await _httpClient.GetAsync("api/dashboard");
+
             response.EnsureSuccessStatusCode();
 
-            DashBoardDto? dashBoardData = await response.Content.ReadFromJsonAsync<DashBoardDto>();
+            DashBoardDto? dashBoardData =
+                await response.Content.ReadFromJsonAsync<DashBoardDto>();
 
             return dashBoardData ?? new DashBoardDto();
         }
         public async Task<List<RecentAppointmentsDto>> GetRecentAppointmentsAsync() 
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/recent");
             response.EnsureSuccessStatusCode();
 
@@ -34,6 +59,7 @@ namespace DoctorsHub.Web.Services
 
         public async Task<List<UpcomingAppointmentsDto>> GetUpcomingAppointmentsAsync()
         {
+            AddToken(); 
             HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/upcoming");
             response.EnsureSuccessStatusCode();
 
@@ -45,6 +71,8 @@ namespace DoctorsHub.Web.Services
 
         public async Task<List<TodayAppointmentsDto>> GetTodaysAppointmentsAsync()
         {
+            AddToken();
+
             HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/today");
             response.EnsureSuccessStatusCode();
 
@@ -56,6 +84,7 @@ namespace DoctorsHub.Web.Services
 
         public async Task<List<ScheduledAppointmentsDto>> GetScheduledAppointmentsAsync()
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync("/api/dashboard/schedule");
             response.EnsureSuccessStatusCode();
 

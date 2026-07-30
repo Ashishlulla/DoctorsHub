@@ -39,7 +39,7 @@ namespace DoctorsHub.Application.Services
                 throw new Exception(string.Join(", ", result.Errors.Select(e=>e.Description)));
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(user, "Patient");
+            var roleResult = await _userManager.AddToRoleAsync(user, registerDto.Role);
 
             if (!roleResult.Succeeded)
             {

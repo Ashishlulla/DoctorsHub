@@ -1,4 +1,4 @@
-﻿using DoctorHub.Application.DTOs.Doctors;
+﻿using DoctorsHub.Application.DTOs.Doctors;
 using FluentValidation;
 
 

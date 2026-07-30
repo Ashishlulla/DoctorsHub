@@ -18,7 +18,21 @@ namespace DoctorsHub.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        {
+            try
+            {
+                await _authService.RegisterAsync(registerDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             try
@@ -31,6 +45,9 @@ namespace DoctorsHub.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        
+
 
     }
 }

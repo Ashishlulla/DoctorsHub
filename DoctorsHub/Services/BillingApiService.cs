@@ -24,28 +24,33 @@ namespace DoctorsHub.Web.Services
 
             return bills ?? new List<BillDto>();
         }
-        public async Task<PagedResult<BillDto>> GetFilteredBillAsync(BillingQueryParameter billingQueryParameter) 
+        public async Task<PagedResult<BillDto>> GetFilteredBillAsync(
+    BillingQueryParameter billingQueryParameter)
         {
-
             string url =
-            $"/api/Billing/filtered?" +
-            $"searchBy={billingQueryParameter.searchBy ?? string.Empty}" +
-            $"&searchString={billingQueryParameter.searchString ?? string.Empty}" +
-            $"&sortBy={billingQueryParameter.sortBy ?? string.Empty}" +
-            $"&sortOrder={(billingQueryParameter.sortOrder ?? string.Empty)}" +
-            $"&PageSize={billingQueryParameter.PageSize}" +
-            $"&PageNumber={billingQueryParameter.PageNumber}";
+                $"api/Billing/filtered?" +
+                $"searchBy={billingQueryParameter.searchBy ?? string.Empty}" +
+                $"&searchString={billingQueryParameter.searchString ?? string.Empty}" +
+                $"&sortBy={billingQueryParameter.sortBy ?? string.Empty}" +
+                $"&sortOrder={billingQueryParameter.sortOrder ?? string.Empty}" +
+                $"&PageSize={billingQueryParameter.PageSize}" +
+                $"&PageNumber={billingQueryParameter.PageNumber}";
 
 
             HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+
             if (!response.IsSuccessStatusCode)
             {
                 string error = await response.Content.ReadAsStringAsync();
-                throw new Exception(error);
+
+                throw new Exception(
+                    $"Billing API Error: {response.StatusCode} - {error}");
             }
 
 
-            PagedResult<BillDto>? bills = await response.Content.ReadFromJsonAsync<PagedResult<BillDto>>();
+            PagedResult<BillDto>? bills =
+                await response.Content.ReadFromJsonAsync<PagedResult<BillDto>>();
 
             return bills ?? new PagedResult<BillDto>();
         }

@@ -1,5 +1,5 @@
-﻿using DoctorHub.Application.DTOs.Doctors;
-using DoctorHub.Application.Services;
+﻿using DoctorsHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.Services;
 using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Authentication;
 using DoctorsHub.Application.DTOs.Patients;
@@ -8,7 +8,6 @@ using DoctorsHub.Application.Mapping;
 using DoctorsHub.Application.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-
 
 namespace DoctorsHub.Application.Configuration
 {

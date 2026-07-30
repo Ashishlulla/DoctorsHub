@@ -6,7 +6,7 @@ namespace DoctorsHub.Domain.Identity
     {
         public async static Task SeedRolesAndAdminAsync(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager) 
         {
-            string[] roles = { "Patient", "Doctor", "Admin"};
+            string[] roles = { "Receptionist", "Doctor", "Admin"};
 
             foreach (var role in roles) 
             {

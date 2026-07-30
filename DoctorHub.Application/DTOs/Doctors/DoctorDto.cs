@@ -1,4 +1,4 @@
-﻿namespace DoctorHub.Application.DTOs.Doctors
+﻿namespace DoctorsHub.Application.DTOs.Doctors
 {
     public class DoctorDto
     {

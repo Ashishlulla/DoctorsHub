@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.CRM;

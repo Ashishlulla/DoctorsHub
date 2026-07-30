@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.ServiceContracts;

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorsHub.Web.Controllers
 {
     [Authorize(Roles ="Admin, Receptionist, Doctor")]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class BillingController : Controller
     {
         //Private Fields

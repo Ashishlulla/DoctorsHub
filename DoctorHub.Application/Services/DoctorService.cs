@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DoctorHub.Application.DTOs.Doctors;
+using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
@@ -8,7 +8,7 @@ using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 
 
-namespace DoctorHub.Application.Services
+namespace DoctorsHub.Application.Services
 {
     public class DoctorService : IDoctorService
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DoctorHub.Application.DTOs.Doctors
+namespace DoctorsHub.Application.DTOs.Doctors
 {
     public class UpdateDoctorDto
     {

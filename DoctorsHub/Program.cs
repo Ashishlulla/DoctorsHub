@@ -21,13 +21,13 @@ builder.Services.AddIdentityService();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpClientServices(builder.Configuration);
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Auth/Login";
-    options.AccessDeniedPath = "/Auth/AccessDenied";
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     options.SlidingExpiration = true;
 });
