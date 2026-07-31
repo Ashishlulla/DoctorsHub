@@ -10,15 +10,34 @@ namespace DoctorsHub.Web.Services
     {
         //Private Feilds
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         //Constructor
-        public BusinessInsightsApiService(HttpClient httpClient) 
+        public BusinessInsightsApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor) 
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private void AddToken()
+        {
+            var token = _httpContextAccessor
+                .HttpContext?
+                .Request
+                .Cookies["JWT"];
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Bearer",
+                        token);
+            }
         }
 
         public async Task<BusinessInsightsDto> GetBusinessInsightsAsync(AnalyticsTimeFilter timeFilter = AnalyticsTimeFilter.Month) 
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync($"api/BusinessInsights?timeFilter={timeFilter}");
             response.EnsureSuccessStatusCode();
 

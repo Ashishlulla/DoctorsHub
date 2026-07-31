@@ -59,6 +59,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        [Route("/")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             if (!ModelState.IsValid)

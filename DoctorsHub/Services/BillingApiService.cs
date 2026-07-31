@@ -8,15 +8,33 @@ namespace DoctorsHub.Web.Services
     {
         //Private Fields
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         //Constructor
-        public BillingApiService(HttpClient httpClient) 
+        public BillingApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
+        }
+        private void AddToken()
+        {
+            var token = _httpContextAccessor
+                .HttpContext?
+                .Request
+                .Cookies["JWT"];
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Bearer",
+                        token);
+            }
         }
 
         public async Task<IEnumerable<BillDto>> GetBillsAsync() 
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync("/api/Billing");
             response.EnsureSuccessStatusCode();
 
@@ -27,6 +45,7 @@ namespace DoctorsHub.Web.Services
         public async Task<PagedResult<BillDto>> GetFilteredBillAsync(
     BillingQueryParameter billingQueryParameter)
         {
+            AddToken();
             string url =
                 $"api/Billing/filtered?" +
                 $"searchBy={billingQueryParameter.searchBy ?? string.Empty}" +
@@ -58,6 +77,7 @@ namespace DoctorsHub.Web.Services
 
         public async Task<BillDto> GetBillByIdAsync(int id)
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Billing/{id}");
             response.EnsureSuccessStatusCode();
 
@@ -68,6 +88,7 @@ namespace DoctorsHub.Web.Services
 
         public async Task<BillDto> GetBillByAppointmentIdAsync(int appointmentId)
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Billing/appointment/{appointmentId}");
             response.EnsureSuccessStatusCode();
 
@@ -78,6 +99,7 @@ namespace DoctorsHub.Web.Services
 
         public async Task UpdateBillAsync(int id, UpdateBillDto updateBillDto)
         {
+            AddToken();
             HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"/api/Billing/{id}", updateBillDto);
             response.EnsureSuccessStatusCode();
 

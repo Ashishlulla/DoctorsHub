@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorsHub.Web.Controllers
 {
     [Authorize(Roles ="Admin, Receptionist, Doctor")]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
 
     public class AppointmentsController : Controller
     {
@@ -33,9 +33,11 @@ namespace DoctorsHub.Web.Controllers
        
              return View(appointments);
         }
-        
+
 
         //GET: Create Action Method
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Create()
         {
             
@@ -47,6 +49,7 @@ namespace DoctorsHub.Web.Controllers
 
         //POST: Create Action Method
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateAppointmentDto createAppointmentDto) 
         {
@@ -78,6 +81,8 @@ namespace DoctorsHub.Web.Controllers
         }
 
         //GET: Edit Action Method
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Edit(int id) 
         {
             var appointment = await _appointmentApiService.GetAppointmentForUpdateAsync(id);
@@ -89,6 +94,7 @@ namespace DoctorsHub.Web.Controllers
 
         //POST: Edit Action Method
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UpdateAppointmentDto updateAppointmentDto)
         {
@@ -118,6 +124,8 @@ namespace DoctorsHub.Web.Controllers
             }
         }
         //GET: Details Action Method
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Details(int id) 
         {
             AppointmentDetailsDto appointmentDetails = await _appointmentApiService.GetAppointmentForDetailsAsync(id);
@@ -125,6 +133,8 @@ namespace DoctorsHub.Web.Controllers
         }
 
         //GET: Delete Action Method
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Delete(int id) 
         {
             AppointmentDto appointment = await _appointmentApiService.GetAppointmentByIdAsync(id);
@@ -133,6 +143,7 @@ namespace DoctorsHub.Web.Controllers
 
         //POST: DeleteConfirmed Action Method
         [HttpPost]
+
         [ActionName(nameof(AppointmentsController.Delete))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

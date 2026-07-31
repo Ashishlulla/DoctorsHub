@@ -4,14 +4,32 @@ using System.Text.Json;
 public class AuthApiService
 {
     private readonly HttpClient _httpClient;
-
-    public AuthApiService(HttpClient httpClient)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public AuthApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
     {
         _httpClient = httpClient;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    private void AddToken()
+    {
+        var token = _httpContextAccessor
+            .HttpContext?
+            .Request
+            .Cookies["JWT"];
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue(
+                    "Bearer",
+                    token);
+        }
     }
 
     public async Task RegisterAsync(RegisterDto registerDto)
     {
+        AddToken();
         var response = await _httpClient.PostAsJsonAsync("api/auth/register", registerDto);
         response.EnsureSuccessStatusCode();
     }
@@ -20,7 +38,8 @@ public class AuthApiService
     {
         try
         {
-            Console.WriteLine(_httpClient.BaseAddress);
+            
+            AddToken();
 
             var response = await _httpClient.PostAsJsonAsync(
                 "api/auth/login",

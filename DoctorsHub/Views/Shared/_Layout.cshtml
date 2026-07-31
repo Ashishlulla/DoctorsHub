@@ -1,5 +1,9 @@
 ﻿@{
     var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+  
+    var role = User.FindFirst(ClaimTypes.Role)?.Value;
+    var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
 }
 
 <!DOCTYPE html>
@@ -243,12 +247,27 @@
                         <button type="button" class="user-profile" id="userProfileBtn">
 
                             <div class="avatar">
-                                A
+                                @email?.Substring(0, 1).ToUpper()
                             </div>
 
                             <div class="user-info">
-                                <strong>@User.Identity?.Name</strong>
-                                @* <small>System Admin</small> *@
+                                <strong>@email</strong>
+                                
+                                @if(role == "Admin")
+                                {
+                                    <small>System Administrator</small>
+                                }
+
+                                @if (role == "Doctor")
+                                {
+                                    <small>Doctor</small>
+                                }
+
+                                @if (role == "Receptionist")
+                                {
+                                    <small>Receptionist</small>
+                                }
+
                             </div>
 
                             <i class="bi bi-chevron-up"></i>
@@ -269,7 +288,7 @@
 
                             <hr />
 
-                            <form asp-controller="Auth"
+                            <form asp-controller="Account"
                                   asp-action="Logout"
                                   method="post">
 
