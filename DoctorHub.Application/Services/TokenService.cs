@@ -56,7 +56,7 @@ namespace DoctorsHub.Application.Services
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(
-                    Convert.ToDouble(_configuration["Jwt:DurationInMinutes"])),
+                    Convert.ToInt32(_configuration["Jwt:ExpiresInMinutes"])),
                 signingCredentials: credentials);
 
             // Return JWT
