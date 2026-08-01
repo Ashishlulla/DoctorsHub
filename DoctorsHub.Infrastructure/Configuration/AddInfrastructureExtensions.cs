@@ -26,6 +26,7 @@ namespace DoctorsHub.Infrastructure.Configurations
             services.AddScoped<ICRMRepository, CRMRepository>();
             services.AddScoped<IBusinessInsightsRepository, BusinessInsightsRepository>();
             services.AddScoped<IBillingRepository, BillingRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
 
 
             return services;
