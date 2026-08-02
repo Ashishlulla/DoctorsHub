@@ -1,11 +1,12 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
+using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
-    [Authorize(Roles ="Admin, Doctor, Receptionist")]
+    //[Authorize(Roles ="Admin, Doctor, Receptionist")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportsController : ControllerBase
@@ -23,6 +24,14 @@ namespace DoctorsHub.API.Controllers
         {
             List<AppointmentReportDto> reports = await _reportService.GetAppointmentReportsAsync(appointmentReportFiltered);
             
+            return Ok(reports);
+        }
+
+        [HttpPost("Billing")]
+        public async Task<IActionResult> GetBillingReportAsync([FromBody] BillingReportFilterDto billingReportFilter)
+        {
+            List<BillingReportDto> reports = await _reportService.GetBillingReportsAsync(billingReportFilter);
+
             return Ok(reports);
         }
     }

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using DoctorsHub.Application.DTOs.Reports.BillingReport;
+using DoctorsHub.Domain.Enums;
 
 namespace DoctorsHub.Infrastructure.Repositories
 {
@@ -77,6 +79,68 @@ namespace DoctorsHub.Infrastructure.Repositories
             }).ToList();
 
             return appointmentReport;
+        }
+
+        public async Task<List<BillingReportDto>> GetBillingReportsAsync(BillingReportFilterDto billingReportFilter)
+        {
+            //Creating Query
+            IQueryable<Bill> query = _db.Bills
+                .AsNoTracking()
+                .Include(b => b.Appointment)
+                    .ThenInclude(a => a.Patient)
+                .Include(b => b.Appointment)
+                    .ThenInclude(a => a.Doctor);
+
+            //Date Filtering
+            if (billingReportFilter.FromDate != default)
+            {
+                query = query.Where(b => DateOnly.FromDateTime(b.BillDate) >= billingReportFilter.FromDate);
+            }
+
+            if (billingReportFilter.ToDate != default)
+            {
+                query = query.Where(b => DateOnly.FromDateTime(b.BillDate) <= billingReportFilter.ToDate);
+            }
+
+            //Doctor Filtering
+            if (billingReportFilter.DoctorId.HasValue && billingReportFilter.DoctorId != 0) 
+            {
+                query = query.Where(b=>b.Appointment.DoctorId == billingReportFilter.DoctorId.Value);
+            }
+
+            //Patient Filtering
+            if (billingReportFilter.PatientId.HasValue && billingReportFilter.PatientId != 0)
+            {
+                query = query.Where(b => b.Appointment.PatientId == billingReportFilter.PatientId.Value);
+            }
+
+            //Payment Status Filtering
+            if (billingReportFilter.PaymentStatus.HasValue)
+            {
+                query = query.Where(b => b.PaymentStatus == billingReportFilter.PaymentStatus.Value);
+            }
+
+            //convert IQueryable to IEnumerable
+
+            var bills = await query.ToListAsync();
+
+            //Mapping to DTO
+            var billingReport = bills.Select(b => new BillingReportDto
+            {
+                BillId = b.Id,
+                AppointmentDate =b.Appointment.AppointmentDate,
+                BillDate = DateOnly.FromDateTime(b.BillDate),
+                DoctorName = b.Appointment.Doctor.FullName,
+                PatientName = b.Appointment.Patient.FullName,
+                ConsultationFee = b.ConsultationFee,
+                AdditionalCharges = b.AdditionalCharges,
+                Discount = b.Discount,
+                TotalAmount = b.TotalAmount,
+                PaymentStatus = b.PaymentStatus
+            }).ToList();
+
+
+            return billingReport;
         }
     }
 }

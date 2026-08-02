@@ -7,9 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Reports\Doctors Report\" />
-    <Folder Include="DTOs\Reports\Billing Report\" />
-    <Folder Include="DTOs\Reports\Patients Report\" />
+    <Folder Include="DTOs\Reports\DoctorsReport\" />
+    <Folder Include="DTOs\Reports\PatientsReport\" />
     <Folder Include="Features\" />
   </ItemGroup>
 
