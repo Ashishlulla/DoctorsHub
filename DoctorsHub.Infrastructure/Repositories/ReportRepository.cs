@@ -24,41 +24,59 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<List<AppointmentReportDto>> GetAppointmentReportsAsync(AppointmentReportFilteredDto appointmentReportFiltered)
         {
-            //Create Query
+            //Creating Query
             IQueryable<Appointment> query = _db.Appointments
                 .AsNoTracking()
                 .Include(a => a.Patient)
-                .Include(a => a.Doctor)
-                .AsQueryable();
+                .Include(a => a.Doctor);
 
-            //Filter by Date Range
-            if (appointmentReportFiltered.FromDate != null)
+            //Date Filtering
+            if (appointmentReportFiltered.FromDate != default) 
             {
                 query = query.Where(a => a.AppointmentDate >= appointmentReportFiltered.FromDate);
             }
 
-            if (appointmentReportFiltered.ToDate != null)
+            if (appointmentReportFiltered.ToDate != default) 
             {
                 query = query.Where(a => a.AppointmentDate <= appointmentReportFiltered.ToDate);
             }
 
-            //Filter By Doctor Id
-            if (appointmentReportFiltered.DoctorId > 0)
+
+            //Doctor Filtering
+            if (appointmentReportFiltered.DoctorId.HasValue && appointmentReportFiltered.DoctorId != 0) 
             {
-                query = query.Where(a => a.DoctorId == appointmentReportFiltered.DoctorId);
+                query = query.Where(a => a.DoctorId == appointmentReportFiltered.DoctorId.Value);
             }
 
-            //Execute Query
-            List<AppointmentReportDto> reports = await query.Select(a=> new AppointmentReportDto
+            //Patient Filtering
+            if (appointmentReportFiltered.PatientId.HasValue && appointmentReportFiltered.PatientId != 0) 
+            {
+                query = query.Where(a => a.PatientId == appointmentReportFiltered.PatientId.Value);
+            }
+
+           //Status Filterig 
+           if (appointmentReportFiltered.Status.HasValue)
+           {
+               query = query.Where(a => a.Status == appointmentReportFiltered.Status);
+           }
+
+           //Convert IQueryable to IEnumerable
+
+           var appaointments = await query.ToListAsync();
+
+            //Mapping to DTO
+            var appointmentReport = appaointments.Select(a => new AppointmentReportDto
             {
                 Id = a.Id,
                 PatientName = a.Patient.FullName,
                 DoctorName = a.Doctor.FullName,
                 AppointmentDate = a.AppointmentDate,
-                Status = a.Status,
-            }).ToListAsync();
+                StartTime = a.StartTime,
+                EndTime = a.EndTime,
+                Status = a.Status
+            }).ToList();
 
-            return reports;
+            return appointmentReport;
         }
     }
 }

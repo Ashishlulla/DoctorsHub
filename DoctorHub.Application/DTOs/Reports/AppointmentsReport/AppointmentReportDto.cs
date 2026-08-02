@@ -1,4 +1,5 @@
 ﻿using DoctorsHub.Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace DoctorsHub.Application.DTOs.Reports.AppointmentsReport
 {
@@ -8,9 +9,11 @@ namespace DoctorsHub.Application.DTOs.Reports.AppointmentsReport
         public string PatientName { get; set; } = string.Empty;
         public string DoctorName { get; set; } = string.Empty;
         public DateOnly AppointmentDate { get; set; }
-        public string AppointmentTime { get; set; } = string.Empty;
-        
-        
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+
+ 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public AppointmentStatus Status { get; set; }
     }
 }

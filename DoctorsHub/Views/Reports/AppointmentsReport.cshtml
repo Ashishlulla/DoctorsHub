@@ -1,0 +1,318 @@
+﻿@using System.Linq
+@using DoctorsHub.Domain.Enums
+@model IEnumerable<DoctorsHub.Application.DTOs.Reports.AppointmentsReport.AppointmentReportDto>
+
+@{
+    ViewData["Title"] = "Appointment Report";
+}
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div>
+            <h1 class="page-title">Appointment Report</h1>
+            <p class="page-subtitle">
+                Filtered appointment records.
+            </p>
+        </div>
+
+        <div class="page-actions">
+            <button class="btn btn-primary">
+                Export Excel
+            </button>
+
+            <button class="btn btn-secondary">
+                Export PDF
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Filter Appointment Report</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="AppointmentsReport"
+                  asp-controller="Reports"
+                  method="post">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>From Date</label>
+                        <input type="date"
+                               name="FromDate"
+                               value="@ViewBag.FromDate"
+                               class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>To Date</label>
+                        <input type="date"
+                               name="ToDate"
+                               value="@ViewBag.ToDate"
+                               class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Doctor</label>
+
+                        <select name="DoctorId"
+                                class="form-control"
+                        asp-items="@ViewBag.Doctors">
+
+                            <option value="0">
+                                -----All Doctors------
+                            </option>
+                            
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Patient</label>
+
+                        <select name="PatientId"
+                            
+                                class="form-control"
+                                asp-items="@ViewBag.Patients">
+
+                            <option value="0">
+                                -----All Patients------
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        <label>Status</label>
+
+                        <select name="Status" class="form-control">
+                            <option value="">All Status</option>
+
+                            @if (ViewBag.Status?.ToString() == "Scheduled")
+                            {
+                                <option value="Scheduled" selected>Scheduled</option>
+                            }
+                            else
+                            {
+                                <option value="Scheduled">Scheduled</option>
+                            }
+
+                            @if (ViewBag.Status?.ToString() == "Confirmed")
+                            {
+                                <option value="Confirmed" selected>Confirmed</option>
+                            }
+                            else
+                            {
+                                <option value="Confirmed">Confirmed</option>
+                            }
+
+                            @if (ViewBag.Status?.ToString() == "Completed")
+                            {
+                                <option value="Completed" selected>Completed</option>
+                            }
+                            else
+                            {
+                                <option value="Completed">Completed</option>
+                            }
+
+                            @if (ViewBag.Status?.ToString() == "Cancelled")
+                            {
+                                <option value="Cancelled" selected>Cancelled</option>
+                            }
+                            else
+                            {
+                                <option value="Cancelled">Cancelled</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="page-actions">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Generate Report
+                    </button>
+
+                    <a asp-action="AppointmentsReport"
+                       class="btn btn-secondary">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Summary</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span class="stat-label">Total</span>
+                    <h2 class="stat-value">@Model.Count()</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Completed</span>
+                    <h2 class="stat-value">
+                        @Model.Count(x => x.Status == AppointmentStatus.Completed)
+                    </h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Cancelled</span>
+                    <h2 class="stat-value">
+                        @Model.Count(x => x.Status == AppointmentStatus.Cancelled)
+                    </h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Scheduled</span>
+                    <h2 class="stat-value">
+                        @Model.Count(x => x.Status == AppointmentStatus.Scheduled)
+                    </h2>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Appointments</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-container">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Doctor</th>
+                            <th>Patient</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null && Model.Any())
+                        {
+                            int sr = 1;
+
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@sr</td>
+
+                                    <td>
+                                        @item.AppointmentDate.ToString("dd MMM yyyy")
+                                    </td>
+
+                                    <td>
+                                        @item.StartTime
+                                    </td>
+
+                                    <td>
+                                        @item.EndTime
+                                    </td>
+
+                                    <td>
+                                        @item.DoctorName
+                                    </td>
+
+                                    <td>
+                                        @item.PatientName
+                                    </td>
+
+                                    <td>
+
+                                        @if (item.Status == AppointmentStatus.Completed)
+                                        {
+                                            <span class="badge badge-success">
+                                                Completed
+                                            </span>
+                                        }
+                                        else if (item.Status == AppointmentStatus.Cancelled)
+                                        {
+                                            <span class="badge badge-danger">
+                                                Cancelled
+                                            </span>
+                                        }
+                                        else if (item.Status == AppointmentStatus.Confirmed)
+                                        {
+                                            <span class="badge badge-info">
+                                                Confirmed
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-warning">
+                                                Scheduled
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+
+                                sr++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    No appointment records found.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

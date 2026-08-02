@@ -1,0 +1,163 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+<link rel="stylesheet" href="~/css/Report.css" />
+
+<div class="page-container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Reports</h1>
+            <p class="page-subtitle">
+                Generate, analyze and export business reports.
+            </p>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-value">4</div>
+            <div class="stat-label">Available Reports</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">PDF</div>
+            <div class="stat-label">Export Format</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">Excel</div>
+            <div class="stat-label">Export Format</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">Print</div>
+            <div class="stat-label">Quick Print</div>
+        </div>
+
+    </div>
+
+    <!-- Report Cards -->
+    <div class="report-grid">
+
+        <!-- Appointment -->
+        <a asp-controller="Reports"
+            asp-action="AppointmentsReport"
+           class="report-card">
+
+            <div class="report-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div class="report-content">
+
+                <h3 class="report-title">
+                    Appointment Reports
+                </h3>
+
+                <p class="report-description">
+                    Generate appointment reports by date,
+                    doctor and appointment status.
+                </p>
+
+            </div>
+
+            <div class="report-action">
+                Open →
+            </div>
+
+        </a>
+
+        <!-- Doctor -->
+        <a 
+            asp-controller="Reports"
+            asp-action="DoctorsReport"
+           class="report-card">
+
+            <div class="report-icon">
+                <i class="fa-solid fa-user-doctor"></i>
+            </div>
+
+            <div class="report-content">
+
+                <h3 class="report-title">
+                    Doctor Reports
+                </h3>
+
+                <p class="report-description">
+                    View doctor-wise appointments,
+                    workload and consultation summary.
+                </p>
+
+            </div>
+
+            <div class="report-action">
+                Open →
+            </div>
+
+        </a>
+
+        <!-- Patient -->
+        <a 
+            asp-controller="Reports"
+            asp-action="PatientsReport"
+           class="report-card">
+
+            <div class="report-icon">
+                <i class="fa-solid fa-hospital-user"></i>
+            </div>
+
+            <div class="report-content">
+
+                <h3 class="report-title">
+                    Patient Reports
+                </h3>
+
+                <p class="report-description">
+                    Analyze patient registrations,
+                    visits and medical history.
+                </p>
+
+            </div>
+
+            <div class="report-action">
+                Open →
+            </div>
+
+        </a>
+
+        <!-- Billing -->
+        <a 
+            asp-controller="Reports"
+            asp-action="BillingReport"
+           class="report-card">
+
+            <div class="report-icon">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+
+            <div class="report-content">
+
+                <h3 class="report-title">
+                    Billing Reports
+                </h3>
+
+                <p class="report-description">
+                    Revenue, invoices, payments and
+                    financial summary reports.
+                </p>
+
+            </div>
+
+            <div class="report-action">
+                Open →
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
