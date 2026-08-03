@@ -3,6 +3,7 @@ using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
+using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
 
 namespace DoctorsHub.Web.Services
 {
@@ -46,6 +47,16 @@ namespace DoctorsHub.Web.Services
             return patients ?? new List<PatientDto>();
         }
 
+        public async Task<List<SpecializationDTO>> GetSpecializationAsync()
+        {
+            AddToken();
+            HttpResponseMessage response = await _httpClient.GetAsync("/api/Specializations");
+            response.EnsureSuccessStatusCode();
+            List<SpecializationDTO>? specializations = await response.Content.ReadFromJsonAsync<List<SpecializationDTO>>();
+            return specializations ?? new List<SpecializationDTO>();
+        }
+
+
         public async Task<List<AppointmentReportDto>> GetAppointmentReportsAsync(AppointmentReportFilteredDto appointmentReportFiltered)
         {
             string status= appointmentReportFiltered.Status.HasValue ? appointmentReportFiltered.Status.Value.ToString() : "null";
@@ -78,6 +89,21 @@ namespace DoctorsHub.Web.Services
 
             return BillingReports ?? new List<BillingReportDto>();
 
+        }
+
+        public async Task<List<DoctorsReportDto>> GetDoctorsReportsAsync(DoctorsReportFilteredDto doctorsReportFilter)
+        {
+            AddToken();
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/reports/doctors", doctorsReportFilter);
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Failed to retrieve doctors report. {error}");
+            }
+
+            List<DoctorsReportDto>? DoctorsReports = await response.Content.ReadFromJsonAsync<List<DoctorsReportDto>>();
+
+            return DoctorsReports ?? new List<DoctorsReportDto>();
         }
     }
 }

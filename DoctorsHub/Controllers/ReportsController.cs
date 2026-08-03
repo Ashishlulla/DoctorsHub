@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
+using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -64,7 +65,7 @@ namespace DoctorsHub.Web.Controllers
         public async Task<IActionResult> AppointmentsReport()
         {
 
-            await LoadDropdowns<AppointmentReportFilteredDto>( new AppointmentReportFilteredDto());
+           await LoadDropdowns(new AppointmentReportFilteredDto());
 
             return View(new List<AppointmentReportDto>());
         }
@@ -133,5 +134,30 @@ namespace DoctorsHub.Web.Controllers
             return View(reports);
         }
 
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> DoctorsReport()
+        {
+            var specialization = await _reportsApiService.GetSpecializationAsync();
+            ViewBag.Specializations = new SelectList(specialization, "Id", "Name");
+
+
+            return View(new List<DoctorsReportDto>());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> DoctorsReport(DoctorsReportFilteredDto filter)
+        {
+            var reports = await _reportsApiService.GetDoctorsReportsAsync(filter);
+
+            var specialization = await _reportsApiService.GetSpecializationAsync();
+            ViewBag.Specializations = new SelectList(specialization, "Id", "Name", filter.SpecializationId);
+
+            ViewBag.Qualification = filter.Qualification;
+
+            return View(reports);
+        }
     }
 }

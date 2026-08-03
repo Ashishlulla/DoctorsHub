@@ -1,1 +1,221 @@
-﻿<h1>Doctors Reports</h1>
+﻿
+@model IEnumerable<DoctorsReportDto>
+
+@{
+    ViewData["Title"] = "Doctors Report";
+}
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div>
+            <h1 class="page-title">Doctors Report</h1>
+            <p class="page-subtitle">
+                Filtered doctors records.
+            </p>
+        </div>
+
+        <div class="page-actions">
+
+            <button class="btn btn-primary">
+                Export Excel
+            </button>
+
+            <button class="btn btn-secondary">
+                Export PDF
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Filter Doctors Report</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="DoctorsReport"
+                  asp-controller="Reports"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Qualification</label>
+
+                        <input type="text"
+                               name="Qualification"
+                               value="@ViewBag.Qualification"
+                               placeholder="Enter Qualification"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Specialization</label>
+
+                        <select name="SpecializationId"
+                                class="form-control"
+                                asp-items="@ViewBag.Specializations">
+
+                            <option value="0">
+                                -----All Specializations-----
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="page-actions">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Generate Report
+                    </button>
+
+                    <a asp-action="DoctorsReport"
+                       class="btn btn-secondary">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Summary -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Summary</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span class="stat-label">Total Doctors</span>
+                    <h2 class="stat-value">@Model.Count()</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Average Experience</span>
+                    <h2 class="stat-value">
+                        @(Model.Any() ? Math.Round(Model.Average(x => x.Experience), 1) : 0) Years
+                    </h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Average Fee</span>
+                    <h2 class="stat-value">
+                        ₹@(Model.Any() ? Model.Average(x => x.ConsultationFee).ToString("N0") : "0")
+                    </h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Specializations</span>
+                    <h2 class="stat-value">
+                        @Model.Select(x => x.Specialization).Distinct().Count()
+                    </h2>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Doctors Table -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Doctors</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-container">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Doctor</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Qualification</th>
+                            <th>Specialization</th>
+                            <th>Experience</th>
+                            <th>Consultation Fee</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null && Model.Any())
+                        {
+                            int sr = 1;
+
+                            foreach (var doctor in Model)
+                            {
+                                <tr>
+
+                                    <td>@sr</td>
+
+                                    <td>@doctor.DoctorName</td>
+
+                                    <td>@doctor.Email</td>
+
+                                    <td>@doctor.PhoneNumber</td>
+
+                                    <td>@doctor.Qualification</td>
+
+                                    <td>@doctor.Specialization</td>
+
+                                    <td>@doctor.Experience Years</td>
+
+                                    <td>₹@doctor.ConsultationFee.ToString("N2")</td>
+
+                                </tr>
+
+                                sr++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    No doctor records found.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

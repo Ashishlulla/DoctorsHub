@@ -19,7 +19,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSpecializationAsync(int id)
+        public async Task<IActionResult> GetSpecializationAsync()
         {
             List<SpecializationDTO> specializations = await _specializationService.GetAllSpecialization();
 
