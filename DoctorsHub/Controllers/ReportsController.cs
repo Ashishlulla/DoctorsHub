@@ -1,5 +1,5 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
-using DoctorsHub.Domain.Enums;
+using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,6 +18,39 @@ namespace DoctorsHub.Web.Controllers
             _reportsApiService = reportsApiService;
         }
 
+
+        private async Task LoadDropdowns<T>(T filter)
+        {
+            // Implementation for loading dropdowns
+            var doctors = await _reportsApiService.GetDoctorsAsync();
+            var patients = await _reportsApiService.GetPatientsAsync();
+
+            if(filter is AppointmentReportFilteredDto appointmentFilter)
+            {
+                ViewBag.Doctors = new SelectList(doctors, "Id", "FullName", appointmentFilter.DoctorId);
+                ViewBag.Patients = new SelectList(patients, "Id", "FullName", appointmentFilter.PatientId);
+                ViewBag.Statuses = new SelectList(
+                 new[]
+                 {
+                    new { Value = "Scheduled", Text = "Scheduled" },
+                    new { Value = "Confirmed", Text = "Confirmed" },
+                    new { Value = "Completed", Text = "Completed" },
+                    new { Value = "Cancelled", Text = "Cancelled" }
+                 },
+                 "Value",
+                 "Text",
+                 appointmentFilter.Status.ToString()
+             );
+            }
+
+
+            if(filter is BillingReportFilterDto billingFilter)
+            {
+                ViewBag.Doctors = new SelectList(doctors, "Id", "FullName", billingFilter.DoctorId);
+                ViewBag.Patients = new SelectList(patients, "Id", "FullName", billingFilter.PatientId);
+            }
+        }
+
         [HttpGet]
         [Route("[action]")]
         public IActionResult Index()
@@ -28,28 +61,26 @@ namespace DoctorsHub.Web.Controllers
         // Displays report after filters are submitted
         [HttpGet]
         [Route("[action]")]
-        public IActionResult AppointmentsReport()
+        public async Task<IActionResult> AppointmentsReport()
         {
-            var doctors = _reportsApiService.GetDoctorsAsync();
-            var patients = _reportsApiService.GetPatientsAsync();
 
-           ViewBag.Doctors = new SelectList(doctors.Result, "Id", "FullName");
-           ViewBag.Patients = new SelectList(patients.Result, "Id", "FullName");
+            await LoadDropdowns<AppointmentReportFilteredDto>( new AppointmentReportFilteredDto());
 
             return View(new List<AppointmentReportDto>());
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("[action]")]
         public async Task<IActionResult> AppointmentsReport(AppointmentReportFilteredDto filter)
         {
             var reports = await _reportsApiService.GetAppointmentReportsAsync(filter);
 
-            var doctors = await _reportsApiService.GetDoctorsAsync();
-            var patients = await _reportsApiService.GetPatientsAsync();
+            await LoadDropdowns(filter);
 
-            ViewBag.Doctors = new SelectList(doctors, "Id", "FullName", filter.DoctorId);
-            ViewBag.Patients = new SelectList(patients, "Id", "FullName", filter.PatientId);
+
+
+
             ViewBag.Statuses = new SelectList(
                  new[]
                  {
@@ -69,9 +100,7 @@ namespace DoctorsHub.Web.Controllers
 
             ViewBag.FromDate = filter.FromDate;
             ViewBag.ToDate = filter.ToDate;
-            ViewBag.DoctorId = filter.DoctorId;
-            ViewBag.PatientId = filter.PatientId;
-            ViewBag.Status = filter.Status;
+            
 
             return View(reports);
         }
@@ -80,23 +109,29 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult DoctorsReport()
+        public async Task<IActionResult> BillingReport()
         {
-            return View();
+            await LoadDropdowns(new BillingReportFilterDto());
+            
+
+            return View(new List<BillingReportDto>());
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("[action]")]
-        public IActionResult PatientsReport()
+        public async Task<IActionResult> BillingReport(BillingReportFilterDto filter)
         {
-            return View();
+            var reports = await _reportsApiService.GetBillingReportsAsync(filter);
+
+            await LoadDropdowns(filter);
+
+            ViewBag.FromDate = filter.FromDate;
+            ViewBag.ToDate = filter.ToDate;
+            ViewBag.Status = filter.PaymentStatus.HasValue ? filter.PaymentStatus.Value.ToString() : null;
+
+            return View(reports);
         }
 
-        [HttpGet]
-        [Route("[action]")]
-        public IActionResult BillingReport()
-        {
-            return View();
-        }
     }
 }

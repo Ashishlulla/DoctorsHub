@@ -1,1 +1,452 @@
-﻿<h1>Billing Reports</h1>
+﻿@model IEnumerable<BillingReportDto>
+
+@{
+    ViewData["Title"] = "Billing Report";
+}
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div>
+            <h1 class="page-title">Billing Report</h1>
+            <p class="page-subtitle">
+                Filtered billing records.
+            </p>
+        </div>
+
+        <div class="page-actions">
+
+            <button class="btn btn-primary">
+                Export Excel
+            </button>
+
+            <button class="btn btn-secondary">
+                Export PDF
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Filter Panel -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Filter Billing Report</h3>
+        </div>
+
+
+        <div class="card-body">
+
+            <form asp-action="BillingReport"
+                  asp-controller="Reports"
+                  method="post">
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>From Date</label>
+
+                        <input type="date"
+                               name="FromDate"
+                               value="@ViewBag.FromDate"
+                               class="form-control" />
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>To Date</label>
+
+                        <input type="date"
+                               name="ToDate"
+                               value="@ViewBag.ToDate"
+                               class="form-control" />
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label>Doctor</label>
+
+                        <select name="DoctorId"
+                                class="form-control"
+                                asp-items="@ViewBag.Doctors">
+
+                            <option value="0">
+                                -----All Doctors-----
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+
+                        <label>Patient</label>
+
+                        <select name="PatientId"
+                                class="form-control"
+                                asp-items="@ViewBag.Patients">
+
+                            <option value="0">
+                                -----All Patients-----
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+
+                        <label>Payment Status</label>
+
+
+                        <select name="PaymentStatus"
+                                class="form-control">
+
+
+                            <option value="">
+                                All Status
+                            </option>
+
+
+                            @if (ViewBag.Status?.ToString() == "Pending")
+                            {
+                                <option value="Pending" selected>Pending</option>
+                            }
+                            else
+                            {
+                                <option value="Pending">Pending</option>
+                            }
+
+                            @if (ViewBag.Status?.ToString() == "Paid")
+                            {
+                                <option value="Paid" selected>Paid</option>
+                            }
+                            else
+                            {
+                                <option value="Paid">Paid</option>
+                            }
+
+                            @if (ViewBag.Status?.ToString() == "Cancelled")
+                            {
+                                <option value="Cancelled" selected>Cancelled</option>
+                            }
+                            else
+                            {
+                                <option value="Cancelled">Cancelled</option>
+                            }
+
+
+                        </select>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="page-actions">
+
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Generate Report
+
+                    </button>
+
+
+
+                    <a asp-action="BillingReport"
+                       class="btn btn-secondary">
+
+                        Reset
+
+                    </a>
+
+
+                </div>
+
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <!-- Summary -->
+
+    <div class="card">
+
+
+        <div class="card-header">
+
+            <h3>Summary</h3>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+            <div class="stats-grid">
+
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Total Bills
+                    </span>
+
+                    <h2 class="stat-value">
+                        @Model.Count()
+                    </h2>
+
+                </div>
+
+
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Paid
+                    </span>
+
+                    <h2 class="stat-value">
+
+                        @Model.Count(x => x.PaymentStatus == PaymentStatus.Paid)
+
+                    </h2>
+
+                </div>
+
+
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Pending
+                    </span>
+
+                    <h2 class="stat-value">
+
+                        @Model.Count(x => x.PaymentStatus == PaymentStatus.Pending)
+
+                    </h2>
+
+                </div>
+
+
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Revenue
+                    </span>
+
+                    <h2 class="stat-value">
+
+                        ₹ @Model.Sum(x => x.TotalAmount)
+
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Billing Table -->
+
+    <div class="card">
+
+
+        <div class="card-header">
+
+            <h3>Billing Records</h3>
+
+        </div>
+
+
+
+        <div class="card-body">
+
+
+            <div class="table-container">
+
+
+                <table class="table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Bill Date</th>
+                            <th>Appointment Date</th>
+                            <th>Doctor</th>
+                            <th>Patient</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+
+                        </tr>
+
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        @if (Model != null && Model.Any())
+                        {
+
+                            int sr = 1;
+
+
+                            foreach (var item in Model)
+                            {
+
+
+                                <tr>
+
+
+                                    <td>
+                                        @sr
+                                    </td>
+
+
+                                    <td>
+                                        @item.BillDate.ToString("dd MMM yyyy")
+                                    </td>
+
+
+                                    <td>
+                                        @item.AppointmentDate.ToString("dd MMM yyyy")
+                                    </td>
+
+
+                                    <td>
+                                        @item.DoctorName
+                                    </td>
+
+
+                                    <td>
+                                        @item.PatientName
+                                    </td>
+
+
+                                    <td>
+                                        ₹ @item.TotalAmount
+                                    </td>
+
+
+
+                                    <td>
+
+
+                                        @if (item.PaymentStatus == PaymentStatus.Paid)
+                                        {
+                                            <span class="badge badge-success">
+                                                Paid
+                                            </span>
+                                        }
+                                        else if (item.PaymentStatus == PaymentStatus.Pending)
+                                        {
+                                            <span class="badge badge-warning">
+                                                Pending
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-danger">
+                                                Cancelled
+                                            </span>
+                                        }
+
+
+                                    </td>
+
+
+
+                                </tr>
+
+
+                                sr++;
+
+                            }
+
+                        }
+                        else
+                        {
+
+                            <tr>
+
+                                <td colspan="7"
+                                    class="text-center">
+
+                                    No billing records found.
+
+                                </td>
+
+                            </tr>
+
+                        }
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
