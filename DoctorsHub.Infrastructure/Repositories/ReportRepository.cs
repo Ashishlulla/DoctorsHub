@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Domain.Enums;
+using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
 
 namespace DoctorsHub.Infrastructure.Repositories
 {
@@ -141,6 +142,44 @@ namespace DoctorsHub.Infrastructure.Repositories
 
 
             return billingReport;
+        }
+
+        public async Task<List<DoctorsReportDto>> GetDoctorsReportsAsync(DoctorsReportFilteredDto doctorsReportFiltered)
+        {
+            // Create query
+            IQueryable<Doctor> query = _db.Doctors
+                .AsNoTracking()
+                .Include(d => d.User)
+                .Include(d => d.Specialization);
+
+            // Filter by Specialization
+            if (doctorsReportFiltered.SpecializationId.HasValue &&
+                doctorsReportFiltered.SpecializationId.Value > 0)
+            {
+                query = query.Where(d =>
+                    d.SpecializationId == doctorsReportFiltered.SpecializationId.Value);
+            }
+
+            // Filter by Qualification
+            if (!string.IsNullOrWhiteSpace(doctorsReportFiltered.Qualification))
+            {
+                query = query.Where(d =>
+                    d.Qualification.Contains(doctorsReportFiltered.Qualification));
+            }
+
+            // Project to DTO
+            return await query
+                .Select(d => new DoctorsReportDto
+                {
+                    DoctorName = d.FullName,
+                    Email = d.User.Email!,
+                    PhoneNumber = d.PhoneNumber,
+                    Qualification = d.Qualification,
+                    Specialization = d.Specialization.Name,
+                    Experience = d.ExperienceYears,
+                    ConsultationFee = d.ConsultationFee
+                })
+                .ToListAsync();
         }
     }
 }

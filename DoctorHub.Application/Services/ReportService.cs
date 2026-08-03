@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
+using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 
@@ -25,6 +26,11 @@ namespace DoctorsHub.Application.Services
         public async Task<List<BillingReportDto>> GetBillingReportsAsync(BillingReportFilterDto billingReportFilter)
         {
             return await _reportRepository.GetBillingReportsAsync(billingReportFilter); 
+        }
+
+        public async Task<List<DoctorsReportDto>> GetDoctorsReportsAsync(DoctorsReportFilteredDto doctorsReportFiltered)
+        {
+           return await _reportRepository.GetDoctorsReportsAsync(doctorsReportFiltered);
         }
     }
 }

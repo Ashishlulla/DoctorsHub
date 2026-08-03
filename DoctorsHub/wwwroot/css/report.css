@@ -159,3 +159,47 @@
         margin-top: 12px;
     }
 }
+
+
+/* Base Badge */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: capitalize;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* Scheduled */
+.badge-warning {
+    background-color: #FFF4D6;
+    color: #B7791F;
+    border: 1px solid #F6D365;
+}
+
+/* Confirmed */
+.badge-info {
+    background-color: #D9F3FF;
+    color: #0C7DB1;
+    border: 1px solid #7FD3F7;
+}
+
+/* Completed */
+.badge-success {
+    background-color: #DDF8E8;
+    color: #15803D;
+    border: 1px solid #86EFAC;
+}
+
+/* Cancelled */
+.badge-danger {
+    background-color: #FDE2E2;
+    color: #C62828;
+    border: 1px solid #F5A5A5;
+}
