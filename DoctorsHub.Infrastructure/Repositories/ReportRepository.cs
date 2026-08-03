@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Domain.Enums;
 using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
+using DoctorsHub.Application.DTOs.Reports.PatientsReport;
 
 namespace DoctorsHub.Infrastructure.Repositories
 {
@@ -178,6 +179,45 @@ namespace DoctorsHub.Infrastructure.Repositories
                     Specialization = d.Specialization.Name,
                     Experience = d.ExperienceYears,
                     ConsultationFee = d.ConsultationFee
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<PatientsReportDto>> GetPatientsReportsAsync(PatientsReportFilteredDto patientsReportFiltered)
+        {
+            //Creating Query
+            IQueryable<Patient> query = _db.Patients.AsNoTracking();
+
+            //Filter by Patient Name
+            if (!string.IsNullOrWhiteSpace(patientsReportFiltered.PatientName))
+            {
+                query = query.Where(p => p.FullName.Contains(patientsReportFiltered.PatientName));
+            }
+
+            //Filter by Gender
+            if (!string.IsNullOrWhiteSpace(patientsReportFiltered.Gender))
+            {
+                query = query.Where(p => p.Gender == patientsReportFiltered.Gender);
+            }
+
+            //Filter by Blood Group
+            if (!string.IsNullOrWhiteSpace(patientsReportFiltered.BloodGroup))
+            {
+                query = query.Where(p => p.BloodGroup == patientsReportFiltered.BloodGroup);
+            }
+
+            // Project to DTO
+            return await query
+                .Select(p => new PatientsReportDto
+                {
+                    Id = p.Id,
+                    PatientName = p.FullName,
+                    Email = p.Email,
+                    PhoneNumber = p.PhoneNumber,
+                    DateOfBirth = p.DateOfBirth,
+                    Gender = p.Gender,
+                    BloodGroup = p.BloodGroup,
+                    Address = p.Address,
                 })
                 .ToListAsync();
         }

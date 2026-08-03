@@ -1,6 +1,7 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
+using DoctorsHub.Application.DTOs.Reports.PatientsReport;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,14 @@ namespace DoctorsHub.API.Controllers
         public async Task<IActionResult> GetDoctorsReportAsync([FromBody] DoctorsReportFilteredDto doctorsReportFiltered)
         {
             List<DoctorsReportDto> reports = await _reportService.GetDoctorsReportsAsync(doctorsReportFiltered);
+
+            return Ok(reports);
+        }
+
+        [HttpPost("Patients")]
+        public async Task<IActionResult> GetPatientsReportAsync([FromBody] PatientsReportFilteredDto patientsReportFiltered)
+        {
+            List<PatientsReportDto> reports = await _reportService.GetPatientsReportsAsync(patientsReportFiltered);
 
             return Ok(reports);
         }

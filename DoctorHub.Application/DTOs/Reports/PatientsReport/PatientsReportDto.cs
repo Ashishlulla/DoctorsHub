@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DoctorsHub.Application.DTOs.Patients
+﻿namespace DoctorsHub.Application.DTOs.Reports.PatientsReport
 {
-    public class PatientDto
+    public class PatientsReportDto
     {
         public int Id { get; set; }
-        public string FullName { get; set; } = string.Empty;
+        public string PatientName { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
 
         public DateTime DateOfBirth { get; set; }
 
-        public int Age {
-            get 
+        public int Age
+        {
+            get
             {
                 var today = DateTime.Today;
                 var age = today.Year - DateOfBirth.Year;
@@ -30,5 +27,6 @@ namespace DoctorsHub.Application.DTOs.Patients
         public string Address { get; set; } = string.Empty;
 
         public string BloodGroup { get; set; } = string.Empty;
+
     }
 }
