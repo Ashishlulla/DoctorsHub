@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using ClosedXML.Excel;
+using DoctorsHub.Application.DTOs.Reports.BillingReport;
 
 
 
@@ -7,7 +8,7 @@ namespace DoctorsHub.Web.Services
 {
     public class ExcelExportService
     {
-        public MemoryStream ExportAppointmentExcelFile(List<AppointmentReportDto> appointmentsReport) 
+        public MemoryStream ExportAppointmentExcelFile(List<AppointmentReportDto> appointmentReport) 
         {
             using var workBook = new XLWorkbook();
 
@@ -23,7 +24,7 @@ namespace DoctorsHub.Web.Services
             //Adding Data
 
             int row = 2;
-            foreach (var appointment in appointmentsReport)
+            foreach (var appointment in appointmentReport)
             {
                 workSheet.Cell(row, 1).Value = appointment.Id;
                 workSheet.Cell(row, 2).Value = appointment.AppointmentDate.ToString("yyyy-MM-dd");
@@ -49,6 +50,57 @@ namespace DoctorsHub.Web.Services
 
         }
 
+        public MemoryStream ExportBillingExcelFile(List<BillingReportDto> billingReport) 
+        {
+            //Creating a new workbook
+            using var workbook = new XLWorkbook();
+
+            //Adding a new worksheet
+            var worksheet = workbook.Worksheets.Add("Billing Report");
+
+            //Adding Column Headers
+            worksheet.Cell(1, 1).Value = "BillId";
+            worksheet.Cell(1, 2).Value = "BillDate";
+            worksheet.Cell(1, 3).Value = "AppointmentDate";
+            worksheet.Cell(1, 4).Value = "DoctorName";
+            worksheet.Cell(1, 5).Value = "PatientName";
+            worksheet.Cell(1, 6).Value = "ConsultationFee";
+            worksheet.Cell(1, 7).Value = "AdditionalCharges";
+            worksheet.Cell(1, 8).Value = "Discount";
+            worksheet.Cell(1, 9).Value = "TotalAmount";
+            worksheet.Cell(1, 10).Value = "PaymentStatus";
+
+            //Adding coulmn data
+
+            int row = 2;
+            foreach (var bill in billingReport) 
+            {
+                worksheet.Cell(row, 1).Value = bill.BillId;
+                worksheet.Cell(row, 2).Value = bill.BillDate.ToString("yyyy-MM-dd");
+                worksheet.Cell(row, 3).Value = bill.AppointmentDate.ToString("yyyy-MM-dd");
+                worksheet.Cell(row, 4).Value = bill.DoctorName;
+                worksheet.Cell(row, 5).Value = bill.PatientName;
+                worksheet.Cell(row, 6).Value = bill.ConsultationFee;
+                worksheet.Cell(row, 7).Value = bill.AdditionalCharges;
+                worksheet.Cell(row, 8).Value = bill.Discount;
+                worksheet.Cell(row, 9).Value = bill.TotalAmount;
+                worksheet.Cell(row, 10).Value = bill.PaymentStatus.ToString();
+
+                row++;
+            }
+
+            //Auto Fit Columns
+            worksheet.Columns().AdjustToContents();
+
+            //Create Stream 
+            var stream = new MemoryStream();
+
+            workbook.SaveAs(stream);
+
+            stream.Position = 0;
+
+            return stream;
+        }
 
     }
 }
