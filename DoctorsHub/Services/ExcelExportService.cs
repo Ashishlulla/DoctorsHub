@@ -2,6 +2,7 @@
 using ClosedXML.Excel;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
+using DoctorsHub.Application.DTOs.Reports.PatientsReport;
 
 
 
@@ -151,5 +152,40 @@ namespace DoctorsHub.Web.Services
             return stream;
         }
 
+        public MemoryStream ExportPatientsExcelfile(List<PatientsReportDto> patientsReport) 
+        {
+            //Creating a new workbook
+            using var workbook = new XLWorkbook();
+            //Adding a new worksheet
+            var worksheet = workbook.Worksheets.Add("Patients Report");
+            //Adding Column Headers
+            worksheet.Cell(1, 1).Value = "PatientId";
+            worksheet.Cell(1, 2).Value = "Patient Name";
+            worksheet.Cell(1, 3).Value = "Email";
+            worksheet.Cell(1, 4).Value = "Date of Birth";
+            worksheet.Cell(1, 5).Value = "Age";
+            worksheet.Cell(1, 6).Value = "Gender";
+            worksheet.Cell(1, 7).Value = "Blood Group";
+            //Adding column data
+            int row = 2;
+            foreach (var patient in patientsReport)
+            {
+                worksheet.Cell(row, 1).Value = patient.Id;
+                worksheet.Cell(row, 2).Value = patient.PatientName;
+                worksheet.Cell(row, 3).Value = patient.Email;
+                worksheet.Cell(row, 4).Value = patient.DateOfBirth.ToString("yyyy-MM-dd");
+                worksheet.Cell(row, 5).Value = patient.Age;
+                worksheet.Cell(row, 6).Value = patient.Gender;
+                worksheet.Cell(row, 7).Value = patient.BloodGroup;
+                row++;
+            }
+            //Auto Fit Columns
+            worksheet.Columns().AdjustToContents();
+            //Create Stream
+            var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+            return stream;
+        }
     }
 }
