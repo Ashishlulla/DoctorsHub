@@ -231,6 +231,23 @@ namespace DoctorsHub.Web.Controllers
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> ExportDoctorsExcel(DoctorsReportFilteredDto doctorsReportFiltered)
+        {
+            // Get the filtered doctors reports
+
+            var report = await _reportsApiService.GetDoctorsReportsAsync(doctorsReportFiltered);
+
+            //Generate Excel file
+            var stream = _excelExportService.ExportDoctorsExcelfile(report);
+
+            var fileName = $"DoctorsReports-{DateTime.Now:yyyyMMdd-HHmmss}.xlsx";
+
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        }
+
 
 
 

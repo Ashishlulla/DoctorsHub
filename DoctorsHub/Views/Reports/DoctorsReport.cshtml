@@ -18,7 +18,10 @@
 
         <div class="page-actions">
 
-            <button class="btn btn-primary">
+            <button type="submit"
+                    form="doctorsReportForm"
+                    formaction="@Url.Action("ExportDoctorsExcel", "Reports")"
+                    class="btn btn-primary">
                 Export Excel
             </button>
 
@@ -41,6 +44,7 @@
 
             <form asp-action="DoctorsReport"
                   asp-controller="Reports"
+                  id="doctorsReportForm"
                   method="post">
 
                 @Html.AntiForgeryToken()
