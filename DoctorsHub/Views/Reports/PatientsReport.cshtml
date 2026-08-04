@@ -1,1 +1,267 @@
-﻿<h1>Patients Reports</h1>
+﻿@model IEnumerable<PatientsReportDto>
+
+@{
+    ViewData["Title"] = "Patients Report";
+}
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <div>
+            <h1 class="page-title">Patients Report</h1>
+            <p class="page-subtitle">
+                Filtered patient records.
+            </p>
+        </div>
+
+        <div class="page-actions">
+
+            <button class="btn btn-primary">
+                Export Excel
+            </button>
+
+            <button class="btn btn-secondary">
+                Export PDF
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Filter Patients Report</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="PatientsReport"
+                  asp-controller="Reports"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Patient Name</label>
+
+                        <input type="text"
+                               name="PatientName"
+                               value="@ViewBag.PatientName"
+                               placeholder="Enter Patient Name"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Gender</label>
+
+                        <select name="Gender" class="form-control">
+
+                            @if (ViewBag.Gender?.ToString() == "Male")
+                            {
+                                <option value="">All Genders</option>
+                                <option value="Male" selected>Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            }
+                            else if (ViewBag.Gender?.ToString() == "Female")
+                            {
+                                <option value="">All Genders</option>
+                                <option value="Male">Male</option>
+                                <option value="Female" selected>Female</option>
+                                <option value="Other">Other</option>
+                            }
+                            else if (ViewBag.Gender?.ToString() == "Other")
+                            {
+                                <option value="">All Genders</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other" selected>Other</option>
+                            }
+                            else
+                            {
+                                <option value="" selected>All Genders</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            }
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Blood Group</label>
+
+                        <select name="BloodGroup" class="form-control">
+
+                            <option value="">All Blood Groups</option>
+
+                            <option value="A+" selected="@(ViewBag.BloodGroup == "A+" ? "selected" : null)">A+</option>
+                            <option value="A-" selected="@(ViewBag.BloodGroup == "A-" ? "selected" : null)">A-</option>
+                            <option value="B+" selected="@(ViewBag.BloodGroup == "B+" ? "selected" : null)">B+</option>
+                            <option value="B-" selected="@(ViewBag.BloodGroup == "B-" ? "selected" : null)">B-</option>
+                            <option value="AB+" selected="@(ViewBag.BloodGroup == "AB+" ? "selected" : null)">AB+</option>
+                            <option value="AB-" selected="@(ViewBag.BloodGroup == "AB-" ? "selected" : null)">AB-</option>
+                            <option value="O+" selected="@(ViewBag.BloodGroup == "O+" ? "selected" : null)">O+</option>
+                            <option value="O-" selected="@(ViewBag.BloodGroup == "O-" ? "selected" : null)">O-</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="page-actions">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Generate Report
+                    </button>
+
+                    <a asp-action="PatientsReport"
+                       class="btn btn-secondary">
+                        Reset
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Summary</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span class="stat-label">Total Patients</span>
+                    <h2 class="stat-value">@Model.Count()</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Male</span>
+                    <h2 class="stat-value">
+                        @Model.Count(x => x.Gender == "Male")
+                    </h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Female</span>
+                    <h2 class="stat-value">
+                        @Model.Count(x => x.Gender == "Female")
+                    </h2>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Average Age</span>
+                    <h2 class="stat-value">
+                        @(Model.Any() ? Math.Round(Model.Average(x => x.Age), 0) : 0)
+                    </h2>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Patients Table -->
+
+    <div class="card">
+
+        <div class="card-header">
+            <h3>Patients</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-container">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Patient</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Blood Group</th>
+                            <th>Address</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null && Model.Any())
+                        {
+                            int sr = 1;
+
+                            foreach (var patient in Model)
+                            {
+                                <tr>
+
+                                    <td>@sr</td>
+
+                                    <td>@patient.PatientName</td>
+
+                                    <td>@patient.Email</td>
+
+                                    <td>@patient.PhoneNumber</td>
+
+                                    <td>@patient.Age</td>
+
+                                    <td>@patient.Gender</td>
+
+                                    <td>@patient.BloodGroup</td>
+
+                                    <td>@patient.Address</td>
+
+                                </tr>
+
+                                sr++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    No patient records found.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```

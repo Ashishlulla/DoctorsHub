@@ -4,6 +4,7 @@ using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
+using DoctorsHub.Application.DTOs.Reports.PatientsReport;
 
 namespace DoctorsHub.Web.Services
 {
@@ -104,6 +105,21 @@ namespace DoctorsHub.Web.Services
             List<DoctorsReportDto>? DoctorsReports = await response.Content.ReadFromJsonAsync<List<DoctorsReportDto>>();
 
             return DoctorsReports ?? new List<DoctorsReportDto>();
+        }
+
+        public async Task<List<PatientsReportDto>> GetPatientsReportsAsync(PatientsReportFilteredDto patientsReportFilter)
+        {
+            AddToken();
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/reports/patients", patientsReportFilter);
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Failed to retrieve patients report. {error}");
+            }
+
+            List<PatientsReportDto>? PatientsReports = await response.Content.ReadFromJsonAsync<List<PatientsReportDto>>();
+
+            return PatientsReports ?? new List<PatientsReportDto>();
         }
     }
 }

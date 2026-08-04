@@ -1,6 +1,7 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
+using DoctorsHub.Application.DTOs.Reports.PatientsReport;
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -156,6 +157,33 @@ namespace DoctorsHub.Web.Controllers
             ViewBag.Specializations = new SelectList(specialization, "Id", "Name", filter.SpecializationId);
 
             ViewBag.Qualification = filter.Qualification;
+
+            return View(reports);
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> PatientsReport()
+        {
+
+            ViewBag.PatientName = string.Empty;
+            ViewBag.Gender = string.Empty;
+            ViewBag.BloodGroup = string.Empty;
+
+            return View(new List<PatientsReportDto>());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> PatientsReport(PatientsReportFilteredDto filter)
+        {
+            var reports = await _reportsApiService.GetPatientsReportsAsync(filter);
+
+            ViewBag.PatientName = filter.PatientName;
+            ViewBag.Gender = filter.Gender;
+            ViewBag.BloodGroup = filter.BloodGroup;
+
 
             return View(reports);
         }
