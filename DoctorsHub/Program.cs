@@ -2,6 +2,7 @@ using DoctorsHub.Application.Mapping;
 using DoctorsHub.Domain.Identity;
 using DoctorsHub.Infrastructure.Configurations;
 using DoctorsHub.Web.Configurations;
+using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -20,6 +21,7 @@ builder.Services.AddHttpClientServices(builder.Configuration);
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddScoped<ExcelExportService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

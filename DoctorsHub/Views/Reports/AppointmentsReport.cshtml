@@ -18,7 +18,11 @@
         </div>
 
         <div class="page-actions">
-            <button class="btn btn-primary">
+           
+            <button type="submit"
+                    form="appointmentReportForm"
+                    formaction="@Url.Action("ExportAppointmentToExcel", "Reports")"
+                    class="btn btn-primary">
                 Export Excel
             </button>
 
@@ -40,7 +44,8 @@
 
             <form asp-action="AppointmentsReport"
                   asp-controller="Reports"
-                  method="post">
+                  method="post"
+                  id="appointmentReportForm">
 
                 <div class="form-grid">
 

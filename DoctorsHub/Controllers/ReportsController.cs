@@ -13,12 +13,15 @@ namespace DoctorsHub.Web.Controllers
     {
         //Private Feilds
         private readonly ReportsApiService _reportsApiService;
+        private readonly ExcelExportService _excelExportService;
 
         //Constructor
-        public ReportsController(ReportsApiService reportsApiService)
+        public ReportsController(ReportsApiService reportsApiService, ExcelExportService excelExportService)
         {
             _reportsApiService = reportsApiService;
+            _excelExportService = excelExportService;
         }
+
 
 
         private async Task LoadDropdowns<T>(T filter)
@@ -53,6 +56,8 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
+
+        #region Reports
         [HttpGet]
         [Route("[action]")]
         public IActionResult Index()
@@ -187,5 +192,36 @@ namespace DoctorsHub.Web.Controllers
 
             return View(reports);
         }
+
+        #endregion
+
+        #region Export to Excel
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> ExportAppointmentToExcel(AppointmentReportFilteredDto appointmentReportFiltered) 
+        {
+            // Get the filtered appointment reports
+
+            var report = await _reportsApiService.GetAppointmentReportsAsync(appointmentReportFiltered);
+
+            //Generate Excel file
+            var stream =  _excelExportService.ExportAppointmentExcelFile(report);
+
+            var fileName = $"AppointmentReports-{DateTime.Now:yyyyMMdd-HHmmss}.xlsx";
+
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+        }
+
+
+
+
+
+
+
+
+
+        #endregion
     }
 }
