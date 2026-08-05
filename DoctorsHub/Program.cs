@@ -2,8 +2,8 @@ using DoctorsHub.Application.Mapping;
 using DoctorsHub.Domain.Identity;
 using DoctorsHub.Infrastructure.Configurations;
 using DoctorsHub.Web.Configurations;
-using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using QuestPDF.Infrastructure;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +20,9 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpClientServices(builder.Configuration);
 builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddExportService();
 
-builder.Services.AddScoped<ExcelExportService>();
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -31,7 +32,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-//Swagger Services
+//Quest Pdf settings
+
+QuestPDF.Settings.License = LicenseType.Community;
 var app = builder.Build();
 
 

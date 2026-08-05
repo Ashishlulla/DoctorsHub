@@ -5,7 +5,6 @@ using DoctorsHub.Application.DTOs.Authentication;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Application.Mapping;
-using DoctorsHub.Application.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

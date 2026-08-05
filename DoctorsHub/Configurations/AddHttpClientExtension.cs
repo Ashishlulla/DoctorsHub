@@ -1,6 +1,5 @@
 ﻿using DoctorsHub.Application.Services;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-using DoctorsHub.Application.Services;
 using DoctorsHub.Web.Services;
 
 namespace DoctorsHub.Web.Configurations

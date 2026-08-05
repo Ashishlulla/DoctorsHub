@@ -14,7 +14,7 @@ namespace DoctorsHub.Infrastructure.Repositories
     {
         //Private Feilds 
         private readonly ApplicationDbContext _db;
-        private List<AverageRevenueGeneratedByDoctorDto> avergeRevenueByDoctorTask;
+        //private List<AverageRevenueGeneratedByDoctorDto> avergeRevenueByDoctorTask;
 
         //Constructor
         public BusinessInsightsRepository(ApplicationDbContext db) 

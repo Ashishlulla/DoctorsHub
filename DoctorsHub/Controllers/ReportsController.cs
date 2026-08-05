@@ -14,12 +14,14 @@ namespace DoctorsHub.Web.Controllers
         //Private Feilds
         private readonly ReportsApiService _reportsApiService;
         private readonly ExcelExportService _excelExportService;
+        private readonly PdfExportService _pdfExportService;
 
         //Constructor
-        public ReportsController(ReportsApiService reportsApiService, ExcelExportService excelExportService)
+        public ReportsController(ReportsApiService reportsApiService, ExcelExportService excelExportService, PdfExportService pdfExportService)
         {
             _reportsApiService = reportsApiService;
             _excelExportService = excelExportService;
+            _pdfExportService = pdfExportService;
         }
 
 
@@ -88,25 +90,12 @@ namespace DoctorsHub.Web.Controllers
 
 
 
-            ViewBag.Statuses = new SelectList(
-                 new[]
-                 {
-                    new { Value = "Scheduled", Text = "Scheduled" },
-                    new { Value = "Confirmed", Text = "Confirmed" },
-                    new { Value = "Completed", Text = "Completed" },
-                    new { Value = "Cancelled", Text = "Cancelled" }
-                 },
-                 "Value",
-                 "Text",
-                 filter.Status.ToString()
-             );
-
-
 
             // Pass the filter back to the view so that the selected values can be retained
 
             ViewBag.FromDate = filter.FromDate;
             ViewBag.ToDate = filter.ToDate;
+            ViewBag.Status = filter.Status;
             
 
             return View(reports);
@@ -265,6 +254,21 @@ namespace DoctorsHub.Web.Controllers
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
 
+        #endregion
+
+        #region Export to PDF
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> ExportAppointmentsPdf(AppointmentReportFilteredDto filter)
+        {
+            var appointments = await _reportsApiService.GetAppointmentReportsAsync(filter);
+
+            var pdf = _pdfExportService.ExportAppointmentsPdf(appointments);
+
+            return File(pdf, "application/pdf", "AppointmentsReport.pdf");
+        }
         #endregion
     }
 }
