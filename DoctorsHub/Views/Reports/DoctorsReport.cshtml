@@ -25,7 +25,10 @@
                 Export Excel
             </button>
 
-            <button class="btn btn-secondary">
+            <button type="submit"
+                    form="doctorsReportForm"
+                    formaction="@Url.Action("ExportDoctorPdf", "Reports")"
+                class="btn btn-secondary">
                 Export PDF
             </button>
 

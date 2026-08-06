@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
+using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -68,7 +69,7 @@ namespace DoctorsHub.Web.Services
                     .AlignCenter()
                     .Text(reportTitle)
                     .Bold()
-                    .FontSize(12)
+                    .FontSize(16)
                     .FontColor(Colors.Teal.Darken2);
 
                 column.Item()
@@ -194,7 +195,7 @@ namespace DoctorsHub.Web.Services
 
           
                             header.Cell().Element(HeaderCell).Text("Total").Bold().FontColor(Colors.White);
-                            header.Cell().Element(HeaderCell).Text("Status").Bold().FontColor(Colors.White);
+                            
 
 
                         });
@@ -208,7 +209,84 @@ namespace DoctorsHub.Web.Services
                             table.Cell().Element(BodyCell).Text(item.DoctorName);
                            
                             table.Cell().Element(BodyCell).Text(item.TotalAmount.ToString());
-                            table.Cell().Element(BodyCell).Text(item.PaymentStatus.ToString());
+                           
+
+                        }
+                    });
+
+                    // FOOTER
+
+
+                    BuildFooter(page);
+                });
+            }).GeneratePdf();
+        }
+
+        public byte[] ExportDoctorsPdf(List<DoctorsReportDto> doctors)
+        {
+
+            return Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(20);
+
+                    var reportName = $"DoctorReport-{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
+                    //Header
+                    BuildHeader(page, reportName);
+
+
+                    // CONTENT
+                    page.Content().PaddingTop(20).Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.ConstantColumn(50);
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                        });
+
+                        // Header
+                        table.Header(header =>
+                        {
+
+
+                            header.Cell().Element(HeaderCell).Text("Name").Bold().FontColor(Colors.White);
+
+
+                            header.Cell().Element(HeaderCell).Text("Email").Bold().FontColor(Colors.White);
+
+
+                            header.Cell().Element(HeaderCell).Text("Phone").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Qual.").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Spec.").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Exp.").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("fee").Bold().FontColor(Colors.White);
+
+
+                        });
+
+                        // Data
+                        foreach (var item in doctors)
+                        {
+                            table.Cell().Element(BodyCell).Text(item.DoctorName);
+                            table.Cell().Element(BodyCell).Text(item.Email);
+                            table.Cell().Element(BodyCell).Text(item.PhoneNumber);
+                            table.Cell().Element(BodyCell).Text(item.Qualification);
+
+                            table.Cell().Element(BodyCell).Text(item.Specialization);
+
+                            table.Cell().Element(BodyCell).Text(item.Qualification);
+
+                            table.Cell().Element(BodyCell).Text(item.ConsultationFee.ToString());
+
 
                         }
                     });
