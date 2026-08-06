@@ -87,10 +87,6 @@ namespace DoctorsHub.Web.Controllers
 
             await LoadDropdowns(filter);
 
-
-
-
-
             // Pass the filter back to the view so that the selected values can be retained
 
             ViewBag.FromDate = filter.FromDate;
@@ -268,6 +264,18 @@ namespace DoctorsHub.Web.Controllers
             var pdf = _pdfExportService.ExportAppointmentsPdf(appointments);
 
             return File(pdf, "application/pdf", "AppointmentsReport.pdf");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> ExportBillingPdf(BillingReportFilterDto filter)
+        {
+            var bills = await _reportsApiService.GetBillingReportsAsync(filter);
+
+            var pdf = _pdfExportService.ExportBillingPdf(bills);
+
+            return File(pdf, "application/pdf", "BillingReport.pdf");
         }
         #endregion
     }
