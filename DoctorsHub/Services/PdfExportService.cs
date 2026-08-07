@@ -1,6 +1,7 @@
 ﻿using DoctorsHub.Application.DTOs.Reports.AppointmentsReport;
 using DoctorsHub.Application.DTOs.Reports.BillingReport;
 using DoctorsHub.Application.DTOs.Reports.DoctorsReport;
+using DoctorsHub.Application.DTOs.Reports.PatientsReport;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -288,6 +289,84 @@ namespace DoctorsHub.Web.Services
                             table.Cell().Element(BodyCell).Text(item.ConsultationFee.ToString());
 
 
+                        }
+                    });
+
+                    // FOOTER
+
+
+                    BuildFooter(page);
+                });
+            }).GeneratePdf();
+        }
+
+        public byte[] ExportPatientsPdf(List<PatientsReportDto> patients)
+        {
+
+            return Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(20);
+
+                    var reportName = $"DoctorReport-{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
+                    //Header
+                    BuildHeader(page, reportName);
+
+
+                    // CONTENT
+                    page.Content().PaddingTop(20).Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.ConstantColumn(50);
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                            columns.RelativeColumn();
+                        });
+
+                        // Header
+                        table.Header(header =>
+                        {
+
+
+                            header.Cell().Element(HeaderCell).Text("Id").Bold().FontColor(Colors.White);
+
+
+                            header.Cell().Element(HeaderCell).Text("Name").Bold().FontColor(Colors.White);
+
+
+                            header.Cell().Element(HeaderCell).Text("Email").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Phonenumber").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("DOB").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Age").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Gender").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Address").Bold().FontColor(Colors.White);
+                        });
+
+                        // Data
+                        foreach (var item in patients)
+                        {
+                            table.Cell().Element(BodyCell).Text(item.Id.ToString());
+                            
+                            table.Cell().Element(BodyCell).Text(item.PatientName);
+
+                            table.Cell().Element(BodyCell).Text(item.Email);
+                            
+                            table.Cell().Element(BodyCell).Text(item.PhoneNumber);
+
+                            table.Cell().Element(BodyCell).Text(item.DateOfBirth.ToString("yyyy-MM-dd"));
+
+                            table.Cell().Element(BodyCell).Text(item.Age.ToString());
+
+                            table.Cell().Element(BodyCell).Text(item.Address);
                         }
                     });
 

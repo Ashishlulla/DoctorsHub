@@ -289,6 +289,21 @@ namespace DoctorsHub.Web.Controllers
 
             return File(pdf, "application/pdf", "DpoctorsReport.pdf");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("[action]")]
+        public async Task<IActionResult> ExportPatientsPdf(PatientsReportFilteredDto filter) 
+        {
+            //Extracting Patients report data
+            var patientsReport = await _reportsApiService.GetPatientsReportsAsync(filter);
+
+            //Passing patient reportfor pdf generation
+            var pdf =  _pdfExportService.ExportPatientsPdf(patientsReport);
+
+            return File(pdf, "application/pdf", "PatientsReport.pdf");
+
+        }
         #endregion
     }
 }
