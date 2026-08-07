@@ -8,7 +8,9 @@ namespace DoctorsHub.Application.DTOs.Reports.AppointmentsReport
         public DateOnly FromDate { get; set; }
         public DateOnly ToDate { get; set; }
         public int? DoctorId { get; set; }
+        public string? DoctorName { get; set; }
         public int? PatientId { get; set; }
+        public string? PatientName { get; set; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public AppointmentStatus? Status { get; set; } = AppointmentStatus.Completed;

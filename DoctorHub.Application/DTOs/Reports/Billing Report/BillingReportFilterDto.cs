@@ -10,7 +10,11 @@ namespace DoctorsHub.Application.DTOs.Reports.BillingReport
 
         // Optional filters for doctor and patient
         public int? DoctorId { get; set; }
+        public string DoctorName { get; set; } = "All";
+
         public int? PatientId { get; set; }
+
+        public string PatientName { get; set; } = "All";
 
         // Optional filter for payment status
         public PaymentStatus? PaymentStatus { get; set; }

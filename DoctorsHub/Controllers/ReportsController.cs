@@ -261,7 +261,7 @@ namespace DoctorsHub.Web.Controllers
         {
             var appointments = await _reportsApiService.GetAppointmentReportsAsync(filter);
 
-            var pdf = _pdfExportService.ExportAppointmentsPdf(appointments);
+            var pdf = _pdfExportService.ExportAppointmentsPdf(appointments, filter);
 
             return File(pdf, "application/pdf", "AppointmentsReport.pdf");
         }
@@ -273,7 +273,7 @@ namespace DoctorsHub.Web.Controllers
         {
             var bills = await _reportsApiService.GetBillingReportsAsync(filter);
 
-            var pdf = _pdfExportService.ExportBillingPdf(bills);
+            var pdf = _pdfExportService.ExportBillingPdf(bills, filter);
 
             return File(pdf, "application/pdf", "BillingReport.pdf");
         }
@@ -285,7 +285,7 @@ namespace DoctorsHub.Web.Controllers
         {
             var doctors = await _reportsApiService.GetDoctorsReportsAsync(filter);
 
-            var pdf = _pdfExportService.ExportDoctorsPdf(doctors);
+            var pdf = _pdfExportService.ExportDoctorsPdf(doctors, filter);
 
             return File(pdf, "application/pdf", "DpoctorsReport.pdf");
         }
@@ -299,7 +299,7 @@ namespace DoctorsHub.Web.Controllers
             var patientsReport = await _reportsApiService.GetPatientsReportsAsync(filter);
 
             //Passing patient reportfor pdf generation
-            var pdf =  _pdfExportService.ExportPatientsPdf(patientsReport);
+            var pdf =  _pdfExportService.ExportPatientsPdf(patientsReport, filter);
 
             return File(pdf, "application/pdf", "PatientsReport.pdf");
 
