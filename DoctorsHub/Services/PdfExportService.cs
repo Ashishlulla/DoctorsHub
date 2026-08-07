@@ -25,7 +25,7 @@ namespace DoctorsHub.Web.Services
                 .Background(Colors.Teal.Darken2)
                 .Border(1)
                 .BorderColor(Colors.Grey.Lighten2)
-                .Padding(3)
+                .Padding(1)
                 .AlignCenter()
                 .AlignMiddle();
         }
@@ -35,7 +35,8 @@ namespace DoctorsHub.Web.Services
             return container
                 .Border(1)
                 .BorderColor(Colors.Grey.Lighten2)
-                .Padding(3);
+                .AlignCenter()
+                .Padding(1);
         }
 
         private byte[]? GetLogo()
@@ -66,17 +67,17 @@ namespace DoctorsHub.Web.Services
                 }
 
                 column.Item()
-                    .PaddingTop(5)
+                    .PaddingTop(4)
                     .AlignCenter()
                     .Text(reportTitle)
                     .Bold()
-                    .FontSize(16)
+                    .FontSize(12)
                     .FontColor(Colors.Teal.Darken2);
 
                 column.Item()
                     .AlignCenter()
                     .Text($"Generated On : {DateTime.Now:dd MMM yyyy hh:mm tt}")
-                    .FontSize(10);
+                    .FontSize(9);
 
                 column.Item()
                     .PaddingTop(10)
@@ -162,7 +163,7 @@ namespace DoctorsHub.Web.Services
             {
                 container.Page(page =>
                 {
-                    page.Size(PageSizes.A4);
+                    page.Size(PageSizes.A4.Landscape());
                     page.Margin(20);
 
                     var reportName = $"BillingReport-{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
@@ -175,51 +176,67 @@ namespace DoctorsHub.Web.Services
                     {
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(50);
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
+                            for (int i = 0; i < 10; i++)
+                            {
+                                columns.RelativeColumn();
+                            }
                         });
 
                         // Header
                         table.Header(header =>
                         {
                             
-                            header.Cell().Element(HeaderCell).Text("Id").Bold().FontColor(Colors.White);
-                            
-                            header.Cell().Element(HeaderCell).Text("Date").Bold().FontColor(Colors.White);
+                            header.Cell().Element(HeaderCell).Text("BiilId").Bold().FontColor(Colors.White);
 
-                            header.Cell().Element(HeaderCell).Text("Patient").Bold().FontColor(Colors.White);
+                            header.Cell().Element(HeaderCell).Text("ApptDate").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("BillDate").Bold().FontColor(Colors.White);
 
                             header.Cell().Element(HeaderCell).Text("Doctor").Bold().FontColor(Colors.White);
 
-          
+                            header.Cell().Element(HeaderCell).Text("Patient").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Fee").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Add.Charges").Bold().FontColor(Colors.White);
+
+                            header.Cell().Element(HeaderCell).Text("Dist.").Bold().FontColor(Colors.White);
+
                             header.Cell().Element(HeaderCell).Text("Total").Bold().FontColor(Colors.White);
-                            
 
-
+                            header.Cell().Element(HeaderCell).Text("Status").Bold().FontColor(Colors.White);
                         });
 
                         // Data
                         foreach (var item in bills)
                         {
                             table.Cell().Element(BodyCell).Text(item.BillId.ToString());
-                            table.Cell().Element(BodyCell).Text(item.AppointmentDate.ToString("dd-MM-yyyy"));
-                            table.Cell().Element(BodyCell).Text(item.PatientName);
+                            
+                            table.Cell().Element(BodyCell).Text(item.AppointmentDate.ToString("dd-MM-yy"));
+
+                            table.Cell().Element(BodyCell).Text(item.BillDate.ToString("dd-MM-yyyy"));
+
                             table.Cell().Element(BodyCell).Text(item.DoctorName);
                            
-                            table.Cell().Element(BodyCell).Text(item.TotalAmount.ToString());
-                           
+                            table.Cell().Element(BodyCell).Text(item.PatientName);
 
+                            table.Cell().Element(BodyCell).Text(item.ConsultationFee.ToString());
+
+                            table.Cell().Element(BodyCell).Text(item.AdditionalCharges.ToString());
+
+                            table.Cell().Element(BodyCell).Text(item.Discount.ToString());
+                            
+                            table.Cell().Element(BodyCell).Text(item.TotalAmount.ToString());
+
+                            table.Cell().Element(BodyCell).Text(item.PaymentStatus.ToString());
                         }
                     });
 
                     // FOOTER
-
-
                     BuildFooter(page);
+
                 });
+
             }).GeneratePdf();
         }
 
@@ -230,7 +247,7 @@ namespace DoctorsHub.Web.Services
             {
                 container.Page(page =>
                 {
-                    page.Size(PageSizes.A4);
+                    page.Size(PageSizes.A4.Landscape());
                     page.Margin(20);
 
                     var reportName = $"DoctorReport-{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
@@ -243,23 +260,19 @@ namespace DoctorsHub.Web.Services
                     {
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(50);
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
+                            for (int i = 0; i < 7; i++)
+                            {
+                                columns.RelativeColumn();
+                            }
                         });
 
                         // Header
                         table.Header(header =>
                         {
 
-
                             header.Cell().Element(HeaderCell).Text("Name").Bold().FontColor(Colors.White);
 
-
                             header.Cell().Element(HeaderCell).Text("Email").Bold().FontColor(Colors.White);
-
 
                             header.Cell().Element(HeaderCell).Text("Phone").Bold().FontColor(Colors.White);
 
@@ -270,8 +283,6 @@ namespace DoctorsHub.Web.Services
                             header.Cell().Element(HeaderCell).Text("Exp.").Bold().FontColor(Colors.White);
 
                             header.Cell().Element(HeaderCell).Text("fee").Bold().FontColor(Colors.White);
-
-
                         });
 
                         // Data
@@ -284,7 +295,7 @@ namespace DoctorsHub.Web.Services
 
                             table.Cell().Element(BodyCell).Text(item.Specialization);
 
-                            table.Cell().Element(BodyCell).Text(item.Qualification);
+                            table.Cell().Element(BodyCell).Text(item.Experience.ToString());
 
                             table.Cell().Element(BodyCell).Text(item.ConsultationFee.ToString());
 
@@ -307,7 +318,7 @@ namespace DoctorsHub.Web.Services
             {
                 container.Page(page =>
                 {
-                    page.Size(PageSizes.A4);
+                    page.Size(PageSizes.A4.Landscape());
                     page.Margin(20);
 
                     var reportName = $"DoctorReport-{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
@@ -320,11 +331,10 @@ namespace DoctorsHub.Web.Services
                     {
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(50);
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
-                            columns.RelativeColumn();
+                            for (int i = 0; i < 8; i++)
+                            {
+                                columns.RelativeColumn();
+                            }
                         });
 
                         // Header
@@ -363,8 +373,11 @@ namespace DoctorsHub.Web.Services
                             table.Cell().Element(BodyCell).Text(item.PhoneNumber);
 
                             table.Cell().Element(BodyCell).Text(item.DateOfBirth.ToString("yyyy-MM-dd"));
+                           
 
                             table.Cell().Element(BodyCell).Text(item.Age.ToString());
+
+                            table.Cell().Element(BodyCell).Text(item.Gender);
 
                             table.Cell().Element(BodyCell).Text(item.Address);
                         }
