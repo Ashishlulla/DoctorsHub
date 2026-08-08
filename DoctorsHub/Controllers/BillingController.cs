@@ -15,12 +15,16 @@ namespace DoctorsHub.Web.Controllers
     {
         //Private Fields
         private readonly BillingApiService _billingApiService;
+        private readonly PdfExportService _pdfExportService;
+
         private readonly IMapper _mapper;
 
         //Constructor
-        public BillingController(BillingApiService billingApiService, IMapper mapper) 
+        public BillingController(BillingApiService billingApiService, PdfExportService pdfExportService, IMapper mapper) 
         {
             _billingApiService = billingApiService;
+            _pdfExportService = pdfExportService;
+
             _mapper = mapper;
         }
 
@@ -76,10 +80,18 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Print(int id) 
+        
+        public async Task<IActionResult> Print(int id)
         {
             BillDto bill = await _billingApiService.GetBillByIdAsync(id);
-            return View(bill);
+
+            var pdf = _pdfExportService.GenerateBillPdf(bill);
+
+            return File(
+                pdf,
+                "application/pdf",
+                $"Bill-{bill.Id}.pdf"
+            );
         }
 
     }

@@ -263,7 +263,14 @@ namespace DoctorsHub.Web.Controllers
 
             var pdf = _pdfExportService.ExportAppointmentsPdf(appointments, filter);
 
-            return File(pdf, "application/pdf", "AppointmentsReport.pdf");
+            var reportName =
+            $"AppointmentsReport_" +
+            $"{(filter.FromDate==default ? filter.FromDate.ToString("yyyyMMdd") : "All")}-" +
+            $"{(filter.ToDate== default ? filter.ToDate.ToString("yyyyMMdd") : "All")}-" +
+            $"{filter.DoctorName ?? "AllDoctors"}-" +
+            $"{filter.Status?.ToString() ?? "All"}+{DateTime.UtcNow.ToString("yyyy-MM-dd")}`";
+
+            return File(pdf, "application/pdf", reportName);
         }
 
         [HttpPost]
@@ -275,7 +282,14 @@ namespace DoctorsHub.Web.Controllers
 
             var pdf = _pdfExportService.ExportBillingPdf(bills, filter);
 
-            return File(pdf, "application/pdf", "BillingReport.pdf");
+            var reportName =
+            $"BillingReport_" +
+            $"{(filter.FromDate == default ? filter.FromDate.ToString("yyyyMMdd") : "All")}-" +
+            $"{(filter.ToDate == default ? filter.ToDate.ToString("yyyyMMdd") : "All")}-" +
+            $"{filter.DoctorName ?? "AllDoctors"}-" +
+            $"{filter.PaymentStatus?.ToString() ?? "All"}+{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
+
+            return File(pdf, "application/pdf", reportName);
         }
 
         [HttpPost]
@@ -287,7 +301,12 @@ namespace DoctorsHub.Web.Controllers
 
             var pdf = _pdfExportService.ExportDoctorsPdf(doctors, filter);
 
-            return File(pdf, "application/pdf", "DpoctorsReport.pdf");
+            var reportName =
+                $"DoctorsReport_" +
+                $"{filter.SpecializationName ?? "AllSpecializations"}-" +
+                $"{filter.Qualification ?? "AllQualifications"}+{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
+
+            return File(pdf, "application/pdf", reportName);
         }
 
         [HttpPost]
@@ -301,7 +320,13 @@ namespace DoctorsHub.Web.Controllers
             //Passing patient reportfor pdf generation
             var pdf =  _pdfExportService.ExportPatientsPdf(patientsReport, filter);
 
-            return File(pdf, "application/pdf", "PatientsReport.pdf");
+            var reportName =
+                $"PatientsReport_" +
+                $"{filter.PatientName ?? "AllPatients"}-" +
+                $"{filter.Gender ?? "All"}-" +
+                $"{filter.BloodGroup ?? "All"}+{DateTime.UtcNow.ToString("yyyy-MM-dd")}";
+
+            return File(pdf, "application/pdf", reportName);
 
         }
         #endregion

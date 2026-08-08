@@ -137,9 +137,10 @@
 
             </table>
 
-            <a asp-action="Print"
-               asp-route-id="@Model.Id"
-               class="btn-save">
+            <a  asp-controller="Billing"
+                asp-action="Print"
+                asp-route-id="@Model.Id"
+                class="btn-save">
                 Print Bill
             </a>
 
