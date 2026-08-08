@@ -9,7 +9,7 @@ using QuestPDF.Infrastructure;
 using Colors = QuestPDF.Helpers.Colors;
 
 namespace DoctorsHub.Web.Services
-{
+{  
     public class PdfExportService
     {
         private readonly IWebHostEnvironment _environment;

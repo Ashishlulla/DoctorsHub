@@ -20,6 +20,8 @@ namespace DoctorsHub.Infrastructure.Persistence
         public DbSet<ScheduleSlot> ScheduleSlots => Set<ScheduleSlot>();
         public DbSet<Bill> Bills => Set<Bill>();
 
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
