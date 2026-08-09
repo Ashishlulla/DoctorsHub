@@ -17,29 +17,66 @@ namespace DoctorsHub.Application.Services
             _notificationRepository = notificationRepository;
         }
 
-        public Task<Notification> CreateAsync(string userId, string title, string message, NotificationType type)
+        public async Task<Notification> CreateAsync(string userId, string title, string message, NotificationType type)
         {
-            throw new NotImplementedException();
+            var notification = new Notification 
+            {
+                UserId = userId,
+                Title = title,
+                Message = message,
+                Type = type,
+                CreatedAt = DateTime.UtcNow,
+            };
+
+            await _notificationRepository.AddAsync(notification);
+            await _notificationRepository.SaveChangesAsync();
+
+            return notification;
         }
 
-        public Task<List<Notification>> GetByUserIdAsync(string userId)
+        public async Task<List<Notification>> GetByUserIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await _notificationRepository.GetByUserIdAsync(userId);
         }
 
-        public Task<List<Notification>> GetUnreadByUserIdAsync(string userId)
+        public async Task<List<Notification>> GetUnreadByUserIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await _notificationRepository.GetUnreadByUserIdAsync(userId);
         }
 
-        public Task MarkAllAsReadAsync(string userId)
+        public async Task MarkAllAsReadAsync(string userId)
         {
-            throw new NotImplementedException();
+            var notifications = await _notificationRepository.GetUnreadByUserIdAsync(userId);
+
+            if (notifications == null)
+                return;
+
+            foreach (var notification in notifications) 
+            {
+                notification.IsRead = true;
+                notification.ReadAt = DateTime.UtcNow;
+
+                await _notificationRepository.UpdateAsync(notification);
+            }
+
+            await _notificationRepository.SaveChangesAsync();
         }
 
-        public Task MarkAsReadAsync(int notificationId)
+        public async Task MarkAsReadAsync(int notificationId)
         {
-            throw new NotImplementedException();
+            var notification = await _notificationRepository.GetByIdAsync(notificationId);
+
+            if (notification == null)
+                return;
+
+            if (notification.IsRead)
+                return;
+
+            notification.IsRead = true;
+            notification.ReadAt = DateTime.UtcNow;
+
+            await _notificationRepository.UpdateAsync(notification);
+            await _notificationRepository.SaveChangesAsync();
         }
     }
 }

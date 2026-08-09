@@ -26,6 +26,7 @@ namespace DoctorsHub.Application.Configuration
             services.AddScoped<IBillingService, BillingService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
 
             //Adding Validators services
