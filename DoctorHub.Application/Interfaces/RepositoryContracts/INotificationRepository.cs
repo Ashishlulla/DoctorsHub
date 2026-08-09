@@ -9,6 +9,8 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
     {
         Task<Notification> AddAsync(Notification notification);
 
+        Task<List<Notification>> GetAllNotificationsAsync();
+
         Task<List<Notification>> GetByUserIdAsync(string userId);
 
         Task<List<Notification>> GetUnreadByUserIdAsync(string userId);

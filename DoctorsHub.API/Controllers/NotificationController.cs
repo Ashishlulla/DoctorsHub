@@ -18,6 +18,14 @@ namespace DoctorsHub.API.Controllers
             _notificationService = notificationService;
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllNotificationssync() 
+        {
+            var notifications = await _notificationService.GetAllNoticationsAsync();
+            
+            return Ok(notifications);
+        }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByIdAsync(int id) 
         {

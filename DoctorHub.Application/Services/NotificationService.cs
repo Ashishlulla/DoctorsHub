@@ -35,6 +35,11 @@ namespace DoctorsHub.Application.Services
             return notification;
         }
 
+        public async Task<List<Notification>> GetAllNoticationsAsync()
+        {
+            await _notificationRepository.GetAllNotificationsAsync();
+        }
+
         public async Task<Notification?> GetByIdAsync(int id)
         {
             var notification = await _notificationRepository.GetByIdAsync(id);
