@@ -70,7 +70,12 @@ namespace DoctorsHub.Web.Configurations
                 client.BaseAddress = new Uri(configuration["MyAPI:BaseUrl"]!);
             });
 
-           
+            services.AddHttpClient<NotificationApiService>(client =>
+            {
+                client.BaseAddress = new Uri(configuration["MyAPI:BaseUrl"]!);
+            });
+
+
 
             return services;
         }

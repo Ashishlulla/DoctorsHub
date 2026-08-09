@@ -40,7 +40,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<List<Notification>> GetUnreadByUserIdAsync(string userId)
         {
-            return await _db.Notifications.AsNoTracking().Where(n => n.UserId == userId  && !n.IsRead).OrderByDescending(c => c.CreatedAt).ToListAsync();
+            return await _db.Notifications.Where(n => n.UserId == userId  && !n.IsRead).OrderByDescending(c => c.CreatedAt).ToListAsync();
         }
 
         

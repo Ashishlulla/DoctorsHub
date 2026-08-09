@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
+﻿using DoctorsHub.Application.DTOs.Notification;
+using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
@@ -17,19 +18,28 @@ namespace DoctorsHub.Application.Services
             _notificationRepository = notificationRepository;
         }
 
-        public async Task<Notification> CreateAsync(string userId, string title, string message, NotificationType type)
+        public async Task<Notification> CreateAsync(CreateNotificationDto createNotificationdto)
         {
             var notification = new Notification 
             {
-                UserId = userId,
-                Title = title,
-                Message = message,
-                Type = type,
+                UserId = createNotificationdto.UserId,
+                Title = createNotificationdto.Title,
+                Message = createNotificationdto.Message,
+                Type = createNotificationdto.Type,
                 CreatedAt = DateTime.UtcNow,
             };
 
             await _notificationRepository.AddAsync(notification);
             await _notificationRepository.SaveChangesAsync();
+
+            return notification;
+        }
+
+        public async Task<Notification?> GetByIdAsync(int id)
+        {
+            var notification = await _notificationRepository.GetByIdAsync(id);
+            if (notification == null)
+                throw new KeyNotFoundException($"No notification found with id = {id}");
 
             return notification;
         }
@@ -48,7 +58,7 @@ namespace DoctorsHub.Application.Services
         {
             var notifications = await _notificationRepository.GetUnreadByUserIdAsync(userId);
 
-            if (notifications == null)
+            if (!notifications.Any())
                 return;
 
             foreach (var notification in notifications) 
@@ -56,7 +66,6 @@ namespace DoctorsHub.Application.Services
                 notification.IsRead = true;
                 notification.ReadAt = DateTime.UtcNow;
 
-                await _notificationRepository.UpdateAsync(notification);
             }
 
             await _notificationRepository.SaveChangesAsync();
