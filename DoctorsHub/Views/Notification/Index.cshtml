@@ -1,1 +1,119 @@
-﻿
+﻿@model List<NotificationDto>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="notifications-page">
+
+    <div class="notifications-header">
+
+        <div>
+            <h2>Notifications</h2>
+            <p>Stay updated with your latest notifications.</p>
+        </div>
+
+        @if (Model.Any(n => !n.IsRead))
+        {
+            <form asp-action="MarkAllAsRead" method="post">
+
+                <button type="submit"
+                        class="mark-all-btn">
+                    <i class="bi bi-check2-all"></i>
+                    Mark all as read
+                </button>
+
+            </form>
+        }
+
+    </div>
+
+
+    @if (!Model.Any())
+    {
+        <div class="notifications-empty">
+
+            <i class="bi bi-bell-slash"></i>
+
+            <h3>No notifications</h3>
+
+            <p>You don't have any notifications yet.</p>
+
+        </div>
+    }
+    else
+    {
+        <div class="notifications-container">
+
+            @foreach (var notification in Model)
+            {
+                <div class="notification-card
+                    @(notification.IsRead ? "read" : "unread")">
+
+                    <div class="notification-icon">
+
+                        @if (notification.IsRead)
+                        {
+                            <i class="bi bi-bell"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-bell-fill"></i>
+                        }
+
+                    </div>
+
+
+                    <div class="notification-content">
+
+                        <div class="notification-title-row">
+
+                            <h4>
+                                @notification.Title
+                            </h4>
+
+                            @if (!notification.IsRead)
+                            {
+                                <span class="unread-dot"></span>
+                            }
+
+                        </div>
+
+
+                        <p class="notification-message">
+                            @notification.Message
+                        </p>
+
+
+                        <span class="notification-date">
+                            <i class="bi bi-clock"></i>
+                            @notification.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")
+                        </span>
+
+                    </div>
+
+
+                    @if (!notification.IsRead)
+                    {
+                        <form asp-action="MarkAsRead"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@notification.Id" />
+
+                            <button type="submit"
+                                    class="mark-read-btn">
+                                Mark as read
+                            </button>
+
+                        </form>
+                    }
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

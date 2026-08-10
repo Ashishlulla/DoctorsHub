@@ -1,5 +1,4 @@
-﻿using DoctorsHub.Domain.Entities;
-using DoctorsHub.Web.Services;
+﻿using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
@@ -26,7 +25,7 @@ namespace DoctorsHub.Web.Controllers
             {
 
                 var notifications = await _notificationApiService.GetAllUnreadNotifications();
-                ViewBag.CountOfUnReadNotifications = notifications.Count();
+               
                 return View(notifications);
             }
 
@@ -38,7 +37,7 @@ namespace DoctorsHub.Web.Controllers
                     return Unauthorized();
 
                 var notifications = await _notificationApiService.GetByUserIdAsync(userId);
-                ViewBag.CountOfUnReadNotifications = notifications.Count();
+                
 
 
                 return View(notifications);
@@ -71,7 +70,7 @@ namespace DoctorsHub.Web.Controllers
             return Forbid();
         }
 
-        [HttpPost]
+        [HttpPost("MarkAsRead")]
         
         public async Task<IActionResult> MarkAsRead(int id) 
         {
@@ -80,7 +79,7 @@ namespace DoctorsHub.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
+        [HttpPost("MarkAllAsRead")]
 
         public async Task<IActionResult> MarkAllAsRead()
         {
