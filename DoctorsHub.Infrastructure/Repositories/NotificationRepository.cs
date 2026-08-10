@@ -61,5 +61,10 @@ namespace DoctorsHub.Infrastructure.Repositories
         {
             return await _db.Notifications.AsNoTracking().ToListAsync();
         }
+
+        public async Task<List<Notification>> GetAllUnReadNotificationsAsync()
+        {
+            return await _db.Notifications.AsNoTracking().Where(n => n.IsRead == false ).ToListAsync();
+        }
     }
 }

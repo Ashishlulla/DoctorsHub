@@ -1,7 +1,4 @@
 ﻿using DoctorsHub.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 {
@@ -10,6 +7,7 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task<Notification> AddAsync(Notification notification);
 
         Task<List<Notification>> GetAllNotificationsAsync();
+        Task<List<Notification>> GetAllUnReadNotificationsAsync();
 
         Task<List<Notification>> GetByUserIdAsync(string userId);
 

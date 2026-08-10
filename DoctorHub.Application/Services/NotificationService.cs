@@ -44,6 +44,13 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<List<NotificationDto>>(notifications);
         }
 
+        public async Task<List<NotificationDto>> GetAllUnreadNotificationsAsync()
+        {
+            var notifications = await _notificationRepository.GetAllUnReadNotificationsAsync();
+
+            return _mapper.Map<List<NotificationDto>>(notifications);
+        }
+
         public async Task<NotificationDto?> GetByIdAsync(int id)
         {
             var notification = await _notificationRepository.GetByIdAsync(id);

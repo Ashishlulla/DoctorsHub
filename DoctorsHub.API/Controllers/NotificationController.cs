@@ -26,6 +26,14 @@ namespace DoctorsHub.API.Controllers
             return Ok(notifications);
         }
 
+        [HttpGet("All-Unread")]
+        public async Task<IActionResult> GetAllUnreadNotificationssync()
+        {
+            var notifications = await _notificationService.GetAllUnreadNotificationsAsync();
+
+            return Ok(notifications);
+        }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByIdAsync(int id) 
         {

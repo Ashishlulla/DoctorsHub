@@ -47,9 +47,35 @@ namespace DoctorsHub.Web.Services
 
             var rawJson = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine("========== RAW NOTIFICATION JSON ==========");
-            Console.WriteLine(rawJson);
-            Console.WriteLine("===========================================");
+           
+
+            var notifications =
+                JsonSerializer.Deserialize<List<NotificationDto>>(rawJson, options);
+
+            return notifications ?? new List<NotificationDto>();
+        }
+
+        public async Task<List<NotificationDto>> GetAllUnreadNotifications()
+        {
+            AddToken();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters =
+                {
+                    new JsonStringEnumConverter()
+                }
+            };
+
+            HttpResponseMessage response =
+                await _httpClient.GetAsync("/api/Notification/All-Unread");
+
+            response.EnsureSuccessStatusCode();
+
+            var rawJson = await response.Content.ReadAsStringAsync();
+
+           
 
             var notifications =
                 JsonSerializer.Deserialize<List<NotificationDto>>(rawJson, options);

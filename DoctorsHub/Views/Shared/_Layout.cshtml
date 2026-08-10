@@ -1,8 +1,9 @@
 ﻿@{
     var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
-  
+
     var role = User.FindFirst(ClaimTypes.Role)?.Value;
     var email = User.FindFirst(ClaimTypes.Email)?.Value;
+    var NoOfUnreadNotifications = ViewBag.CountOfUnReadNotifications;
 
 }
 
@@ -247,7 +248,7 @@
                             <!-- Unread count -->
                             <span id="notificationBadge"
                                   class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
-                                0
+                                @NoOfUnreadNotifications
                             </span>
                         </button>
 

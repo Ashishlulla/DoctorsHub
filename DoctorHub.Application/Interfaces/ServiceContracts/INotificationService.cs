@@ -1,9 +1,5 @@
 ﻿using DoctorsHub.Application.DTOs.Notification;
-using DoctorsHub.Domain.Entities;
-using DoctorsHub.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
@@ -12,6 +8,8 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<NotificationDto> CreateAsync(CreateNotificationDto createNotificationDto);
 
         Task<List<NotificationDto>> GetAllNoticationsAsync();
+
+        Task<List<NotificationDto>> GetAllUnreadNotificationsAsync();
 
         Task<List<NotificationDto>> GetByUserIdAsync(string userId);
 
