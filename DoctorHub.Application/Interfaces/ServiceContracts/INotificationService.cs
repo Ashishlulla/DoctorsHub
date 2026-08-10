@@ -9,15 +9,15 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
     public interface INotificationService
     {
-        Task<Notification> CreateAsync(CreateNotificationDto createNotificationDto);
+        Task<NotificationDto> CreateAsync(CreateNotificationDto createNotificationDto);
 
-        Task<List<Notification>> GetAllNoticationsAsync();
+        Task<List<NotificationDto>> GetAllNoticationsAsync();
 
-        Task<List<Notification>> GetByUserIdAsync(string userId);
+        Task<List<NotificationDto>> GetByUserIdAsync(string userId);
 
-        Task<List<Notification>> GetUnreadByUserIdAsync(string userId);
+        Task<List<NotificationDto>> GetUnreadByUserIdAsync(string userId);
 
-        Task<Notification?> GetByIdAsync(int id);
+        Task<NotificationDto?> GetByIdAsync(int id);
 
         Task MarkAsReadAsync(int notificationId);
 

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using DoctorsHub.Application.DTOs.Notification;
 
 namespace DoctorsHub.Application.Mapping
 {
@@ -78,6 +79,10 @@ namespace DoctorsHub.Application.Mapping
             CreateMap<UpdateBillDto, Bill>(); //converts UpdateBilldto to bill
             CreateMap<Bill, UpdateBillDto>(); //converts Bill to updatebilldto
             CreateMap<BillDto, UpdateBillDto>();
+
+            //Notification Mapping
+
+            CreateMap<Notification, NotificationDto>(); //converts Notification to NotificationDto
 
         }
     }
