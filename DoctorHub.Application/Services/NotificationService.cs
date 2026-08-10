@@ -1,8 +1,8 @@
-﻿using DoctorsHub.Application.DTOs.Notification;
+﻿using AutoMapper;
+using DoctorsHub.Application.DTOs.Notification;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
-using DoctorsHub.Domain.Enums;
 
 namespace DoctorsHub.Application.Services
 {
@@ -11,14 +11,16 @@ namespace DoctorsHub.Application.Services
 
         //Private Feilds
         private readonly INotificationRepository _notificationRepository;
+        private readonly IMapper _mapper;
 
         //Constructor
-        public NotificationService(INotificationRepository notificationRepository) 
+        public NotificationService(INotificationRepository notificationRepository, IMapper mapper) 
         {
             _notificationRepository = notificationRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Notification> CreateAsync(CreateNotificationDto createNotificationdto)
+        public async Task<NotificationDto> CreateAsync(CreateNotificationDto createNotificationdto)
         {
             var notification = new Notification 
             {
@@ -32,31 +34,37 @@ namespace DoctorsHub.Application.Services
             await _notificationRepository.AddAsync(notification);
             await _notificationRepository.SaveChangesAsync();
 
-            return notification;
+            return _mapper.Map<NotificationDto>(notification);
         }
 
-        public async Task<List<Notification>> GetAllNoticationsAsync()
+        public async Task<List<NotificationDto>> GetAllNoticationsAsync()
         {
-            await _notificationRepository.GetAllNotificationsAsync();
+            List<Notification> notifications  = await _notificationRepository.GetAllNotificationsAsync();
+
+            return _mapper.Map<List<NotificationDto>>(notifications);
         }
 
-        public async Task<Notification?> GetByIdAsync(int id)
+        public async Task<NotificationDto?> GetByIdAsync(int id)
         {
             var notification = await _notificationRepository.GetByIdAsync(id);
             if (notification == null)
                 throw new KeyNotFoundException($"No notification found with id = {id}");
 
-            return notification;
+            return  _mapper.Map<NotificationDto>(notification);
         }
 
-        public async Task<List<Notification>> GetByUserIdAsync(string userId)
+        public async Task<List<NotificationDto>> GetByUserIdAsync(string userId)
         {
-            return await _notificationRepository.GetByUserIdAsync(userId);
+            var notifications = await _notificationRepository.GetByUserIdAsync(userId);
+
+            return _mapper.Map<List<NotificationDto>>(notifications);
         }
 
-        public async Task<List<Notification>> GetUnreadByUserIdAsync(string userId)
+        public async Task<List<NotificationDto>> GetUnreadByUserIdAsync(string userId)
         {
-            return await _notificationRepository.GetUnreadByUserIdAsync(userId);
+            var notifications= await _notificationRepository.GetUnreadByUserIdAsync(userId);
+
+            return _mapper.Map<List<NotificationDto>>(notifications);
         }
 
         public async Task MarkAllAsReadAsync(string userId)

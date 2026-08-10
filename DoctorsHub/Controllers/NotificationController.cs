@@ -20,11 +20,10 @@ namespace DoctorsHub.Web.Controllers
         
         public async Task<IActionResult> Index()
         {
-
-
             if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
             {
-                var notifications = await _notificationApiService.GetAllAsync();
+
+                var notifications = await _notificationApiService.GetAllNotifications();
                 return View(notifications);
             }
 
@@ -40,7 +39,32 @@ namespace DoctorsHub.Web.Controllers
 
                 return View(notifications);
             }
+            return Forbid();
             
+        }
+
+        [HttpGet("Unread")]
+        public async Task<IActionResult> Unread()
+        {
+            if (User.IsInRole("Admin") || User.IsInRole("Receptionist"))
+            {
+                var notifications = await _notificationApiService.GetAllNotifications();
+                return Json(notifications);
+            }
+
+            if (User.IsInRole("Doctor"))
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(userId))
+                    return Unauthorized();
+
+                var notifications = await _notificationApiService.GetUnreadByUserIdAsync(userId);
+
+                return Json(notifications);
+            }
+
+            return Forbid();
         }
 
         [HttpPost]

@@ -235,12 +235,53 @@
                     </div>
 
                     <!-- Notification -->
+                    <div class="dropdown">
+                        <button class="btn btn-link text-dark text-decoration-none position-relative"
+                                type="button"
+                                id="notificationBell"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
 
-                    <a asp-controller="Notification"
-                       asp-action="Index"
-                       class="text-decoration-none text-dark">
-                        <i class="bi bi-bell"></i>
-                    </a>
+                            <i class="bi bi-bell fs-5"></i>
+
+                            <!-- Unread count -->
+                            <span id="notificationBadge"
+                                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
+                                0
+                            </span>
+                        </button>
+
+                        <!-- Notification Popup -->
+                        <div class="dropdown-menu dropdown-menu-end shadow notification-dropdown"
+                             aria-labelledby="notificationBell"
+                             style="width: 360px;">
+
+                            <div class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+                                <strong>Notifications</strong>
+
+                                <button type="button"
+                                        id="markAllAsRead"
+                                        class="btn btn-sm notification-action">
+                                    Mark all as read
+                                </button>
+                            </div>
+
+                            <div id="notificationList">
+                                <div class="text-center text-muted py-4">
+                                    No notifications
+                                </div>
+                            </div>
+
+                            <div class="border-top text-center">
+                                <a asp-controller="Notification"
+                                   asp-action="Index"
+                                   class="btn btn-sm notification-action">
+                                    View all notifications
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <!-- User -->
 
@@ -346,7 +387,8 @@
 
     </script>
 
-    <script src="/js/layout.js"></script>
+    <script src="~/js/layout.js"></script>
+    <script src="~/js/notifications.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)

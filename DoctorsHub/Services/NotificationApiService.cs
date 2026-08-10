@@ -1,5 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Notification;
-using DoctorsHub.Domain.Entities;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DoctorsHub.Web.Services
 {
@@ -26,47 +27,85 @@ namespace DoctorsHub.Web.Services
             }
         }
 
-        public async Task<List<Notification>> GetByUserIdAsync(string userId) 
+        public async Task<List<NotificationDto>> GetAllNotifications()
+        {
+            AddToken();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters =
+                {
+                    new JsonStringEnumConverter()
+                }
+            };
+
+            HttpResponseMessage response =
+                await _httpClient.GetAsync("/api/Notification/all");
+
+            response.EnsureSuccessStatusCode();
+
+            var rawJson = await response.Content.ReadAsStringAsync();
+
+            Console.WriteLine("========== RAW NOTIFICATION JSON ==========");
+            Console.WriteLine(rawJson);
+            Console.WriteLine("===========================================");
+
+            var notifications =
+                JsonSerializer.Deserialize<List<NotificationDto>>(rawJson, options);
+
+            return notifications ?? new List<NotificationDto>();
+        }
+
+        public async Task<List<NotificationDto>> GetByUserIdAsync(string userId) 
         {
             AddToken();
 
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Notification/User/{userId}");
             response.EnsureSuccessStatusCode();
 
-            List<Notification>? notifications = await response.Content.ReadFromJsonAsync<List<Notification>>();
+            List<NotificationDto>? notifications = await response.Content.ReadFromJsonAsync<List<NotificationDto>>();
 
-            return notifications ?? new List<Notification>();
+            return notifications ?? new List<NotificationDto>();
         }
-        public async Task<Notification?> CreateNotificationAsync(CreateNotificationDto createNotificationDto)
+        public async Task<NotificationDto?> CreateNotificationAsync(CreateNotificationDto createNotificationDto)
         {
             AddToken();
 
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/Notification",createNotificationDto);
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<Notification>();
+            return await response.Content.ReadFromJsonAsync<NotificationDto>();
         }
 
-        public async Task<List<Notification>> GetUnreadByUserIdAsync(string userId)
+        public async Task<List<NotificationDto>> GetUnreadByUserIdAsync(string userId)
         {
             AddToken();
 
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                Converters =
+                {
+                    new JsonStringEnumConverter()
+                }
+            };
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Notification/Unread/{userId}");
             response.EnsureSuccessStatusCode();
 
-            List<Notification>? notifications = await response.Content.ReadFromJsonAsync<List<Notification>>();
+            List<NotificationDto>? notifications = await response.Content.ReadFromJsonAsync<List<NotificationDto>>(options);
 
-            return notifications ?? new List<Notification>();
+            return notifications ?? new List<NotificationDto>();
         }
 
-        public async Task<Notification?> GetByIdAsync(int id)
+        public async Task<NotificationDto?> GetByIdAsync(int id)
         {
             AddToken();
 
             HttpResponseMessage response = await _httpClient.GetAsync($"/api/Notification/{id}");
             response.EnsureSuccessStatusCode();
 
-            Notification? notification = await response.Content.ReadFromJsonAsync<Notification>();
+            NotificationDto? notification = await response.Content.ReadFromJsonAsync<NotificationDto>();
 
             return notification;
         }
