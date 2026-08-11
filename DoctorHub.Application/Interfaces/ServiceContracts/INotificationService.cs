@@ -7,6 +7,8 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
     {
         Task<NotificationDto> CreateAsync(CreateNotificationDto createNotificationDto);
 
+        Task CreateAppointmentNotificationAsync(CreateNotificationDto createNotificationDto);
+
         Task<List<NotificationDto>> GetAllNoticationsAsync();
 
         Task<List<NotificationDto>> GetAllUnreadNotificationsAsync();

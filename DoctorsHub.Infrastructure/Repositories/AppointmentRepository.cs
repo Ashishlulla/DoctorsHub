@@ -5,10 +5,7 @@ using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+
 
 namespace DoctorsHub.Infrastructure.Repositories
 {

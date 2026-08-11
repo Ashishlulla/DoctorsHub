@@ -2,6 +2,7 @@
 using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.Notification;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
@@ -15,13 +16,16 @@ namespace DoctorsHub.Application.Services
         //private feilds
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IBillingService _billingService;
+        private readonly INotificationService _notificationService;
+
         private readonly IMapper _mapper;
 
         //constructor
-        public AppointmentService(IAppointmentRepository appointmentRepository, IBillingService billingService, IMapper mapper) 
+        public AppointmentService(IAppointmentRepository appointmentRepository, IBillingService billingService, IMapper mapper, INotificationService notificationService) 
         {
             _appointmentRepository = appointmentRepository;
             _billingService = billingService;
+            _notificationService = notificationService;
             _mapper = mapper;
         }
 
@@ -198,7 +202,19 @@ namespace DoctorsHub.Application.Services
                 throw new KeyNotFoundException($"No appointment exist with appointment id : {appointmentId}");
             }
 
+
             await _appointmentRepository.ConfirmedAppointmentAync(appointmentId);
+
+            await _notificationService.CreateAppointmentNotificationAsync(
+            new CreateNotificationDto
+            {
+                UserId = appointment.Doctor.UserId,
+                AppointmentId = appointment.Id,
+                Title = "Appointment Confirmed",
+                Message = $"Dr. {appointment.Doctor.FullName} confirmed the appointment for {appointment.Patient.FullName} on {appointment.AppointmentDate} at {appointment.StartTime}.",
+                Type = NotificationType.AppointmentConfirmed
+            });
+
         }
 
         public async Task RescheduleAppointmentAsync(RescheduleAppointmentDto rescheduleAppointmentDto)
