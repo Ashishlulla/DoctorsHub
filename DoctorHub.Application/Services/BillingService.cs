@@ -177,7 +177,16 @@ namespace DoctorsHub.Application.Services
 
             if (updateBillDto.PaymentStatus == PaymentStatus.Cancelled)
             {
-               
+                await _notificationService.CreateAsync(
+                    new CreateNotificationDto
+                    {
+                        UserId = bill.Appointment.Doctor.UserId,
+                        BillId = bill.Id,
+                        AppointmentId = bill.AppointmentId,
+                        Title = "Bill Cancelled",
+                        Message = $"The bill of ₹{bill.TotalAmount} for {bill.Appointment.Patient.FullName} has been cancelled.",
+                        Type = NotificationType.BillCancelled
+                    });
             }
 
             await _billingRepository.UpdateBillAsync(bill);
