@@ -149,7 +149,7 @@ namespace DoctorsHub.Web.Services
         public async Task RescheduleAppointmentAsync(RescheduleAppointmentDto rescheduleAppointmentDto) 
         {
             AddToken();
-            HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"/api/appointments/reschedule/{rescheduleAppointmentDto.Id}", rescheduleAppointmentDto);
+            HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"/api/appointments/reschedule", rescheduleAppointmentDto);
             response.EnsureSuccessStatusCode();
         }
     }

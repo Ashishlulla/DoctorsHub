@@ -296,6 +296,16 @@ namespace DoctorsHub.Application.Services
                 Discount = 0,
                 
             });
+
+            await _notificationService.CreateAppointmentNotificationAsync(
+           new CreateNotificationDto
+           {
+               UserId = appointment.Doctor.UserId,
+               AppointmentId = appointment.Id,
+               Title = "Appointment Completed",
+               Message = $"Dr. {appointment.Doctor.FullName} has completed the appointment with {appointment.Patient.FullName} on {appointment.AppointmentDate} at {appointment.EndTime}.",
+               Type = NotificationType.AppointmentCompleted
+           });
         }
     }
 }
