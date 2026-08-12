@@ -258,6 +258,17 @@ namespace DoctorsHub.Application.Services
             }
 
             await _appointmentRepository.CancelAppointmentAsync(appointmentId);
+
+            await _notificationService.CreateAppointmentNotificationAsync(
+            new CreateNotificationDto
+            {
+                UserId = appointment.Doctor.UserId,
+                AppointmentId = appointment.Id,
+                Title = "Appointment Cancelled",
+                Message = $"Dr. {appointment.Doctor.FullName} has cancelled the appointment with {appointment.Patient.FullName} scheduled for {appointment.StartTime} on {appointment.AppointmentDate}.",
+                Type = NotificationType.AppointmentCancelled
+            });
+
         }
 
         public async Task CompletedAppointmentAsync(int appoinmentId)
