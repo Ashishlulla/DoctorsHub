@@ -14,7 +14,7 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         
         Task<IEnumerable<Bill>> GetAllBillsAsync();
         
-        Task AddBillAsync(Bill bill);
+        Task<Bill> AddBillAsync(Bill bill);
         
         Task UpdateBillAsync(Bill bill);
 

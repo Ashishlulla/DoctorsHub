@@ -39,11 +39,7 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<NotificationDto>(notification);
         }
 
-        public async Task CreateAppointmentNotificationAsync(
-            CreateNotificationDto createNotificationDto)
-        {
-            await CreateAsync(createNotificationDto);
-        }
+        
         public async Task<List<NotificationDto>> GetAllNoticationsAsync()
         {
             List<Notification> notifications  = await _notificationRepository.GetAllNotificationsAsync();

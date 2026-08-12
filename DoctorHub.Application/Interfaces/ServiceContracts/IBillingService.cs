@@ -7,7 +7,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
     public interface IBillingService
     {
-        Task CreateBillAsync(CreateBillDto createBillDto);
+        Task<BillDto> CreateBillAsync(CreateBillDto createBillDto);
 
         Task UpdateBillAsync(int id, UpdateBillDto updateBillDto);
 

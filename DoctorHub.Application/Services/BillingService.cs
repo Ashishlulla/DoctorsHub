@@ -2,9 +2,11 @@
 using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Application.DTOs.Notification;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
+using DoctorsHub.Domain.Enums;
 
 namespace DoctorsHub.Application.Services
 {
@@ -12,20 +14,22 @@ namespace DoctorsHub.Application.Services
     {
         //Private Feilds 
         private readonly IBillingRepository _billingRepository;
+        private readonly INotificationService _notificationService;
+
         private readonly IAppointmentRepository _appointmentRepository;
 
         private readonly IMapper _mapper;
 
         //Constructor
-        public BillingService(IBillingRepository billingRepository, IAppointmentRepository appointmentRepository, IMapper mapper)
+        public BillingService(IBillingRepository billingRepository, INotificationService notificationService, IAppointmentRepository appointmentRepository, IMapper mapper)
         {
             _billingRepository = billingRepository; 
             _appointmentRepository = appointmentRepository;
-
+            _notificationService = notificationService;
             _mapper = mapper;
         }
 
-        public async Task CreateBillAsync(CreateBillDto createBillDto)
+        public async Task<BillDto> CreateBillAsync(CreateBillDto createBillDto)
         {
 
             Appointment? appointment = await _appointmentRepository.GetByIdAsync(createBillDto.AppointmentId);
@@ -42,18 +46,33 @@ namespace DoctorsHub.Application.Services
             }
 
 
-            Bill bill = _mapper.Map<Bill>(createBillDto);
+            var bill = _mapper.Map<Bill>(createBillDto);
 
             bill.ConsultationFee = appointment.Doctor.ConsultationFee;
-            Console.WriteLine("Doctor Name : ", appointment.Doctor.FullName);
-            Console.WriteLine("Doctor fee : ", appointment.Doctor.ConsultationFee);
+           
 
 
             bill.TotalAmount = bill.ConsultationFee + createBillDto.AdditionalCharges - createBillDto.Discount;
             bill.BillDate = DateTime.Now;
             bill.PaymentStatus = Domain.Enums.PaymentStatus.Pending;
 
-            await _billingRepository.AddBillAsync(bill);
+            var generatedBill = await _billingRepository.AddBillAsync(bill);
+
+            BillDto billDto = _mapper.Map<BillDto>(generatedBill);
+
+            await _notificationService.CreateAsync(
+                new CreateNotificationDto
+                {
+                    UserId = bill.Appointment.Doctor.UserId,
+                    BillId = bill.Id,
+                    AppointmentId = bill.AppointmentId,
+                    Title = "Bill Generated",
+                    Message = $"A bill of ₹{bill.TotalAmount} has been generated for {bill.Appointment.Patient.FullName}.",
+                    Type = NotificationType.BillGenerated
+                });
+
+            return billDto;
+
             
         }
 
@@ -87,8 +106,6 @@ namespace DoctorsHub.Application.Services
 
             });
         }
-
-       
 
         public async Task<BillDto?> GetBillByAppointmentIdAsync(int appointmentId)
         {

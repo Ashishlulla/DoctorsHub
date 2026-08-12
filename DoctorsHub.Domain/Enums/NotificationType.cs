@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace DoctorsHub.Domain.Enums
 {
     public enum NotificationType
@@ -10,6 +7,8 @@ namespace DoctorsHub.Domain.Enums
         AppointmentRescheduled = 2,
         AppointmentCancelled = 3,
         AppointmentCompleted = 4,
-        BillPaid = 5
+        BillPaid = 5,
+        BillGenerated = 6,
+        BillCancelled = 7,
     }
 }

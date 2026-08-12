@@ -21,10 +21,12 @@ namespace DoctorsHub.Infrastructure.Repositories
             _db = db;
         }
 
-        public async Task AddBillAsync(Bill bill)
+        public async Task<Bill> AddBillAsync(Bill bill)
         { 
-            await _db.Bills.AddAsync(bill);
+             await _db.Bills.AddAsync(bill);
             await _db.SaveChangesAsync();
+
+            return bill;
         }
 
         public async Task DeleteBillAsync(Bill bill)

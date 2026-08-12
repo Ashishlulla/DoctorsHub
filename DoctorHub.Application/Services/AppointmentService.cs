@@ -205,7 +205,7 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.ConfirmedAppointmentAync(appointmentId);
 
-            await _notificationService.CreateAppointmentNotificationAsync(
+            await _notificationService.CreateAsync(
             new CreateNotificationDto
             {
                 UserId = appointment.Doctor.UserId,
@@ -228,7 +228,7 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.RescheduleAppointmentAsync(rescheduleAppointmentDto);
 
-            await _notificationService.CreateAppointmentNotificationAsync(
+            await _notificationService.CreateAsync(
             new CreateNotificationDto
             {
                 UserId = appointment.Doctor.UserId,
@@ -259,7 +259,7 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.CancelAppointmentAsync(appointmentId);
 
-            await _notificationService.CreateAppointmentNotificationAsync(
+            await _notificationService.CreateAsync(
             new CreateNotificationDto
             {
                 UserId = appointment.Doctor.UserId,
@@ -288,6 +288,16 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.CompletedAppointmentAsync(appoinmentId);
 
+            await _notificationService.CreateAsync(
+           new CreateNotificationDto
+           {
+               UserId = appointment.Doctor.UserId,
+               AppointmentId = appointment.Id,
+               Title = "Appointment Completed",
+               Message = $"Dr. {appointment.Doctor.FullName} has completed the appointment with {appointment.Patient.FullName} on {appointment.AppointmentDate} at {appointment.EndTime}.",
+               Type = NotificationType.AppointmentCompleted
+           });
+
             await _billingService.CreateBillAsync(new CreateBillDto 
             {
                 AppointmentId  = appoinmentId,
@@ -297,15 +307,7 @@ namespace DoctorsHub.Application.Services
                 
             });
 
-            await _notificationService.CreateAppointmentNotificationAsync(
-           new CreateNotificationDto
-           {
-               UserId = appointment.Doctor.UserId,
-               AppointmentId = appointment.Id,
-               Title = "Appointment Completed",
-               Message = $"Dr. {appointment.Doctor.FullName} has completed the appointment with {appointment.Patient.FullName} on {appointment.AppointmentDate} at {appointment.EndTime}.",
-               Type = NotificationType.AppointmentCompleted
-           });
+            
         }
     }
 }
