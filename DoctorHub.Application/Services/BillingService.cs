@@ -159,7 +159,27 @@ namespace DoctorsHub.Application.Services
 
              _mapper.Map(updateBillDto, bill);
             bill.ConsultationFee = bill.Appointment.Doctor.ConsultationFee;
-            bill.TotalAmount = bill.ConsultationFee + bill.AdditionalCharges - bill.Discount; 
+            bill.TotalAmount = bill.ConsultationFee + bill.AdditionalCharges - bill.Discount;
+
+            if (updateBillDto.PaymentStatus == PaymentStatus.Paid)
+            {
+                await _notificationService.CreateAsync(
+                new CreateNotificationDto
+                {
+                    UserId = bill.Appointment.Doctor.UserId,
+                    BillId = bill.Id,
+                    AppointmentId = bill.AppointmentId,
+                    Title = "Bill Paid",
+                    Message = $"A bill of ₹{bill.TotalAmount} has been paid successfully for {bill.Appointment.Patient.FullName}.",
+                    Type = NotificationType.BillPaid
+                });
+            }
+
+            if (updateBillDto.PaymentStatus == PaymentStatus.Cancelled)
+            {
+               
+            }
+
             await _billingRepository.UpdateBillAsync(bill);
         }
 
