@@ -166,6 +166,7 @@ namespace DoctorsHub.Web.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
+        [HttpGet]
         public async Task<IActionResult> Reschedule(int id) 
         {
             AppointmentDto appointment = await _appointmentApiService.GetAppointmentByIdAsync(id);
@@ -183,7 +184,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Reschedule([FromBody]RescheduleAppointmentDto rescheduleAppointmentDto) 
+        public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto) 
         {
             if (!ModelState.IsValid)
             {

@@ -227,6 +227,16 @@ namespace DoctorsHub.Application.Services
             }
 
             await _appointmentRepository.RescheduleAppointmentAsync(rescheduleAppointmentDto);
+
+            await _notificationService.CreateAppointmentNotificationAsync(
+            new CreateNotificationDto
+            {
+                UserId = appointment.Doctor.UserId,
+                AppointmentId = appointment.Id,
+                Title = "Appointment Rescheduled",
+                Message = $"Dr. {appointment.Doctor.FullName} has rescheduled and delayed your appointment with {appointment.Patient.FullName} from {appointment.StartTime} to {rescheduleAppointmentDto.StartTime}.",
+                Type = NotificationType.AppointmentRescheduled
+            });
         }
 
         public async Task CancelAppointmentAsync(int appointmentId)

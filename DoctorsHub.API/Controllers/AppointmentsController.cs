@@ -128,7 +128,7 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
-        [HttpPut("[action]/{id}")]
+        [HttpPut("[action]")]
         public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto)
         {
             await _appointmentService.RescheduleAppointmentAsync(rescheduleAppointmentDto); ;
