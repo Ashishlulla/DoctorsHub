@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DoctorsHub.Web.Controllers
 {
     [Authorize(Roles ="Admin, Receptionist, Doctor")]
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
 
     public class AppointmentsController : Controller
     {
@@ -142,7 +142,6 @@ namespace DoctorsHub.Web.Controllers
 
         //POST: DeleteConfirmed Action Method
         [HttpPost]
-
         [ActionName(nameof(AppointmentsController.Delete))]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -167,6 +166,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Reschedule(int id) 
         {
             AppointmentDto appointment = await _appointmentApiService.GetAppointmentByIdAsync(id);

@@ -13,16 +13,12 @@
         document.getElementById("markAllAsRead");
 
 
-    // ==========================================
-    // Validate notification elements
-    // ==========================================
-
     if (!notificationBell || !notificationBadge)
         return;
 
 
     // ==========================================
-    // Load unread count when application loads
+    // Load unread notification count
     // ==========================================
 
     loadUnreadNotificationCount();
@@ -35,14 +31,8 @@
             const response =
                 await fetch("/Notification/Unread");
 
-            if (!response.ok) {
-
-                console.error(
-                    "Failed to load unread notifications."
-                );
-
+            if (!response.ok)
                 return;
-            }
 
             const notifications =
                 await response.json();
@@ -53,7 +43,7 @@
         catch (error) {
 
             console.error(
-                "Error loading unread notifications:",
+                "Error loading notification count:",
                 error
             );
 
@@ -83,8 +73,7 @@
 
 
     // ==========================================
-    // Bell click
-    // Load notifications into popup
+    // Load notifications when bell is clicked
     // ==========================================
 
     notificationBell.addEventListener(
@@ -108,6 +97,7 @@
                 const notifications =
                     await response.json();
 
+
                 console.log(
                     "Notifications received:",
                     notifications
@@ -117,7 +107,6 @@
                 notificationList.innerHTML = "";
 
 
-                // No unread notifications
                 if (notifications.length === 0) {
 
                     notificationList.innerHTML = `
@@ -132,18 +121,39 @@
                 }
 
 
-                // Update badge
-                updateNotificationBadge(notifications.length);
+                updateNotificationBadge(
+                    notifications.length
+                );
 
 
-                // Display notifications
-                notifications.forEach(notification => {
+                // ==========================================
+                // Create notification items
+                // ==========================================
+
+                notifications.forEach(function (notification) {
 
                     const notificationItem =
                         document.createElement("div");
 
+
                     notificationItem.className =
                         "px-3 py-3 border-bottom notification-item";
+
+
+                    notificationItem.style.cursor =
+                        "pointer";
+
+
+                    // Store IDs directly on the element
+                    notificationItem.setAttribute(
+                        "data-appointment-id",
+                        notification.appointmentId || ""
+                    );
+
+                    notificationItem.setAttribute(
+                        "data-bill-id",
+                        notification.billId || ""
+                    );
 
 
                     notificationItem.innerHTML = `
@@ -184,6 +194,76 @@
 
 
     // ==========================================
+    // Notification Click
+    // ==========================================
+
+    notificationList.addEventListener(
+        "click",
+        function (event) {
+
+            const notificationItem =
+                event.target.closest(
+                    ".notification-item"
+                );
+
+
+            if (!notificationItem) {
+
+                return;
+            }
+
+
+            const appointmentId =
+                notificationItem.getAttribute(
+                    "data-appointment-id"
+                );
+
+
+            const billId =
+                notificationItem.getAttribute(
+                    "data-bill-id"
+                );
+
+
+            console.log(
+                "Notification clicked",
+                appointmentId,
+                billId
+            );
+
+
+            // ==========================================
+            // Appointment Notification
+            // ==========================================
+
+            if (appointmentId) {
+
+                window.location.href =
+                    "/Appointments/Details?id=" +
+                    appointmentId;
+
+                return;
+            }
+
+
+            // ==========================================
+            // Bill Notification
+            // ==========================================
+
+            if (billId) {
+
+                window.location.href =
+                    "/Billing/Details?id=" +
+                    billId;
+
+                return;
+            }
+
+        }
+    );
+
+
+    // ==========================================
     // Mark All As Read
     // ==========================================
 
@@ -197,7 +277,7 @@
 
                     const response =
                         await fetch(
-                            "~/Notification/MarkAllAsRead",
+                            "/Notification/MarkAllAsRead",
                             {
                                 method: "POST"
                             }
@@ -214,11 +294,9 @@
                     }
 
 
-                    // Hide badge
                     updateNotificationBadge(0);
 
 
-                    // Clear notification popup
                     notificationList.innerHTML = `
                         <div class="text-center text-muted py-4">
                             No notifications

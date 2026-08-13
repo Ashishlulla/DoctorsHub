@@ -45,7 +45,8 @@
             @* Reschedule Appointment *@
             @if (Model.Status == AppointmentStatus.Confirmed)
             {
-                <a asp-action="Reschedule"
+                <a asp-controller="Appointments"
+                   asp-action="Reschedule"
                    asp-route-id="@Model.Id"
                    class="btn-save">
                     Reschedule
@@ -55,7 +56,8 @@
             @* Complete Appointment *@
             @if (Model.Status == AppointmentStatus.Confirmed)
             {
-                <form asp-action="Complete"
+                <form asp-controller="Appointments"
+                     asp-action="Complete"
                       asp-route-id="@Model.Id"
                       method="post"
                       style="display:inline;">
@@ -74,7 +76,8 @@
             @if (Model.Status == AppointmentStatus.Scheduled ||
                  Model.Status == AppointmentStatus.Confirmed)
             {
-                <form asp-action="Cancel"
+                <form asp-controller="Appointments"
+                    asp-action="Cancel"
                       asp-route-id="@Model.Id"
                       method="post"
                       style="display:inline;">
@@ -97,14 +100,16 @@
             @if (Model!.Status != AppointmentStatus.Cancelled &&
                  Model.Status != AppointmentStatus.Completed)
             {
-                <a asp-action="Edit"
+                <a asp-controller="Appointments"
+                    asp-action="Edit"
                    asp-route-id="@Model.Id"
                    class="btn-save">
                     Edit
                 </a>
             }
 
-            <a asp-action="Index"
+            <a asp-controller="Appointments"
+                asp-action="Index"
                class="btn-cancel">
                 Back
             </a>
