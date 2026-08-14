@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DoctorsHub.Infrastructure.Configuration
+﻿namespace DoctorsHub.Infrastructure.Configuration
 {
     public class BrevoSettings
     {

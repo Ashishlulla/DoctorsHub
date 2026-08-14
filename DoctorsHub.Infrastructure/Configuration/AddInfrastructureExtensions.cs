@@ -1,4 +1,8 @@
 ﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
+using DoctorsHub.Application.Interfaces.ServiceContracts;
+using DoctorsHub.Application.Services;
+using DoctorsHub.Infrastructure.Communication.Brevo;
+using DoctorsHub.Infrastructure.Configuration;
 using DoctorsHub.Infrastructure.Persistence;
 using DoctorsHub.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +32,15 @@ namespace DoctorsHub.Infrastructure.Configurations
             services.AddScoped<IBillingRepository, BillingRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            
+
+
+            //Brevo settings 
+            services.Configure<BrevoSettings>(configuration.GetSection("Brevo"));
+            services.AddHttpClient<IEmailService, BrevoEmailService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.brevo.com/v3/");
+            });
 
 
             return services;
