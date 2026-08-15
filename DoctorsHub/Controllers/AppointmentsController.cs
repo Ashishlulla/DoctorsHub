@@ -26,6 +26,8 @@ namespace DoctorsHub.Web.Controllers
         }
 
         //GET: Index Action Method
+        [HttpGet]
+        [Route("[action]")]
         public async Task<IActionResult> Index([FromQuery] AppointmentQueryParameter appointmentQueryParameter)
         {
              PagedResult<AppointmentDto> appointments = await _appointmentApiService.GetAppointmentsAsync(appointmentQueryParameter);
@@ -143,6 +145,7 @@ namespace DoctorsHub.Web.Controllers
         //POST: DeleteConfirmed Action Method
         [HttpPost]
         [ActionName(nameof(AppointmentsController.Delete))]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -155,6 +158,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Confirm(int id) 
         {
@@ -183,6 +187,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto) 
         {
@@ -199,6 +204,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(int id) 
         {
@@ -216,6 +222,7 @@ namespace DoctorsHub.Web.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Complete(int id) 
         {

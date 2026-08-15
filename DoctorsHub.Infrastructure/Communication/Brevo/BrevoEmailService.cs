@@ -2,10 +2,7 @@
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Infrastructure.Configuration;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
 using System.Net.Http.Json;
-using System.Text;
 
 namespace DoctorsHub.Infrastructure.Communication.Brevo
 {

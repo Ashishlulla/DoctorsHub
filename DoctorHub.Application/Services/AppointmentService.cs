@@ -2,6 +2,7 @@
 using DoctorsHub.Application.DTOs.Appoitments;
 using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
+using DoctorsHub.Application.DTOs.Communication;
 using DoctorsHub.Application.DTOs.Notification;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
@@ -17,15 +18,17 @@ namespace DoctorsHub.Application.Services
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IBillingService _billingService;
         private readonly INotificationService _notificationService;
+        private readonly IEmailService _emailService;
 
         private readonly IMapper _mapper;
 
         //constructor
-        public AppointmentService(IAppointmentRepository appointmentRepository, IBillingService billingService, IMapper mapper, INotificationService notificationService) 
+        public AppointmentService(IAppointmentRepository appointmentRepository, IBillingService billingService, IMapper mapper, INotificationService notificationService, IEmailService emailService) 
         {
             _appointmentRepository = appointmentRepository;
             _billingService = billingService;
             _notificationService = notificationService;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -205,6 +208,7 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.ConfirmedAppointmentAync(appointmentId);
 
+            //Creatin In-App Notifcation
             await _notificationService.CreateAsync(
             new CreateNotificationDto
             {
@@ -214,6 +218,39 @@ namespace DoctorsHub.Application.Services
                 Message = $"Dr. {appointment.Doctor.FullName} confirmed the appointment for {appointment.Patient.FullName} on {appointment.AppointmentDate} at {appointment.StartTime}.",
                 Type = NotificationType.AppointmentConfirmed
             });
+
+            //Creating Patient Communication Email
+            await _emailService.SendAsync(
+                 new EmailMessageDto 
+                 {
+                     To = "lullaashish2807@gmail.com",
+                     ToName = "Ashish Lulla", 
+                     Subject = "Appointment Confirmed - DoctorHub",
+                     HtmlBody = $"""
+                    <h2>Appointment Confirmed</h2>
+                    <p>Hello {appointment.Patient.FullName},</p>
+                    <p>Your appointment has been confirmed.</p>
+
+                    <p>
+                        <strong>Doctor:</strong> Dr. {appointment.Doctor.FullName}<br />
+                        <strong>Date:</strong> {appointment.AppointmentDate}<br />
+                        <strong>Time:</strong> {appointment.StartTime} - {appointment.EndTime}
+                    </p>
+
+                    <p>Thank you for using DoctorsHub.</p>
+                    """,
+                     PlainTextBody = $"""
+                    Hello {appointment.Patient.FullName},
+
+                    Your appointment has been confirmed.
+
+                    Doctor: Dr. {appointment.Doctor.FullName}
+                    Date: {appointment.AppointmentDate}
+                    Time: {appointment.StartTime} - {appointment.EndTime}
+
+                    Thank you for using DoctorsHub.
+                    """
+                 },default);
 
         }
 
