@@ -223,8 +223,8 @@ namespace DoctorsHub.Application.Services
             await _emailService.SendAsync(
                  new EmailMessageDto 
                  {
-                     To = "lullaashish2807@gmail.com",
-                     ToName = "Ashish Lulla", 
+                     To = appointment.Patient.Email,
+                     ToName =  appointment.Patient.FullName, 
                      Subject = "Appointment Confirmed - DoctorHub",
                      HtmlBody = $"""
                     <h2>Appointment Confirmed</h2>
@@ -232,7 +232,7 @@ namespace DoctorsHub.Application.Services
                     <p>Your appointment has been confirmed.</p>
 
                     <p>
-                        <strong>Doctor:</strong> Dr. {appointment.Doctor.FullName}<br />
+                        <strong>Doctor:</strong> {appointment.Doctor.FullName}<br />
                         <strong>Date:</strong> {appointment.AppointmentDate}<br />
                         <strong>Time:</strong> {appointment.StartTime} - {appointment.EndTime}
                     </p>
@@ -265,6 +265,8 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.RescheduleAppointmentAsync(rescheduleAppointmentDto);
 
+
+            //Creating In-App Notification Message
             await _notificationService.CreateAsync(
             new CreateNotificationDto
             {
@@ -274,6 +276,40 @@ namespace DoctorsHub.Application.Services
                 Message = $"Dr. {appointment.Doctor.FullName} has rescheduled and delayed your appointment with {appointment.Patient.FullName} from {appointment.StartTime} to {rescheduleAppointmentDto.StartTime}.",
                 Type = NotificationType.AppointmentRescheduled
             });
+
+            //Creating Patient Communication Email
+            await _emailService.SendAsync(
+                 new EmailMessageDto
+                 {
+                     To ="Lullaashish2807@gmail.com",
+                     ToName = "Ashish Lulla",
+                     Subject = "Appointment Rescheduled - DoctorHub",
+                     HtmlBody = $"""
+                            <h2>Appointment Rescheduled</h2>
+                            <p>Hello {appointment.Patient.FullName},</p>
+                            <p>Your appointment has been rescheduled.</p>
+
+                            <p>
+                                <strong>Doctor:</strong> Dr. {appointment.Doctor.FullName}<br />
+                                <strong>Date:</strong> {appointment.AppointmentDate}<br />
+                                <strong>New Time:</strong> {rescheduleAppointmentDto.StartTime} - {rescheduleAppointmentDto.EndTime}
+                            </p>
+
+                            <p>Thank you for using DoctorsHub.</p>
+                            """,
+
+                        PlainTextBody = $"""
+                            Hello {appointment.Patient.FullName},
+
+                            Your appointment has been rescheduled.
+
+                            Doctor: Dr. {appointment.Doctor.FullName}
+                            Date: {appointment.AppointmentDate}
+                            New Time: {rescheduleAppointmentDto.StartTime} - {rescheduleAppointmentDto.EndTime}
+
+                            Thank you for using DoctorsHub.
+                        """
+                 }, default);
         }
 
         public async Task CancelAppointmentAsync(int appointmentId)
