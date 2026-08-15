@@ -244,7 +244,7 @@ namespace DoctorsHub.Application.Services
 
                     Your appointment has been confirmed.
 
-                    Doctor: Dr. {appointment.Doctor.FullName}
+                    Doctor: {appointment.Doctor.FullName}
                     Date: {appointment.AppointmentDate}
                     Time: {appointment.StartTime} - {appointment.EndTime}
 
@@ -281,9 +281,9 @@ namespace DoctorsHub.Application.Services
             await _emailService.SendAsync(
                  new EmailMessageDto
                  {
-                     To ="Lullaashish2807@gmail.com",
-                     ToName = "Ashish Lulla",
-                     Subject = "Appointment Rescheduled - DoctorHub",
+                     To = appointment.Patient.Email,
+                     ToName = appointment.Patient.FullName,
+                     Subject = "Appointment Cancelled - DoctorHub",
                      HtmlBody = $"""
                             <h2>Appointment Rescheduled</h2>
                             <p>Hello {appointment.Patient.FullName},</p>
@@ -332,6 +332,7 @@ namespace DoctorsHub.Application.Services
 
             await _appointmentRepository.CancelAppointmentAsync(appointmentId);
 
+            //Creating In-App Notification
             await _notificationService.CreateAsync(
             new CreateNotificationDto
             {
@@ -341,6 +342,41 @@ namespace DoctorsHub.Application.Services
                 Message = $"Dr. {appointment.Doctor.FullName} has cancelled the appointment with {appointment.Patient.FullName} scheduled for {appointment.StartTime} on {appointment.AppointmentDate}.",
                 Type = NotificationType.AppointmentCancelled
             });
+
+            //Creating Patient Communication Email
+            await _emailService.SendAsync(
+                new EmailMessageDto
+                {
+                    To = "lullaashish2807@gmail.com",
+                    ToName = "Ashish Lulla",
+                    Subject = "Appointment Cancelled - DoctorsHub",
+
+                    HtmlBody = $"""
+                        <h2>Appointment Cancelled</h2>
+                        <p>Hello {appointment.Patient.FullName},</p>
+                        <p>Your appointment has been cancelled.</p>
+
+                        <p>
+                            <strong>Doctor:</strong> Dr. {appointment.Doctor.FullName}<br />
+                            <strong>Date:</strong> {appointment.AppointmentDate}<br />
+                            <strong>Time:</strong> {appointment.StartTime} - {appointment.EndTime}
+                        </p>
+
+                        <p>Thank you for using DoctorsHub.</p>
+                        """,
+
+                    PlainTextBody = $"""
+                        Hello {appointment.Patient.FullName},
+
+                        Your appointment has been cancelled.
+
+                        Doctor: Dr. {appointment.Doctor.FullName}
+                        Date: {appointment.AppointmentDate}
+                        Time: {appointment.StartTime} - {appointment.EndTime}
+
+                        Thank you for using DoctorsHub.
+                        """
+                }, default);
 
         }
 
