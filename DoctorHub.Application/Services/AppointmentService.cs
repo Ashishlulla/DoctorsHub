@@ -347,8 +347,8 @@ namespace DoctorsHub.Application.Services
             await _emailService.SendAsync(
                 new EmailMessageDto
                 {
-                    To = "lullaashish2807@gmail.com",
-                    ToName = "Ashish Lulla",
+                    To = appointment.Patient.Email,
+                    ToName = appointment.Patient.FullName,
                     Subject = "Appointment Cancelled - DoctorsHub",
 
                     HtmlBody = $"""
@@ -406,6 +406,41 @@ namespace DoctorsHub.Application.Services
                Message = $"Dr. {appointment.Doctor.FullName} has completed the appointment with {appointment.Patient.FullName} on {appointment.AppointmentDate} at {appointment.EndTime}.",
                Type = NotificationType.AppointmentCompleted
            });
+
+            //Creating Patient Communication Email
+            await _emailService.SendAsync(
+                new EmailMessageDto
+                {
+                    To = "lullaashish2807@gmail.com",
+                    ToName = "Ashish Lulla",
+                    Subject = "Appointment Completed - DoctorsHub",
+
+                    HtmlBody = $"""
+                        <h2>Appointment Completed</h2>
+                        <p>Hello {appointment.Patient.FullName},</p>
+                        <p>Your appointment has been completed.</p>
+
+                        <p>
+                            <strong>Doctor:</strong> {appointment.Doctor.FullName}<br />
+                            <strong>Date:</strong> {appointment.AppointmentDate}<br />
+                            <strong>Time:</strong> {appointment.StartTime} - {appointment.EndTime}
+                        </p>
+
+                        <p>Thank you for using DoctorsHub.</p>
+                        """,
+
+                    PlainTextBody = $"""
+                        Hello {appointment.Patient.FullName},
+
+                        Your appointment has been completed.
+
+                        Doctor: {appointment.Doctor.FullName}
+                        Date: {appointment.AppointmentDate}
+                        Time: {appointment.StartTime} - {appointment.EndTime}
+
+                        Thank you for using DoctorsHub.
+                        """
+                }, default);
 
             await _billingService.CreateBillAsync(new CreateBillDto 
             {
