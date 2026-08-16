@@ -80,8 +80,8 @@ namespace DoctorsHub.Application.Services
             await _emailService.SendAsync(
                 new EmailMessageDto 
                 {
-                    To = "Lullaashish2807@gmail.com",
-                    ToName = "Ashish Lulla",
+                    To = bill.Appointment.Patient.Email,
+                    ToName = bill.Appointment.Patient.FullName,
                     Subject = $"Bill Generated  Bill #{bill.Id}",
                     HtmlBody = $"""
                     <h2>Bill Generated</h2>
@@ -111,7 +111,7 @@ namespace DoctorsHub.Application.Services
 
                     Thank you for using DoctorsHub.
                     """
-                });
+                }, default);
 
             return billDto;
 
@@ -205,6 +205,7 @@ namespace DoctorsHub.Application.Services
 
             if (updateBillDto.PaymentStatus == PaymentStatus.Paid)
             {
+                //Creating In-App Notification
                 await _notificationService.CreateAsync(
                 new CreateNotificationDto
                 {
@@ -215,6 +216,54 @@ namespace DoctorsHub.Application.Services
                     Message = $"A bill of ₹{bill.TotalAmount} has been paid successfully for {bill.Appointment.Patient.FullName}.",
                     Type = NotificationType.BillPaid
                 });
+
+                //Creating Email for patient communication
+                await _emailService.SendAsync(
+                new EmailMessageDto
+                {
+                    To = "lullaashish2807@gmail.com",
+                    ToName = "Ashish Lulla",
+                    Subject = $"Payment Successful - Bill #{bill.Id}",
+
+                    HtmlBody = $"""
+                    <h2>Payment Successful</h2>
+
+                    <p>Hello {bill.Appointment.Patient.FullName},</p>
+
+                    <p>Your bill payment has been completed successfully.</p>
+
+                    <p><strong>Bill ID:</strong> {bill.Id}</p>
+                    <p><strong>Doctor Name:</strong> {bill.Appointment.Doctor.FullName}</p>
+                    <p><strong>Bill Date:</strong> {bill.BillDate:dd-MM-yyyy}</p>
+                    <p><strong>Amount Paid:</strong> ₹{bill.TotalAmount:N2}</p>
+
+                    <p>
+                        Thank you for completing your payment.
+                        Please find your bill details available in DoctorsHub.
+                    </p>
+
+                    <p>Thank you for using DoctorsHub.</p>
+                    """,
+
+                    PlainTextBody = $"""
+                    Payment Successful
+
+                    Hello {bill.Appointment.Patient.FullName},
+
+                    Your bill payment has been completed successfully.
+
+                    Bill ID: {bill.Id}
+                    Doctor Name: {bill.Appointment.Doctor.FullName}
+                    Bill Date: {bill.BillDate:dd-MM-yyyy}
+                    Amount Paid: ₹{bill.TotalAmount:N2}
+
+                    Thank you for completing your payment.
+                    Please find your bill details available in DoctorsHub.
+
+                    Thank you for using DoctorsHub.
+                    """
+                },
+                default);
             }
 
             if (updateBillDto.PaymentStatus == PaymentStatus.Cancelled)
