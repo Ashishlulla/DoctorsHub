@@ -2,11 +2,13 @@
 using DoctorsHub.Application.DTOs.Billing;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Application.DTOs.Communication;
 using DoctorsHub.Application.DTOs.Notification;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
+using System.Security.Cryptography;
 
 namespace DoctorsHub.Application.Services
 {
@@ -14,18 +16,20 @@ namespace DoctorsHub.Application.Services
     {
         //Private Feilds 
         private readonly IBillingRepository _billingRepository;
-        private readonly INotificationService _notificationService;
-
         private readonly IAppointmentRepository _appointmentRepository;
+
+        private readonly INotificationService _notificationService;
+        private readonly IEmailService _emailService;
 
         private readonly IMapper _mapper;
 
         //Constructor
-        public BillingService(IBillingRepository billingRepository, INotificationService notificationService, IAppointmentRepository appointmentRepository, IMapper mapper)
+        public BillingService(IBillingRepository billingRepository, IAppointmentRepository appointmentRepository, INotificationService notificationService, IEmailService emailService, IMapper mapper)
         {
             _billingRepository = billingRepository; 
             _appointmentRepository = appointmentRepository;
             _notificationService = notificationService;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -54,12 +58,13 @@ namespace DoctorsHub.Application.Services
 
             bill.TotalAmount = bill.ConsultationFee + createBillDto.AdditionalCharges - createBillDto.Discount;
             bill.BillDate = DateTime.Now;
-            bill.PaymentStatus = Domain.Enums.PaymentStatus.Pending;
+            bill.PaymentStatus = PaymentStatus.Pending;
 
             var generatedBill = await _billingRepository.AddBillAsync(bill);
 
             BillDto billDto = _mapper.Map<BillDto>(generatedBill);
 
+            //Creating Bill Generated In-App Notification
             await _notificationService.CreateAsync(
                 new CreateNotificationDto
                 {
@@ -69,6 +74,43 @@ namespace DoctorsHub.Application.Services
                     Title = "Bill Generated",
                     Message = $"A bill of ₹{bill.TotalAmount} has been generated for {bill.Appointment.Patient.FullName}.",
                     Type = NotificationType.BillGenerated
+                });
+
+            //Creating Email for Patient Commmunication
+            await _emailService.SendAsync(
+                new EmailMessageDto 
+                {
+                    To = "Lullaashish2807@gmail.com",
+                    ToName = "Ashish Lulla",
+                    Subject = $"Bill Generated  Bill #{bill.Id}",
+                    HtmlBody = $"""
+                    <h2>Bill Generated</h2>
+                    <p>Hello {appointment.Patient.FullName},</p>
+                    <p>Your bill has been generated successfully.</p>
+
+                    <p><strong>Bill ID: </strong>{bill.Id}</p>
+                    <p><strong>Doctor Name: </strong>{bill.Appointment.Doctor.FullName}</p>
+                    <p><strong>Bill Date: </strong>{bill.BillDate}</p>
+                    <p><strong>Consultation Fee: </strong>₹{bill.Appointment.Doctor.ConsultationFee}</p>
+
+                    <p><strong>Please Note: </strong>The amount shown above includes consultation charges only. Additional charges and applicable discounts, if any, will be considered at reception.</p>
+
+                    <p>Thank you for using DoctorsHub.</p>
+                    """,
+                    PlainTextBody = $"""
+                    Bill Generated
+                    Hello {appointment.Patient.FullName},
+                    Your bill has been generated successfully.
+
+                    Bill ID: {bill.Id}
+                    Doctor Name: {bill.Appointment.Doctor.FullName}
+                    Bill Date: {bill.BillDate}
+                    Consultation Fee: ₹{bill.Appointment.Doctor.ConsultationFee}
+
+                    Please Note: The amount shown above includes consultation charges only. Additional charges and applicable discounts, if any, will be considered at reception.
+
+                    Thank you for using DoctorsHub.
+                    """
                 });
 
             return billDto;
