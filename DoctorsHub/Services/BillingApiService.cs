@@ -101,9 +101,15 @@ namespace DoctorsHub.Web.Services
         {
             AddToken();
             HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"/api/Billing/{id}", updateBillDto);
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
 
-            
+                throw new HttpRequestException(
+                    $"API Error {(int)response.StatusCode}: {error}");
+            }
+
+
         }
     }
 }

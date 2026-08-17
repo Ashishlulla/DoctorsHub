@@ -8,7 +8,7 @@ using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Enums;
-using System.Security.Cryptography;
+
 
 namespace DoctorsHub.Application.Services
 {
@@ -20,16 +20,18 @@ namespace DoctorsHub.Application.Services
 
         private readonly INotificationService _notificationService;
         private readonly IEmailService _emailService;
+        private readonly IPdfExportService _pfExportService;
 
         private readonly IMapper _mapper;
 
         //Constructor
-        public BillingService(IBillingRepository billingRepository, IAppointmentRepository appointmentRepository, INotificationService notificationService, IEmailService emailService, IMapper mapper)
+        public BillingService(IBillingRepository billingRepository, IAppointmentRepository appointmentRepository, INotificationService notificationService, IEmailService emailService, IPdfExportService pdfExportService, IMapper mapper)
         {
             _billingRepository = billingRepository; 
             _appointmentRepository = appointmentRepository;
             _notificationService = notificationService;
             _emailService = emailService;
+            _pfExportService = pdfExportService;
             _mapper = mapper;
         }
 
@@ -216,6 +218,9 @@ namespace DoctorsHub.Application.Services
                     Message = $"A bill of ₹{bill.TotalAmount} has been paid successfully for {bill.Appointment.Patient.FullName}.",
                     Type = NotificationType.BillPaid
                 });
+                BillDto billDto = _mapper.Map<BillDto>(bill);
+                byte[] BillPdf = _pfExportService.GenerateBillPdf(billDto);
+
 
                 //Creating Email for patient communication
                 await _emailService.SendAsync(
@@ -261,9 +266,17 @@ namespace DoctorsHub.Application.Services
                     Please find your bill details available in DoctorsHub.
 
                     Thank you for using DoctorsHub.
-                    """
-                },
-                default);
+                    """,
+                    Attachments = new List<EmailAttachmentDto>
+                    {
+                       new EmailAttachmentDto
+                       {
+                           FileName = $"Bill-{bill.Id}.pdf",
+                           ContentType = "application/pdf",
+                           Content = BillPdf
+                       }
+                    }
+                }, default);
             }
 
             if (updateBillDto.PaymentStatus == PaymentStatus.Cancelled)

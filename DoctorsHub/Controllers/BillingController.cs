@@ -45,6 +45,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
 
         public async Task<IActionResult> Edit(int id) 
         {
@@ -58,6 +59,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id , UpdateBillDto updateBillDto) 
         {

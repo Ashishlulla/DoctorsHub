@@ -32,9 +32,14 @@
 
     <!-- Form -->
     <form id="billEditForm"
+          asp-controller="Billing"
           asp-action="Edit"
           asp-route-id="@ViewBag.BillId"
           method="post">
+
+        <div asp-validation-summary="ModelOnly"
+             class="text-danger">
+        </div>
 
         <div class="create-card">
 
