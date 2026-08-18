@@ -3,6 +3,7 @@ using DoctorsHub.API.Middleware;
 using DoctorsHub.Application.Configuration;
 using DoctorsHub.Infrastructure.Configurations; 
 using System.Text.Json.Serialization;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddSwaggerServices();
 
 
+//Quest Pdf
+QuestPDF.Settings.License = LicenseType.Community;
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
