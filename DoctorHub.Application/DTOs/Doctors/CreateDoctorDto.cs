@@ -4,6 +4,7 @@ namespace DoctorsHub.Application.DTOs.Doctors
     public class CreateDoctorDto
     {
         public string FullName { get; set; } = string.Empty;
+        public string PersonalEmail { get; set; }
         public string PhoneNumber { get; set; } = string.Empty;
         public DateOnly BirthDate { get; set; }
         public string Qualification { get; set; } = string.Empty;

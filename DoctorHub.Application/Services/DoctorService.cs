@@ -6,6 +6,7 @@ using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
+using DoctorsHub.Application.DTOs.Communication;
 
 
 namespace DoctorsHub.Application.Services
@@ -17,13 +18,16 @@ namespace DoctorsHub.Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
+        private readonly IEmailService _emailService;
+
 
         //Constructor
-        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager, IMapper mapper, IEmailService emailService)
         {
             _doctorRepository = doctorRepository;
             _userManager = userManager;
             _mapper = mapper;
+            _emailService = emailService;
         }
         public async Task<DoctorDto> CreateDoctorAsync(CreateDoctorDto createDoctorDto)
         {
@@ -33,7 +37,7 @@ namespace DoctorsHub.Application.Services
                 .ToLower();
 
 
-            // Generate unique email using name + birth date
+            // Generate unique email using name + birth date (Professional email For DoctorsHub Login)
             var emailBase =
                 $"{baseName}{createDoctorDto.BirthDate.Day:D2}{createDoctorDto.BirthDate.Month:D2}";
 
@@ -97,6 +101,51 @@ namespace DoctorsHub.Application.Services
 
             doctor = await _doctorRepository.AddAsync(doctor);
 
+            //Sending system generated  email and temporary system generated login credentials newly joined doctor on their PersonalEmail
+            await _emailService.SendAsync(
+                new EmailMessageDto
+                {
+                    To = doctor.PersonalEmail,
+                    ToName = doctor.FullName,
+                    Subject = "DoctorsHub Temporary Login Credentials",
+
+                    HtmlBody = $"""
+                    <h2>Welcome to DoctorsHub</h2>
+
+                    <p>
+                        We are pleased to welcome you to DoctorsHub.
+                        Please find your temporary login credentials below.
+                    </p>
+
+                    <br>
+
+                    <h4>Login Credentials</h4>
+
+                    <p><strong>DoctorsHub Email:</strong> {doctor.User.Email}</p>
+                    <p><strong>Temporary Password:</strong> {password}</p>
+
+                    <p>
+                        <strong>Please Note:</strong>
+                        These are temporary login credentials.
+                        Please change your password after your first successful login.
+                    </p>
+                    """,
+
+                    PlainTextBody = $"""
+                    Welcome to DoctorsHub
+
+                    We are pleased to welcome you to DoctorsHub.
+                    Please find your temporary login credentials below.
+
+                    Login Credentials
+                    DoctorsHub Email: {doctor.User.Email}
+                    Temporary Password: {password}
+
+                    Please Note:
+                    These are temporary login credentials.
+                    Please change your password after your first successful login.
+                    """
+                });
 
             return _mapper.Map<DoctorDto>(doctor);
         }
