@@ -11,12 +11,16 @@ namespace DoctorsHub.Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
+        private readonly IEmailService _emailService;
+        private readonly IOtpService _otpService;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService) 
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService, IEmailService emailService, IOtpService otpService) 
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _emailService = emailService;
+            _otpService = otpService;
         }
 
         public async Task RegisterAsync(RegisterDto registerDto)

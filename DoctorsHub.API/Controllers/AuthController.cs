@@ -45,9 +45,5 @@ namespace DoctorsHub.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        
-
-
     }
 }
