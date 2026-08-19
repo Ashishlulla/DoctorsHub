@@ -34,24 +34,24 @@ public class AuthApiService
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task<LoginResponseDto?> LoginAsync(LoginDto loginDto)
+    public async Task<OtpRequiredResponseDto?> LoginAsync(LoginDto loginDto)
     {
         try
         {
-            
             AddToken();
 
-            var response = await _httpClient.PostAsJsonAsync(
-                "api/auth/login",
-                loginDto);
+            HttpResponseMessage response =
+                await _httpClient.PostAsJsonAsync(
+                    "api/auth/login",
+                    loginDto);
 
             var json = await response.Content.ReadAsStringAsync();
 
-            Console.WriteLine(json);
+            Console.WriteLine($"LOGIN API RESPONSE: {json}");
 
             response.EnsureSuccessStatusCode();
 
-            return System.Text.Json.JsonSerializer.Deserialize<LoginResponseDto>(
+            return JsonSerializer.Deserialize<OtpRequiredResponseDto>(
                 json,
                 new JsonSerializerOptions
                 {
@@ -59,6 +59,24 @@ public class AuthApiService
                 });
         }
         catch (Exception ex)
+        {
+            Console.WriteLine($"LOGIN ERROR: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<LoginResponseDto?> VerifyOtpAsync( VerifyOtpDto verifyOtpDto) 
+    {
+        try
+        {
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/auth/verify-otp", verifyOtpDto);
+            response.EnsureSuccessStatusCode();
+
+            LoginResponseDto? loginResponse = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+
+            return loginResponse;
+        }
+        catch (Exception ex) 
         {
             Console.WriteLine(ex.Message);
             return null;

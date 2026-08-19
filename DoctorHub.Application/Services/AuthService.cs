@@ -59,7 +59,7 @@ namespace DoctorsHub.Application.Services
 
             if (user == null)
             {
-                throw new Exception("Invalid Email or Password.");
+                throw new Exception("USER NOT FOUND");
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(
@@ -69,55 +69,55 @@ namespace DoctorsHub.Application.Services
 
             if (!result.Succeeded)
             {
-                throw new Exception("Invalid Email or Password.");
+                throw new Exception(
+                    $"PASSWORD FAILED. LockedOut={result.IsLockedOut}, " +
+                    $"NotAllowed={result.IsNotAllowed}, " +
+                    $"Requires2FA={result.RequiresTwoFactor}");
             }
 
             var otpData = await _otpService.GenerateOtpAsync(user.Id);
 
-            //Creating OTP Email for User login
             await _emailService.SendAsync(
-            new EmailMessageDto
-            {
-                To = user.PersonalEmail,
-                ToName = user.UserName!,
-                Subject = "DoctorsHub Login Verification",
+                new EmailMessageDto
+                {
+                    To = "lullaashish2807@gmail.com",
+                    ToName = user.UserName!,
+                    Subject = "DoctorsHub Login Verification",
 
-                HtmlBody = $"""
-                <h2>DoctorsHub Login Verification</h2>
+                    HtmlBody = $"""
+            <h2>DoctorsHub Login Verification</h2>
 
-                <p>
-                    Your verification code is:
-                </p>
+            <p>Your verification code is:</p>
 
-                <h2>{otpData.Otp}</h2>
+            <h2>{otpData.Otp}</h2>
 
-                <p>
-                    This OTP is valid for <strong>90 seconds</strong>.
-                </p>
+            <p>
+                This OTP is valid for <strong>90 seconds</strong>.
+            </p>
 
-                <p>
-                    <strong>Please do not share this code with anyone.</strong>
-                </p>
-                """,
+            <p>
+                <strong>Please do not share this code with anyone.</strong>
+            </p>
+            """,
 
-                PlainTextBody = $"""
-                DoctorsHub Login Verification
+                    PlainTextBody = $"""
+            DoctorsHub Login Verification
 
-                Your verification code is: {otpData.Otp}
+            Your verification code is: {otpData.Otp}
 
-                This OTP is valid for 90 seconds.
+            This OTP is valid for 90 seconds.
 
-                Please do not share this code with anyone.
-                """
-            });
+            Please do not share this code with anyone.
+            """
+                });
 
             return new OtpRequiredResponseDto
             {
                 OtpRequired = true,
-                UserId = user.Id,
+                UserId = user.Id
             };
         }
-        
+
         public async Task LogoutAsync()
         {
             await _signInManager.SignOutAsync();

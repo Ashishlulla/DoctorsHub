@@ -1,8 +1,6 @@
-﻿@model LoginDto
-
-@{
+﻿@{
     Layout = null;
-    ViewData["Title"] = "Sign In";
+    ViewData["Title"] = "Verify OTP";
 }
 
 <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
@@ -12,15 +10,16 @@
 
 
 <div class="auth-page">
+
     <div class="auth-container">
 
         <!-- ===========================
              Left Branding Section
         ============================ -->
+
         <div class="auth-brand-section">
 
             <div class="auth-brand">
-
 
                 <div class="auth-brand-logo">
 
@@ -39,25 +38,26 @@
                     </p>
 
                 </div>
+
             </div>
+
+
             <ul class="auth-feature-list">
+
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Doctor & Patient Management
                 </li>
-
 
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Appointment Scheduling
                 </li>
 
-
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
                     Easy Appointment Booking
                 </li>
-
 
                 <li>
                     <i class="bi bi-check-circle-fill"></i>
@@ -68,143 +68,96 @@
                     <i class="bi bi-check-circle-fill"></i>
                     Trusted Microsoft Identity Security
                 </li>
+
             </ul>
 
         </div>
 
-        <!-- ===========================
-             Login Form
-        ============================ -->
-        <div class="auth-form-section">
 
+        <!-- ===========================
+             OTP Verification Section
+        ============================ -->
+
+        <div class="auth-form-section">
 
             <div class="auth-form-wrapper">
 
-
                 <h2>
-                    Welcome Back
+                    Verify Your Login
                 </h2>
 
-
                 <p class="auth-form-subtitle">
-                    Sign in to continue to DoctorsHub.
+                    Enter the verification code sent to your personal email.
                 </p>
 
 
-
-
-                <form asp-action="Login" method="post">
-
-
-                    <div asp-validation-summary="ModelOnly"
-                         class="text-danger mb-3">
+                @if (ViewBag.OtpError != null)
+                {
+                    <div class="text-danger mb-3">
+                        @ViewBag.OtpError
                     </div>
+                }
 
 
+                <form asp-action="VerifyOtp" method="post">
+
+                    <!-- User Id -->
+
+                    <input type="hidden"
+                           name="userId"
+                           value="@ViewBag.UserId" />
 
 
-
-                    <!-- Email -->
-
+                    <!-- OTP -->
 
                     <div class="auth-form-group">
 
-
-                        <label asp-for="Email"
-                               class="auth-form-label">
+                        <label class="auth-form-label">
+                            Verification Code
                         </label>
 
-
-                        <input asp-for="Email"
+                        <input type="text"
+                               name="otp"
                                class="auth-form-control"
-                               placeholder="Enter your email" />
-
-
-                        <span asp-validation-for="Email"
-                              class="text-danger">
-                        </span>
-
-
-                    </div>
-
-
-
-
-
-
-                    <!-- Password -->
-
-
-                    <div class="auth-form-group">
-
-
-                        <label asp-for="Password"
-                               class="auth-form-label">
-                        </label>
-
-
-
-                        <div class="auth-password-wrapper">
-
-
-                            <input asp-for="Password"
-                                   id="password"
-                                   type="password"
-                                   class="auth-form-control"
-                                   placeholder="Enter your password" />
-
-
-                        </div>
-
-
-
-                        <span asp-validation-for="Password"
-                              class="text-danger">
-                        </span>
-
+                               placeholder="Enter 6-digit OTP"
+                               maxlength="6"
+                               minlength="6"
+                               inputmode="numeric"
+                               autocomplete="one-time-code"
+                               required />
 
                     </div>
+
+
+                    <!-- Verify Button -->
 
                     <button type="submit"
                             class="auth-btn">
 
-
-                        Sign In
+                        Verify OTP
 
                     </button>
 
                 </form>
 
+
                 <div class="auth-footer">
 
+                    <p>
+                        OTP is valid for
+                        <strong>90 seconds</strong>.
+                    </p>
 
-                    Don't have an account?
-
-
-                    <a asp-action="Register">
-                        Create Account
-                    </a>
-
+                    <p>
+                        Please do not share this code with anyone.
+                    </p>
 
                 </div>
 
-
-
             </div>
-
 
         </div>
 
-
-
     </div>
 
-
 </div>
-
-@section Scripts
-{
-
-    <partial name="_ValidationScriptsPartial" />
-
-}

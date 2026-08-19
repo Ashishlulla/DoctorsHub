@@ -59,20 +59,19 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        [Route("/")]
+        
+        
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             if (!ModelState.IsValid)
                 return View(loginDto);
 
-
             try
             {
-                LoginResponseDto? loginResponse =
+                OtpRequiredResponseDto? otpResponse =
                     await _authApiService.LoginAsync(loginDto);
 
-
-                if (loginResponse == null)
+                if (otpResponse == null)
                 {
                     ModelState.AddModelError(
                         "",
@@ -81,8 +80,57 @@ namespace DoctorsHub.Web.Controllers
                     return View(loginDto);
                 }
 
+                return RedirectToAction(
+                    "VerifyOtp",
+                    new
+                    {
+                        userId = otpResponse.UserId
+                    });
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(
+                    "",
+                    ex.Message);
 
-                // Store JWT for API calls
+                return View(loginDto);
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult VerifyOtp(string userId)
+        {
+            ViewBag.UserId = userId;
+
+            return View();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> VerifyOtp(
+    string userId,
+    string otp)
+        {
+            try
+            {
+                var verifyOtpDto = new VerifyOtpDto
+                {
+                    UserId = userId,
+                    otp = otp
+                };
+
+                LoginResponseDto? loginResponse =
+                    await _authApiService.VerifyOtpAsync(verifyOtpDto);
+
+                if (loginResponse == null)
+                {
+                    ViewBag.UserId = userId;
+                    ViewBag.OtpError = "Invalid or expired OTP.";
+
+                    return View();
+                }
+
                 Response.Cookies.Append(
                     "JWT",
                     loginResponse.Token,
@@ -94,15 +142,12 @@ namespace DoctorsHub.Web.Controllers
                         Expires = DateTime.UtcNow.AddHours(2)
                     });
 
-
-                // Create MVC Authentication Cookie
                 var claims = new List<Claim>
-                {
-                    new Claim(
-                        ClaimTypes.Email,
-                        loginResponse.Email)
-                };
-
+        {
+            new Claim(
+                ClaimTypes.Email,
+                loginResponse.Email)
+        };
 
                 foreach (var role in loginResponse.Roles)
                 {
@@ -112,19 +157,15 @@ namespace DoctorsHub.Web.Controllers
                             role));
                 }
 
-
                 var identity = new ClaimsIdentity(
                     claims,
                     IdentityConstants.ApplicationScheme);
 
-
                 var principal = new ClaimsPrincipal(identity);
-
 
                 await HttpContext.SignInAsync(
                     IdentityConstants.ApplicationScheme,
                     principal);
-
 
                 return RedirectToAction(
                     "Index",
@@ -132,11 +173,10 @@ namespace DoctorsHub.Web.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(
-                    "",
-                    ex.Message);
+                ViewBag.UserId = userId;
+                ViewBag.OtpError = ex.Message;
 
-                return View(loginDto);
+                return View();
             }
         }
 
