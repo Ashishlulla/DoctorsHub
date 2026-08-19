@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.Models.Authentication;
+﻿using DoctorsHub.Application.DTOs.Authentication;
+using DoctorsHub.Application.Models.Authentication;
 
 namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
@@ -9,5 +10,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<bool> ValidateOtpAsync(string userId, string otp);
 
         Task RemoveOtpAsync(string userId);
+
+        
     }
 }

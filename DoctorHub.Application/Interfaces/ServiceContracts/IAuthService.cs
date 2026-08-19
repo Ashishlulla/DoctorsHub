@@ -1,14 +1,13 @@
 ﻿using DoctorsHub.Application.DTOs.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DoctorsHub.Application.Interfaces.ServiceContracts
 {
     public interface IAuthService
     {
         Task RegisterAsync(RegisterDto registerDto);
-        Task<LoginResponseDto> LoginAsync(LoginDto loginDto);
+        Task<OtpRequiredResponseDto> LoginAsync(LoginDto loginDto);
+
+        Task<LoginResponseDto> VerifyOtpAsync(VerifyOtpDto verifyotpdto);
         Task LogoutAsync();
     }
 }

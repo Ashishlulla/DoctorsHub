@@ -45,5 +45,20 @@ namespace DoctorsHub.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto verifyOtpDto) 
+        {
+            try
+            {
+                var response = await _authService.VerifyOtpAsync(verifyOtpDto);
+
+                return Ok(response);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

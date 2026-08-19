@@ -61,6 +61,7 @@ namespace DoctorsHub.Application.Services
             {
                 UserName = email,
                 Email = email,
+                PersonalEmail = createDoctorDto.PersonalEmail,
                 EmailConfirmed = true
             };
 
