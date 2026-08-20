@@ -1,27 +1,30 @@
 ﻿using DoctorsHub.Application.DTOs.Authentication;
-using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using DoctorsHub.Domain.Identity;
 
 namespace DoctorsHub.Web.Controllers
 {
     [Route("[controller]")]
-    [AllowAnonymous]
+    
     public class AccountController : Controller
     {
         private readonly AuthApiService _authApiService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(AuthApiService authApiService)
+        public AccountController(AuthApiService authApiService, UserManager<ApplicationUser> userManager)
         {
             _authApiService = authApiService;
+            _userManager = userManager;
         }
 
 
         [HttpGet]
         [Route("[action]")]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
@@ -30,6 +33,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             if (!ModelState.IsValid)
@@ -51,6 +55,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
@@ -59,8 +64,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        
-        
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             if (!ModelState.IsValid)
@@ -68,10 +72,10 @@ namespace DoctorsHub.Web.Controllers
 
             try
             {
-                OtpRequiredResponseDto? otpResponse =
+                OtpRequiredResponseDto? loginResponse =
                     await _authApiService.LoginAsync(loginDto);
 
-                if (otpResponse == null)
+                if (loginResponse == null)
                 {
                     ModelState.AddModelError(
                         "",
@@ -79,13 +83,61 @@ namespace DoctorsHub.Web.Controllers
 
                     return View(loginDto);
                 }
+                // MFA disabled → login directly
+                if (!loginResponse.OtpRequired)
+                {
+                    Response.Cookies.Append(
+                       "JWT",
+                       loginResponse.Token,
+                       new CookieOptions
+                       {
+                           HttpOnly = true,
+                           Secure = false,
+                           SameSite = SameSiteMode.Lax,
+                           Expires = DateTime.UtcNow.AddHours(2)
+                       });
 
-                return RedirectToAction(
+                    var claims = new List<Claim>
+                    {
+                        new Claim(
+                            ClaimTypes.Email,
+                            loginResponse.Email)
+                    };
+
+                    foreach (var role in loginResponse.Roles)
+                    {
+                        claims.Add(
+                            new Claim(
+                                ClaimTypes.Role,
+                                role));
+                    }
+
+                    var identity = new ClaimsIdentity(
+                        claims,
+                        IdentityConstants.ApplicationScheme);
+
+                    var principal = new ClaimsPrincipal(identity);
+
+                    await HttpContext.SignInAsync(
+                        IdentityConstants.ApplicationScheme,
+                        principal);
+
+                    return RedirectToAction(
+                        "Index",
+                        "DashBoard");
+
+                }
+                // MFA enabled → continue to OTP verification
+                else
+                {
+                    return RedirectToAction(
                     "VerifyOtp",
                     new
                     {
-                        userId = otpResponse.UserId
+                        userId = loginResponse.UserId
                     });
+                }
+                
             }
             catch (Exception ex)
             {
@@ -108,9 +160,10 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        [AllowAnonymous]
         public async Task<IActionResult> VerifyOtp(
-    string userId,
-    string otp)
+            string userId,
+            string otp)
         {
             try
             {
@@ -183,6 +236,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpPost]
         [Route("[action]")]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
@@ -192,5 +246,54 @@ namespace DoctorsHub.Web.Controllers
 
             return RedirectToAction(nameof(Login));
         }
+
+        [HttpGet]
+        [Route("[action]")]
+        [Authorize]
+        public async Task<IActionResult> Profile() 
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if(user == null) 
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var isMfaEnabled = await _userManager.GetTwoFactorEnabledAsync(user);
+
+            ViewBag.isMfaEnabled = isMfaEnabled;
+
+
+            return View();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [Authorize]
+        public async Task<IActionResult> ToggleMfa(bool enabled) 
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(email)) 
+            {
+                return Unauthorized();
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                return NotFound();
+
+            await _userManager.SetTwoFactorEnabledAsync(user, enabled);
+
+            return RedirectToAction(nameof(Profile));
+        }
     }
+
 }

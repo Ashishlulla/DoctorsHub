@@ -1,0 +1,127 @@
+﻿@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "Profile";
+
+    var email = User.FindFirst(ClaimTypes.Email)?.Value;
+    var role = User.FindFirst(ClaimTypes.Role)?.Value;
+}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2>Profile</h2>
+        <p class="text-muted">
+            Manage your account information and security settings.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5 class="card-title mb-4">
+                Personal Information
+            </h5>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="text"
+                       class="form-control"
+                       value="@email"
+                       readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <input type="text"
+                       class="form-control"
+                       value="@role"
+                       readonly />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+
+            <h5 class="card-title mb-4">
+                Password & Security
+            </h5>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h6 class="mb-1">Password</h6>
+                    <p class="text-muted mb-0">
+                        Change your DoctorsHub account password.
+                    </p>
+                </div>
+
+                <button type="button"
+                        class="btn btn-outline-primary">
+                    Change Password
+                </button>
+
+            </div>
+
+            <hr />
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+
+                <div>
+                    <h6 class="mb-1">Multi-Factor Authentication</h6>
+                    <p class="text-muted mb-0">
+                        Add an additional layer of security to your account.
+                    </p>
+                </div>
+
+                <form method="post" action="/Account/ToggleMfa">
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               role="switch"
+                               id="mfaToggle"
+                               name="enabled"
+                               value="true"
+                               onchange="toggleMfa(this)"
+                        @(ViewBag.isMfaEnabled == true ? "checked" : "") />
+
+                        <label class="form-check-label"
+                               for="mfaToggle">
+                            @(ViewBag.isMfaEnabled == true ? "Enabled" : "Disabled")
+                        </label>
+
+                        <input type="hidden"
+                               name="enabled"
+                               value="false" />
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script>
+    function toggleMfa(toggle) {
+
+        if (!toggle.checked) {
+
+            const confirmed = confirm(
+                "Disable Multi-Factor Authentication?\n\n" +
+                "This will reduce the security of your account. Are you sure?"
+            );
+
+            if (!confirmed) {
+                toggle.checked = true;
+                return;
+            }
+        }
+
+        toggle.form.submit();
+    }
+</script>

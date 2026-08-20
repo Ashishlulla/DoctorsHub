@@ -75,12 +75,30 @@ namespace DoctorsHub.Application.Services
                     $"Requires2FA={result.RequiresTwoFactor}");
             }
 
+            // MFA disabled → login directly without OTP
+            if (!user.TwoFactorEnabled)
+            {
+                var token = await _tokenService.CreateTokenAsync(user);
+
+                var roles = await _userManager.GetRolesAsync(user);
+
+                return new OtpRequiredResponseDto
+                {
+                    OtpRequired = false,
+                    UserId = user.Id,
+                    Token = token,
+                    Email = user.Email!,
+                    Roles = roles.ToList()
+                };
+            }
+
+            // MFA enabled → generate and send OTP
             var otpData = await _otpService.GenerateOtpAsync(user.Id);
 
             await _emailService.SendAsync(
                 new EmailMessageDto
                 {
-                    To = "lullaashish2807@gmail.com",
+                    To = "lullaashish2807@gmail.com", //this email is for testing purpose
                     ToName = user.UserName!,
                     Subject = "DoctorsHub Login Verification",
 
