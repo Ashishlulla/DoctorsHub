@@ -3,7 +3,7 @@ using DoctorsHub.Application.DTOs.Communication;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+
 
 namespace DoctorsHub.Application.Services
 {
@@ -168,6 +168,21 @@ namespace DoctorsHub.Application.Services
                 Roles = roles.ToList()
             };
         
+        }
+
+        public async Task ChangePasswordAsync(string userId, ChangePasswordDto changePasswordDto)
+        {
+            var user =  await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                throw new Exception("User not found.");
+
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
         }
     }
 }

@@ -47,6 +47,7 @@ namespace DoctorsHub.Application.Configuration
             //Authentication Validator
             services.AddValidatorsFromAssemblyContaining<RegisterDto>();
             services.AddValidatorsFromAssemblyContaining<LoginDto>();
+            services.AddValidatorsFromAssemblyContaining<ChangePasswordDto>();
 
 
             //Adding Automapper services

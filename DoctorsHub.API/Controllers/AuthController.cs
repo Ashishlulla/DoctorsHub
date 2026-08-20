@@ -1,7 +1,10 @@
 ﻿using DoctorsHub.Application.DTOs.Authentication;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace DoctorsHub.API.Controllers
 {
@@ -54,6 +57,28 @@ namespace DoctorsHub.API.Controllers
                 var response = await _authService.VerifyOtpAsync(verifyOtpDto);
 
                 return Ok(response);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto) 
+        {
+            try
+            {
+                var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+                if (string.IsNullOrEmpty(userId)) 
+                {
+                    return Unauthorized();
+                }
+                await _authService.ChangePasswordAsync(userId, changePasswordDto);
+
+                return Ok("Password changed Successfully");
             }
             catch (Exception ex) 
             {

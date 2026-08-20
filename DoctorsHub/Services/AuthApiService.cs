@@ -64,7 +64,6 @@ public class AuthApiService
             return null;
         }
     }
-
     public async Task<LoginResponseDto?> VerifyOtpAsync( VerifyOtpDto verifyOtpDto) 
     {
         try
@@ -81,5 +80,16 @@ public class AuthApiService
             Console.WriteLine(ex.Message);
             return null;
         }
+    }
+
+    public async Task ChangePasswordAsync(ChangePasswordDto changePasswordDto) 
+    {
+        AddToken();
+
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/auth/change-password", changePasswordDto);
+
+        response.EnsureSuccessStatusCode();
+
+        
     }
 }

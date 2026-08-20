@@ -8,6 +8,8 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
         Task<OtpRequiredResponseDto> LoginAsync(LoginDto loginDto);
 
         Task<LoginResponseDto> VerifyOtpAsync(VerifyOtpDto verifyotpdto);
+
+        Task ChangePasswordAsync(string userId, ChangePasswordDto changePasswordDto);
         Task LogoutAsync();
     }
 }

@@ -294,6 +294,43 @@ namespace DoctorsHub.Web.Controllers
 
             return RedirectToAction(nameof(Profile));
         }
+
+
+        [HttpGet]
+        [Route("[action]")]
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(
+            ChangePasswordDto changePasswordDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(changePasswordDto);
+            }
+
+            try
+            {
+                await _authApiService.ChangePasswordAsync(
+                    changePasswordDto);
+
+                return RedirectToAction(nameof(Profile));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    ex.Message);
+
+                return View(changePasswordDto);
+            }
+        }
     }
 
 }
