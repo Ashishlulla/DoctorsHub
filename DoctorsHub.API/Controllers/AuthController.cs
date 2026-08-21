@@ -1,7 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Authentication;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -81,6 +80,60 @@ namespace DoctorsHub.API.Controllers
                 return Ok("Password changed Successfully");
             }
             catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("forgot-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+        {
+            try
+            {
+                var userId =
+                    await _authService.ForgotPasswordAsync(
+                        forgotPasswordDto);
+
+                return Ok(new 
+                {
+                    UserId = userId
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("verify-forgot-password-otp")]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyForgotPasswordOtp([FromBody] VerifyForgotPasswordOtpDto dto)
+        {
+            try
+            {
+                var resetToken =
+                    await _authService.VerifyForgotPasswordOtpAsync(dto);
+
+                return Ok(resetToken);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            try
+            {
+                await _authService.ResetPasswordAsync(dto);
+
+                return Ok("Password reset successfully.");
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

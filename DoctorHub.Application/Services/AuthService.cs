@@ -3,6 +3,7 @@ using DoctorsHub.Application.DTOs.Communication;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DoctorsHub.Application.Services
@@ -182,6 +183,111 @@ namespace DoctorsHub.Application.Services
             if (!result.Succeeded)
             {
                 throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+            }
+        }
+
+        public async Task<string> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
+        {
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(
+                    u => u.PersonalEmail == forgotPasswordDto.PersonalEmail);
+
+            if (user == null)
+            {
+                throw new Exception(
+                    $"No user found with entered email: {forgotPasswordDto.PersonalEmail}");
+            }
+
+            var otpData = await _otpService.GenerateOtpAsync(user.Id);
+
+            await _emailService.SendAsync(
+                new EmailMessageDto
+                {
+                    To = user.PersonalEmail,
+                    ToName = user.UserName!,
+                    Subject = "DoctorsHub Password Reset Verification",
+
+                    HtmlBody = $"""
+                <h2>DoctorsHub Password Reset</h2>
+
+                <p>Your password reset verification code is:</p>
+
+                <h2>{otpData.Otp}</h2>
+
+                <p>
+                    This OTP is valid for <strong>90 seconds</strong>.
+                </p>
+
+                <p>
+                    <strong>Please do not share this code with anyone.</strong>
+                </p>
+                """,
+
+                    PlainTextBody = $"""
+                DoctorsHub Password Reset
+
+                Your password reset verification code is:
+
+                {otpData.Otp}
+
+                This OTP is valid for 90 seconds.
+
+                Please do not share this code with anyone.
+                """
+                });
+
+            return user.Id;
+        }
+
+
+        public async Task<string> VerifyForgotPasswordOtpAsync(VerifyForgotPasswordOtpDto dto)
+        {
+            var user = await _userManager.FindByIdAsync(dto.UserId);
+
+            if (user == null)
+            {
+                throw new Exception(
+                    $"No User found with entered email: {dto.UserId}");
+            }
+
+
+            var isValid = await _otpService.ValidateOtpAsync(
+                dto.UserId,
+                dto.Otp);
+
+            if (!isValid)
+            {
+                throw new Exception("Invalid or expired OTP.");
+            }
+
+            await _otpService.RemoveOtpAsync(dto.UserId);
+
+            var resetToken =
+                await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return resetToken;
+        }
+
+        public async Task ResetPasswordAsync(ResetPasswordDto dto)
+        {
+            var user = await _userManager.FindByIdAsync(dto.UserId);
+
+            if (user == null)
+            {
+                throw new Exception("User not found.");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(
+                user,
+                dto.ResetToken,
+                dto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception(
+                    string.Join(
+                        ", ",
+                        result.Errors.Select(e => e.Description)));
             }
         }
     }

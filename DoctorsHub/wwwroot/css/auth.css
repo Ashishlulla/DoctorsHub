@@ -360,3 +360,17 @@ body {
         font-size: .95rem;
     }
 }
+
+.auth-forgot-password-container {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.auth-forgot-password {
+    color: teal;
+    text-decoration:none;
+
+}
+.auth-forgot-password-container a:hover {
+    color: var(--primary-light);
+}

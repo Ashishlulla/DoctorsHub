@@ -92,4 +92,53 @@ public class AuthApiService
 
         
     }
+
+    public async Task<string> ForgotPasswordAsync(
+    ForgotPasswordDto forgotPasswordDto)
+    {
+        var response =
+            await _httpClient.PostAsJsonAsync(
+                "api/auth/forgot-password",
+                forgotPasswordDto);
+
+        response.EnsureSuccessStatusCode();
+
+        var result =
+            await response.Content
+                .ReadFromJsonAsync<ForgotPasswordResponseDto>();
+
+        if (result == null || string.IsNullOrWhiteSpace(result.UserId))
+        {
+            throw new Exception("Invalid password reset response.");
+        }
+
+        return result.UserId;
+    }
+
+    public async Task<string> VerifyForgotPasswordOtpAsync(VerifyForgotPasswordOtpDto dto)
+    {
+        HttpResponseMessage response =
+            await _httpClient.PostAsJsonAsync(
+                "api/auth/verify-forgot-password-otp",
+                dto);
+
+        var content =
+            await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+
+        return content.Trim().Trim('"');
+    }
+    public async Task ResetPasswordAsync(ResetPasswordDto dto)
+    {
+        HttpResponseMessage response =
+            await _httpClient.PostAsJsonAsync(
+                "api/auth/reset-password",
+                dto);
+
+        response.EnsureSuccessStatusCode();
+    }
 }
