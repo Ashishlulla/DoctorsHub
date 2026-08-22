@@ -60,9 +60,7 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
-        // ============================================================
-        // LOGIN
-        // ============================================================
+        
 
         [HttpGet]
         [Route("[action]")]
@@ -158,9 +156,7 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
-        // ============================================================
-        // MFA OTP
-        // ============================================================
+      
 
         [HttpGet]
         [Route("[action]")]
@@ -249,9 +245,6 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
-        // ============================================================
-        // LOGOUT
-        // ============================================================
 
         [HttpPost]
         [Route("[action]")]
@@ -266,9 +259,7 @@ namespace DoctorsHub.Web.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        // ============================================================
-        // PROFILE
-        // ============================================================
+       
 
         [HttpGet]
         [Route("[action]")]
@@ -299,10 +290,7 @@ namespace DoctorsHub.Web.Controllers
             return View();
         }
 
-        // ============================================================
-        // MFA TOGGLE
-        // ============================================================
-
+      
         [HttpPost]
         [Route("[action]")]
         [Authorize]
@@ -331,10 +319,7 @@ namespace DoctorsHub.Web.Controllers
             return RedirectToAction(nameof(Profile));
         }
 
-        // ============================================================
-        // CHANGE PASSWORD
-        // ============================================================
-
+      
         [HttpGet]
         [Route("[action]")]
         [Authorize]
@@ -346,8 +331,7 @@ namespace DoctorsHub.Web.Controllers
         [HttpPost]
         [Route("[action]")]
         [Authorize]
-        public async Task<IActionResult> ChangePassword(
-            ChangePasswordDto changePasswordDto)
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
         {
             if (!ModelState.IsValid)
             {
@@ -371,9 +355,7 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
-        // ============================================================
-        // FORGOT PASSWORD
-        // ============================================================
+        
 
         [HttpGet]
         [Route("[action]")]
@@ -386,8 +368,7 @@ namespace DoctorsHub.Web.Controllers
         [HttpPost]
         [Route("[action]")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword(
-            ForgotPasswordDto forgotPasswordDto)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
         {
             if (!ModelState.IsValid)
             {
@@ -417,15 +398,10 @@ namespace DoctorsHub.Web.Controllers
             }
         }
 
-        // ============================================================
-        // FORGOT PASSWORD OTP
-        // ============================================================
-
         [HttpGet]
         [Route("[action]")]
         [AllowAnonymous]
-        public IActionResult VerifyForgotPasswordOtp(
-            string userId)
+        public IActionResult VerifyForgotPasswordOtp(string userId)
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -443,8 +419,7 @@ namespace DoctorsHub.Web.Controllers
         [HttpPost]
         [Route("[action]")]
         [AllowAnonymous]
-        public async Task<IActionResult> VerifyForgotPasswordOtp(
-    VerifyForgotPasswordOtpDto dto)
+        public async Task<IActionResult> VerifyForgotPasswordOtp(VerifyForgotPasswordOtpDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -479,9 +454,7 @@ namespace DoctorsHub.Web.Controllers
         [HttpGet]
         [Route("[action]")]
         [AllowAnonymous]
-        public IActionResult ResetPassword(
-            string userId,
-            string resetToken)
+        public IActionResult ResetPassword(string userId, string resetToken)
         {
             if (string.IsNullOrEmpty(userId) ||
                 string.IsNullOrEmpty(resetToken))
@@ -502,8 +475,7 @@ namespace DoctorsHub.Web.Controllers
         [HttpPost]
         [Route("[action]")]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(
-            ResetPasswordDto dto)
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -528,6 +500,15 @@ namespace DoctorsHub.Web.Controllers
 
                 return View(dto);
             }
+        }
+
+
+        [HttpGet]
+        [Route("[action]")]
+        [Authorize]
+        public IActionResult Settings() 
+        {
+            return View();
         }
 
     }

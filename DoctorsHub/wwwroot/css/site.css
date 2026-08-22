@@ -380,3 +380,228 @@ body {
     white-space: nowrap;
     margin-right: 15px;
 }
+
+
+/* ================================
+   Settings Page
+   ================================ */
+
+.settings-page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.settings-header {
+    margin-bottom: 30px;
+}
+
+    .settings-header h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .settings-header p {
+        margin-top: 6px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+/* ================================
+   Settings Section
+   ================================ */
+
+.settings-section {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+
+/* ================================
+   Appearance Button
+   ================================ */
+
+.settings-option {
+    width: 100%;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+    .settings-option:hover {
+        background: #f8fafc;
+    }
+
+.settings-option-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+    .settings-option-left strong {
+        display: block;
+        color: #1f2937;
+        font-size: 15px;
+    }
+
+    .settings-option-left span {
+        display: block;
+        margin-top: 4px;
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+
+/* Appearance icon */
+
+.settings-option-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 18px;
+}
+
+
+/* Arrow */
+
+#appearanceArrow {
+    color: #6b7280;
+    transition: transform 0.2s ease;
+}
+
+    #appearanceArrow.rotate {
+        transform: rotate(180deg);
+    }
+
+
+/* ================================
+   Appearance Options
+   ================================ */
+
+.appearance-options {
+    display: none;
+    padding: 0 24px 24px;
+}
+
+    .appearance-options.show {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+
+/* ================================
+   Appearance Option
+   ================================ */
+
+.appearance-option {
+    display: block;
+    cursor: pointer;
+    margin: 0;
+}
+
+    .appearance-option input {
+        display: none;
+    }
+
+.appearance-option-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.appearance-option:hover .appearance-option-content {
+    background: #f8fafc;
+}
+
+.appearance-option input:checked + .appearance-option-content {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+
+/* Icons */
+
+.appearance-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.light-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.dark-icon {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+
+/* Text */
+
+.appearance-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+    .appearance-info strong {
+        font-size: 14px;
+        color: #1f2937;
+    }
+
+    .appearance-info span {
+        margin-top: 3px;
+        font-size: 12px;
+        color: #6b7280;
+    }
+
+
+/* Radio */
+
+.appearance-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.appearance-option input:checked + .appearance-option-content
+.appearance-radio {
+    border-color: #2563eb;
+}
+
+    .appearance-option input:checked + .appearance-option-content
+    .appearance-radio span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #2563eb;
+    }

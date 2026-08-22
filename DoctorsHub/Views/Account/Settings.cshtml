@@ -1,0 +1,142 @@
+﻿
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="settings-page">
+
+    <div class="settings-header">
+        <h2>Settings</h2>
+        <p>Manage your DoctorsHub preferences.</p>
+    </div>
+
+    <!-- Appearance -->
+
+    <div class="settings-section">
+
+        <button type="button"
+                class="settings-option"
+                id="appearanceToggle">
+
+            <div class="settings-option-left">
+
+                <div class="settings-option-icon">
+                    <i class="bi bi-palette"></i>
+                </div>
+
+                <div>
+                    <strong>Appearance</strong>
+
+                    <span>
+                        Customize how DoctorsHub looks.
+                    </span>
+                </div>
+
+            </div>
+
+            <i class="bi bi-chevron-down"
+               id="appearanceArrow"></i>
+
+        </button>
+
+
+        <!-- Appearance Options -->
+
+        <div class="appearance-options"
+             id="appearanceOptions">
+
+            <label class="appearance-option">
+
+                <input type="radio"
+                       name="theme"
+                       value="light"
+                       checked />
+
+                <div class="appearance-option-content">
+
+                    <div class="appearance-icon light-icon">
+                        <i class="bi bi-sun-fill"></i>
+                    </div>
+
+                    <div class="appearance-info">
+
+                        <strong>Light</strong>
+
+                        <span>
+                            Use a clean and bright appearance.
+                        </span>
+
+                    </div>
+
+                    <div class="appearance-radio">
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </label>
+
+
+            <label class="appearance-option">
+
+                <input type="radio"
+                       name="theme"
+                       value="dark" />
+
+                <div class="appearance-option-content">
+
+                    <div class="appearance-icon dark-icon">
+                        <i class="bi bi-moon-fill"></i>
+                    </div>
+
+                    <div class="appearance-info">
+
+                        <strong>Dark</strong>
+
+                        <span>
+                            Use a darker appearance for low-light environments.
+                        </span>
+
+                    </div>
+
+                    <div class="appearance-radio">
+                        <span></span>
+                    </div>
+
+                </div>
+
+            </label>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        const appearanceToggle =
+            document.getElementById("appearanceToggle");
+
+        const appearanceOptions =
+            document.getElementById("appearanceOptions");
+
+        const appearanceArrow =
+            document.getElementById("appearanceArrow");
+
+
+        appearanceToggle.addEventListener("click", function () {
+
+            appearanceOptions.classList.toggle("show");
+
+            appearanceArrow.classList.toggle("rotate");
+
+        });
+
+    </script>
+
+}
