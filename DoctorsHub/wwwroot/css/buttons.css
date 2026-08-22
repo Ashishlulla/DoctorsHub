@@ -1,6 +1,52 @@
-﻿.btn-save {
-    background: linear-gradient(135deg,#0F766E,#14B8A6);
-    color: white;
+﻿/*==================================================
+  BUTTON VARIABLES
+====================================================*/
+
+:root {
+    --btn-primary-start: #0F766E;
+    --btn-primary-end: #14B8A6;
+    --btn-primary-hover: #0D9488;
+    --btn-edit: #0F766E;
+    --btn-edit-hover: #0D9488;
+    --btn-delete: #EF4444;
+    --btn-delete-hover: #DC2626;
+    --btn-cancel-bg: #F3F4F6;
+    --btn-cancel-text: #111827;
+    --btn-cancel-border: #D1D5DB;
+    --btn-cancel-hover: #E5E7EB;
+    --btn-delete-link-bg: #FEE2E2;
+    --btn-delete-link-text: #DC2626;
+}
+
+
+/*==================================================
+  DARK THEME
+====================================================*/
+
+body.dark-mode {
+    --btn-primary-start: #0F766E;
+    --btn-primary-end: #14B8A6;
+    --btn-primary-hover: #0D9488;
+    --btn-edit: #14B8A6;
+    --btn-edit-hover: #0D9488;
+    --btn-delete: #EF4444;
+    --btn-delete-hover: #F87171;
+    --btn-cancel-bg: #2A2A2A;
+    --btn-cancel-text: #F5F5F5;
+    --btn-cancel-border: #444444;
+    --btn-cancel-hover: #333333;
+    --btn-delete-link-bg: #451A1A;
+    --btn-delete-link-text: #FCA5A5;
+}
+
+
+/*==================================================
+  SAVE BUTTON
+====================================================*/
+
+.btn-save {
+    background: linear-gradient( 135deg, var(--btn-primary-start), var(--btn-primary-end) );
+    color: #FFFFFF;
     border: none;
     padding: 9px 14px;
     border-radius: 8px;
@@ -10,12 +56,18 @@
 }
 
     .btn-save:hover {
-        background: #0d9488;
+        background: var(--btn-primary-hover);
+        color: #FFFFFF;
     }
 
+
+/*==================================================
+  SEARCH BUTTON
+====================================================*/
+
 .btn-search {
-    background: linear-gradient(135deg,#0F766E,#14B8A6);
-    color: white;
+    background: linear-gradient( 135deg, var(--btn-primary-start), var(--btn-primary-end) );
+    color: #FFFFFF;
     border: none;
     padding: 9px 14px;
     border-radius: 8px;
@@ -24,18 +76,18 @@
 }
 
     .btn-search:hover {
-        background: #0d9488;
+        background: var(--btn-primary-hover);
+        color: #FFFFFF;
     }
 
 
-
-    .btn-cancel:hover {
-        background: #e5e7eb;
-    }
+/*==================================================
+  EDIT BUTTON
+====================================================*/
 
 .btn-edit {
-    background: #0F766E;
-    color: #fff;
+    background: var(--btn-edit);
+    color: #FFFFFF;
     padding: 6px 10px;
     border-radius: 8px;
     text-decoration: none;
@@ -44,18 +96,22 @@
 }
 
     .btn-edit:hover {
-        background: #0F766E;
-        color: white;
+        background: var(--btn-edit-hover);
+        color: #FFFFFF;
     }
+
+
+/*==================================================
+  DELETE / CANCEL COMMON
+====================================================*/
 
 .btn-delete,
 .btn-cancel {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 110px; /* Same width */
-    height: 40px; /* Same height */
-
+    min-width: 110px;
+    height: 40px;
     padding: 0 16px;
     border-radius: 8px;
     text-decoration: none;
@@ -65,33 +121,47 @@
     box-sizing: border-box;
 }
 
-/* Delete Button */
+
+/*==================================================
+  DELETE BUTTON
+====================================================*/
+
 .btn-delete {
-    background: #ef4444;
-    color: #fff;
+    background: var(--btn-delete);
+    color: #FFFFFF;
     border: none;
-    font-weight:600;
-   
+    font-weight: 600;
 }
 
     .btn-delete:hover {
-        background: #dc2626;
+        background: var(--btn-delete-hover);
+        color: #FFFFFF;
     }
 
-/* Cancel Button */
+
+/*==================================================
+  CANCEL BUTTON
+====================================================*/
+
 .btn-cancel {
-    background: #f3f4f6;
-    color: #111827;
-    border: 1px solid #d1d5db;
+    background: var(--btn-cancel-bg);
+    color: var(--btn-cancel-text);
+    border: 1px solid var(--btn-cancel-border);
 }
 
     .btn-cancel:hover {
-        background: #e5e7eb;
+        background: var(--btn-cancel-hover);
+        color: var(--btn-cancel-text);
     }
 
+
+/*==================================================
+  DELETE LINK
+====================================================*/
+
 .btn-delete-link {
-    background: #FEE2E2;
-    color: #DC2626;
+    background: var(--btn-delete-link-bg);
+    color: var(--btn-delete-link-text);
     padding: 6px 10px;
     border-radius: 8px;
     text-decoration: none;
@@ -100,9 +170,14 @@
 }
 
     .btn-delete-link:hover {
-        background: #DC2626;
-        color: white;
+        background: var(--btn-delete);
+        color: #FFFFFF;
     }
+
+
+/*==================================================
+  ACTION BUTTONS
+====================================================*/
 
 .action-buttons {
     display: flex;
@@ -110,10 +185,13 @@
     align-items: center;
 }
 
+
+/*==================================================
+  PRINT ACTIONS
+====================================================*/
+
 .print-actions {
     margin-top: 30px;
     display: flex;
     justify-content: flex-end;
 }
-
-

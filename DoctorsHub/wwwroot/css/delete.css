@@ -1,25 +1,75 @@
-﻿.delete-card {
+﻿/*==================================================
+  DELETE PAGE VARIABLES
+====================================================*/
+
+:root {
+    --delete-danger: #EF4444;
+    --delete-danger-dark: #991B1B;
+    --delete-warning-bg: #FFF5F5;
+    --delete-warning-border: #FECACA;
+    --delete-card-bg: #FFFFFF;
+    --delete-text: #1F2937;
+}
+
+
+/*==================================================
+  DARK THEME
+====================================================*/
+
+body.dark-mode {
+    --delete-danger: #F87171;
+    --delete-danger-dark: #FCA5A5;
+    --delete-warning-bg: #351A1A;
+    --delete-warning-border: #7F1D1D;
+    --delete-card-bg: #1E1E1E;
+    --delete-text: #F5F5F5;
+}
+
+
+/*==================================================
+  DELETE CARD
+====================================================*/
+
+.delete-card {
     max-width: 650px;
     margin: 0 auto;
+    background: var(--delete-card-bg);
+    color: var(--delete-text);
 }
+
+
+/*==================================================
+  DELETE HEADER
+====================================================*/
 
 .delete-header {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
+    color: var(--delete-text);
 }
+
+
+/*==================================================
+  WARNING ICON
+====================================================*/
 
 .warning-icon {
     font-size: 22px;
-    color: #ef4444;
+    color: var(--delete-danger);
 }
 
+
+/*==================================================
+  WARNING BOX
+====================================================*/
+
 .warning-box {
-    background: #fff5f5;
-    border: 1px solid #fecaca;
+    background: var(--delete-warning-bg);
+    border: 1px solid var(--delete-warning-border);
     padding: 12px 15px;
     border-radius: 8px;
     margin-bottom: 20px;
-    color: #991b1b;
+    color: var(--delete-danger-dark);
 }

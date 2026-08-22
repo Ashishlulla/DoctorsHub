@@ -1,45 +1,100 @@
-﻿.details-grid {
+﻿/*==================================================
+  DETAILS PAGE VARIABLES
+====================================================*/
+
+:root {
+    --details-item-bg: #F9FAFB;
+    --details-item-border: #E5E7EB;
+    --details-label: #6B7280;
+    --details-value: #111827;
+    --details-info-bg: #DBEAFE;
+    --details-info-text: #1D4ED8;
+    --details-info-border: #BFDBFE;
+}
+
+
+/*==================================================
+  DARK THEME
+====================================================*/
+
+body.dark-mode {
+    --details-item-bg: #242424;
+    --details-item-border: #3F3F46;
+    --details-label: #A1A1AA;
+    --details-value: #F5F5F5;
+    --details-info-bg: #172554;
+    --details-info-text: #93C5FD;
+    --details-info-border: #1E40AF;
+}
+
+
+/*==================================================
+  DETAILS GRID
+====================================================*/
+
+.details-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
 }
 
+
+/*==================================================
+  DETAIL ITEM
+====================================================*/
+
 .detail-item {
-    background: #f9fafb;
+    background: var(--details-item-bg);
     padding: 12px 14px;
     border-radius: 8px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--details-item-border);
 }
 
     .detail-item .label {
         display: block;
         font-size: 12px;
-        color: #6b7280;
+        color: var(--details-label);
         margin-bottom: 4px;
     }
 
     .detail-item .value {
         font-size: 14px;
         font-weight: 600;
-        color: #111827;
+        color: var(--details-value);
     }
 
-/* INFO / DETAILS BUTTON */
+
+/*==================================================
+  INFO / DETAILS BUTTON
+====================================================*/
+
 .btn-info {
-    background: #DBEAFE; /* Light Blue */
-    color: #1D4ED8; /* Blue */
+    background: var(--details-info-bg);
+    color: var(--details-info-text);
     padding: 6px 10px;
     border-radius: 8px;
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;
-    border: 1px solid #BFDBFE;
+    border: 1px solid var(--details-info-border);
     transition: all 0.2s ease;
     display: inline-block;
 }
 
     .btn-info:hover {
-        background: #1D4ED8;
+        background: var(--details-info-text);
         color: #FFFFFF;
-        border-color: #1D4ED8;
+        border-color: var(--details-info-text);
     }
+
+
+/*==================================================
+  RESPONSIVE
+====================================================*/
+
+@media (max-width: 768px) {
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}

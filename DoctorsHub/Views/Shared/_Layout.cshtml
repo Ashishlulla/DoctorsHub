@@ -233,7 +233,7 @@
 
                     <!-- Notification -->
                     <div class="dropdown">
-                        <button class="btn btn-link text-dark text-decoration-none position-relative"
+                        <button class="btn btn-link text-decoration-none position-relative notification-bell"
                                 type="button"
                                 id="notificationBell"
                                 data-bs-toggle="dropdown"
@@ -354,6 +354,13 @@
                 @RenderBody()
 
             </section>
+                <script>
+                                const theme = localStorage.getItem("doctorshub-theme");
+
+                                if (theme === "dark") {
+                                    document.body.classList.add("dark-mode");
+                                }
+                </script>
 
         </main>
 

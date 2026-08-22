@@ -51,3 +51,4 @@ if (localStorage.getItem("sidebar") === "true") {
     sidebar.classList.add("collapsed");
 
 }
+

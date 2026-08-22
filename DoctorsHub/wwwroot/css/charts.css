@@ -1,25 +1,36 @@
-﻿/* Chart Card */
-.chart-card {
+﻿/* ===========================================
+   CHARTS
+=========================================== */
+
+/* Chart Layout */
+
+.charts {
+    display: flex;
+    gap: 20px;
     margin-top: 20px;
 }
 
-/* Chart Container */
-.chart-container {
-    width: 350px;
-    height: 350px;
-    margin: 0 auto;
-    position: relative;
-}
 
-
-.chart-container {
-    width: 280px;
-    height: 280px;
-}
+/* Chart Card */
 
 .chart-card {
-    width: 420px;
+    flex: 1;
+    margin-top: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    color: var(--text);
+    transition: var(--transition);
 }
+
+    .chart-card:hover {
+        box-shadow: var(--shadow);
+    }
+
+
+/* Chart Container */
 
 .chart-container {
     width: 320px;
@@ -28,17 +39,42 @@
     position: relative;
 }
 
-.charts {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
+
+/* Chart Canvas */
+
+.chart-card canvas {
+    width: 100% !important;
+    height: 300px !important;
 }
 
-.chart-card {
-    flex: 1;
+
+/* ===========================================
+   DARK MODE
+=========================================== */
+
+body.dark-mode .chart-card {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text);
 }
 
-    .chart-card canvas {
-        width: 100% !important;
-        height: 300px !important;
+
+/* ===========================================
+   RESPONSIVE
+=========================================== */
+
+@media (max-width: 768px) {
+
+    .charts {
+        flex-direction: column;
     }
+
+    .chart-card {
+        width: 100%;
+    }
+
+    .chart-container {
+        width: 280px;
+        height: 280px;
+    }
+}

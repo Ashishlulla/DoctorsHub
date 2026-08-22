@@ -1,5 +1,7 @@
 
 
+
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
 
 @import url("buttons.css");
@@ -28,7 +30,35 @@
 @import url("notifications.css");
 
 
-*{
+:root {
+    --background: #F8F8F8;
+    --surface: #FFFFFF;
+    --text: #1F2937;
+    --border: #E5E7EB;
+}
+
+body.dark-mode {
+    --background: #121212;
+    --surface: #1E1E1E;
+    --text: #F5F5F5;
+    --border: #333333;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+.card,
+.settings-section,
+.navbar {
+    background-color: var(--surface);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -55,7 +85,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 18px;
-    background: #fff;
+    background: var(--surface);
     padding: 14px 18px;
     border-radius: 12px;
     border: 1px solid #e5e7eb;
@@ -76,13 +106,13 @@ body {
 }
 
 .dashboard-card {
-    background: #fff;
+    background: var(--surface);
     border-radius: 10px;
     padding: 25px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
     border-left: 5px solid #0F766E;
     transition: transform .2s ease, box-shadow .2s ease;
-    margin-bottom:15px;
+    margin-bottom: 15px;
 }
 
     .dashboard-card:hover {
@@ -92,14 +122,14 @@ body {
 
     .dashboard-card h4 {
         margin: 0;
-        color: #666;
+        color: var(--text);
         font-size: 16px;
         font-weight: 600;
     }
 
     .dashboard-card h2 {
         margin-top: 15px;
-        color: #0F766E;
+        color: var(--text);
         font-size: 34px;
         font-weight: 700;
     }
@@ -120,7 +150,7 @@ body {
         margin: 0;
         font-size: 1.4rem;
         font-weight: 600;
-        color: #134E4A;
+        color: var(--text);
     }
 
 .quick-actions-grid {
@@ -134,7 +164,7 @@ body {
     align-items: center;
     gap: 18px;
     padding: 20px;
-    background: #FFFFFF;
+    background: var(--surface);
     border: 1px solid #CCFBF1;
     border-radius: 14px;
     text-decoration: none;
@@ -143,7 +173,7 @@ body {
 
     .quick-action-card:hover {
         transform: translateY(-5px);
-        border-color: #14B8A6;
+        border-color: var(--border);
         box-shadow: 0 10px 25px rgba(20, 184, 166, 0.18);
     }
 
@@ -152,8 +182,8 @@ body {
     height: 58px;
     min-width: 58px;
     border-radius: 12px;
-    background: #CCFBF1;
-    color: #0F766E;
+    background: var(--surface);
+    color: var(--text);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -162,8 +192,8 @@ body {
 }
 
 .quick-action-card:hover .quick-action-icon {
-    background: #14B8A6;
-    color: #FFFFFF;
+    background: var(--surface);
+    color: var(--text);
 }
 
 .quick-action-content {
@@ -175,17 +205,17 @@ body {
         margin: 0;
         font-size: 1rem;
         font-weight: 600;
-        color: #134E4A;
+        color: var(--text);
     }
 
     .quick-action-content p {
         margin-top: 5px;
         font-size: 0.9rem;
-        color: #6B7280;
+        color: var(--text);
     }
 
 .quick-action-card:hover h4 {
-    color: #0F766E;
+    color: var(--text);
 }
 
 /* ===========================
@@ -229,7 +259,7 @@ body {
     right: 0;
     display: none;
     min-width: 180px;
-    background: #fff;
+    background: var(--surface);
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0,0,0,.15);
     z-index: 1000;
@@ -261,7 +291,7 @@ body {
     top: calc(100% + 12px);
     right: 0;
     width: 220px;
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
@@ -287,8 +317,8 @@ body {
         gap: 12px;
         padding: 12px 18px;
         border: none;
-        background: transparent;
-        color: #374151;
+        background: var(--surface);
+        color: var(--text);
         text-decoration: none;
         font-size: 15px;
         cursor: pointer;
@@ -297,8 +327,8 @@ body {
 
         .user-dropdown-menu a:hover,
         .user-dropdown-menu button:hover {
-            background: #f3f4f6;
-            color: #0f766e;
+            background: var(--surface);
+            color: var(--text);
         }
 
     .user-dropdown-menu i {
@@ -322,17 +352,17 @@ body {
     }
 
         .user-dropdown-menu button:hover {
-            color: #dc2626;
+            color: var(--text);
         }
 
 .notification-action {
-    color: #00897B;
+    color: var(--text);
     font-weight: 500;
     text-decoration: none;
 }
 
     .notification-action:hover {
-        color: #00695C;
+        color: var(--text);
         text-decoration: none;
     }
 
@@ -360,18 +390,18 @@ body {
     overflow-y: auto;
 }
 
-#notificationList::-webkit-scrollbar {
-    width: 5px;
-}
+    #notificationList::-webkit-scrollbar {
+        width: 5px;
+    }
 
-#notificationList::-webkit-scrollbar-thumb {
-    background-color: #0f9d8f;
-    border-radius: 10px;
-}
+    #notificationList::-webkit-scrollbar-thumb {
+        background-color: var(--border);
+        border-radius: 10px;
+    }
 
-#notificationList::-webkit-scrollbar-track {
-    background: transparent;
-}
+    #notificationList::-webkit-scrollbar-track {
+        background: var(--surface);
+    }
 
 
 .datetime-display {
@@ -399,12 +429,12 @@ body {
         margin: 0;
         font-size: 24px;
         font-weight: 700;
-        color: #1f2937;
+        color: var(--text);
     }
 
     .settings-header p {
         margin-top: 6px;
-        color: #6b7280;
+        color: var(--text);
         font-size: 14px;
     }
 
@@ -414,7 +444,7 @@ body {
    ================================ */
 
 .settings-section {
-    background: #ffffff;
+    background: var(--surface);
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     overflow: hidden;
@@ -428,7 +458,7 @@ body {
 .settings-option {
     width: 100%;
     border: none;
-    background: transparent;
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -439,7 +469,7 @@ body {
 }
 
     .settings-option:hover {
-        background: #f8fafc;
+        background: var(--surface);
     }
 
 .settings-option-left {
@@ -450,14 +480,14 @@ body {
 
     .settings-option-left strong {
         display: block;
-        color: #1f2937;
+        color: var(--text);
         font-size: 15px;
     }
 
     .settings-option-left span {
         display: block;
         margin-top: 4px;
-        color: #6b7280;
+        color: var(--text);
         font-size: 13px;
     }
 
@@ -471,8 +501,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #eef2ff;
-    color: #4f46e5;
+    background: var(--surface);
+    color: var(--text);
     font-size: 18px;
 }
 
@@ -480,7 +510,7 @@ body {
 /* Arrow */
 
 #appearanceArrow {
-    color: #6b7280;
+    color: var(--text);
     transition: transform 0.2s ease;
 }
 
@@ -530,12 +560,12 @@ body {
 }
 
 .appearance-option:hover .appearance-option-content {
-    background: #f8fafc;
+    background: var(--surface);
 }
 
 .appearance-option input:checked + .appearance-option-content {
-    border-color: #2563eb;
-    background: #eff6ff;
+    border-color: var(--border);
+    background: var(--surface);
 }
 
 
@@ -551,13 +581,13 @@ body {
 }
 
 .light-icon {
-    background: #fef3c7;
-    color: #d97706;
+    background: var(--surface);
+    color: var(--text);
 }
 
 .dark-icon {
-    background: #e5e7eb;
-    color: #374151;
+    background: var(--surface);
+    color: var(--text);
 }
 
 
@@ -571,13 +601,13 @@ body {
 
     .appearance-info strong {
         font-size: 14px;
-        color: #1f2937;
+        color: var(--text);
     }
 
     .appearance-info span {
         margin-top: 3px;
         font-size: 12px;
-        color: #6b7280;
+        color: var(--text);
     }
 
 
@@ -595,7 +625,7 @@ body {
 
 .appearance-option input:checked + .appearance-option-content
 .appearance-radio {
-    border-color: #2563eb;
+    border-color: var(--border);
 }
 
     .appearance-option input:checked + .appearance-option-content
@@ -603,5 +633,5 @@ body {
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        background: #2563eb;
+        background: var(--surface);
     }

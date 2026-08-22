@@ -1,31 +1,128 @@
-﻿.table-container {
-    background: white;
+﻿:root {
+    /* Brand */
+    --primary: #0F766E;
+    --primary-hover: #115E59;
+    --primary-light: #E6F4F2;
+    /* Background */
+    --background: #F8F8F8;
+    --surface: #FFFFFF;
+    /* Text */
+    --text: #1F2937;
+    --text-light: #6B7280;
+    /* Border */
+    --border: #E5E7EB;
+    /* Status */
+    --success: #15803D;
+    --warning: #D97706;
+    --danger: #DC2626;
+    /* Radius */
+    --radius-sm: 8px;
+    --radius: 16px;
+    --radius-lg: 22px;
+    /* Shadows */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, .04);
+    --shadow: 0 10px 35px rgba(15, 118, 110, .08);
+    --shadow-lg: 0 20px 45px rgba(15, 118, 110, .12);
+    /* Animation */
+    --transition: .30s ease;
+}
+
+
+/*==================================================
+  DARK THEME
+====================================================*/
+
+body.dark-mode {
+    --primary: #14B8A6;
+    --primary-hover: #0D9488;
+    --primary-light: #134E4A;
+    --background: #121212;
+    --surface: #1E1E1E;
+    --text: #F5F5F5;
+    --text-light: #A1A1AA;
+    --border: #333333;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, .30);
+    --shadow: 0 10px 35px rgba(0, 0, 0, .35);
+    --shadow-lg: 0 20px 45px rgba(0, 0, 0, .45);
+}
+
+
+/*==================================================
+  TABLE CONTAINER
+====================================================*/
+
+.table-container {
+    background: var(--surface);
     border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border);
     overflow-x: auto;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
 
-    .table thead tr th {
-        background: #0F766E;
+    /*==================================================
+  TABLE
+====================================================*/
+
+    .table-container .table {
+        width: 100%;
+        border-collapse: collapse;
+        --bs-table-bg: var(--surface);
+        --bs-table-color: var(--text);
+        --bs-table-border-color: var(--border);
+        --bs-table-hover-bg: var(--primary-light);
+        --bs-table-hover-color: var(--text);
+        background-color: var(--surface) !important;
+        color: var(--text) !important;
     }
 
-        .table thead th {
-            color: white;
+
+        /*==================================================
+  TABLE HEADER
+====================================================*/
+
+        .table-container .table thead th {
+            background: var(--primary) !important;
+            color: #FFFFFF !important;
             padding: 16px 18px;
             text-align: left;
             font-weight: 600;
+            border-color: var(--primary) !important;
         }
 
-    .table td {
-        padding: 14px;
-        border-bottom: 1px solid #f1f5f9;
-    }
 
-    .table tbody tr:hover {
-        background: #f9fafb;
-    }
+        /*==================================================
+  TABLE BODY
+====================================================*/
+
+        .table-container .table tbody tr {
+            background-color: var(--surface) !important;
+        }
+
+        .table-container .table tbody td {
+            background-color: var(--surface) !important;
+            color: var(--text) !important;
+            padding: 14px;
+            border-bottom: 1px solid var(--border) !important;
+        }
+
+
+        /*==================================================
+  TABLE HOVER
+====================================================*/
+
+        .table-container .table tbody tr:hover td {
+            background-color: var(--primary-light) !important;
+            color: var(--text) !important;
+        }
+
+
+        /*==================================================
+  EMPTY TABLE MESSAGE
+====================================================*/
+
+        .table-container .table tbody td.text-center {
+            color: var(--text) !important;
+        }
