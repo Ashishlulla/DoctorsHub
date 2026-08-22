@@ -372,3 +372,11 @@ body {
 #notificationList::-webkit-scrollbar-track {
     background: transparent;
 }
+
+
+.datetime-display {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-right: 15px;
+}

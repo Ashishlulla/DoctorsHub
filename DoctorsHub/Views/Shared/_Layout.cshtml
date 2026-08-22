@@ -224,15 +224,10 @@
 
                 <div class="topbar-right">
 
-                    <!-- Search -->
+                    <!-- Date & Time -->
 
-                    <div class="search-box">
-
-                        <i class="bi bi-search"></i>
-
-                        <input type="text"
-                               placeholder="Search..." />
-
+                    <div class="datetime-display">
+                        <span id="currentDateTime"></span>
                     </div>
 
                     <!-- Notification -->
@@ -369,6 +364,7 @@
 
     <script src="~/js/layout.js"></script>
     <script src="~/js/notifications.js"></script>
+    <script src="~/js/Date&Time.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
