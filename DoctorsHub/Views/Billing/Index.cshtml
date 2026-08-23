@@ -14,7 +14,8 @@
     <!-- Search & Filter -->
     <form method="get" class="filter-bar">
 
-        <select name="searchBy">
+        <!-- Search By -->
+        <select name="searchBy" id="searchBy">
 
             <option value="BillId" selected="@(Context.Request.Query["searchBy"] == "BillId")">
                 Bill ID
@@ -38,56 +39,95 @@
 
         </select>
 
+
+        <!-- Search -->
         <input type="text"
                name="searchString"
                value="@Context.Request.Query["searchString"]"
                placeholder="Search bills..." />
 
+
+        <!-- Sort By -->
         <select name="sortBy">
 
-            <option value="PatientName" selected="@(Context.Request.Query["sortBy"] == "PatientName")">
+            <option value="PatientName"
+                    selected="@(Context.Request.Query["sortBy"] == "PatientName")">
                 Patient Name
             </option>
 
-            <option value="DoctorName" selected="@(Context.Request.Query["sortBy"] == "DoctorName")">
+            <option value="DoctorName"
+                    selected="@(Context.Request.Query["sortBy"] == "DoctorName")">
                 Doctor Name
             </option>
 
-            <option value="BillDate" selected="@(Context.Request.Query["sortBy"] == "BillDate")">
+            <option value="BillDate"
+                    selected="@(Context.Request.Query["sortBy"] == "BillDate")">
                 Bill Date
             </option>
 
-            <option value="AppointmentDate" selected="@(Context.Request.Query["sortBy"] == "AppointmentDate")">
+            <option value="AppointmentDate"
+                    selected="@(Context.Request.Query["sortBy"] == "AppointmentDate")">
                 Appointment Date
-            </option>
-
-            <option value="TotalAmount" selected="@(Context.Request.Query["sortBy"] == "TotalAmount")">
-                Total Amount
             </option>
 
         </select>
 
+
+        <!-- Sort Order -->
         <select name="sortOrder">
 
-            <option value="asc" selected="@(Context.Request.Query["sortOrder"] == "asc")">
+            <option value="asc"
+                    selected="@(Context.Request.Query["sortOrder"] == "asc")">
                 Ascending
             </option>
 
-            <option value="desc" selected="@(Context.Request.Query["sortOrder"] == "desc")">
+            <option value="desc"
+                    selected="@(Context.Request.Query["sortOrder"] == "desc")">
                 Descending
             </option>
 
         </select>
 
+
+        <!-- Payment Status -->
+        <select name="paymentStatus" id="paymentStatus">
+
+            <option value=""
+                    selected="@(string.IsNullOrEmpty(Context.Request.Query["paymentStatus"]))">
+                All Payment Status
+            </option>
+
+            <option value="Paid"
+                    selected="@(Context.Request.Query["paymentStatus"] == "Paid")">
+                Paid
+            </option>
+
+            <option value="Pending"
+                    selected="@(Context.Request.Query["paymentStatus"] == "Pending")">
+                Pending
+            </option>
+
+            <option value="Cancelled"
+                    selected="@(Context.Request.Query["paymentStatus"] == "Cancelled")">
+                Cancelled
+            </option>
+
+        </select>
+
+
+        <!-- Search Button -->
         <button type="submit" class="btn-search">
             Search
         </button>
 
+
+        <!-- Reset -->
         <a asp-action="Index" class="btn-cancel">
             Reset
         </a>
 
     </form>
+
 
     @if (TempData["Success"] != null)
     {
@@ -95,6 +135,7 @@
             @TempData["Success"]
         </div>
     }
+
 
     <!-- Table -->
     <div class="table-container">
@@ -143,7 +184,9 @@
                             </td>
 
                             <td>
-                                <strong>₹@bill.TotalAmount.ToString("N2")</strong>
+                                <strong>
+                                    ₹@bill.TotalAmount.ToString("N2")
+                                </strong>
                             </td>
 
                             <td>
@@ -188,6 +231,7 @@
 
     </div>
 
+
     <!-- Pagination -->
     <div class="pagination">
 
@@ -200,6 +244,7 @@
                asp-route-searchString="@Context.Request.Query["searchString"]"
                asp-route-sortBy="@Context.Request.Query["sortBy"]"
                asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
+               asp-route-paymentStatus="@Context.Request.Query["paymentStatus"]"
                class="page-btn">
                 Prev
             </a>
@@ -218,6 +263,7 @@
                asp-route-searchString="@Context.Request.Query["searchString"]"
                asp-route-sortBy="@Context.Request.Query["sortBy"]"
                asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
+               asp-route-paymentStatus="@Context.Request.Query["paymentStatus"]"
                class="page-btn">
                 Next
             </a>
@@ -226,3 +272,4 @@
     </div>
 
 </div>
+

@@ -42,8 +42,7 @@ namespace DoctorsHub.Web.Services
 
             return bills ?? new List<BillDto>();
         }
-        public async Task<PagedResult<BillDto>> GetFilteredBillAsync(
-    BillingQueryParameter billingQueryParameter)
+        public async Task<PagedResult<BillDto>> GetFilteredBillAsync(BillingQueryParameter billingQueryParameter)
         {
             AddToken();
             string url =
@@ -53,7 +52,8 @@ namespace DoctorsHub.Web.Services
                 $"&sortBy={billingQueryParameter.sortBy ?? string.Empty}" +
                 $"&sortOrder={billingQueryParameter.sortOrder ?? string.Empty}" +
                 $"&PageSize={billingQueryParameter.PageSize}" +
-                $"&PageNumber={billingQueryParameter.PageNumber}";
+                $"&PageNumber={billingQueryParameter.PageNumber}" +
+                $"&paymentStatus={billingQueryParameter.paymentStatus}";
 
 
             HttpResponseMessage response = await _httpClient.GetAsync(url);

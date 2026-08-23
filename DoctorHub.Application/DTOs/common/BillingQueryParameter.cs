@@ -11,6 +11,9 @@ namespace DoctorsHub.Application.DTOs.common
         public string sortBy { get; set; } = "AppointmentId";
         public string? sortOrder { get; set; } = "asc";
 
+        //PaymentStatus
+        public string? paymentStatus { get; set; }
+
         //Pagination
         public int PageSize { get; set; } = 10;
         public int PageNumber { get; set; } = 1;

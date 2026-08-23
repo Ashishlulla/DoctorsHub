@@ -2,6 +2,7 @@
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Domain.Entities;
+using DoctorsHub.Domain.Enums;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -53,8 +54,6 @@ namespace DoctorsHub.Infrastructure.Repositories
             return billToFind;
         }
 
-        
-
         public async Task UpdateBillAsync(Bill bill)
         {
             _db.Bills.Update(bill);
@@ -71,8 +70,27 @@ namespace DoctorsHub.Infrastructure.Repositories
                 .Include(a => a.Appointment)
                 .ThenInclude(p => p.Patient);
 
+
+            // Payment Status
+            switch (billingQueryParameter.paymentStatus)
+            {
+                case "Pending":
+                    query = query.Where(b => b.PaymentStatus == PaymentStatus.Pending);
+                    break;
+
+                case "Paid":
+                    query = query.Where(b => b.PaymentStatus == PaymentStatus.Paid);
+                    break;
+
+                case "Cancelled":
+                    query = query.Where(b => b.PaymentStatus == PaymentStatus.Cancelled);
+                    break;
+
+                default:
+                    break;
+            }
+
             //Searching
-            
             switch (billingQueryParameter.searchBy)
             {
                 case "PatientName":
@@ -132,6 +150,10 @@ namespace DoctorsHub.Infrastructure.Repositories
 
                 _ => query.OrderByDescending(b => b.BillDate)
             };
+
+            
+
+
 
             //TotalRecords
             int totalBills = await query.CountAsync();
