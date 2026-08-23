@@ -94,7 +94,7 @@ body {
     .header h2 {
         font-size: 20px;
         font-weight: 700;
-        color: #111827;
+        color: var(--text);
     }
 
 

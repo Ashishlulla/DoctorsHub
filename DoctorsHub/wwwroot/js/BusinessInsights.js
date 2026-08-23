@@ -1,7 +1,7 @@
 ﻿//Appointment Status Chart
 
 
-const theme = {
+const chartTheme = {
     primary: "#0F766E",
     secondary: "#14B8A6",
     light: "#5EEAD4",
@@ -27,9 +27,9 @@ new Chart(ctx,
                 label: "Appointments",
                 data: statusValues,
                 backgroundColor: [
-                    theme.primary,
-                    theme.secondary,
-                    theme.light,
+                    chartTheme.primary,
+                    chartTheme.secondary,
+                    chartTheme.light,
                     "#99F6E4",
                     "#2DD4BF"
                 ],
@@ -69,11 +69,11 @@ new Chart(trendChart, {
         datasets: [{
             label: "Appointment Trend",
             data: trendValues,
-            borderColor: theme.primary,
+            borderColor: chartTheme.primary,
             backgroundColor: "rgba(20,184,166,0.20)",
             fill: true,
             tension: 0.4,
-            pointBackgroundColor: theme.primary,
+            pointBackgroundColor: chartTheme.primary,
             pointRadius: 4
         }]
     },
@@ -82,12 +82,12 @@ new Chart(trendChart, {
         maintainAspectRatio: false,
         scales: {
             x: {
-                grid: { color: theme.grid },
-                ticks: { color: theme.dark }
+                grid: { color: chartTheme.grid },
+                ticks: { color: chartTheme.dark }
             },
             y: {
-                grid: { color: theme.grid },
-                ticks: { color: theme.dark }
+                grid: { color: chartTheme.grid },
+                ticks: { color: chartTheme.dark }
             }
         }
     }
@@ -118,8 +118,8 @@ new Chart(doctorChart, {
         datasets: [{
             label: "Appointments",
             data: doctorsValues,
-            backgroundColor: theme.secondary,
-            borderColor: theme.primary,
+            backgroundColor: chartTheme.secondary,
+            borderColor: chartTheme.primary,
             borderWidth: 1,
             borderRadius: 8
         }]
@@ -159,8 +159,8 @@ new Chart(peakHourChart, {
         datasets: [{
             label: "Peak Appointment Hours",
             data: peakValues,
-            backgroundColor: theme.secondary,
-            borderColor: theme.primary,
+            backgroundColor: chartTheme.secondary,
+            borderColor: chartTheme.primary,
             borderWidth: 1,
             borderRadius: 8
         }]
@@ -172,12 +172,12 @@ new Chart(peakHourChart, {
         maintainAspectRatio: false,
         scales: {
             x: {
-                grid: { color: theme.grid },
-                ticks: { color: theme.dark }
+                grid: { color: chartTheme.grid },
+                ticks: { color: chartTheme.dark }
             },
             y: {
                 grid: { display: false },
-                ticks: { color: theme.dark }
+                ticks: { color: chartTheme.dark }
             }
         }
     }
@@ -208,12 +208,12 @@ new Chart(revenueTrendChart, {
         datasets: [{
             label: "Revenue",
             data: revenueValue,
-            borderColor: theme.primary,
+            borderColor: chartTheme.primary,
             backgroundColor: "rgba(20,184,166,0.20)",
             fill: true,
             tension: 0.4,
             pointRadius: 4,
-            pointBackgroundColor: theme.primary
+            pointBackgroundColor: chartTheme.primary
         }]
     },
     options: {
@@ -246,8 +246,8 @@ new Chart(revenueByDoctorChart, {
         datasets: [{
             label: "Revenue By Doctors",
             data: revenueByValues,
-            backgroundColor: theme.secondary,
-            borderColor: theme.primary,
+            backgroundColor: chartTheme.secondary,
+            borderColor: chartTheme.primary,
             borderWidth: 1,
             borderRadius: 8
         }]
@@ -283,8 +283,8 @@ new Chart(averageRevenueByDoctorChart, {
         datasets: [{
             label: "Average Revenue",
             data: averageRevenueByValues,
-            backgroundColor: theme.secondary,
-            borderColor: theme.primary,
+            backgroundColor: chartTheme.secondary,
+            borderColor: chartTheme.primary,
             borderWidth: 1,
             borderRadius: 8
         }]
@@ -320,8 +320,8 @@ new Chart(toRevenueByDoctorChart, {
         datasets: [{
             label: "Top Revenue Generating Doctors",
             data: topRevenueByValues,
-            backgroundColor: theme.primary,
-            borderColor: theme.dark,
+            backgroundColor: chartTheme.primary,
+            borderColor: chartTheme.dark,
             borderWidth: 1,
             borderRadius: 8
         }]
