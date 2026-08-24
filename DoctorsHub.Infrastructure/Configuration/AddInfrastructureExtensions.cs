@@ -33,6 +33,7 @@ namespace DoctorsHub.Infrastructure.Configurations
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IPdfExportService, PdfExportService>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             
 
 
