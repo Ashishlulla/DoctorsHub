@@ -10,7 +10,7 @@ namespace DoctorsHub.Domain.Entities
 
         public string FullName { get; set; } = string.Empty;
 
-        public string PersonalEmail { get; set; }
+        public string PersonalEmail { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
 
         public string Qualification { get; set; } = string.Empty;
@@ -25,13 +25,16 @@ namespace DoctorsHub.Domain.Entities
 
         public int SpecializationId { get; set; }
 
+
         // Navigation Properties
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
         public Specialization Specialization { get; set; } = null!;
 
         public List<Appointment> Appointments { get; set; } = new();
 
+        public ICollection<Department> Departments { get; set; } = new List<Department>();
+        
         public List<ScheduleSlot> ScheduleSlots { get; set; } = new();
     }
 }

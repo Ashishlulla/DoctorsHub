@@ -13,10 +13,16 @@ namespace DoctorsHub.Infrastructure.Persistence
         }
 
         public DbSet<Doctor> Doctors => Set<Doctor>();
-        public DbSet<Patient> Patients => Set<Patient>();
-        public DbSet<Specialization> Specializations => Set<Specialization>();
-        public DbSet<Appointment> Appointments => Set<Appointment>();
         
+        public DbSet<Patient> Patients => Set<Patient>();
+        
+        public DbSet<Appointment> Appointments => Set<Appointment>();
+       
+        public DbSet<Department> Departments => Set<Department>();
+        
+        public DbSet<Specialization> Specializations => Set<Specialization>();
+
+
         public DbSet<ScheduleSlot> ScheduleSlots => Set<ScheduleSlot>();
         public DbSet<Bill> Bills => Set<Bill>();
 

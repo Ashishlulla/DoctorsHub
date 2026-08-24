@@ -31,6 +31,11 @@ namespace DoctorsHub.Infrastructure.Persistence.Configurations
                 .WithMany(s => s.Doctors)
                 .HasForeignKey(d => d.SpecializationId)
                 .OnDelete(deleteBehavior: DeleteBehavior.Restrict);
+
+            builder
+                .HasMany(d => d.Departments)
+                .WithMany(d => d.Doctors)
+                .UsingEntity(j => j.ToTable("DoctorDepartments"));
         }
     }
 }
