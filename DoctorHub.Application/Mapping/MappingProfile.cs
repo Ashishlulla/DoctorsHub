@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DoctorsHub.Application.DTOs.Notification;
+using DoctorsHub.Application.DTOs.Departments;
 
 namespace DoctorsHub.Application.Mapping
 {
@@ -83,6 +84,16 @@ namespace DoctorsHub.Application.Mapping
             //Notification Mapping
 
             CreateMap<Notification, NotificationDto>(); //converts Notification to NotificationDto
+
+
+            //Department Mapping
+            CreateMap<Department, DepartmentDto>(); //Converts Departments to DepartmentDto
+
+            CreateMap<CreateDepartmentDto, Department>(); // Converts CreateDepartmentDto to Department
+
+            CreateMap<UpdateDepartmentDto, Department>(); //Convertts UpdateDepartmentDto to Department
+
+
 
         }
     }

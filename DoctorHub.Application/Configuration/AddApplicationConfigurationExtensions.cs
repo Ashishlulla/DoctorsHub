@@ -7,6 +7,7 @@ using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Application.Mapping;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using DoctorsHub.Application.DTOs.Departments;
 
 namespace DoctorsHub.Application.Configuration
 {
@@ -49,6 +50,10 @@ namespace DoctorsHub.Application.Configuration
             services.AddValidatorsFromAssemblyContaining<LoginDto>();
             services.AddValidatorsFromAssemblyContaining<ChangePasswordDto>();
             services.AddValidatorsFromAssemblyContaining<ForgotPasswordDto>();
+
+            //Department Validators
+            services.AddValidatorsFromAssemblyContaining<CreateDepartmentDto>();
+            services.AddValidatorsFromAssemblyContaining<UpdateDepartmentDto>();
 
 
             //Adding Automapper services
