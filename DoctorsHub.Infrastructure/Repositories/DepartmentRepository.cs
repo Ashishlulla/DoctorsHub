@@ -27,13 +27,8 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<bool> DeleteDepartmentAsync(Department department)
         {
-            Department? departmentToDelete = await _db.Departments.FirstOrDefaultAsync(d => d.Id == department.Id);
-            if (departmentToDelete == null)
-            {
-                return false;
-            }
-
-            _db.Departments.Remove(departmentToDelete);
+          
+            _db.Departments.Remove(department);
             await _db.SaveChangesAsync();
             return true;
         }
@@ -51,21 +46,12 @@ namespace DoctorsHub.Infrastructure.Repositories
 
         public async Task<Department> UpdateDepartmentAsync(Department department)
         {
-            Department? departmentToUpdate = await _db.Departments.FirstOrDefaultAsync(d => d.Id == department.Id);
-
-            if (departmentToUpdate == null) 
-            {
-                return null!;
-            }
-
-            departmentToUpdate.Name = department.Name;
-            departmentToUpdate.Description = department.Description;
-
-            _db.Departments.Update(departmentToUpdate!);
+           
+            _db.Departments.Update(department!);
             
             await _db.SaveChangesAsync();
 
-            return departmentToUpdate;
+            return department;
         }
     }
 }
