@@ -43,6 +43,8 @@ namespace DoctorsHub.Application.Services
             {
                 throw new ArgumentException($"No department exist with id = {id}. Please provide valid Id.");
             }
+
+            await _departmentRepository.DeleteDepartmentAsync(department);
         }
 
         public async Task<DepartmentDto> GetDepartmentByIdAsync(int? id)
