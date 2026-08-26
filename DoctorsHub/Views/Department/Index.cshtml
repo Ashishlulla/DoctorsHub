@@ -1,0 +1,156 @@
+﻿@model List<DepartmentDto>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Departments</h2>
+            <p class="text-muted mb-0">
+                Manage hospital departments and view affiliated doctors.
+            </p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            Add Department
+        </a>
+    </div>
+
+    <!-- Department Selector -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="department-selector-card mb-4">
+            <div class="department-selector">
+                <a asp-action="Index"
+                   class="department-pill active">
+                    All Departments
+                </a>
+
+                @foreach (var department in Model)
+                {
+                    <a asp-action="Index"
+                       asp-route-id="@department.Id"
+                       class="department-pill">
+                        @department.Name
+                    </a>
+                }
+            </div>
+        </div>
+
+        <!-- Department Cards -->
+        <div class="row g-4">
+
+            @foreach (var department in Model)
+            {
+                <div class="col-xl-4 col-lg-6">
+
+                    <div class="department-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div class="department-icon">
+                                <i class="bi bi-building"></i>
+                            </div>
+
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light"
+                                        type="button"
+                                        data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-action="Edit"
+                                           asp-route-id="@department.Id">
+                                            <i class="bi bi-pencil me-2"></i>
+                                            Edit
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item text-danger"
+                                           asp-action="Delete"
+                                           asp-route-id="@department.Id">
+                                            <i class="bi bi-trash me-2"></i>
+                                            Delete
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <h4 class="mb-2">
+                                @department.Name
+                            </h4>
+
+                            <p class="text-muted mb-4">
+                                @(string.IsNullOrWhiteSpace(department.Description)
+                                    ? "No description available."
+                                    : department.Description)
+                            </p>
+
+                        </div>
+
+                        <div class="department-card-footer">
+
+                            <a asp-action="Details"
+                               asp-route-id="@department.Id"
+                               class="btn btn-outline-primary btn-sm">
+
+                                View Doctors
+                                <i class="bi bi-arrow-right ms-1"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <!-- Empty State -->
+        <div class="text-center py-5">
+
+            <div class="empty-state-icon mb-3">
+                <i class="bi bi-building"></i>
+            </div>
+
+            <h4>No Departments Found</h4>
+
+            <p class="text-muted">
+                Create your first department to organize doctors.
+            </p>
+
+            <a asp-action="Create"
+               class="btn btn-primary">
+
+                <i class="bi bi-plus-lg"></i>
+                Add Department
+
+            </a>
+
+        </div>
+    }
+
+</div>
