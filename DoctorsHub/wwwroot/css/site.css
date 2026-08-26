@@ -636,3 +636,26 @@ body {
         border-radius: 50%;
         background: var(--surface);
     }
+
+/*==================================================
+  BOOTSTRAP FORM OVERRIDE
+====================================================*/
+
+.form-control,
+.form-select {
+    background-color: var(--page-input-bg) !important;
+    color: var(--page-text) !important;
+    border-color: var(--page-input-border) !important;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        background-color: var(--page-input-bg) !important;
+        color: var(--page-text) !important;
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, .15) !important;
+    }
+
+    .form-control::placeholder {
+        color: var(--text-light) !important;
+    }

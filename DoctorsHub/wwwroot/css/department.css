@@ -127,3 +127,33 @@
         font-size: 0.85rem;
     }
 }
+
+
+/* ================================================
+   DEPARTMENT CREATE / EDIT FORM
+================================================ */
+
+.department-form-card {
+    max-width: 750px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+}
+
+    .department-form-card .form-label {
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .department-form-card .form-control {
+        border-color: var(--border);
+        background: var(--surface);
+        color: var(--text);
+    }
+
+        .department-form-card .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.12);
+        }
