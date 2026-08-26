@@ -2,6 +2,8 @@
    DEPARTMENTS PAGE
 ================================================ */
 
+
+
 .department-selector-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -156,4 +158,102 @@
         .department-form-card .form-control:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.12);
+        }
+
+/* ================================================
+   DEPARTMENT TEXT - DARK MODE
+================================================ */
+
+body.dark-mode .department-selector-card,
+body.dark-mode .department-card,
+body.dark-mode .department-form-card {
+    color: #F5F5F5;
+}
+
+    body.dark-mode .department-selector-card h2,
+    body.dark-mode .department-selector-card h3,
+    body.dark-mode .department-selector-card h4,
+    body.dark-mode .department-card h2,
+    body.dark-mode .department-card h3,
+    body.dark-mode .department-card h4,
+    body.dark-mode .department-form-card h2,
+    body.dark-mode .department-form-card h3,
+    body.dark-mode .department-form-card h4 {
+        color: #F5F5F5 !important;
+    }
+
+    body.dark-mode .department-selector-card p,
+    body.dark-mode .department-card p,
+    body.dark-mode .department-form-card p {
+        color: #B5B5B5 !important;
+    }
+
+    /* Bootstrap text-muted */
+    body.dark-mode .department-selector-card .text-muted,
+    body.dark-mode .department-card .text-muted,
+    body.dark-mode .department-form-card .text-muted {
+        color: #B5B5B5 !important;
+    }
+
+    /* Form labels */
+    body.dark-mode .department-form-card label {
+        color: #F5F5F5 !important;
+    }
+
+    /* Validation text */
+    body.dark-mode .department-form-card .text-danger {
+        color: #FF8A8A !important;
+    }
+
+
+    body.dark-mode .department-card .btn,
+    body.dark-mode .department-card .dropdown-toggle {
+        color: #FFFFFF !important;
+    }
+
+        body.dark-mode .department-card .dropdown-toggle::after {
+            border-top-color: #FFFFFF;
+        }
+
+    body.dark-mode .department-card .dropdown-menu {
+        background: #242424;
+        border-color: #444444;
+    }
+
+    body.dark-mode .department-card .dropdown-item {
+        color: #F5F5F5;
+    }
+
+        body.dark-mode .department-card .dropdown-item:hover {
+            background: #333333;
+            color: #FFFFFF;
+        }
+
+    body.dark-mode .department-card .bi-three-dots-vertical {
+        color: #FFFFFF !important;
+    }
+
+
+    /* ================================================
+   DEPARTMENT THREE-DOT MENU - DARK MODE
+================================================ */
+
+    body.dark-mode .department-card .dropdown button {
+        background-color: transparent !important;
+        border: none !important;
+        color: #FFFFFF !important;
+        box-shadow: none !important;
+    }
+
+        body.dark-mode .department-card .dropdown button:hover,
+        body.dark-mode .department-card .dropdown button:focus,
+        body.dark-mode .department-card .dropdown button:active {
+            background-color: #333333 !important;
+            color: #FFFFFF !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        body.dark-mode .department-card .dropdown button i {
+            color: #FFFFFF !important;
         }

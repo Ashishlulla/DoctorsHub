@@ -1,5 +1,5 @@
 ﻿using DoctorsHub.Application.DTOs.Departments;
-using DoctorsHub.Application.DTOs.Doctors;
+
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,6 +50,41 @@ namespace DoctorsHub.Web.Controllers
             catch (Exception ex) 
             {
                 return View(createDepartmentDto);
+            }
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> Edit(int id) 
+        {
+            var department = await _departmentApiService.GetDepartmentByIdAsync(id);
+
+            UpdateDepartmentDto updateDepartmentDto = new UpdateDepartmentDto
+            {
+                Id = department.Id,
+                Name = department.Name,
+                Description = department.Description
+            };
+            return View(updateDepartmentDto);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Edit(UpdateDepartmentDto updateDepartmentDto) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updateDepartmentDto);
+            }
+
+            try
+            {
+                await _departmentApiService.UpdateDepartmentAsync(updateDepartmentDto);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex) 
+            {
+                return View(updateDepartmentDto);
             }
         }
     }
