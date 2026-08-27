@@ -1,0 +1,291 @@
+﻿@model DoctorsHub.Application.DTOs.Departments.DepartmentDetailsDto
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="page-header">
+
+    <div>
+
+        <a asp-action="Index" class="btn btn-cancel">
+            <i class="bi bi-arrow-left"></i>
+            Back to Departments
+        </a>
+
+        <h1 class="page-title">
+            @Model.Name
+        </h1>
+
+        <p class="page-subtitle">
+            @(string.IsNullOrWhiteSpace(Model.Description)
+                ? "Doctors assigned to this department"
+                : Model.Description)
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="content-card">
+
+    <!-- ================= TABLE TOOLBAR ================= -->
+
+    <div class="table-toolbar">
+
+        <div class="search-box">
+
+            <i class="bi bi-search"></i>
+
+            <input type="text"
+                   id="doctorSearch"
+                   placeholder="Search doctors..." />
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= DOCTORS TABLE ================= -->
+    @if (Model.Doctors != null && Model.Doctors.Any())
+    {
+        <div class="table-responsive">
+
+            <table class="table doctor-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Doctor
+                        </th>
+
+                        <th>
+                            Specialization
+                        </th>
+
+                        <th>
+                            Qualification
+                        </th>
+
+                        <th>
+                            Experience
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Consultation Fee
+                        </th>
+
+                        <th class="text-end">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="doctorTableBody">
+
+                    @foreach (var doctor in Model.Doctors)
+                    {
+                        <tr>
+
+                            <!-- Doctor -->
+
+                            <td>
+
+                                <div class="doctor-info">
+
+                                    <div class="doctor-avatar">
+
+                                        @if (!string.IsNullOrWhiteSpace(doctor.FullName))
+                                        {
+                                            @doctor.FullName.Substring(0, 1).ToUpper()
+                                        }
+
+                                    </div>
+
+                                    <span>
+                                        @doctor.FullName
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- Specialization -->
+
+                            <td>
+                                @doctor.SpecializationName
+                            </td>
+
+
+                            <!-- Qualification -->
+
+                            <td>
+                                @doctor.Qualification
+                            </td>
+
+
+                            <!-- Experience -->
+
+                            <td>
+                                @doctor.ExperienceYears Years
+                            </td>
+
+
+                            <!-- Email -->
+
+                            <td>
+                                @doctor.Email
+                            </td>
+
+
+                            <!-- Consultation Fee -->
+
+                            <td>
+                                ₹@doctor.ConsultationFee.ToString("N2")
+                            </td>
+
+
+                            <!-- Actions -->
+
+                            <td class="text-end">
+
+                                <div class="dropdown">
+
+                                    <button class="btn action-menu"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+
+                                        <i class="bi bi-three-dots-vertical"></i>
+
+                                    </button>
+
+
+                                    <ul class="dropdown-menu dropdown-menu-end">
+
+                                        <li>
+
+                                            <a class="dropdown-item"
+                                               asp-controller="Doctor"
+                                               asp-action="Details"
+                                               asp-route-id="@doctor.Id">
+
+                                                <i class="bi bi-eye me-2"></i>
+
+                                                View
+
+                                            </a>
+
+                                        </li>
+
+
+                                        <li>
+
+                                            <a class="dropdown-item"
+                                               asp-controller="Doctor"
+                                               asp-action="Edit"
+                                               asp-route-id="@doctor.Id">
+
+                                                <i class="bi bi-pencil me-2"></i>
+
+                                                Edit
+
+                                            </a>
+
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <!-- ================= EMPTY STATE ================= -->
+
+        <div class="empty-state">
+
+            <i class="bi bi-person-x empty-state-icon"></i>
+
+            <h4>
+                No doctors found
+            </h4>
+
+            <p>
+
+                No doctors are currently assigned to the
+                <strong>@Model.Name</strong> department.
+
+            </p>
+
+        </div>
+    }
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const searchInput =
+                document.getElementById("doctorSearch");
+
+            const tableBody =
+                document.getElementById("doctorTableBody");
+
+
+            if (!searchInput || !tableBody)
+                return;
+
+
+            searchInput.addEventListener("input", function() {
+
+                const searchText =
+                    this.value.toLowerCase().trim();
+
+                const rows =
+                    tableBody.querySelectorAll("tr");
+
+
+                rows.forEach(function(row) {
+
+                    const text =
+                        row.textContent.toLowerCase();
+
+                    row.style.display =
+                        text.includes(searchText)
+                            ? ""
+                            : "none";
+
+                });
+
+            });
+
+        });
+
+    </script>
+}

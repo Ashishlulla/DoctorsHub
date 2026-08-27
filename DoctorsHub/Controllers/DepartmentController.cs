@@ -87,5 +87,18 @@ namespace DoctorsHub.Web.Controllers
                 return View(updateDepartmentDto);
             }
         }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var department =
+                await _departmentApiService.GetDepartmentDetailsAsync(id);
+
+            if (department == null)
+                return NotFound();
+
+            return View(department);
+        }
     }
 }

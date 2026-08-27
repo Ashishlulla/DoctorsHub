@@ -64,6 +64,38 @@ namespace DoctorsHub.Application.Services
             return _mapper.Map<DepartmentDto>(department);
         }
 
+        public async Task<DepartmentDetailsDto> GetDepartmentDetailsAsync(int id)
+        {
+            Department? department =
+                await _departmentRepository.GetDepartmentDetailsAsync(id);
+
+            if (department == null)
+            {
+                throw new ArgumentException(
+                    $"No department exists with id = {id}. Please provide valid Id.");
+            }
+
+            return new DepartmentDetailsDto
+            {
+                Id = department.Id,
+                Name = department.Name,
+                Description = department.Description,
+
+                Doctors = department.Doctors
+                    .Select(d => new DepartmentDoctorDto
+                    {
+                        Id = d.Id,
+                        FullName = d.FullName,
+                        Email = d.User?.Email ?? string.Empty,
+                        Qualification = d.Qualification,
+                        ExperienceYears = d.ExperienceYears,
+                        ConsultationFee = d.ConsultationFee,
+                        SpecializationName = d.Specialization?.Name ?? string.Empty
+                    })
+                    .ToList()
+            };
+        }
+
         public async Task<List<DepartmentDto>> GetDepartmentsAsync()
         {
             List<Department> departments = await _departmentRepository.GetDepartmentsAsync();

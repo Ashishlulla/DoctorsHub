@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
+﻿using DoctorsHub.Application.DTOs.Departments;
+using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Domain.Entities;
 using DoctorsHub.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,16 @@ namespace DoctorsHub.Infrastructure.Repositories
         {
             Department? department = await _db.Departments.FirstOrDefaultAsync(d => d.Id == id);
             return department ?? null;
+        }
+
+        public async Task<Department?> GetDepartmentDetailsAsync(int id)
+        {
+            return await _db.Departments
+                .Include(d => d.Doctors)
+                    .ThenInclude(d => d.User)
+                .Include(d => d.Doctors)
+                    .ThenInclude(d => d.Specialization)
+                .FirstOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<List<Department>> GetDepartmentsAsync()

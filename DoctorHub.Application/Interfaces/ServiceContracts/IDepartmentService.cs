@@ -17,5 +17,7 @@ namespace DoctorsHub.Application.Interfaces.ServiceContracts
 
         Task<List<DepartmentDto>> GetDepartmentsAsync();
 
+        Task<DepartmentDetailsDto> GetDepartmentDetailsAsync(int id);
+
     }
 }

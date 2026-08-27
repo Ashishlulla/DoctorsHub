@@ -1,4 +1,5 @@
-﻿using DoctorsHub.Domain.Entities;
+﻿using DoctorsHub.Application.DTOs.Departments;
+using DoctorsHub.Domain.Entities;
 
 namespace DoctorsHub.Application.Interfaces.RepositoryContracts
 {
@@ -7,11 +8,15 @@ namespace DoctorsHub.Application.Interfaces.RepositoryContracts
         Task<List<Department>> GetDepartmentsAsync();
         
         Task<Department?> GetDepartmentByIdAsync(int id);
-        
+
+        Task<Department?> GetDepartmentDetailsAsync(int id);
+
         Task<Department> CreateDepartmentAsync(Department department);
         
         Task<Department> UpdateDepartmentAsync(Department department);
         
         Task<bool> DeleteDepartmentAsync(Department department);
+
+
     }
 }

@@ -257,3 +257,43 @@ body.dark-mode .department-form-card {
         body.dark-mode .department-card .dropdown button i {
             color: #FFFFFF !important;
         }
+
+/* ================================================
+   DEPARTMENT DETAILS - DOCTORS TABLE
+================================================ */
+
+.content-card {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.doctor-table {
+    --bs-table-bg: var(--surface);
+    --bs-table-color: var(--text);
+    --bs-table-border-color: var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+}
+
+    .doctor-table thead {
+        background-color: var(--surface);
+        color: var(--text);
+    }
+
+    .doctor-table tbody {
+        background-color: var(--surface);
+        color: var(--text);
+    }
+
+    .doctor-table th,
+    .doctor-table td {
+        background-color: var(--surface) !important;
+        color: var(--text) !important;
+        border-color: var(--border) !important;
+    }
+
+    .doctor-table tbody tr:hover td {
+        background-color: var(--primary-light) !important;
+        color: var(--text) !important;
+    }

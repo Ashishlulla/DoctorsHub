@@ -34,6 +34,15 @@ namespace DoctorsHub.API.Controllers
             return Ok(department);
         }
 
+        [HttpGet("{id:int}/Details")]
+        public async Task<IActionResult> GetDepartmentDetails(int id)
+        {
+            var department =
+                await _departmentService.GetDepartmentDetailsAsync(id);
+
+            return Ok(department);
+        }
+
         [HttpPost("Create")]
         public async Task<IActionResult> CreateDepartment([FromBody]CreateDepartmentDto createDepartmentDto) 
         {
@@ -48,6 +57,8 @@ namespace DoctorsHub.API.Controllers
             var updatedDepartment = await _departmentService.UpdateDepartmentAsync(updateDepartmentDto);
             return Ok(updatedDepartment);
         }
+
+
 
         [HttpDelete("Delete/{id:int}")]
         public async Task<IActionResult> DeleteDepartmentById(int id) 

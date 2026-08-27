@@ -64,6 +64,21 @@ namespace DoctorsHub.Web.Services
             return department ?? new DepartmentDto();
         }
 
+        public async Task<DepartmentDetailsDto> GetDepartmentDetailsAsync(int id)
+        {
+            AddToken();
+
+            HttpResponseMessage response =
+                await _httpClient.GetAsync($"api/department/{id}/details");
+
+            response.EnsureSuccessStatusCode();
+
+            DepartmentDetailsDto? department =
+                await response.Content.ReadFromJsonAsync<DepartmentDetailsDto>();
+
+            return department ?? new DepartmentDetailsDto();
+        }
+
         public async Task<DepartmentDto> UpdateDepartmentAsync(UpdateDepartmentDto updateDepartmentDto)
         {
             AddToken();
