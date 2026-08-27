@@ -14,5 +14,7 @@ namespace DoctorsHub.Application.DTOs.Doctors
         public string VisitDays { get; set; } = string.Empty;
         
         public int SpecializationId { get; set; }
+
+        public List<int> DepartmentIds { get; set; } = new List<int>();
     }
 }

@@ -16,15 +16,17 @@ namespace DoctorsHub.Application.Services
         //Private Feilds
         private readonly IDoctorRepository _doctorRepository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IDepartmentRepository _departmentRepository;
         private readonly IMapper _mapper;
 
         private readonly IEmailService _emailService;
 
 
         //Constructor
-        public DoctorService(IDoctorRepository doctorRepository, UserManager<ApplicationUser> userManager, IMapper mapper, IEmailService emailService)
+        public DoctorService(IDoctorRepository doctorRepository, IDepartmentRepository departmentRepository, UserManager<ApplicationUser> userManager, IMapper mapper, IEmailService emailService)
         {
             _doctorRepository = doctorRepository;
+            _departmentRepository = departmentRepository;
             _userManager = userManager;
             _mapper = mapper;
             _emailService = emailService;
@@ -98,6 +100,21 @@ namespace DoctorsHub.Application.Services
 
             doctor.FullName = $"Dr. {createDoctorDto.FullName}";
             doctor.UserId = user.Id;
+
+            var selectedDepartments = new List<Department>();
+
+            foreach (var departmentId in createDoctorDto.DepartmentIds.Distinct()) 
+            {
+
+                var department = await _departmentRepository.GetDepartmentByIdAsync(departmentId);
+
+                if (department == null)
+                    throw new KeyNotFoundException($"Department with Id {departmentId} was not found.");
+
+                selectedDepartments.Add(department);
+            }
+
+            doctor.Departments = selectedDepartments;
 
 
             doctor = await _doctorRepository.AddAsync(doctor);
@@ -225,6 +242,22 @@ namespace DoctorsHub.Application.Services
                 throw new KeyNotFoundException($"No doctor exists with Id: {id}");
             }
 
+            doctor.Departments.Clear();
+
+            var selectedDepartments = new List<Department>();
+
+            foreach (var departmentId in updateDoctorDto.DepartmentIds)
+            {
+                var department = await _departmentRepository.GetDepartmentByIdAsync(departmentId);
+
+                if (department == null)
+                {
+                    throw new KeyNotFoundException($"No department found with departmentId : {departmentId}");
+                }
+                selectedDepartments.Add(department);
+            }
+
+            doctor.Departments = selectedDepartments;
 
 
             _mapper.Map(updateDoctorDto, doctor);

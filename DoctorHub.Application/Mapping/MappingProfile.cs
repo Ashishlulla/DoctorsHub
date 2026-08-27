@@ -18,10 +18,22 @@ namespace DoctorsHub.Application.Mapping
     {
         public MappingProfile() 
         {
-            //Doctor Mapping
-            CreateMap<CreateDoctorDto, Doctor>();
-            CreateMap<UpdateDoctorDto, Doctor>();
-            CreateMap<Doctor, DoctorDto>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
+            // Doctor Mapping
+
+            CreateMap<CreateDoctorDto, Doctor>()
+                .ForMember(dest => dest.Departments, opt => opt.Ignore());
+
+            CreateMap<UpdateDoctorDto, Doctor>()
+                .ForMember(dest => dest.Departments, opt => opt.Ignore());
+
+            CreateMap<Doctor, DoctorDto>()
+                .ForMember(
+                    dest => dest.Email,
+                    opt => opt.MapFrom(src => src.User!.Email))
+                .ForMember(
+                    dest => dest.DepartmentIds,
+                    opt => opt.MapFrom(src =>
+                        src.Departments.Select(d => d.Id)));
 
             //Patient Mapping
             CreateMap<CreatePatientDto, Patient>();

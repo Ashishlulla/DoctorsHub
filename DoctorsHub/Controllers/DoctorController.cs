@@ -17,11 +17,13 @@ namespace DoctorsHub.Web.Controllers
         private readonly DoctorApiService _doctorApiService;
         private readonly SpecializationApiService _specializationApiService;
 
+        private readonly DepartmentApiService _departmentApiService;
         //Constructor
-        public DoctorController(DoctorApiService doctorApiService, SpecializationApiService specializationApiService) 
+        public DoctorController(DoctorApiService doctorApiService, SpecializationApiService specializationApiService, DepartmentApiService departmentApiService) 
         {
             _doctorApiService = doctorApiService;
             _specializationApiService = specializationApiService;
+            _departmentApiService = departmentApiService;
         }
 
 
@@ -42,17 +44,22 @@ namespace DoctorsHub.Web.Controllers
 
             return View(doctors);
         }
+        
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> Create()
         {
 
             var specializations = await _specializationApiService.GetAllSpecializationsAsync();
+            var departments = await _departmentApiService.GetDepartmentsAsync();
+
+            //ViewBag for Dropdowns
             ViewBag.Specializations = new SelectList(
-                specializations,
-                "Id",
-                "Name"
+                specializations, "Id", "Name"
                 );
+
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
+
 
             return View(new CreateDoctorDto());
         }
@@ -64,11 +71,12 @@ namespace DoctorsHub.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var specializations = await _specializationApiService.GetAllSpecializationsAsync();
-                ViewBag.Specializations = new SelectList(
-                    specializations,
-                    "Id",
-                    "Name"
-                    );
+                var departments = await _departmentApiService.GetDepartmentsAsync();
+
+                //ViewBag for Dropdowns
+                ViewBag.Specializations = new SelectList(specializations,"Id","Name");
+
+                ViewBag.Departments = new SelectList(departments, "Id", "Name");
                 return View(createDoctorDto);
             }
 
@@ -97,12 +105,13 @@ namespace DoctorsHub.Web.Controllers
             if (doctor == null)
                 return NotFound();
 
-            ViewBag.Specializations = new SelectList(
-                await _specializationApiService.GetAllSpecializationsAsync(),
-                "Id",
-                "Name",
-                doctor.SpecializationId
-            );
+            var specializations = await _specializationApiService.GetAllSpecializationsAsync();
+            var departments = await _departmentApiService.GetDepartmentsAsync();
+
+            //ViewBag for Dropdowns
+            ViewBag.Specializations = new SelectList(specializations, "Id", "Name");
+
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
 
             var model = new UpdateDoctorDto
             {
@@ -114,6 +123,7 @@ namespace DoctorsHub.Web.Controllers
                 SpecializationId = doctor.SpecializationId,
                 ConsultationFee = doctor.ConsultationFee,
                 ExperienceYears = doctor.ExperienceYears,
+                DepartmentIds = doctor.DepartmentIds,
                 About = doctor.About
             };
 
@@ -126,12 +136,13 @@ namespace DoctorsHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Specializations = new SelectList(
-                    await _specializationApiService.GetAllSpecializationsAsync(),
-                    "Id",
-                    "Name",
-                    updateDoctorDto.SpecializationId
-                );
+                var specializations = await _specializationApiService.GetAllSpecializationsAsync();
+                var departments = await _departmentApiService.GetDepartmentsAsync();
+
+                //ViewBag for Dropdowns
+                ViewBag.Specializations = new SelectList(specializations, "Id", "Name");
+
+                ViewBag.Departments = new SelectList(departments, "Id", "Name");
 
                 return View(updateDoctorDto);   
             }

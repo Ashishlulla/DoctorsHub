@@ -17,7 +17,13 @@ namespace DoctorsHub.Infrastructure.Repositories
 
 		public async Task<Doctor> AddAsync(Doctor doctor)
 		{
-			await _db.Doctors.AddAsync(doctor);
+            // Attach existing departments so EF knows they already exist
+            foreach (var department in doctor.Departments)
+            {
+                _db.Departments.Attach(department);
+            }
+
+            await _db.Doctors.AddAsync(doctor);
 			await _db.SaveChangesAsync();
 
 			return doctor;
@@ -34,13 +40,13 @@ namespace DoctorsHub.Infrastructure.Repositories
 			}
 		}
 
-		public async Task<(List<Doctor> Doctors, int TotalCount)> GetAllDoctorsAsync(
-			DoctorQueryParameters doctorQueryParameters)
+		public async Task<(List<Doctor> Doctors, int TotalCount)> GetAllDoctorsAsync(DoctorQueryParameters doctorQueryParameters)
 		{
 			IQueryable<Doctor> query = _db.Doctors
 				.AsNoTracking()
 				.Include(d => d.User)
-				.Include(d => d.Specialization);
+				.Include(d => d.Specialization)
+				.Include(d=>d.Departments);
 
 			// Filtering
 			if (!string.IsNullOrWhiteSpace(doctorQueryParameters.searchString))
@@ -118,6 +124,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 			return await _db.Doctors
 				.Include(d => d.User)
 				.Include(d => d.Specialization)
+				.Include(d=>d.Departments)
 				.FirstOrDefaultAsync(d => d.Id == id);
 		}
 
@@ -126,6 +133,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 			return await _db.Doctors
 				.Include(d => d.User)
 				.Include(d => d.Specialization)
+				.Include(d=>d.Departments)
 				.FirstOrDefaultAsync(d => d.UserId == userId);
 		}
 
@@ -134,6 +142,7 @@ namespace DoctorsHub.Infrastructure.Repositories
 			return await _db.Doctors
 				.Include(d => d.User)
 				.Include(d => d.Specialization)
+				.Include(d=>d.Departments)
 				.ToListAsync();
 		}
 

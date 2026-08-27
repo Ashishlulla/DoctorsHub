@@ -177,6 +177,64 @@
 
                     </div>
 
+                    <!-- ================= Departments ================= -->
+
+                    <div>
+
+                        <label class="create-label">
+                            Departments
+                        </label>
+
+                        <div class="department-dropdown">
+
+                            <button type="button"
+                                    class="department-dropdown-toggle"
+                                    id="departmentDropdownToggle">
+
+                                <span id="departmentSelectedText">
+                                    Select Departments
+                                </span>
+
+                                <span class="department-dropdown-arrow">
+                                    ▾
+                                </span>
+
+                            </button>
+
+
+                            <div class="department-dropdown-menu"
+                                 id="departmentDropdownMenu">
+
+                                @foreach (var department in ViewBag.Departments)
+                                {
+                                    <label class="department-option">
+
+                                        <input type="checkbox"
+                                               name="DepartmentIds"
+                                               value="@department.Value"
+                                               class="department-checkbox"
+                                               data-name="@department.Text" />
+
+                                        <span class="department-name">
+                                            @department.Text
+                                        </span>
+
+                                    </label>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <span asp-validation-for="DepartmentIds"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                        
+
+                        
                 </div>
 
             </section>
@@ -276,3 +334,5 @@
 {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script src="~/js/departmentDropdown.js"></script>

@@ -20,7 +20,7 @@
 
         public int SpecializationId { get; set; }
 
-        
+        public List<int> DepartmentIds { get; set; } = new();
 
         public string VisitDays { get; set; } = string.Empty;
 
