@@ -192,7 +192,7 @@ body.dark-mode .department-form-card {
     body.dark-mode .department-selector-card .text-muted,
     body.dark-mode .department-card .text-muted,
     body.dark-mode .department-form-card .text-muted {
-        color: #B5B5B5 !important;
+        color: var(--text) !important;
     }
 
     /* Form labels */

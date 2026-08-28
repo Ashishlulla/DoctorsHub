@@ -94,7 +94,7 @@ namespace DoctorsHub.Web.Services
         public async Task DeleteDepartmentAsync(int id) 
         {
             AddToken();
-            HttpResponseMessage respone = await _httpClient.DeleteAsync($"/api/department/delete/{id}");
+            HttpResponseMessage respone = await _httpClient.DeleteAsync($"/api/Department/Delete/{id}");
             respone.EnsureSuccessStatusCode();
 
          

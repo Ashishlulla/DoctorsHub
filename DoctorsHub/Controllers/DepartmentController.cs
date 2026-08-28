@@ -1,5 +1,4 @@
 ﻿using DoctorsHub.Application.DTOs.Departments;
-
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +7,10 @@ namespace DoctorsHub.Web.Controllers
     [Route("[controller]")]
     public class DepartmentController : Controller
     {
-
-        //Private Feilds
         private readonly DepartmentApiService _departmentApiService;
 
-        //Constructor
-        public DepartmentController(DepartmentApiService departmentApiService) 
+        public DepartmentController(
+            DepartmentApiService departmentApiService)
         {
             _departmentApiService = departmentApiService;
         }
@@ -22,20 +19,23 @@ namespace DoctorsHub.Web.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Index()
         {
-            var departments = await  _departmentApiService.GetDepartmentsAsync();
+            var departments =
+                await _departmentApiService.GetDepartmentsAsync();
+
             return View(departments);
         }
 
         [HttpGet]
         [Route("[action]")]
-        public IActionResult Create() 
+        public IActionResult Create()
         {
             return View(new CreateDepartmentDto());
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Create(CreateDepartmentDto createDepartmentDto) 
+        public async Task<IActionResult> Create(
+            CreateDepartmentDto createDepartmentDto)
         {
             if (!ModelState.IsValid)
             {
@@ -44,33 +44,50 @@ namespace DoctorsHub.Web.Controllers
 
             try
             {
-                await _departmentApiService.CreateDepartmentAsync(createDepartmentDto);
+                await _departmentApiService
+                    .CreateDepartmentAsync(createDepartmentDto);
+
+                TempData["SuccessMessage"] =
+                    "Department created successfully.";
+
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex) 
+            catch
             {
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Unable to create the department.");
+
                 return View(createDepartmentDto);
             }
         }
 
         [HttpGet]
-        [Route("[action]")]
-        public async Task<IActionResult> Edit(int id) 
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> Edit(int id)
         {
-            var department = await _departmentApiService.GetDepartmentByIdAsync(id);
+            var department =
+                await _departmentApiService.GetDepartmentByIdAsync(id);
 
-            UpdateDepartmentDto updateDepartmentDto = new UpdateDepartmentDto
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            var updateDepartmentDto = new UpdateDepartmentDto
             {
                 Id = department.Id,
                 Name = department.Name,
                 Description = department.Description
             };
+
             return View(updateDepartmentDto);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Edit(UpdateDepartmentDto updateDepartmentDto) 
+        public async Task<IActionResult> Edit(
+            UpdateDepartmentDto updateDepartmentDto)
         {
             if (!ModelState.IsValid)
             {
@@ -79,11 +96,20 @@ namespace DoctorsHub.Web.Controllers
 
             try
             {
-                await _departmentApiService.UpdateDepartmentAsync(updateDepartmentDto);
+                await _departmentApiService
+                    .UpdateDepartmentAsync(updateDepartmentDto);
+
+                TempData["SuccessMessage"] =
+                    "Department updated successfully.";
+
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex) 
+            catch
             {
+                ModelState.AddModelError(
+                    string.Empty,
+                    "Unable to update the department.");
+
                 return View(updateDepartmentDto);
             }
         }
@@ -96,9 +122,47 @@ namespace DoctorsHub.Web.Controllers
                 await _departmentApiService.GetDepartmentDetailsAsync(id);
 
             if (department == null)
+            {
                 return NotFound();
+            }
 
             return View(department);
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var department =
+                await _departmentApiService.GetDepartmentByIdAsync(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                await _departmentApiService.DeleteDepartmentAsync(id);
+
+                TempData["SuccessMessage"] =
+                    "Department deleted successfully.";
+            }
+            catch
+            {
+                TempData["ErrorMessage"] =
+                    "Unable to delete the department.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

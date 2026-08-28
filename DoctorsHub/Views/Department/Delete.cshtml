@@ -1,0 +1,96 @@
+﻿<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+
+        @model DepartmentDto
+
+        @{
+            ViewData["Title"] = "Delete Department";
+        }
+
+        <div class="container-fluid py-4">
+
+            
+            <div class="row justify-content-center">
+
+                <div class="col-lg-6">
+
+                    <div class="department-delete-card">
+
+                        <div class="text-center mb-4">
+
+                            <div class="warning-icon mb-3">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+
+                            <h3>Delete Department?</h3>
+
+                            <pclass class="page-subtitle">
+                                You are about to permanently delete this department.
+                            </p>
+
+                        </div>
+
+                        <div class="delete-department-info">
+
+                            <h5>@Model.Name</h5>
+
+                            <p class="page-subtitle">
+                                @(string.IsNullOrWhiteSpace(Model.Description)
+                                    ? "No description available."
+                                    : Model.Description)
+                            </p>
+
+                        </div>
+
+                        <div class="alert alert-warning mt-4">
+
+                            <i class="bi bi-exclamation-circle me-2"></i>
+
+                            This action cannot be undone. Make sure no doctors
+                            should remain associated with this department.
+
+                        </div>
+
+                        <form asp-action="DeleteConfirmed"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@Model.Id" />
+
+                            <div class="d-flex gap-2 justify-content-end mt-4">
+
+                                <a asp-action="Index"
+                                   class="btn btn-cancel">
+
+                                    Cancel
+
+                                </a>
+
+                                <button type="submit"
+                                        class="btn btn-danger">
+
+                                    <i class="bi bi-trash me-1"></i>
+                                    Yes, Delete Department
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+         
+
+        </div>
+
+    </div>
+</div>
+
+
