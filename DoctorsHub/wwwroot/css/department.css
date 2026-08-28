@@ -230,7 +230,7 @@ body.dark-mode .department-form-card {
         }
 
     body.dark-mode .department-card .bi-three-dots-vertical {
-        color: #FFFFFF !important;
+        color: var(--text) !important;
     }
 
 

@@ -8,16 +8,19 @@
 
     <div>
 
-        <a asp-action="Index" class="btn btn-cancel">
+        <a asp-action="Index"
+           class="btn btn-cancel mb-3">
+
             <i class="bi bi-arrow-left"></i>
             Back to Departments
+
         </a>
 
-        <h1 class="page-title">
+        <h1 class="page-title mb-2">
             @Model.Name
         </h1>
 
-        <p class="page-subtitle">
+        <p class="page-subtitle mb-0">
             @(string.IsNullOrWhiteSpace(Model.Description)
                 ? "Doctors assigned to this department"
                 : Model.Description)
@@ -28,11 +31,11 @@
 </div>
 
 
-<div class="content-card">
+<div class="content-card mt-4">
 
     <!-- ================= TABLE TOOLBAR ================= -->
 
-    <div class="table-toolbar">
+    <div class="table-toolbar mb-3">
 
         <div class="search-box">
 
@@ -42,49 +45,39 @@
                    id="doctorSearch"
                    placeholder="Search doctors..." />
 
+            <button type="button"
+                    id="searchDoctorButton"
+                    class="btn btn-primary">
+
+                Search
+
+            </button>
+
         </div>
 
     </div>
 
 
     <!-- ================= DOCTORS TABLE ================= -->
-    @if (Model.Doctors != null && Model.Doctors.Any())
-    {
-        <div class="table-responsive">
 
-            <table class="table doctor-table">
+    <div class="card-body">
+
+        <div class="table-container">
+
+            <table class="table">
 
                 <thead>
 
                     <tr>
 
-                        <th>
-                            Doctor
-                        </th>
-
-                        <th>
-                            Specialization
-                        </th>
-
-                        <th>
-                            Qualification
-                        </th>
-
-                        <th>
-                            Experience
-                        </th>
-
-                        <th>
-                            Email
-                        </th>
-
-                        <th>
-                            Consultation Fee
-                        </th>
-
-                        <th class="text-end">
-                            Actions
-                        </th>
+                        <th>Sr.no</th>
+                        <th>Doctor</th>
+                        <th>Specialization</th>
+                        <th>Qualification</th>
+                        <th>Experience</th>
+                        <th>Email</th>
+                        <th>Consultation Fee</th>
+                        <th class="text-end">Info</th>
 
                     </tr>
 
@@ -93,125 +86,73 @@
 
                 <tbody id="doctorTableBody">
 
-                    @foreach (var doctor in Model.Doctors)
+                    @if (Model.Doctors != null && Model.Doctors.Any())
                     {
+
+                        int sr = 1;
+
+                        foreach (var doctor in Model.Doctors)
+                        {
+
+                            <tr>
+
+                                <td>
+                                    @sr
+                                </td>
+
+                                <td>
+                                    @doctor.FullName
+                                </td>
+
+                                <td>
+                                    @doctor.SpecializationName
+                                </td>
+
+                                <td>
+                                    @doctor.Qualification
+                                </td>
+
+                                <td>
+                                    @doctor.ExperienceYears Years
+                                </td>
+
+                                <td>
+                                    @doctor.Email
+                                </td>
+
+                                <td>
+                                    ₹ @doctor.ConsultationFee.ToString("N2")
+                                </td>
+
+                                <td>
+                                    <a asp-action="Details"
+                                       asp-route-id="@doctor.Id"
+                                       class="btn-info">
+                                        Details
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                            sr++;
+
+                        }
+
+                    }
+                    else
+                    {
+
                         <tr>
 
-                            <!-- Doctor -->
+                            <td colspan="8"
+                                class="text-center">
 
-                            <td>
-
-                                <div class="doctor-info">
-
-                                    <div class="doctor-avatar">
-
-                                        @if (!string.IsNullOrWhiteSpace(doctor.FullName))
-                                        {
-                                            @doctor.FullName.Substring(0, 1).ToUpper()
-                                        }
-
-                                    </div>
-
-                                    <span>
-                                        @doctor.FullName
-                                    </span>
-
-                                </div>
-
-                            </td>
-
-
-                            <!-- Specialization -->
-
-                            <td>
-                                @doctor.SpecializationName
-                            </td>
-
-
-                            <!-- Qualification -->
-
-                            <td>
-                                @doctor.Qualification
-                            </td>
-
-
-                            <!-- Experience -->
-
-                            <td>
-                                @doctor.ExperienceYears Years
-                            </td>
-
-
-                            <!-- Email -->
-
-                            <td>
-                                @doctor.Email
-                            </td>
-
-
-                            <!-- Consultation Fee -->
-
-                            <td>
-                                ₹@doctor.ConsultationFee.ToString("N2")
-                            </td>
-
-
-                            <!-- Actions -->
-
-                            <td class="text-end">
-
-                                <div class="dropdown">
-
-                                    <button class="btn action-menu"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-
-                                        <i class="bi bi-three-dots-vertical"></i>
-
-                                    </button>
-
-
-                                    <ul class="dropdown-menu dropdown-menu-end">
-
-                                        <li>
-
-                                            <a class="dropdown-item"
-                                               asp-controller="Doctor"
-                                               asp-action="Details"
-                                               asp-route-id="@doctor.Id">
-
-                                                <i class="bi bi-eye me-2"></i>
-
-                                                View
-
-                                            </a>
-
-                                        </li>
-
-
-                                        <li>
-
-                                            <a class="dropdown-item"
-                                               asp-controller="Doctor"
-                                               asp-action="Edit"
-                                               asp-route-id="@doctor.Id">
-
-                                                <i class="bi bi-pencil me-2"></i>
-
-                                                Edit
-
-                                            </a>
-
-                                        </li>
-
-                                    </ul>
-
-                                </div>
+                                No doctors found.
 
                             </td>
 
                         </tr>
+
                     }
 
                 </tbody>
@@ -219,73 +160,9 @@
             </table>
 
         </div>
-    }
-    else
-    {
-        <!-- ================= EMPTY STATE ================= -->
 
-        <div class="empty-state">
-
-            <i class="bi bi-person-x empty-state-icon"></i>
-
-            <h4>
-                No doctors found
-            </h4>
-
-            <p>
-
-                No doctors are currently assigned to the
-                <strong>@Model.Name</strong> department.
-
-            </p>
-
-        </div>
-    }
+    </div>
 
 </div>
 
-
-@section Scripts
-{
-    <script>
-
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const searchInput =
-                document.getElementById("doctorSearch");
-
-            const tableBody =
-                document.getElementById("doctorTableBody");
-
-
-            if (!searchInput || !tableBody)
-                return;
-
-
-            searchInput.addEventListener("input", function() {
-
-                const searchText =
-                    this.value.toLowerCase().trim();
-
-                const rows =
-                    tableBody.querySelectorAll("tr");
-
-
-                rows.forEach(function(row) {
-
-                    const text =
-                        row.textContent.toLowerCase();
-
-                    row.style.display =
-                        text.includes(searchText)
-                            ? ""
-                            : "none";
-
-                });
-
-            });
-
-        });
-
-    </script>
-}
+<script src="~/js/department-details.js"></script>
