@@ -1,7 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
-using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Web.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,7 @@ namespace DoctorsHub.Web.Controllers
 {
     [Authorize(Roles = "Admin, Doctor")]
     [Route("[controller]")]
-    public class DoctorController : Controller
+    public class DoctorsController : Controller
     {
         //Private Feilds
         private readonly DoctorApiService _doctorApiService;
@@ -19,7 +18,7 @@ namespace DoctorsHub.Web.Controllers
 
         private readonly DepartmentApiService _departmentApiService;
         //Constructor
-        public DoctorController(DoctorApiService doctorApiService, SpecializationApiService specializationApiService, DepartmentApiService departmentApiService) 
+        public DoctorsController(DoctorApiService doctorApiService, SpecializationApiService specializationApiService, DepartmentApiService departmentApiService) 
         {
             _doctorApiService = doctorApiService;
             _specializationApiService = specializationApiService;

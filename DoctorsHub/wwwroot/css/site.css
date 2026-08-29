@@ -89,7 +89,7 @@ body {
     background: var(--surface);
     padding: 14px 18px;
     border-radius: 12px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid none;
 }
 
     .header h2 {
@@ -135,6 +135,12 @@ body {
         font-weight: 700;
     }
 
+
+.dashboard-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
 
 / /* ===========================
    Quick Actions

@@ -20,40 +20,68 @@
 
     <div class="dashboard-grid">
 
-        <div class="dashboard-card">
-            <h4>Total Doctors</h4>
-            <h2>@Model.TotalDoctors</h2>
-        </div>
+        <a asp-controller="Doctors"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Total Doctors</h4>
+                <h2>@Model.TotalDoctors</h2>
+            </div>
+        </a>
 
-        <div class="dashboard-card">
-            <h4>Total Patients</h4>
-            <h2>@Model.TotalPatients</h2>
-        </div>
+        <a asp-controller="Patients"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Total Patients</h4>
+                <h2>@Model.TotalPatients</h2>
+            </div>
+        </a>
 
-        <div class="dashboard-card">
-            <h4>Total Appointments</h4>
-            <h2>@Model.TotalAppointments</h2>
-        </div>
+        <a asp-controller="Appointments"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Total Appointments</h4>
+                <h2>@Model.TotalAppointments</h2>
+            </div>
+        </a>
 
-        <div class="dashboard-card">
-            <h4>Completed</h4>
-            <h2>@Model.CompletedAppointments</h2>
-        </div>
+        <a asp-controller="Appointments"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Completed</h4>
+                <h2>@Model.CompletedAppointments</h2>
+            </div>
+        </a>
 
-        <div class="dashboard-card">
-            <h4>Schedule Appointments</h4>
-            <h2>@Model.ScheduleAppointments</h2>
-        </div>
+        <a asp-controller="Appointments"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Schedule</h4>
+                <h2>@Model.ScheduleAppointments</h2>
+            </div>
+        </a>
 
-        <div class="dashboard-card">
-            <h4>Cancelled</h4>
-            <h2>@Model.CancelledAppointments</h2>
-        </div>
+        <a asp-controller="Appointments"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Cancelled</h4>
+                <h2>@Model.CancelledAppointments</h2>
+            </div>
+        </a>
 
-        <div class="dashboard-card">
-            <h4>Total Revenue</h4>
-            <h2>₹@Model.TotalRevenue.ToString("N2")</h2>
-        </div>
+        <a asp-controller="Billing"
+           asp-action="Index"
+           class="dashboard-card-link">
+            <div class="dashboard-card">
+                <h4>Total Revenue</h4>
+                <h2>₹@Model.TotalRevenue.ToString("N2")</h2>
+            </div>
+        </a>
 
     </div>
 

@@ -1079,64 +1079,34 @@ textarea {
         color: inherit;
     }
 
-/* ===========================================
+/* ==================================================
    NOTIFICATION DROPDOWN
-=========================================== */
+================================================== */
 
 .notification-dropdown {
-    background: var(--surface) !important;
-    border: 1px solid var(--border) !important;
+    background-color: var(--surface);
     color: var(--text);
-    box-shadow: var(--shadow);
+    border-color: var(--border);
 }
 
-
-    /* Notification dropdown items */
-
-    .notification-dropdown .notification-item {
-        background: var(--surface);
-        color: var(--text);
-        border-bottom: 1px solid var(--border);
-    }
-
-        .notification-dropdown .notification-item:hover {
-            background: var(--primary-light);
-        }
-
-
-    /* Notification title */
-
-    .notification-dropdown .notification-title {
+    .notification-dropdown strong {
         color: var(--text);
     }
 
+    .notification-dropdown .border-bottom,
+    .notification-dropdown .border-top {
+        border-color: var(--border) !important;
+    }
 
-    /* Notification message */
-
-    .notification-dropdown .notification-message {
+    .notification-dropdown .page-subtitle {
         color: var(--text-light);
     }
 
-
-    /* Notification date */
-
-    .notification-dropdown .notification-date {
-        color: var(--text-light);
+    .notification-dropdown .notification-action {
+        color: var(--primary);
     }
 
-
-/* Dark mode */
-
-body.dark-mode .notification-dropdown {
-    background: #1E1E1E !important;
-    border-color: #333333 !important;
-}
-
-    body.dark-mode .notification-dropdown .notification-item {
-        background: #1E1E1E;
-        color: #F5F5F5;
-    }
-
-        body.dark-mode .notification-dropdown .notification-item:hover {
-            background: #134E4A;
+        .notification-dropdown .notification-action:hover {
+            color: var(--primary-hover);
+            background-color: var(--primary-light);
         }
