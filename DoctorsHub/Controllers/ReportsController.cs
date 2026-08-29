@@ -16,12 +16,21 @@ namespace DoctorsHub.Web.Controllers
         private readonly ExcelExportService _excelExportService;
         private readonly PdfExportService _pdfExportService;
 
+        //Private Feilds API Services
+        private readonly DoctorApiService _doctorApiService;
+        private readonly PatientApiService _patientApiService;
+
+
         //Constructor
-        public ReportsController(ReportsApiService reportsApiService, ExcelExportService excelExportService, PdfExportService pdfExportService)
+        public ReportsController(ReportsApiService reportsApiService, ExcelExportService excelExportService, PdfExportService pdfExportService, DoctorApiService doctorApiService, PatientApiService patientApiService)
         {
             _reportsApiService = reportsApiService;
             _excelExportService = excelExportService;
             _pdfExportService = pdfExportService;
+           
+            _doctorApiService = doctorApiService;
+            _patientApiService = patientApiService;
+            
         }
 
 
@@ -261,6 +270,20 @@ namespace DoctorsHub.Web.Controllers
         {
             var appointments = await _reportsApiService.GetAppointmentReportsAsync(filter);
 
+            if (filter.DoctorId!.Value > 0 && filter.PatientId!.Value > 0)
+            {
+                var doctor = await _doctorApiService.GetDoctorByIdAsync((int)filter.DoctorId!);
+
+                var patient = await _patientApiService.GetPatientByIdAsync((int)filter.PatientId!);
+
+                if (doctor != null)
+                    filter.DoctorName = doctor.FullName;
+
+                if (patient != null)
+                    filter.PatientName = patient.FullName;
+            }
+
+
             var pdf = _pdfExportService.ExportAppointmentsPdf(appointments, filter);
 
             var reportName =
@@ -280,6 +303,20 @@ namespace DoctorsHub.Web.Controllers
         {
             var bills = await _reportsApiService.GetBillingReportsAsync(filter);
 
+            if (filter.DoctorId!.Value>0 && filter.PatientId!.Value>0)
+            {
+                var doctor = await _doctorApiService.GetDoctorByIdAsync((int)filter.DoctorId!);
+
+                var patient = await _patientApiService.GetPatientByIdAsync((int)filter.PatientId!);
+
+                if (doctor != null)
+                    filter.DoctorName = doctor.FullName;
+
+                if (patient != null)
+                    filter.PatientName = patient.FullName;
+            }
+
+
             var pdf = _pdfExportService.ExportBillingPdf(bills, filter);
 
             var reportName =
@@ -298,6 +335,14 @@ namespace DoctorsHub.Web.Controllers
         public async Task<IActionResult> ExportDoctorPdf(DoctorsReportFilteredDto filter)
         {
             var doctors = await _reportsApiService.GetDoctorsReportsAsync(filter);
+
+            if (filter.SpecializationId!.Value>0)
+            {
+                var specialization = await _reportsApiService.GetSpecializationAsync();
+                var name = specialization.FirstOrDefault(s => s.Id == filter.SpecializationId)!.Name;
+
+                filter.SpecializationName = (string)name!;
+            }
 
             var pdf = _pdfExportService.ExportDoctorsPdf(doctors, filter);
 

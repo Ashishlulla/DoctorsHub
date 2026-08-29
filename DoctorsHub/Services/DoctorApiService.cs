@@ -55,7 +55,7 @@ namespace DoctorsHub.Web.Services
             return doctors ?? new List<DoctorDto>();
         }
 
-        public async Task<DoctorDto> GetDoctorByIdAsync(int id) 
+        public async Task<DoctorDto> GetDoctorByIdAsync(int? id) 
         {
             AddToken();
             HttpResponseMessage response = await _httpClient.GetAsync($"api/doctors/{id}");
