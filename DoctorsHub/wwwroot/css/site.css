@@ -258,6 +258,7 @@ body {
 
 .user-profile-dropdown {
     position: relative;
+    border:none;
 }
 
 .user-dropdown-menu {
@@ -299,7 +300,7 @@ body {
     right: 0;
     width: 220px;
     background: var(--surface);
-    border: 1px solid #e5e7eb;
+    border: 1px solid none;
     border-radius: 12px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
     overflow: hidden;

@@ -33,7 +33,8 @@
 
                 @foreach (var department in Model)
                 {
-                    <a asp-action="Index"
+                    <a asp-controller="Department"
+                        asp-action="Details"
                        asp-route-id="@department.Id"
                        class="department-pill">
                         @department.Name
