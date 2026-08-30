@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin, Doctor, Receptionist")]
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentsController : ControllerBase

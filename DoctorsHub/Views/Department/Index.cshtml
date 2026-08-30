@@ -26,6 +26,7 @@
     {
         <div class="department-selector-card mb-4">
             <div class="department-selector">
+
                 <a asp-action="Index"
                    class="department-pill active">
                     All Departments
@@ -34,12 +35,13 @@
                 @foreach (var department in Model)
                 {
                     <a asp-controller="Department"
-                        asp-action="Details"
+                       asp-action="Details"
                        asp-route-id="@department.Id"
                        class="department-pill">
                         @department.Name
                     </a>
                 }
+
             </div>
         </div>
 
@@ -50,7 +52,15 @@
             {
                 <div class="col-xl-4 col-lg-6">
 
-                    <div class="department-card">
+                    <div class="department-card position-relative">
+
+                        <!-- Card Navigation -->
+                        <a asp-controller="Department"
+                           asp-action="Details"
+                           asp-route-id="@department.Id"
+                           class="stretched-link"
+                           aria-label="View @department.Name">
+                        </a>
 
                         <div class="d-flex justify-content-between align-items-start">
 
@@ -58,7 +68,8 @@
                                 <i class="bi bi-building"></i>
                             </div>
 
-                            <div class="dropdown">
+                            <div class="dropdown position-relative z-2">
+
                                 <button class="btn btn-sm btn-light"
                                         type="button"
                                         data-bs-toggle="dropdown">
@@ -83,17 +94,15 @@
                                     <li>
                                         <a asp-controller="Department"
                                            asp-action="Delete"
-                                           asp-route-id ="@department.Id"
-                                           class="dropdown-item text-danger"
-                                        >
-
+                                           asp-route-id="@department.Id"
+                                           class="dropdown-item text-danger">
                                             <i class="bi bi-trash me-2"></i>
                                             Delete
-
                                         </a>
                                     </li>
 
                                 </ul>
+
                             </div>
 
                         </div>
@@ -114,14 +123,10 @@
 
                         <div class="department-card-footer">
 
-                            <a asp-action="Details"
-                               asp-route-id="@department.Id"
-                               class="btn btn-outline-primary btn-sm">
-
+                            <span class="btn btn-outline-primary btn-sm">
                                 View Doctors
                                 <i class="bi bi-arrow-right ms-1"></i>
-
-                            </a>
+                            </span>
 
                         </div>
 
@@ -159,4 +164,3 @@
     }
 
 </div>
-
