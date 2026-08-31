@@ -11,13 +11,15 @@
         <h2>Doctor Details</h2>
 
         <div class="actions">
-            <a asp-action="Edit"
+            <a  asp-controller="Doctors"
+                asp-action="Edit"
                asp-route-id="@Model.Id"
                class="btn-save">
                 Edit
             </a>
 
-            <a asp-action="Index"
+            <a  asp-controller="Doctors"
+                asp-action="Index"
                class="btn-cancel">
                 Back
             </a>

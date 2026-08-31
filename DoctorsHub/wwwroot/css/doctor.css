@@ -1,1 +1,470 @@
-﻿
+﻿/* =========================================================
+   DOCTORS INDEX PAGE
+   ========================================================= */
+
+/* =========================
+   Page Container
+   ========================= */
+
+.page-container {
+    width: 100%;
+    padding: 24px;
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+    .header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--text);
+    }
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* =========================
+   Add Doctor Button
+   ========================= */
+
+.btn-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border-radius: 6px;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--primary);
+    transition: all 0.2s ease;
+}
+
+    .btn-save:hover {
+        background: var(--primary-hover);
+        border-color: var(--primary-hover);
+        color: #ffffff;
+    }
+
+
+/* =========================================================
+   Search Toolbar
+   ========================================================= */
+
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-height: 56px;
+}
+
+
+    /* Search Icon */
+
+    .search-box > i {
+        position: static;
+        flex-shrink: 0;
+        color: var(--text-light);
+        font-size: 18px;
+        margin-left: 2px;
+    }
+
+
+    /* Search Input */
+
+    .search-box input {
+        width: 280px;
+        height: 40px;
+        padding: 8px 10px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 14px;
+    }
+
+        .search-box input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search-box input:focus {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+
+    /* =========================
+   Search Button
+   ========================= */
+
+    .search-box .btn-primary {
+        height: 40px;
+        padding: 8px 22px;
+        border-radius: 8px;
+        background: var(--primary);
+        border: 1px solid var(--primary);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+        .search-box .btn-primary:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+
+    /* =========================
+   Reset Button
+   ========================= */
+
+    .search-box .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+        padding: 8px 22px;
+        border-radius: 8px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+        .search-box .btn-cancel:hover {
+            background: var(--background);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+
+/* =========================================================
+   Success Message
+   ========================================================= */
+
+.alert-success {
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   Table Container
+   ========================================================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   Table
+   ========================================================= */
+
+.table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    color: var(--text);
+    background: var(--surface);
+}
+
+
+    /* =========================
+   Table Header
+   ========================= */
+
+    .table thead th {
+        padding: 14px 16px;
+        background: var(--primary);
+        color: #ffffff;
+        border-bottom: 1px solid var(--primary);
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+
+        /* =========================
+   Sortable Header Links
+   ========================= */
+
+        .table thead th a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+            .table thead th a:hover {
+                color: #ffffff !important;
+                opacity: 0.85;
+                text-decoration: none;
+            }
+
+
+            /* =========================
+               Sort Arrow
+               ========================= */
+
+            .table thead th a span {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: #ffffff !important;
+                font-size: 15px;
+                font-weight: 700;
+                line-height: 1;
+            }
+
+        /* Header Cursor */
+
+        .table thead th a {
+            cursor: pointer;
+        }
+
+
+    /* =========================================================
+   Table Body
+   ========================================================= */
+
+    .table tbody td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+
+    /* Remove border from last row */
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /* Row Hover */
+
+    .table tbody tr:hover {
+        background: var(--background);
+    }
+
+
+/* =========================================================
+   Details Button
+   ========================================================= */
+
+.btn-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 14px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+    .btn-info:hover {
+        background: var(--primary);
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+
+/* =========================================================
+   Empty State
+   ========================================================= */
+
+.table tbody td.text-center {
+    padding: 40px 16px;
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   Pagination
+   ========================================================= */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+
+/* Pagination Buttons */
+
+.page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    height: 38px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+    .page-btn:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #ffffff;
+        text-decoration: none;
+    }
+
+
+/* Page Information */
+
+.page-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    height: 38px;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .page-container {
+        padding: 16px;
+    }
+
+    .header {
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+        .header h2 {
+            font-size: 24px;
+        }
+
+    .search-box {
+        width: 100%;
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+
+        .search-box input {
+            flex: 1;
+            min-width: 180px;
+            width: auto;
+        }
+
+        .search-box .btn-primary,
+        .search-box .btn-cancel {
+            flex-shrink: 0;
+        }
+
+    .table-container {
+        border-radius: 8px;
+    }
+
+    .table {
+        min-width: 900px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .header {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .actions {
+        width: 100%;
+    }
+
+    .btn-save {
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+        .search-box input {
+            width: 100%;
+            min-width: 0;
+            flex: 1 1 100%;
+        }
+
+        .search-box .btn-primary,
+        .search-box .btn-cancel {
+            flex: 1;
+        }
+}

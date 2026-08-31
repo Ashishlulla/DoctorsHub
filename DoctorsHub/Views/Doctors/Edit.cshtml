@@ -32,7 +32,7 @@
 
 
 
-            <a asp-controller="Doctor"
+            <a asp-controller="Doctors"
                asp-action="Index"
                class="create-btn-cancel">
 
@@ -55,7 +55,7 @@
 
     <form id="doctorEditForm"
           asp-action="Edit"
-          asp-controller="Doctor"
+          asp-controller="Doctors"
           method="post">
 
 
@@ -403,7 +403,7 @@
 
 
                 <a asp-action="Delete"
-                   asp-controller="Doctor"
+                   asp-controller="Doctors"
                    asp-route-id="@Model.Id"
                    class="btn-delete">
 
