@@ -1,10 +1,14 @@
-﻿namespace DoctorsHub.Application.DTOs.common
+﻿
+
+namespace DoctorsHub.Application.DTOs.common
 {
     public class AppointmentQueryParameter
     {
         //Searching and Filtering Properties
         public string? searchBy { get; set; }
         public string? searchString { get; set; }
+
+        public string? appointmentStatus { get; set; }
 
         //Sorting Properties
         public string sortBy { get; set; } = "AppointmentDate";

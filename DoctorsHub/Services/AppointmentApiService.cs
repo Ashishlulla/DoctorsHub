@@ -47,18 +47,29 @@ namespace DoctorsHub.Web.Services
             return appointments ?? new List<AppointmentDto>();
         }
 
-        public async Task<PagedResult<AppointmentDto>> GetAppointmentsAsync(AppointmentQueryParameter appointmentQueryParameter) 
+        public async Task<PagedResult<AppointmentDto>> GetAppointmentsAsync(
+    AppointmentQueryParameter appointmentQueryParameter)
         {
             AddToken();
-            string Url = $"/api/appointments?searchBy={appointmentQueryParameter.searchBy}&searchString={appointmentQueryParameter.searchString}&sortBy={appointmentQueryParameter.sortBy}&sortOrder={appointmentQueryParameter.sortOrder}&PageSize={appointmentQueryParameter.PageSize}&PageNumber={appointmentQueryParameter.PageNumber}";
 
+            string url =
+                $"/api/appointments" +
+                $"?searchBy={appointmentQueryParameter.searchBy}" +
+                $"&searchString={appointmentQueryParameter.searchString}" +
+                $"&sortBy={appointmentQueryParameter.sortBy}" +
+                $"&sortOrder={appointmentQueryParameter.sortOrder}" +
+                $"&PageSize={appointmentQueryParameter.PageSize}" +
+                $"&PageNumber={appointmentQueryParameter.PageNumber}" +
+                $"&appointmentStatus={appointmentQueryParameter.appointmentStatus}";
 
-            HttpResponseMessage response = await _httpClient.GetAsync(Url);
-            response.EnsureSuccessStatusCode() ;
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
 
-            PagedResult<AppointmentDto>? appointments = await response.Content.ReadFromJsonAsync<PagedResult<AppointmentDto>>();
+            response.EnsureSuccessStatusCode();
 
-            return appointments?? new PagedResult<AppointmentDto>();
+            PagedResult<AppointmentDto>? appointments =
+                await response.Content.ReadFromJsonAsync<PagedResult<AppointmentDto>>();
+
+            return appointments ?? new PagedResult<AppointmentDto>();
         }
 
         public async Task<AppointmentDto> GetAppointmentByIdAsync(int id) 

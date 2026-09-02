@@ -2,63 +2,125 @@
 
 @{
     ViewData["Title"] = "Appointments";
+
+    var currentSearch = Context.Request.Query["searchString"].ToString();
+    var currentAppointmentStatus = Context.Request.Query["appointmentStatus"].ToString();
+    var currentSortBy = Context.Request.Query["sortBy"].ToString();
+    var currentSortOrder = Context.Request.Query["sortOrder"].ToString();
+
+    // Determine next sorting order for each column
+    var nextAppointmentDateOrder =
+        currentSortBy == "AppointmentDate" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextStartTimeOrder =
+        currentSortBy == "StartTime" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextEndTimeOrder =
+        currentSortBy == "EndTime" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextPatientNameOrder =
+        currentSortBy == "PatientName" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextDoctorNameOrder =
+        currentSortBy == "DoctorName" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextAppointmentStatusOrder =
+        currentSortBy == "AppointmentStatus" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
 }
 
 <div class="page-container">
 
     <!-- Header -->
     <div class="header">
-        <h2>Patients</h2>
 
-        <div class="actions">
-            <a asp-action="Create" class="btn-save">
-                + Add Appointments
-            </a>
-        </div>
+        <h2>Appointments</h2>
+
     </div>
 
-    <!-- Search + Filter -->
-    <form method="get" class="filter-bar">
 
-        <!-- Search By -->
-        <select name="searchBy">
-            <option value="PatientName" selected="@(Context.Request.Query["searchBy"] == "PatientName")">Patient Name</option>
-            <option value="DoctorName" selected="@(Context.Request.Query["searchBy"] == "DoctorName")">Doctor Name</option>
-            <option value="Email" selected="@(Context.Request.Query["searchBy"] == "Email")">Email</option>
-            <option value="PhoneNumber" selected="@(Context.Request.Query["searchBy"] == "PhoneNumber")">Phone Number</option>
-            <option value="BloodGroup" selected="@(Context.Request.Query["searchBy"] == "BloodGroup")">Blood Group</option>
-        </select>
+    <!-- Search + Appointment Status Filter -->
+    <form method="get">
 
-        <!-- Search Text -->
-        <input type="text"
-               name="searchString"
-               value="@Context.Request.Query["searchString"]"
-               placeholder="Search appointment..." />
+        <div class="table-toolbar mb-3">
 
-        <!-- Sort By -->
-        <select name="sortBy">
-            <option value="PaientName" selected="@(Context.Request.Query["sortBy"] == "PatientName")">Patient Name</option>
-            <option value="DoctorName" selected="@(Context.Request.Query["sortBy"] == "DoctorName")">Doctor Name</option>
-            
-            <option value="BloodGroup" selected="@(Context.Request.Query["sortBy"] == "BloodGroup")">Blood Group</option>
-        </select>
+            <div class="search-box">
 
-        <!-- Sort Order -->
-        <select name="sortOrder">
-            <option value="asc" selected="@(Context.Request.Query["sortOrder"] == "asc")">Ascending</option>
-            <option value="desc" selected="@(Context.Request.Query["sortOrder"] == "desc")">Descending</option>
-        </select>
+                <i class="bi bi-search"></i>
 
-        <button type="submit" class="btn-search">
-            Search
-        </button>
+                <!-- Search -->
+                <input type="text"
+                       id="appointmentSearch"
+                       name="searchString"
+                       value="@currentSearch"
+                       placeholder="Search appointments..."
+                       autocomplete="off" />
 
-        <a asp-action="Index" class="btn-cancel">
-            Reset
-        </a>
+
+                <!-- Appointment Status -->
+                <select name="appointmentStatus"
+                        id="appointmentStatus">
+
+                    <option value=""
+                            selected="@(string.IsNullOrEmpty(currentAppointmentStatus))">
+                        All Appointment Status
+                    </option>
+
+                    <option value="Scheduled"
+                            selected="@(currentAppointmentStatus == "Scheduled")">
+                        Scheduled
+                    </option>
+
+                    <option value="Confirmed"
+                            selected="@(currentAppointmentStatus == "Confirmed")">
+                        Confirmed
+                    </option>
+
+                    <option value="Completed"
+                            selected="@(currentAppointmentStatus == "Completed")">
+                        Completed
+                    </option>
+
+                    <option value="Cancelled"
+                            selected="@(currentAppointmentStatus == "Cancelled")">
+                        Cancelled
+                    </option>
+
+                </select>
+
+
+                <!-- Search Button -->
+                <button type="submit"
+                        class="btn btn-primary">
+                    Search
+                </button>
+
+
+                <!-- Reset -->
+                <a asp-action="Index"
+                   class="btn-cancel">
+                    Reset
+                </a>
+
+            </div>
+
+        </div>
 
     </form>
 
+
+    <!-- Success Message -->
     @if (TempData["Success"] != null)
     {
         <div class="alert-success">
@@ -66,53 +128,214 @@
         </div>
     }
 
-    <!-- Table -->
+
+    <!-- Appointments Table -->
     <div class="table-container">
 
         <table class="table">
 
             <thead>
+
                 <tr>
-                    <th>Appointment Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Patient Name</th>
-                    <th>Doctor Name</th>
-                    <th>Appointment Status</th>
-                    <th>Info</th>
+
+                    <!-- Appointment Date -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-appointmentStatus="@currentAppointmentStatus"
+                           asp-route-sortBy="AppointmentDate"
+                           asp-route-sortOrder="@nextAppointmentDateOrder">
+
+                            Appointment Date
+
+                            @if (currentSortBy == "AppointmentDate")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Start Time -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-appointmentStatus="@currentAppointmentStatus"
+                           asp-route-sortBy="StartTime"
+                           asp-route-sortOrder="@nextStartTimeOrder">
+
+                            Start Time
+
+                            @if (currentSortBy == "StartTime")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- End Time -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-appointmentStatus="@currentAppointmentStatus"
+                           asp-route-sortBy="EndTime"
+                           asp-route-sortOrder="@nextEndTimeOrder">
+
+                            End Time
+
+                            @if (currentSortBy == "EndTime")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Patient -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-appointmentStatus="@currentAppointmentStatus"
+                           asp-route-sortBy="PatientName"
+                           asp-route-sortOrder="@nextPatientNameOrder">
+
+                            Patient
+
+                            @if (currentSortBy == "PatientName")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Doctor -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-appointmentStatus="@currentAppointmentStatus"
+                           asp-route-sortBy="DoctorName"
+                           asp-route-sortOrder="@nextDoctorNameOrder">
+
+                            Doctor
+
+                            @if (currentSortBy == "DoctorName")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Appointment Status -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-appointmentStatus="@currentAppointmentStatus"
+                           asp-route-sortBy="AppointmentStatus"
+                           asp-route-sortOrder="@nextAppointmentStatusOrder">
+
+                            Appointment Status
+
+                            @if (currentSortBy == "AppointmentStatus")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Info -->
+                    <th>
+                        Info
+                    </th>
+
                 </tr>
+
             </thead>
+
 
             <tbody>
 
-                @if (Model.Items.Any())
+                @if (Model.Items != null && Model.Items.Any())
                 {
-                    @foreach (var appointment in Model.Items)
+                    foreach (var appointment in Model.Items)
                     {
                         <tr>
-                            <td>@appointment.AppointmentDate</td>
-                            <td>@appointment.StartTime</td>
-                            <td>@appointment.EndTime</td>
-                            <td>@appointment.PatientName</td>
-                            <td>@appointment.DoctorName</td>
-                            <td>@appointment.Status</td>
 
                             <td>
+                                @appointment.AppointmentDate.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>
+                                @appointment.StartTime
+                            </td>
+
+                            <td>
+                                @appointment.EndTime
+                            </td>
+
+                            <td>
+                                @appointment.PatientName
+                            </td>
+
+                            <td>
+                                @appointment.DoctorName
+                            </td>
+
+                            <td>
+                                @appointment.Status
+                            </td>
+
+                            <td>
+
                                 <a asp-action="Details"
                                    asp-route-id="@appointment.Id"
                                    class="btn-info">
                                     Details
                                 </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@appointment.Id"
+                                   class="btn-edit">
+                                    Edit
+                                </a>
+
                             </td>
+
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-                        <td colspan="7" class="text-center">
+
+                        <td colspan="7"
+                            class="text-center">
+
                             No appointments found.
+
                         </td>
+
                     </tr>
                 }
 
@@ -122,43 +345,53 @@
 
     </div>
 
+
     <!-- Pagination -->
-    <div class="pagination">
+    @if (Model.TotalPages > 1)
+    {
+        <div class="pagination">
 
-        @if (Model.PageNumber > 1)
-        {
-            <a asp-action="Index"
-               asp-route-PageNumber="@(Model.PageNumber - 1)"
-               asp-route-searchBy="@Context.Request.Query["searchBy"]"
-               asp-route-searchString="@Context.Request.Query["searchString"]"
-               asp-route-Gender="@Context.Request.Query["Gender"]"
-               asp-route-BloodGroup="@Context.Request.Query["BloodGroup"]"
-               asp-route-sortBy="@Context.Request.Query["sortBy"]"
-               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
-               class="page-btn">
-                Prev
-            </a>
-        }
+            @if (Model.PageNumber > 1)
+            {
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber - 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-appointmentStatus="@currentAppointmentStatus"
+                   asp-route-sortBy="@currentSortBy"
+                   asp-route-sortOrder="@currentSortOrder"
+                   class="page-btn">
 
-        <span class="page-info">
-            Page @Model.PageNumber of @Model.TotalPages
-        </span>
+                    Prev
 
-        @if (Model.PageNumber < Model.TotalPages)
-        {
-            <a asp-action="Index"
-               asp-route-PageNumber="@(Model.PageNumber + 1)"
-               asp-route-searchBy="@Context.Request.Query["searchBy"]"
-               asp-route-searchString="@Context.Request.Query["searchString"]"
-               asp-route-Gender="@Context.Request.Query["Gender"]"
-               asp-route-BloodGroup="@Context.Request.Query["BloodGroup"]"
-               asp-route-sortBy="@Context.Request.Query["sortBy"]"
-               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
-               class="page-btn">
-                Next
-            </a>
-        }
+                </a>
+            }
 
-    </div>
+
+            <span class="page-info">
+
+                Page @Model.PageNumber of @Model.TotalPages
+
+            </span>
+
+
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber + 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-appointmentStatus="@currentAppointmentStatus"
+                   asp-route-sortBy="@currentSortBy"
+                   asp-route-sortOrder="@currentSortOrder"
+                   class="page-btn">
+
+                    Next
+
+                </a>
+            }
+
+        </div>
+    }
 
 </div>

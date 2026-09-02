@@ -89,8 +89,7 @@ namespace DoctorsHub.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<(List<Appointment> Appointments, int TotalRecords)> GetAllAppointmentsAsync(
-     AppointmentQueryParameter appointmentQueryParameter)
+        public async Task<(List<Appointment> Appointments, int TotalRecords)> GetAllAppointmentsAsync(AppointmentQueryParameter appointmentQueryParameter)
         {
             IQueryable<Appointment> query = _db.Appointments
                 .AsNoTracking()
@@ -123,14 +122,8 @@ namespace DoctorsHub.Infrastructure.Repositories
                     }
                     break;
 
-                case "Status":
-                    if (Enum.TryParse<AppointmentStatus>(
-                        appointmentQueryParameter.searchString,
-                        true,
-                        out AppointmentStatus status))
-                    {
-                        query = query.Where(a => a.Status == status);
-                    }
+                default:
+                    query = query;
                     break;
             }
 
@@ -152,6 +145,13 @@ namespace DoctorsHub.Infrastructure.Repositories
                 _ => query.OrderBy(a => a.AppointmentDate)
                           .ThenBy(a => a.StartTime)
             };
+
+            //AppointmentStatus filtering
+
+            if (appointmentQueryParameter.appointmentStatus != null)
+            {
+                query = query.Where(a => a.Status.ToString() == appointmentQueryParameter.appointmentStatus);
+            }
 
             // Total Records
             int totalRecords = await query.CountAsync();
