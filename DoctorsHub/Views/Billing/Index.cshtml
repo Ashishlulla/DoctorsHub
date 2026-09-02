@@ -1,134 +1,137 @@
-﻿@model PagedResult<BillDto>
+﻿
+@model PagedResult<BillDto>
 
 @{
     ViewData["Title"] = "Billing";
+
+    var currentSearch = Context.Request.Query["searchString"].ToString();
+    var currentPaymentStatus = Context.Request.Query["paymentStatus"].ToString();
+    var currentSortBy = Context.Request.Query["sortBy"].ToString();
+    var currentSortOrder = Context.Request.Query["sortOrder"].ToString();
+
+    // Determine next sorting order for each column
+    var nextBillIdOrder =
+        currentSortBy == "BillId" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextPatientNameOrder =
+        currentSortBy == "PatientName" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextDoctorNameOrder =
+        currentSortBy == "DoctorName" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextConsultationFeeOrder =
+        currentSortBy == "ConsultationFee" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextAdditionalChargesOrder =
+        currentSortBy == "AdditionalCharges" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextDiscountOrder =
+        currentSortBy == "Discount" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextTotalAmountOrder =
+        currentSortBy == "TotalAmount" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextPaymentStatusOrder =
+        currentSortBy == "PaymentStatus" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
+
+    var nextBillDateOrder =
+        currentSortBy == "BillDate" && currentSortOrder == "asc"
+            ? "desc"
+            : "asc";
 }
 
 <div class="page-container">
 
     <!-- Header -->
     <div class="header">
+
         <h2>Billing</h2>
+
     </div>
 
-    <!-- Search & Filter -->
-    <form method="get" class="filter-bar">
 
-        <!-- Search By -->
-        <select name="searchBy" id="searchBy">
+    <!-- Search + Payment Filter -->
+    <form method="get">
 
-            <option value="BillId" selected="@(Context.Request.Query["searchBy"] == "BillId")">
-                Bill ID
-            </option>
+        <div class="table-toolbar mb-3">
 
-            <option value="PatientName" selected="@(Context.Request.Query["searchBy"] == "PatientName")">
-                Patient Name
-            </option>
+            <div class="search-box">
 
-            <option value="DoctorName" selected="@(Context.Request.Query["searchBy"] == "DoctorName")">
-                Doctor Name
-            </option>
+                <i class="bi bi-search"></i>
 
-            <option value="BillDate" selected="@(Context.Request.Query["searchBy"] == "BillDate")">
-                Bill Date
-            </option>
-
-            <option value="AppointmentDate" selected="@(Context.Request.Query["searchBy"] == "AppointmentDate")">
-                Appointment Date
-            </option>
-
-        </select>
+                <!-- Search -->
+                <input type="text"
+                       id="billingSearch"
+                       name="searchString"
+                       value="@currentSearch"
+                       placeholder="Search bills..."
+                       autocomplete="off" />
 
 
-        <!-- Search -->
-        <input type="text"
-               name="searchString"
-               value="@Context.Request.Query["searchString"]"
-               placeholder="Search bills..." />
+                <!-- Payment Status -->
+                <select name="paymentStatus"
+                        id="paymentStatus">
+
+                    <option value=""
+                            selected="@(string.IsNullOrEmpty(currentPaymentStatus))">
+                        All Payment Status
+                    </option>
+
+                    <option value="Paid"
+                            selected="@(currentPaymentStatus == "Paid")">
+                        Paid
+                    </option>
+
+                    <option value="Pending"
+                            selected="@(currentPaymentStatus == "Pending")">
+                        Pending
+                    </option>
+
+                    <option value="Cancelled"
+                            selected="@(currentPaymentStatus == "Cancelled")">
+                        Cancelled
+                    </option>
+
+                </select>
 
 
-        <!-- Sort By -->
-        <select name="sortBy">
-
-            <option value="PatientName"
-                    selected="@(Context.Request.Query["sortBy"] == "PatientName")">
-                Patient Name
-            </option>
-
-            <option value="DoctorName"
-                    selected="@(Context.Request.Query["sortBy"] == "DoctorName")">
-                Doctor Name
-            </option>
-
-            <option value="BillDate"
-                    selected="@(Context.Request.Query["sortBy"] == "BillDate")">
-                Bill Date
-            </option>
-
-            <option value="AppointmentDate"
-                    selected="@(Context.Request.Query["sortBy"] == "AppointmentDate")">
-                Appointment Date
-            </option>
-
-        </select>
+                <!-- Search Button -->
+                <button type="submit"
+                        class="btn btn-primary">
+                    Search
+                </button>
 
 
-        <!-- Sort Order -->
-        <select name="sortOrder">
+                <!-- Reset -->
+                <a asp-action="Index"
+                   class="btn-cancel">
+                    Reset
+                </a>
 
-            <option value="asc"
-                    selected="@(Context.Request.Query["sortOrder"] == "asc")">
-                Ascending
-            </option>
+            </div>
 
-            <option value="desc"
-                    selected="@(Context.Request.Query["sortOrder"] == "desc")">
-                Descending
-            </option>
-
-        </select>
-
-
-        <!-- Payment Status -->
-        <select name="paymentStatus" id="paymentStatus">
-
-            <option value=""
-                    selected="@(string.IsNullOrEmpty(Context.Request.Query["paymentStatus"]))">
-                All Payment Status
-            </option>
-
-            <option value="Paid"
-                    selected="@(Context.Request.Query["paymentStatus"] == "Paid")">
-                Paid
-            </option>
-
-            <option value="Pending"
-                    selected="@(Context.Request.Query["paymentStatus"] == "Pending")">
-                Pending
-            </option>
-
-            <option value="Cancelled"
-                    selected="@(Context.Request.Query["paymentStatus"] == "Cancelled")">
-                Cancelled
-            </option>
-
-        </select>
-
-
-        <!-- Search Button -->
-        <button type="submit" class="btn-search">
-            Search
-        </button>
-
-
-        <!-- Reset -->
-        <a asp-action="Index" class="btn-cancel">
-            Reset
-        </a>
+        </div>
 
     </form>
 
 
+    <!-- Success Message -->
     @if (TempData["Success"] != null)
     {
         <div class="alert-success">
@@ -137,39 +140,233 @@
     }
 
 
-    <!-- Table -->
+    <!-- Billing Table -->
     <div class="table-container">
 
         <table class="table">
 
             <thead>
+
                 <tr>
-                    <th>Bill ID</th>
-                    <th>Patient</th>
-                    <th>Doctor</th>
-                    <th>Consultation Fee</th>
-                    <th>Additional Charges</th>
-                    <th>Discount</th>
-                    <th>Total Amount</th>
-                    <th>Payment Status</th>
-                    <th>Bill Date</th>
-                    <th>Info</th>
+
+                    <!-- Bill ID -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="BillId"
+                           asp-route-sortOrder="@nextBillIdOrder">
+
+                            Bill ID
+
+                            @if (currentSortBy == "BillId")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Patient -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="PatientName"
+                           asp-route-sortOrder="@nextPatientNameOrder">
+
+                            Patient
+
+                            @if (currentSortBy == "PatientName")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Doctor -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="DoctorName"
+                           asp-route-sortOrder="@nextDoctorNameOrder">
+
+                            Doctor
+
+                            @if (currentSortBy == "DoctorName")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Consultation Fee -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="ConsultationFee"
+                           asp-route-sortOrder="@nextConsultationFeeOrder">
+
+                            Consultation Fee
+
+                            @if (currentSortBy == "ConsultationFee")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Additional Charges -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="AdditionalCharges"
+                           asp-route-sortOrder="@nextAdditionalChargesOrder">
+
+                            Additional Charges
+
+                            @if (currentSortBy == "AdditionalCharges")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Discount -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="Discount"
+                           asp-route-sortOrder="@nextDiscountOrder">
+
+                            Discount
+
+                            @if (currentSortBy == "Discount")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Total Amount -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="TotalAmount"
+                           asp-route-sortOrder="@nextTotalAmountOrder">
+
+                            Total Amount
+
+                            @if (currentSortBy == "TotalAmount")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Payment Status -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="PaymentStatus"
+                           asp-route-sortOrder="@nextPaymentStatusOrder">
+
+                            Payment Status
+
+                            @if (currentSortBy == "PaymentStatus")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Bill Date -->
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-searchString="@currentSearch"
+                           asp-route-paymentStatus="@currentPaymentStatus"
+                           asp-route-sortBy="BillDate"
+                           asp-route-sortOrder="@nextBillDateOrder">
+
+                            Bill Date
+
+                            @if (currentSortBy == "BillDate")
+                            {
+                                <span>
+                                    @(currentSortOrder == "asc" ? "↑" : "↓")
+                                </span>
+                            }
+
+                        </a>
+                    </th>
+
+
+                    <!-- Info -->
+                    <th>
+                        Info
+                    </th>
+
                 </tr>
+
             </thead>
+
 
             <tbody>
 
-                @if (Model.Items.Any())
+                @if (Model.Items != null && Model.Items.Any())
                 {
-                    @foreach (var bill in Model.Items)
+                    foreach (var bill in Model.Items)
                     {
                         <tr>
 
-                            <td>@bill.Id</td>
+                            <td>
+                                @bill.Id
+                            </td>
 
-                            <td>@bill.PatientName</td>
+                            <td>
+                                @bill.PatientName
+                            </td>
 
-                            <td>@bill.DoctorName</td>
+                            <td>
+                                @bill.DoctorName
+                            </td>
 
                             <td>
                                 ₹@bill.ConsultationFee.ToString("N2")
@@ -219,9 +416,14 @@
                 else
                 {
                     <tr>
-                        <td colspan="10" class="text-center">
+
+                        <td colspan="10"
+                            class="text-center">
+
                             No bills found.
+
                         </td>
+
                     </tr>
                 }
 
@@ -233,43 +435,51 @@
 
 
     <!-- Pagination -->
-    <div class="pagination">
+    @if (Model.TotalPages > 1)
+    {
+        <div class="pagination">
 
-        @if (Model.PageNumber > 1)
-        {
-            <a asp-action="Index"
-               asp-route-pageNumber="@(Model.PageNumber - 1)"
-               asp-route-pageSize="@Model.PageSize"
-               asp-route-searchBy="@Context.Request.Query["searchBy"]"
-               asp-route-searchString="@Context.Request.Query["searchString"]"
-               asp-route-sortBy="@Context.Request.Query["sortBy"]"
-               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
-               asp-route-paymentStatus="@Context.Request.Query["paymentStatus"]"
-               class="page-btn">
-                Prev
-            </a>
-        }
+            @if (Model.PageNumber > 1)
+            {
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber - 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-paymentStatus="@currentPaymentStatus"
+                   asp-route-sortBy="@currentSortBy"
+                   asp-route-sortOrder="@currentSortOrder"
+                   class="page-btn">
 
-        <span class="page-info">
-            Page @Model.PageNumber of @Model.TotalPages
-        </span>
+                    Prev
 
-        @if (Model.PageNumber < Model.TotalPages)
-        {
-            <a asp-action="Index"
-               asp-route-pageNumber="@(Model.PageNumber + 1)"
-               asp-route-pageSize="@Model.PageSize"
-               asp-route-searchBy="@Context.Request.Query["searchBy"]"
-               asp-route-searchString="@Context.Request.Query["searchString"]"
-               asp-route-sortBy="@Context.Request.Query["sortBy"]"
-               asp-route-sortOrder="@Context.Request.Query["sortOrder"]"
-               asp-route-paymentStatus="@Context.Request.Query["paymentStatus"]"
-               class="page-btn">
-                Next
-            </a>
-        }
+                </a>
+            }
 
-    </div>
+
+            <span class="page-info">
+
+                Page @Model.PageNumber of @Model.TotalPages
+
+            </span>
+
+
+            @if (Model.PageNumber < Model.TotalPages)
+            {
+                <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageNumber + 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-paymentStatus="@currentPaymentStatus"
+                   asp-route-sortBy="@currentSortBy"
+                   asp-route-sortOrder="@currentSortOrder"
+                   class="page-btn">
+
+                    Next
+
+                </a>
+            }
+
+        </div>
+    }
 
 </div>
-
