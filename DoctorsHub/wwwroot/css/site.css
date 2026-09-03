@@ -667,3 +667,70 @@ body {
     .form-control::placeholder {
         color: var(--text-light) !important;
     }
+
+/* ==========================================
+   NOTIFICATION DROPDOWN
+   ========================================== */
+
+.notification-dropdown {
+    width: 360px;
+    background-color: var(--surface) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+}
+
+    /* Header */
+    .notification-dropdown > div:first-child {
+        background-color: var(--surface) !important;
+        border-color: var(--border) !important;
+    }
+
+        .notification-dropdown > div:first-child strong {
+            color: var(--text) !important;
+        }
+
+/* Notification list */
+#notificationList {
+    background-color: var(--surface) !important;
+    color: var(--text) !important;
+}
+
+    /* Force ALL dynamically generated notification text */
+    #notificationList * {
+        color: var(--text-light) !important;
+    }
+
+    /* Notification title */
+    #notificationList strong,
+    #notificationList .notification-title {
+        color: var(--text) !important;
+    }
+
+    /* Notification message */
+    #notificationList p,
+    #notificationList .notification-message {
+        color: var(--text-light) !important;
+    }
+
+    /* Date / time */
+    #notificationList small,
+    #notificationList .notification-time,
+    #notificationList .text-muted {
+        color: var(--text-light) !important;
+    }
+
+/* Footer */
+.notification-dropdown > div:last-child {
+    background-color: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+/* Buttons / links */
+.notification-dropdown .notification-action {
+    color: var(--primary) !important;
+    background: transparent !important;
+}
+
+    .notification-dropdown .notification-action:hover {
+        color: var(--primary-hover) !important;
+    }
