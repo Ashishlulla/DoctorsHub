@@ -1,6 +1,5 @@
 ﻿using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-using DoctorsHub.Application.Services;
 using DoctorsHub.Infrastructure.Communication.Brevo;
 using DoctorsHub.Infrastructure.Configuration;
 using DoctorsHub.Infrastructure.Persistence;
