@@ -1,59 +1,74 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using DoctorsHub.Application.DTOs.Doctors;
-using DoctorsHub.Application.DTOs.common;
+﻿using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
+using DoctorsHub.Application.DTOs.Doctors;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
-    [Authorize(Roles ="Admin")]
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Roles = "Admin,Receptionist,Doctor")]
     public class DoctorsController : ControllerBase
     {
-        //Private feilds
-        private readonly IDoctorService _doctorService; 
+        private readonly IDoctorService _doctorService;
 
-        //Constructor
         public DoctorsController(IDoctorService doctorService)
         {
             _doctorService = doctorService;
         }
 
+        
         [HttpGet]
-        public async Task<IActionResult> GetDoctorsAsync([FromQuery]DoctorQueryParameters doctorQueryParameters)
+        public async Task<IActionResult> GetDoctorsAsync(
+            [FromQuery] DoctorQueryParameters doctorQueryParameters)
         {
-             var (doctors, ToalRecords) = await _doctorService.GetAllDoctorsAsync(doctorQueryParameters);
+            var (doctors, totalRecords) =
+                await _doctorService.GetAllDoctorsAsync(doctorQueryParameters);
 
             return Ok(new PagedResult<DoctorDto>
             {
                 Items = doctors,
                 PageNumber = doctorQueryParameters.PageNumber,
                 PageSize = doctorQueryParameters.PageSize,
-                TotalCount = ToalRecords,
-                
+                TotalCount = totalRecords
             });
         }
 
+       
         [HttpGet("all")]
-        public async Task<IActionResult> GetDoctors() 
+        public async Task<IActionResult> GetDoctorsAsync()
         {
-            List<DoctorDto> doctors = await _doctorService.GetAllDoctorsAsync();
+            List<DoctorDto> doctors =
+                await _doctorService.GetAllDoctorsAsync();
 
             return Ok(doctors);
         }
 
-
+        
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDoctorByIdAsync(int id) 
+        public async Task<IActionResult> GetDoctorByIdAsync(int id)
         {
-            DoctorDto? doctor = await _doctorService.GetByIdAsync(id);
+            DoctorDto? doctor =
+                await _doctorService.GetByIdAsync(id);
+
+            if (doctor == null)
+            {
+                return NotFound(new
+                {
+                    Message = "Doctor not found"
+                });
+            }
 
             return Ok(doctor);
         }
+
+       
         [HttpPost]
-        public async Task<IActionResult> CreateDoctorAsync([FromBody]CreateDoctorDto createDoctorDto) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateDoctorAsync(
+            [FromBody] CreateDoctorDto createDoctorDto)
         {
             await _doctorService.CreateDoctorAsync(createDoctorDto);
 
@@ -64,10 +79,15 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
+       
         [HttpPut]
-        public async Task<IActionResult> UpdateDoctorAsync([FromBody]UpdateDoctorDto updateDoctorDto )
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateDoctorAsync(
+            [FromBody] UpdateDoctorDto updateDoctorDto)
         {
-            await _doctorService.UpdateDoctorAsync(updateDoctorDto.Id, updateDoctorDto);
+            await _doctorService.UpdateDoctorAsync(
+                updateDoctorDto.Id,
+                updateDoctorDto);
 
             return Ok(new
             {
@@ -75,12 +95,18 @@ namespace DoctorsHub.API.Controllers
                 DoctorName = updateDoctorDto.FullName
             });
         }
+
+       
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDoctorAsync(int id) 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteDoctorAsync(int id)
         {
             await _doctorService.DeleteDoctorAsync(id);
 
-            return Ok("Doctor deleted successfully...");
+            return Ok(new
+            {
+                Message = "Doctor deleted successfully"
+            });
         }
     }
 }

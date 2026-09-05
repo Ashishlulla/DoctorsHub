@@ -7,60 +7,67 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
-    [Authorize(Roles ="Admin, Doctor, Receptionist")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
-        //private feilds
         private readonly IAppointmentService _appointmentService;
 
-        //Constructor
         public AppointmentsController(IAppointmentService appointmentService)
         {
             _appointmentService = appointmentService;
         }
 
+        // Admin + Doctor + Receptionist
         [HttpGet]
-        public async Task<IActionResult> GetAppointmentsAsync([FromQuery]AppointmentQueryParameter appointmentQueryParameter) 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+        public async Task<IActionResult> GetAppointmentsAsync(
+            [FromQuery] AppointmentQueryParameter appointmentQueryParameter)
         {
-           var(appointmens, TotalRecords) = await _appointmentService.GetAllAppointmentsAsync(appointmentQueryParameter);
+            var (appointments, totalRecords) =
+                await _appointmentService.GetAllAppointmentsAsync(
+                    appointmentQueryParameter);
 
             return Ok(new PagedResult<AppointmentDto>
             {
-                Items = appointmens,
+                Items = appointments,
                 PageSize = appointmentQueryParameter.PageSize,
                 PageNumber = appointmentQueryParameter.PageNumber,
-                TotalCount = TotalRecords,
-                
+                TotalCount = totalRecords
             });
         }
 
-
-
+        // Admin + Doctor + Receptionist
         [HttpGet("all")]
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
         public async Task<IActionResult> GetAllAppointmentsAsync()
         {
-            var appointments = await _appointmentService.GetAppointmentsAsync();
+            var appointments =
+                await _appointmentService.GetAppointmentsAsync();
 
             return Ok(appointments);
-
         }
 
+        // Admin + Doctor + Receptionist
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
         public async Task<IActionResult> GetAppointmentById(int id)
         {
-            var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+            var appointment =
+                await _appointmentService.GetAppointmentByIdAsync(id);
 
             return Ok(appointment);
-
         }
 
+        // Admin + Doctor + Receptionist
         [HttpPost]
-
-        public async Task<IActionResult> CreateAppointmentAsync([FromBody]CreateAppointmentDto createAppointmentDto)
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+        public async Task<IActionResult> CreateAppointmentAsync(
+            [FromBody] CreateAppointmentDto createAppointmentDto)
         {
-            await _appointmentService.CreateAppointmentAsync(createAppointmentDto);
+            await _appointmentService.CreateAppointmentAsync(
+                createAppointmentDto);
 
             return Ok(new
             {
@@ -69,20 +76,25 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
+        // Admin + Doctor + Receptionist
         [HttpPut]
-
-        public async Task<IActionResult> UpdateAppointmentAsync([FromBody]UpdateAppointmentDto updateAppointmentDto)
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+        public async Task<IActionResult> UpdateAppointmentAsync(
+            [FromBody] UpdateAppointmentDto updateAppointmentDto)
         {
-            await _appointmentService.UpdateAppointmentAsync(updateAppointmentDto);
+            await _appointmentService.UpdateAppointmentAsync(
+                updateAppointmentDto);
 
             return Ok(new
             {
                 Message = "Appointment updated successfully",
-                UpdatdAppointmentDetails = updateAppointmentDto
+                UpdatedAppointmentDetails = updateAppointmentDto
             });
         }
 
+        // Admin ONLY
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAppointmentAsync(int id)
         {
             await _appointmentService.DeleteAppointmentAsync(id);
@@ -94,8 +106,10 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
+        // Admin + Doctor + Receptionist
         [HttpPut("[action]/{id}")]
-        public async Task<IActionResult> Confirm(int id) 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+        public async Task<IActionResult> Confirm(int id)
         {
             await _appointmentService.ConfirmedAppointmentAsync(id);
 
@@ -106,8 +120,10 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
+        // Admin + Doctor + Receptionist
         [HttpPut("[action]/{id}")]
-        public async Task<IActionResult> Cancel(int id) 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+        public async Task<IActionResult> Cancel(int id)
         {
             await _appointmentService.CancelAppointmentAsync(id);
 
@@ -118,7 +134,9 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
+        // Admin + Doctor + Receptionist
         [HttpPut("[action]/{id}")]
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
         public async Task<IActionResult> Complete(int id)
         {
             await _appointmentService.CompletedAppointmentAsync(id);
@@ -130,10 +148,14 @@ namespace DoctorsHub.API.Controllers
             });
         }
 
+        // Admin + Doctor + Receptionist
         [HttpPut("[action]")]
-        public async Task<IActionResult> Reschedule(RescheduleAppointmentDto rescheduleAppointmentDto)
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+        public async Task<IActionResult> Reschedule(
+            RescheduleAppointmentDto rescheduleAppointmentDto)
         {
-            await _appointmentService.RescheduleAppointmentAsync(rescheduleAppointmentDto); ;
+            await _appointmentService.RescheduleAppointmentAsync(
+                rescheduleAppointmentDto);
 
             return Ok(new
             {

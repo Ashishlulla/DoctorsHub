@@ -511,5 +511,14 @@ namespace DoctorsHub.Web.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        [Route("[action]")]
+        [AllowAnonymous]
+        public IActionResult AccessDenied(string? returnUrl = null)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
     }
 }

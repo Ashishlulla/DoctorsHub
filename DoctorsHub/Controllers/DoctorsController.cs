@@ -2,13 +2,12 @@
 using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Web.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DoctorsHub.Web.Controllers
 {
-    [Authorize(Roles = "Admin, Doctor")]
+   
     [Route("[controller]")]
     public class DoctorsController : Controller
     {

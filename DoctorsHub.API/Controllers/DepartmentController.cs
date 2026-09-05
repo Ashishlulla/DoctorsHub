@@ -1,9 +1,11 @@
 ﻿using DoctorsHub.Application.DTOs.Departments;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
+    [Authorize(Roles = "Admin, Receptionist,Doctor")]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentController : ControllerBase
@@ -19,6 +21,7 @@ namespace DoctorsHub.API.Controllers
 
 
         [HttpGet("All")]
+        [Authorize(Roles ="Admin, Receptionist,Doctor")]
         public async Task<IActionResult> GetDepartments() 
         {
             var departments = await _departmentService.GetDepartmentsAsync();
@@ -27,6 +30,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpGet("{id:int}")]
+        
         public async Task<IActionResult> GetDepartmentById(int id) 
         {
             var department = await _departmentService.GetDepartmentByIdAsync(id);
@@ -44,6 +48,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpPost("Create")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateDepartment([FromBody]CreateDepartmentDto createDepartmentDto) 
         {
             var department = await _departmentService.AddDepartmentAsync(createDepartmentDto);
@@ -52,6 +57,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> UpdateDepartment([FromBody] UpdateDepartmentDto updateDepartmentDto) 
         {
             var updatedDepartment = await _departmentService.UpdateDepartmentAsync(updateDepartmentDto);
@@ -61,6 +67,7 @@ namespace DoctorsHub.API.Controllers
 
 
         [HttpDelete("Delete/{id:int}")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> DeleteDepartmentById(int id) 
         {
             await _departmentService.DeleteDepartmentAsync(id);

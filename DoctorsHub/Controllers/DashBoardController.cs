@@ -1,11 +1,10 @@
 ﻿using DoctorsHub.Application.DTOs.CRM;
 using DoctorsHub.Web.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
-    [Authorize(Roles = "Admin, Doctor, Receptionist")]
+    
     [Route("[controller]")]
     public class DashBoardController : Controller
     {
