@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.API.Controllers
 {
-    //[Authorize(Roles ="Admin, Doctor, Receptionist")]
+    [Authorize(Roles ="Admin, Doctor, Receptionist")]
     [Route("api/[controller]")]
     [ApiController]
     public class ReportsController : ControllerBase
@@ -30,6 +30,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpPost("Billing")]
+        [Authorize(Roles ="Admin, Receptionist")]
         public async Task<IActionResult> GetBillingReportAsync([FromBody] BillingReportFilterDto billingReportFilter)
         {
             List<BillingReportDto> reports = await _reportService.GetBillingReportsAsync(billingReportFilter);
@@ -38,6 +39,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpPost("Doctors")]
+        [Authorize(Roles = "Admin, Receptionist")]
         public async Task<IActionResult> GetDoctorsReportAsync([FromBody] DoctorsReportFilteredDto doctorsReportFiltered)
         {
             List<DoctorsReportDto> reports = await _reportService.GetDoctorsReportsAsync(doctorsReportFiltered);
@@ -46,6 +48,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpPost("Patients")]
+        [Authorize(Roles = "Admin, Receptionist")]
         public async Task<IActionResult> GetPatientsReportAsync([FromBody] PatientsReportFilteredDto patientsReportFiltered)
         {
             List<PatientsReportDto> reports = await _reportService.GetPatientsReportsAsync(patientsReportFiltered);

@@ -18,9 +18,7 @@ namespace DoctorsHub.Application.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IDepartmentRepository _departmentRepository;
         private readonly IMapper _mapper;
-
         private readonly IEmailService _emailService;
-
 
         //Constructor
         public DoctorService(IDoctorRepository doctorRepository, IDepartmentRepository departmentRepository, UserManager<ApplicationUser> userManager, IMapper mapper, IEmailService emailService)

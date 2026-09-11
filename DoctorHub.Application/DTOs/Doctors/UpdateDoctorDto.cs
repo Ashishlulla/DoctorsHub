@@ -8,7 +8,8 @@ namespace DoctorsHub.Application.DTOs.Doctors
     {
         public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
-
+        
+        public string PersonalEmail { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
 
         public string Qualification { get; set; } = string.Empty;

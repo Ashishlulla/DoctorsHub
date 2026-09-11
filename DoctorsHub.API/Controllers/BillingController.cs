@@ -75,6 +75,7 @@ namespace DoctorsHub.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles ="Admin")]
 
         public async Task<IActionResult> DeleteBillAsync(int id)
         {

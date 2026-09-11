@@ -22,9 +22,7 @@ namespace DoctorsHub.Web.Controllers
             _userManager = userManager;
         }
 
-        // ============================================================
-        // REGISTER
-        // ============================================================
+        
 
         [HttpGet]
         [Route("[action]")]
@@ -64,6 +62,7 @@ namespace DoctorsHub.Web.Controllers
 
         [HttpGet]
         [Route("[action]")]
+        [Route("/")]
         [AllowAnonymous]
         public IActionResult Login()
         {

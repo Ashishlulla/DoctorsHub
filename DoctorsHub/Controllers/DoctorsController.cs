@@ -115,6 +115,7 @@ namespace DoctorsHub.Web.Controllers
             {
                 Id = doctor.Id,
                 FullName = doctor.FullName,
+                PersonalEmail = doctor.PersonalEmail,
                 VisitDays = doctor.VisitDays,
                 PhoneNumber = doctor.PhoneNumber,
                 Qualification = doctor.Qualification,

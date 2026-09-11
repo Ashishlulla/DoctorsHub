@@ -5,7 +5,6 @@ using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
 using DoctorsHub.Domain.Entities;
-using System.Net.Http.Headers;
 
 namespace DoctorsHub.Application.Services
 {

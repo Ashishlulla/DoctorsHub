@@ -226,8 +226,8 @@ namespace DoctorsHub.Application.Services
                 await _emailService.SendAsync(
                 new EmailMessageDto
                 {
-                    To = "lullaashish2807@gmail.com",
-                    ToName = "Ashish Lulla",
+                    To = bill.Appointment.Patient.Email,
+                    ToName = bill.Appointment.Patient.FullName,
                     Subject = $"Payment Successful - Bill #{bill.Id}",
 
                     HtmlBody = $"""

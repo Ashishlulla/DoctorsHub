@@ -121,11 +121,24 @@
                         </span>
 
                     </div>
+                    
+                    <div>
 
+                        <label asp-for="PersonalEmail"
+                               class="create-label">
+                            Personal Email
+                        </label>
 
+                        <input asp-for="PersonalEmail"
+                               type="email"
+                               class="create-input" />
 
+                        <span asp-validation-for="PersonalEmail"
+                              class="text-danger">
+                        </span>
 
-
+                    </div>
+                   
                     <div>
 
                         <label asp-for="Qualification"
@@ -247,6 +260,7 @@
 
                         <label asp-for="SpecializationId"
                                class="create-label">
+                               Specialization
                         </label>
 
 

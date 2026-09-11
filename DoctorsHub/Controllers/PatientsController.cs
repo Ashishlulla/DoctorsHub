@@ -3,13 +3,12 @@ using DoctorsHub.Application.DTOs.common;
 using DoctorsHub.Application.DTOs.common.DoctorsHub.Application.DTOs.Common;
 using DoctorsHub.Application.DTOs.Patients;
 using DoctorsHub.Web.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace DoctorsHub.Web.Controllers
 {
-    [Authorize(Roles ="Admin, Doctor, Receptionist")]
+    
     [Route("[controller]")]
     public class PatientsController : Controller
     {
@@ -64,7 +63,7 @@ namespace DoctorsHub.Web.Controllers
         }
 
         [HttpGet]
-        [Route("[action]")]
+        [Route("[action]/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             PatientDto patient= await _patientApiService.GetPatientByIdAsync(id);

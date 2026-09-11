@@ -17,7 +17,7 @@ namespace DoctorsHub.Web.Controllers
             _crmApiService = crmApiService;
         }
 
-        [Route("/")]
+        [Route("[action]")]
         public async Task<IActionResult> Index()
         {
             var dashBoardData = _crmApiService.GetDashBoardDataAsync();

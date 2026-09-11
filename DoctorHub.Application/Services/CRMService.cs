@@ -1,12 +1,6 @@
 ﻿using DoctorsHub.Application.DTOs.CRM;
 using DoctorsHub.Application.Interfaces.ServiceContracts;
-
-
-using System;
-using System.Collections.Generic;
-using System.Text;
 using DoctorsHub.Application.Interfaces.RepositoryContracts;
-using System.Diagnostics;
 using AutoMapper;
 using DoctorsHub.Domain.Entities;
 

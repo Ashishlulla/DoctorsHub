@@ -3,27 +3,17 @@
     public class DoctorDto
     {
         public int Id { get; set; }
-
         public string FullName { get; set; } = string.Empty;
-
         public string Email { get; set; } = string.Empty;
-
+        public string PersonalEmail { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
-
         public string Qualification { get; set; } = string.Empty;
-
         public int ExperienceYears { get; set; }
-
         public decimal ConsultationFee { get; set; }
-
         public string SpecializationName { get; set; } = string.Empty;
-
         public int SpecializationId { get; set; }
-
         public List<int> DepartmentIds { get; set; } = new();
-
         public string VisitDays { get; set; } = string.Empty;
-
         public string About { get; set; } = string.Empty;
     }
 }

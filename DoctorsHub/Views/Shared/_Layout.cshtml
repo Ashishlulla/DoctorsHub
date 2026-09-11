@@ -79,7 +79,7 @@
 
                         <a asp-controller="Doctors"
                            asp-action="Index"
-                            class="@(currentController == "Doctor" ? "active" : "")">
+                            class="@(currentController == "Doctors" ? "active" : "")">
 
                             <i class="bi bi-person-badge"></i>
 
@@ -140,7 +140,7 @@
 
                         <a asp-controller="Department"
                            asp-action="Index"
-                           class="@(currentController == "Departments" ? "active" : "")">
+                           class="@(currentController == "Department" ? "active" : "")">
 
                             <i class="bi bi-building"></i>
 
@@ -154,7 +154,8 @@
 
                         <a 
                             asp-action="Index"
-                            asp-controller="Billing">
+                            asp-controller="Billing"
+                           class="@(currentController == "Billing" ? "active" : "")">
 
                             <i class="bi bi-credit-card"></i>
 
@@ -168,7 +169,8 @@
 
                         <a 
                             asp-action="Index" 
-                            asp-controller="Reports">
+                            asp-controller="Reports"
+                           class="@(currentController == "Reports" ? "active" : "")">
 
                             <i class="bi bi-bar-chart-line"></i>
 
@@ -186,8 +188,10 @@
 
             <div class="sidebar-footer">
 
+
                 <a asp-action="Settings"
-                    asp-controller="Account">
+                    asp-controller="Account"
+                   class="@(currentController == "Account" ? "active" : "")">
 
                     <i class="bi bi-gear"></i>
 
