@@ -4,10 +4,14 @@ using DoctorsHub.Infrastructure.Configurations;
 using DoctorsHub.Web.Configurations;
 using Microsoft.AspNetCore.Identity;
 using QuestPDF.Infrastructure;
+using Serilog;
 using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Configure Serilog
+SerilogConfiguration.ConfigureSerilog(builder);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddJsonOptions(options => 
@@ -18,7 +22,6 @@ builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 
 
 //Adding Required Services
-//builder.Services.AddApplication();
 builder.Services.AddIdentityService();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddHttpClientServices(builder.Configuration);
@@ -65,6 +68,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

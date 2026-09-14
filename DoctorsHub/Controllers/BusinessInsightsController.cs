@@ -1,31 +1,56 @@
 ﻿using DoctorsHub.Application.DTOs.BusinessInsigts;
 using DoctorsHub.Domain.Enums;
 using DoctorsHub.Web.Services;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoctorsHub.Web.Controllers
 {
-    
     [Route("[controller]")]
     public class BusinessInsightsController : Controller
     {
-        //Private Feilds
         private readonly BusinessInsightsApiService _businessInsightsApiService;
+        private readonly ILogger<BusinessInsightsController> _logger;
 
-        //Constructor
-        public BusinessInsightsController(BusinessInsightsApiService businessInsightsApiService) 
+        public BusinessInsightsController(
+            BusinessInsightsApiService businessInsightsApiService,
+            ILogger<BusinessInsightsController> logger)
         {
             _businessInsightsApiService = businessInsightsApiService;
+            _logger = logger;
         }
-       
-        public async Task<IActionResult> Index(AnalyticsTimeFilter filter = AnalyticsTimeFilter.Month)
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> Index(
+            AnalyticsTimeFilter filter = AnalyticsTimeFilter.Month)
         {
+            _logger.LogInformation(
+                "Business insights page requested with filter: {Filter}",
+                filter);
 
-            BusinessInsightsDto businessInsights = await _businessInsightsApiService.GetBusinessInsightsAsync(filter);
+            try
+            {
+                BusinessInsightsDto businessInsights =
+                    await _businessInsightsApiService
+                        .GetBusinessInsightsAsync(filter);
 
-            ViewBag.Filter = filter;
-            return View(businessInsights);
+                ViewBag.Filter = filter;
+
+                _logger.LogInformation(
+                    "Business insights loaded successfully with filter: {Filter}",
+                    filter);
+
+                return View(businessInsights);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "An error occurred while loading business insights with filter: {Filter}",
+                    filter);
+
+                throw;
+            }
         }
     }
 }
