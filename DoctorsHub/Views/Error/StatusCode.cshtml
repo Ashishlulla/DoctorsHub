@@ -1,0 +1,27 @@
+﻿@model int
+
+@{
+    ViewData["Title"] = $"Error {Model}";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 text-center">
+            <div class="card shadow-sm border-0 p-5">
+                <h1 class="display-5 fw-bold">Error @Model</h1>
+
+                <p class="text-muted mt-3">
+                    The requested page could not be processed.
+                </p>
+
+                <div class="mt-4">
+                    <a asp-controller="DashBoard"
+                       asp-action="Index"
+                       class="btn btn-primary">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Something Went Wrong";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 text-center">
+            <div class="card shadow-sm border-0 p-5">
+                <h1 class="display-5 fw-bold">Something went wrong</h1>
+
+                <p class="text-muted mt-3">
+                    We’re sorry, but an unexpected error occurred.
+                    Please try again later.
+                </p>
+
+                <div class="mt-4">
+                    <a asp-controller="DashBoard"
+                       asp-action="Index"
+                       class="btn btn-primary">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

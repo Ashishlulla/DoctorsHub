@@ -55,14 +55,17 @@ using (var scope = app.Services.CreateScope())
 
     await IdentitySeeder.SeedRolesAndAdminAsync(roleManager, useManager);
 }
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
-    { 
-        app.UseExceptionHandler("/Home/Error");
-        app.UseHsts();
-    }
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+}
+else
+{
+    app.UseDeveloperExceptionPage();
+}
 
-   
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
