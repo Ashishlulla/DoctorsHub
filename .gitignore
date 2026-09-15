@@ -19,3 +19,6 @@ TestResults/
 
 #Sql files
 .sql
+
+# Publish output
+publish/
